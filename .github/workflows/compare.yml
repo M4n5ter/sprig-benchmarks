@@ -33,6 +33,19 @@ jobs:
           (cd sprig && cargo build --locked --release)
       - name: Sprig smoke
         run: python3 sprig/examples/compare.py --binary sprig/target/release/sprig > results/sprig-smoke.json
+      - name: Prepare controlled runtime
+        run: |
+          docker pull ubuntu:24.04
+          echo "LAYERFS_IMAGE=$(docker image inspect --format '{{.Id}}' ubuntu:24.04)" >> "$GITHUB_ENV"
+          echo "LAYERFS_DAEMON=$PWD/layerfs/core/target/release/layerfs-daemon" >> "$GITHUB_ENV"
+          docker image inspect ubuntu:24.04 > results/runtime-image.json
+          ldd layerfs/core/target/release/layerfs-daemon > results/daemon-libraries.txt
+          python3 fixtures.py fixtures 10 > results/fixture-generation.txt
+      - name: Mounted comparison smoke
+        env:
+          ROUNDS: '1'
+          CASES: identical
+        run: sudo --preserve-env=LAYERFS_IMAGE,LAYERFS_DAEMON,ROUNDS,CASES $(which node) compare.mjs
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
