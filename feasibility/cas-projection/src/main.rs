@@ -212,7 +212,9 @@ fn run() -> store::Result<()> {
             captured.reconcile_identities(&identity_manifest)?;
             let stats = captured.stats.json();
             if command == "capture" {
-                let output = required("--output")?;
+                let output = required("--output")?
+                    .to_str()
+                    .ok_or("output filename must be UTF-8")?;
                 let path = Path::new(output);
                 if path.components().count() != 1
                     || !matches!(path.components().next(), Some(Component::Normal(_)))

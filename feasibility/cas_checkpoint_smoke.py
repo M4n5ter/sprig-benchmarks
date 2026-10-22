@@ -69,7 +69,9 @@ def main():
    report['checks']=['Untouched views reuse lower bytes with zero content hashing','Independent full-capture oracle for all captured paths, contents, modes and mtimes','Forged origin plus same size/mtime does not skip upper hashing','Directory and symlink rename, whiteout, opaque and lower isolation','Checkpoint identity continuity and no-op','Two non-overlapping workspace merges and shared SDK-write publication','Retained conflict candidate, strict stale CAS and orphan-base refusal','Immutable historical reads and merge parents','Busy ordinary unmount refusal']
    for v in reversed(views):command('umount','-i',str(v['view']))
    command('umount','-i',str(lower));assert fuse.wait(timeout=10)==0;report['ok']=True
- except BaseException as e:failure=e;report['error']=traceback.format_exc()
+ except BaseException as e:
+  failure=e;report['error']=traceback.format_exc()
+  if isinstance(e,subprocess.CalledProcessError):report['commandOutput']=e.output
  finally:
   cleanup=[]
   for v in reversed(views):
