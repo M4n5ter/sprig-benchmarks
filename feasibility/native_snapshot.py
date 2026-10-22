@@ -81,7 +81,9 @@ def inventory(tree):
         descend = []
         for name in sorted(dirs + files):
             path = Path(parent) / name
-            relative = path.relative_to(tree).as_posix()
+            # os.walk yields lexical descendants; avoid pathlib's repeated ancestor
+            # object construction on deep trees. No traversal or policy changes.
+            relative = os.path.relpath(path, tree)
             relative.encode('utf-8')  # Reject undecodable filesystem names.
             info = path.lstat()
             if info.st_dev != root_device:
