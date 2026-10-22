@@ -1,0 +1,11 @@
+{
+  "comparison.json": "ea94dd6ec98f129292c8f2e9a710eafc7405b832c6f9ab1106524746839cc28b",
+  "history-samples.jsonl": "fd39551de523439ee9eab94406186e10ac75149fe18aea16b5a099b0f023d4cf",
+  "summary.json": "b2ed10b71f04a25ed8cc46ee4fe294fe21fed6661cedd1b973da5a2a7a740338",
+  "summary.csv": "6b44c8ccd9e5e45836335a092760d90f296a689afec1a5917c1ddb4564116669",
+  "environment.txt": "b83315c1bc147c768247a3d7c51b8c2c7c5dd7542371fdbcd0fc74671142da81",
+  "fixture-generation.txt": "d0c4b5c78539219894a36c15d70f9812ecf339d86d2619cc763f31605cc27390",
+  "runtime-image.json": "ae083d914d58d18b9b4e50380457925c42955d96810a8f5a71f4aa1c55b3d13a",
+  "docker-updated.txt": "f4920363d6463240eaf4be2038cb9afd539b60ea1ee9139926372db35a80b049",
+  "daemon-libraries.txt": "0b5d81a25a0d81208f2d9e37a01b260af387e4d20749e98bd0e6d0d32d2fe0a4"
+}
