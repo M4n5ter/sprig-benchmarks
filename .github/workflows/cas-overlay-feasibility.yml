@@ -1,0 +1,41 @@
+name: Read-only CAS and OverlayFS feasibility
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  semantics:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      CARGO_BUILD_JOBS: '2'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Record environment and fetch fixed production core
+        run: |
+          mkdir -p results
+          { uname -a; lscpu; free -h; df -h; findmnt -T "$PWD"; ls -l /dev/fuse; } > results/environment.txt
+          git clone https://github.com/M4n5ter/sprig.git sprig
+          git -C sprig checkout 22e6e4c289be67b78d39a7eae157bfa3219d23a4
+          rustup toolchain install stable --profile minimal
+          rustc +stable --version > results/rust-version.txt
+          find feasibility/cas-projection -type f -not -path '*/target/*' -print0 | sort -z | xargs -0 sha256sum > results/source-hashes.txt
+          sha256sum feasibility/cas_overlay_smoke.py >> results/source-hashes.txt
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            feasibility/cas-projection/target
+          key: cas-projection-ubuntu24-amd64-${{ hashFiles('feasibility/cas-projection/Cargo.lock') }}
+      - name: Build and mount-free tests
+        run: |
+          cargo +stable test --locked --manifest-path feasibility/cas-projection/Cargo.toml
+          cargo +stable build --locked --release --manifest-path feasibility/cas-projection/Cargo.toml
+      - name: Authorized synthetic FUSE and OverlayFS semantics smoke
+        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/cas_overlay_smoke.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: cas-overlay-semantics
+          path: results/

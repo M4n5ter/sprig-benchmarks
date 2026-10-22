@@ -1,0 +1,22 @@
+[package]
+name = "sprig-cas-projection-prototype"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.89"
+publish = false
+description = "Experimental read-only FUSE projection of Sprig chunk manifests"
+
+[dependencies]
+sprig = { path = "../../sprig" }
+fuser = { version = "=0.16.0", default-features = false, features = ["abi-7-31"] }
+libc = "0.2"
+serde_json = "1"
+blake3 = "1"
+
+[profile.dev]
+debug = 0
+incremental = false
+
+[profile.test]
+debug = 0
+incremental = false
