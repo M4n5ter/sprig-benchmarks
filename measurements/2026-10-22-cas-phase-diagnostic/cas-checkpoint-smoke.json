@@ -1,0 +1,1187 @@
+{
+  "prototypeOnly": true,
+  "performanceComparison": false,
+  "ok": true,
+  "checks": [
+    "Untouched views reuse lower bytes with zero content hashing",
+    "Independent full-capture oracle for all captured paths, contents, modes and mtimes",
+    "Forged origin plus same size/mtime does not skip upper hashing",
+    "Directory and symlink rename, whiteout, opaque and lower isolation",
+    "Checkpoint identity continuity and no-op",
+    "Two non-overlapping workspace merges and shared SDK-write publication",
+    "Retained conflict candidate, strict stale CAS and orphan-base refusal",
+    "Immutable historical reads and merge parents",
+    "Busy ordinary unmount refusal"
+  ],
+  "captures": {
+    "initial-a": {
+      "event": "captured",
+      "manifest": "initial-a.json",
+      "stats": {
+        "bytes_hashed": 0,
+        "bytes_reused": 1048638,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 0,
+        "files_reused": 6,
+        "lower_reuse_enabled": true,
+        "symlinks": 1,
+        "timings": {
+          "content_hash_put_stream_seconds": 0.0,
+          "descriptor_close_seconds": 0.00011093899999999998,
+          "directory_enumeration_seconds": 0.000734825,
+          "directory_open_seconds": 4.9702999999999995e-05,
+          "finalize_seconds": 0.000449681,
+          "lower_reusable_proof_seconds": 0.0005668219999999999,
+          "metadata_seconds": 0.00017995800000000008,
+          "native_upper_state_seconds": 5.3981000000000004e-05,
+          "origin_xattr_seconds": 0.000257562,
+          "regular_merged_open_seconds": 0.000163814,
+          "setup_seconds": 0.000592128,
+          "walk_total_seconds": 0.00219636
+        }
+      }
+    },
+    "initial-b": {
+      "event": "captured",
+      "manifest": "initial-b.json",
+      "stats": {
+        "bytes_hashed": 0,
+        "bytes_reused": 1048638,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 0,
+        "files_reused": 6,
+        "lower_reuse_enabled": true,
+        "symlinks": 1,
+        "timings": {
+          "content_hash_put_stream_seconds": 0.0,
+          "descriptor_close_seconds": 0.00011753,
+          "directory_enumeration_seconds": 0.000504384,
+          "directory_open_seconds": 5.1457000000000006e-05,
+          "finalize_seconds": 0.000456224,
+          "lower_reusable_proof_seconds": 0.0005895820000000001,
+          "metadata_seconds": 0.00013362,
+          "native_upper_state_seconds": 5.3049e-05,
+          "origin_xattr_seconds": 0.00027077,
+          "regular_merged_open_seconds": 0.000292339,
+          "setup_seconds": 0.000606405,
+          "walk_total_seconds": 0.002064883
+        }
+      }
+    },
+    "changed-a": {
+      "event": "captured",
+      "manifest": "changed-a.json",
+      "stats": {
+        "bytes_hashed": 52,
+        "bytes_reused": 1048583,
+        "directories": 3,
+        "entries": 9,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 3,
+        "files_reused": 2,
+        "lower_reuse_enabled": true,
+        "symlinks": 1,
+        "timings": {
+          "content_hash_put_stream_seconds": 0.006589177,
+          "descriptor_close_seconds": 8.4999e-05,
+          "directory_enumeration_seconds": 0.000493432,
+          "directory_open_seconds": 1.2844000000000001e-05,
+          "finalize_seconds": 0.000285925,
+          "lower_reusable_proof_seconds": 0.000231123,
+          "metadata_seconds": 7.953599999999999e-05,
+          "native_upper_state_seconds": 3.3675e-05,
+          "origin_xattr_seconds": 0.00012259,
+          "regular_merged_open_seconds": 0.000214502,
+          "setup_seconds": 0.000618969,
+          "walk_total_seconds": 0.007884942
+        }
+      }
+    },
+    "unchanged-a": {
+      "event": "captured",
+      "manifest": "unchanged-a.json",
+      "stats": {
+        "bytes_hashed": 52,
+        "bytes_reused": 1048583,
+        "directories": 3,
+        "entries": 9,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 3,
+        "files_reused": 2,
+        "lower_reuse_enabled": true,
+        "symlinks": 1,
+        "timings": {
+          "content_hash_put_stream_seconds": 0.000427881,
+          "descriptor_close_seconds": 5.2897000000000005e-05,
+          "directory_enumeration_seconds": 0.00047532,
+          "directory_open_seconds": 1.1802e-05,
+          "finalize_seconds": 0.000258423,
+          "lower_reusable_proof_seconds": 0.000228077,
+          "metadata_seconds": 7.176200000000001e-05,
+          "native_upper_state_seconds": 2.9776e-05,
+          "origin_xattr_seconds": 0.000114717,
+          "regular_merged_open_seconds": 6.739599999999999e-05,
+          "setup_seconds": 0.000574425,
+          "walk_total_seconds": 0.001499926
+        }
+      }
+    },
+    "changed-b": {
+      "event": "captured",
+      "manifest": "changed-b.json",
+      "stats": {
+        "bytes_hashed": 36,
+        "bytes_reused": 1048604,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 1,
+        "files_reused": 5,
+        "lower_reuse_enabled": true,
+        "symlinks": 1,
+        "timings": {
+          "content_hash_put_stream_seconds": 0.001002054,
+          "descriptor_close_seconds": 0.00014013199999999998,
+          "directory_enumeration_seconds": 0.000394248,
+          "directory_open_seconds": 5.2898e-05,
+          "finalize_seconds": 0.000261369,
+          "lower_reusable_proof_seconds": 0.000546012,
+          "metadata_seconds": 9.207999999999999e-05,
+          "native_upper_state_seconds": 3.7229999999999994e-05,
+          "origin_xattr_seconds": 0.000237595,
+          "regular_merged_open_seconds": 0.000150813,
+          "setup_seconds": 0.000592529,
+          "walk_total_seconds": 0.002705622
+        }
+      }
+    },
+    "changed-b-again": {
+      "event": "captured",
+      "manifest": "changed-b-again.json",
+      "stats": {
+        "bytes_hashed": 38,
+        "bytes_reused": 1048604,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 1,
+        "files_reused": 5,
+        "lower_reuse_enabled": true,
+        "symlinks": 1,
+        "timings": {
+          "content_hash_put_stream_seconds": 0.000640684,
+          "descriptor_close_seconds": 0.000133862,
+          "directory_enumeration_seconds": 0.000461775,
+          "directory_open_seconds": 8.3576e-05,
+          "finalize_seconds": 0.000273061,
+          "lower_reusable_proof_seconds": 0.000598989,
+          "metadata_seconds": 0.000113845,
+          "native_upper_state_seconds": 4.726800000000001e-05,
+          "origin_xattr_seconds": 0.00032109099999999997,
+          "regular_merged_open_seconds": 0.000167433,
+          "setup_seconds": 0.000668761,
+          "walk_total_seconds": 0.002642629
+        }
+      }
+    },
+    "conflicting-c": {
+      "event": "captured",
+      "manifest": "conflicting-c.json",
+      "stats": {
+        "bytes_hashed": 36,
+        "bytes_reused": 1048604,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 1,
+        "files_reused": 5,
+        "lower_reuse_enabled": true,
+        "symlinks": 1,
+        "timings": {
+          "content_hash_put_stream_seconds": 0.000700881,
+          "descriptor_close_seconds": 9.4817e-05,
+          "directory_enumeration_seconds": 0.0005351010000000001,
+          "directory_open_seconds": 5.2148e-05,
+          "finalize_seconds": 0.000330689,
+          "lower_reusable_proof_seconds": 0.000547205,
+          "metadata_seconds": 0.00013740900000000004,
+          "native_upper_state_seconds": 5.3899999999999996e-05,
+          "origin_xattr_seconds": 0.00024122099999999999,
+          "regular_merged_open_seconds": 0.000136204,
+          "setup_seconds": 0.000605373,
+          "walk_total_seconds": 0.002555551
+        }
+      }
+    }
+  },
+  "publications": {
+    "a": {
+      "capture": {
+        "bytes_hashed": 52,
+        "bytes_reused": 1048583,
+        "directories": 3,
+        "entries": 9,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 3,
+        "files_reused": 2,
+        "lower_reuse_enabled": true,
+        "symlinks": 1,
+        "timings": {
+          "content_hash_put_stream_seconds": 0.000304259,
+          "descriptor_close_seconds": 5.2258e-05,
+          "directory_enumeration_seconds": 0.000417452,
+          "directory_open_seconds": 1.1401e-05,
+          "finalize_seconds": 0.000264765,
+          "lower_reusable_proof_seconds": 0.000227045,
+          "metadata_seconds": 7.119099999999999e-05,
+          "native_upper_state_seconds": 2.9686e-05,
+          "origin_xattr_seconds": 0.000121316,
+          "regular_merged_open_seconds": 0.000206298,
+          "setup_seconds": 0.000563985,
+          "walk_total_seconds": 0.001461054
+        }
+      },
+      "event": "checkpoint",
+      "publication": {
+        "candidate": "8a98701decb2db447d7516a5ab9978df907655a693aa9dbef64b64788ad7de81",
+        "candidate_manifest": "7f9af7e51d99e520552a79e1cd17ea05ba98ea620361b9db61d2c786636665ff.manifest.zst",
+        "head": {
+          "generation": 1,
+          "head": "8a98701decb2db447d7516a5ab9978df907655a693aa9dbef64b64788ad7de81"
+        },
+        "manifest": "7f9af7e51d99e520552a79e1cd17ea05ba98ea620361b9db61d2c786636665ff.manifest.zst",
+        "merged": false,
+        "status": "published"
+      },
+      "timings": {
+        "base_identity_load_seconds": 0.000108152,
+        "capture_total_seconds": 0.002310082,
+        "identity_reconcile_seconds": 1.045e-05,
+        "publication_total_seconds": 0.002684292,
+        "transaction_open_seconds": 0.00016028
+      }
+    },
+    "a-noop": {
+      "capture": {
+        "bytes_hashed": 52,
+        "bytes_reused": 1048583,
+        "directories": 3,
+        "entries": 9,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 3,
+        "files_reused": 2,
+        "lower_reuse_enabled": true,
+        "symlinks": 1,
+        "timings": {
+          "content_hash_put_stream_seconds": 0.000302718,
+          "descriptor_close_seconds": 8.1744e-05,
+          "directory_enumeration_seconds": 0.000533879,
+          "directory_open_seconds": 1.1592999999999999e-05,
+          "finalize_seconds": 0.0002937,
+          "lower_reusable_proof_seconds": 0.00032765699999999997,
+          "metadata_seconds": 8.129899999999998e-05,
+          "native_upper_state_seconds": 3.748e-05,
+          "origin_xattr_seconds": 0.00012806,
+          "regular_merged_open_seconds": 0.000220441,
+          "setup_seconds": 0.000606705,
+          "walk_total_seconds": 0.001748776
+        }
+      },
+      "event": "checkpoint",
+      "publication": {
+        "head": {
+          "generation": 1,
+          "head": "8a98701decb2db447d7516a5ab9978df907655a693aa9dbef64b64788ad7de81"
+        },
+        "manifest": "7f9af7e51d99e520552a79e1cd17ea05ba98ea620361b9db61d2c786636665ff.manifest.zst",
+        "status": "noop"
+      },
+      "timings": {
+        "base_identity_load_seconds": 7.1033e-05,
+        "capture_total_seconds": 0.002677734,
+        "identity_reconcile_seconds": 1.4888e-05,
+        "publication_total_seconds": 0.000143499,
+        "transaction_open_seconds": 0.000149169
+      }
+    },
+    "b-merge": {
+      "capture": {
+        "bytes_hashed": 36,
+        "bytes_reused": 1048604,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 1,
+        "files_reused": 5,
+        "lower_reuse_enabled": true,
+        "symlinks": 1,
+        "timings": {
+          "content_hash_put_stream_seconds": 9.0429e-05,
+          "descriptor_close_seconds": 0.000100239,
+          "directory_enumeration_seconds": 0.000378247,
+          "directory_open_seconds": 5.2598e-05,
+          "finalize_seconds": 0.000260638,
+          "lower_reusable_proof_seconds": 0.000511327,
+          "metadata_seconds": 8.602e-05,
+          "native_upper_state_seconds": 3.4725e-05,
+          "origin_xattr_seconds": 0.000236543,
+          "regular_merged_open_seconds": 0.00027850000000000005,
+          "setup_seconds": 0.000558775,
+          "walk_total_seconds": 0.001820125
+        }
+      },
+      "event": "checkpoint",
+      "publication": {
+        "candidate": "b9046db9883d19a17fd3687bc8d081d7a5a2dd3c3d3af8644fb8183dffc52980",
+        "candidate_manifest": "95ddb56d32b8935935ead64f5c85b7fb6de4a9328812b51621b489b31999e9df.manifest.zst",
+        "head": {
+          "generation": 2,
+          "head": "756aa5b0a04a8a9fd1ed302ee0d2139c3c5a362c213dbe0d607f7023f1f5b62c"
+        },
+        "manifest": "d66fb4e111c22b9239aa546ad03ec83956846cc617e13c8a24e4fa2d00fab932.manifest.zst",
+        "merged": true,
+        "status": "published"
+      },
+      "timings": {
+        "base_identity_load_seconds": 8.5981e-05,
+        "capture_total_seconds": 0.002705071,
+        "identity_reconcile_seconds": 1.6131e-05,
+        "publication_total_seconds": 0.004740724,
+        "transaction_open_seconds": 0.000157084
+      }
+    },
+    "sdk": {
+      "candidate": "e08214ed33ce3e257f5c15efbe4f99433bac83ce00c50e47c69719502eb859f8",
+      "candidate_manifest": "127f7bf451ca9ca6d88e6048011769773911e45f61d4aa0f4ca6954c109472af.manifest.zst",
+      "head": {
+        "generation": 3,
+        "head": "e08214ed33ce3e257f5c15efbe4f99433bac83ce00c50e47c69719502eb859f8"
+      },
+      "manifest": "127f7bf451ca9ca6d88e6048011769773911e45f61d4aa0f4ca6954c109472af.manifest.zst",
+      "merged": false,
+      "status": "published"
+    },
+    "b-again": {
+      "capture": {
+        "bytes_hashed": 38,
+        "bytes_reused": 1048604,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 1,
+        "files_reused": 5,
+        "lower_reuse_enabled": true,
+        "symlinks": 1,
+        "timings": {
+          "content_hash_put_stream_seconds": 0.000127659,
+          "descriptor_close_seconds": 9.4008e-05,
+          "directory_enumeration_seconds": 0.000350245,
+          "directory_open_seconds": 5.1517e-05,
+          "finalize_seconds": 0.000257942,
+          "lower_reusable_proof_seconds": 0.000525973,
+          "metadata_seconds": 8.446499999999998e-05,
+          "native_upper_state_seconds": 3.4108e-05,
+          "origin_xattr_seconds": 0.00024123100000000004,
+          "regular_merged_open_seconds": 0.000288279,
+          "setup_seconds": 0.000600494,
+          "walk_total_seconds": 0.001847687
+        }
+      },
+      "event": "checkpoint",
+      "publication": {
+        "candidate": "ae0046a077ed33ce3f18d4b40de6c209476be9c33e55b4f9247950bd237878ec",
+        "candidate_manifest": "d3abef8e596bea5d65650c6acaf402c7e65ab696e1dade5baefa3e942a83c741.manifest.zst",
+        "head": {
+          "generation": 4,
+          "head": "e943b7992b9eb7f71c515168f3c67bcc2d4b84d35e316e5c0117dbb4d5d6b253"
+        },
+        "manifest": "1b5de00326bbde6550d595f6af49971b3bf29f3d27a290ff6360e9b68fee7630.manifest.zst",
+        "merged": true,
+        "status": "published"
+      },
+      "timings": {
+        "base_identity_load_seconds": 5.9601e-05,
+        "capture_total_seconds": 0.002724287,
+        "identity_reconcile_seconds": 1.0119e-05,
+        "publication_total_seconds": 0.00410512,
+        "transaction_open_seconds": 0.000159479
+      }
+    },
+    "c-conflict": {
+      "capture": {
+        "bytes_hashed": 36,
+        "bytes_reused": 1048604,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 1,
+        "files_reused": 5,
+        "lower_reuse_enabled": true,
+        "symlinks": 1,
+        "timings": {
+          "content_hash_put_stream_seconds": 7.7395e-05,
+          "descriptor_close_seconds": 0.000129403,
+          "directory_enumeration_seconds": 0.00034957300000000005,
+          "directory_open_seconds": 5.1006e-05,
+          "finalize_seconds": 0.000300973,
+          "lower_reusable_proof_seconds": 0.000478825,
+          "metadata_seconds": 8.590300000000001e-05,
+          "native_upper_state_seconds": 3.4081999999999997e-05,
+          "origin_xattr_seconds": 0.00023302399999999997,
+          "regular_merged_open_seconds": 0.000279842,
+          "setup_seconds": 0.000591627,
+          "walk_total_seconds": 0.00177435
+        }
+      },
+      "event": "checkpoint",
+      "publication": {
+        "candidate": "eee7e4a7cc6f44b2a8018f91090a8adde7dc7f80a9b11a0e2f8897c28ea16df9",
+        "candidate_manifest": "1076e12e91d6b19e4e5b7dc0999a695bed0598ee625eef4eec4cd3d18748778d.manifest.zst",
+        "conflict_file": "commit-backups/conflict-e943b7992b9eb7f71c515168f3c67bcc2d4b84d35e316e5c0117dbb4d5d6b253-eee7e4a7cc6f44b2a8018f91090a8adde7dc7f80a9b11a0e2f8897c28ea16df9.json",
+        "conflicts": [
+          {
+            "base": {
+              "id": "570d667530a122bdfedfcf9b5b0965b991abc0223963a8efb6de2de20593a87e",
+              "kind": {
+                "chunks": [
+                  "a353f1357b187d89a7f84aaa954121118a90ad6bfbfa587f60219926a3c38545"
+                ],
+                "size": 34,
+                "type": "file"
+              },
+              "mode": 420,
+              "modified_ns": 1700000000123456789
+            },
+            "kind": "content",
+            "ours": {
+              "id": "570d667530a122bdfedfcf9b5b0965b991abc0223963a8efb6de2de20593a87e",
+              "kind": {
+                "chunks": [
+                  "3c7ce238835a7123ea76071fde279fd9bac916496f759d83636e0a755c0bdb59"
+                ],
+                "size": 40,
+                "type": "file"
+              },
+              "mode": 420,
+              "modified_ns": 1792684136732548778
+            },
+            "path": "shared.txt",
+            "theirs": {
+              "id": "570d667530a122bdfedfcf9b5b0965b991abc0223963a8efb6de2de20593a87e",
+              "kind": {
+                "chunks": [
+                  "f5407726ed075d7893e185172f043024697f472986b38a17e14fc862432fe51c"
+                ],
+                "size": 36,
+                "type": "file"
+              },
+              "mode": 420,
+              "modified_ns": 1792684136758466912
+            }
+          }
+        ],
+        "head": {
+          "generation": 4,
+          "head": "e943b7992b9eb7f71c515168f3c67bcc2d4b84d35e316e5c0117dbb4d5d6b253"
+        },
+        "status": "conflict"
+      },
+      "timings": {
+        "base_identity_load_seconds": 9.4056e-05,
+        "capture_total_seconds": 0.002685985,
+        "identity_reconcile_seconds": 9.488e-06,
+        "publication_total_seconds": 0.001711722,
+        "transaction_open_seconds": 0.00016044
+      }
+    }
+  },
+  "import": {
+    "entries": 10,
+    "event": "imported",
+    "logical_bytes": 1048638,
+    "manifest": "manifest.json",
+    "root": "/home/runner/work/_temp/sprig-cas-checkpoint-t6r5473v/store",
+    "stored_object_bytes": 1048638,
+    "unique_chunks": 18
+  },
+  "initialHead": {
+    "generation": 0,
+    "head": "0a92205c1f2bbf090822a30d0c39ab081c6b2fac8728dca050f00b43141efcf4"
+  },
+  "stale-cas": {
+    "exitCode": 1,
+    "stderr": "{\"error\":\"expected head 0a92205c1f2bbf090822a30d0c39ab081c6b2fac8728dca050f00b43141efcf4 at generation 0, found e943b7992b9eb7f71c515168f3c67bcc2d4b84d35e316e5c0117dbb4d5d6b253 at generation 4\",\"event\":\"error\"}\n"
+  },
+  "orphan-base": {
+    "exitCode": 1,
+    "stderr": "{\"error\":\"base is not an ancestor of this store's current head\",\"event\":\"error\"}\n"
+  },
+  "history": [
+    {
+      "id": "e943b7992b9eb7f71c515168f3c67bcc2d4b84d35e316e5c0117dbb4d5d6b253",
+      "manifest": {
+        "": {
+          "id": "689594dcd1e6da29ad2557bc3a499f8903e4776206e769e4db1a67afded1e0b4",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792684136664257515
+        },
+        "added": {
+          "id": "e7b093fc9f53980bf13d789c5439700db7112e2af1157b29546ffa4499548fa6",
+          "kind": {
+            "chunks": [
+              "7c7b69870900f4e7969fbedccce653004bd86668b9954dca2a709dc03464a151"
+            ],
+            "size": 6,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792684136662618158
+        },
+        "binary": {
+          "id": "ceaaaecc4963c55e97168ac50e5903b648003cb599a251152d6c3f55aa774626",
+          "kind": {
+            "chunks": [
+              "707c4e137cfc731871108f77130ab20f0f642463ded549e1f9bb4c1cc3a53f68",
+              "5b03b0ba50b393a8043b6c638852bf86ab2a846259d1f023566d2d1e5ee05f90",
+              "69bcee744022c3d2e278a478a4e36593f5f607c0ba31644cd980901ed5e818a2",
+              "ae048fb1094914c0661d4d4b1ed4354cd98bb9846be3be06dbe821f7138ba1d1",
+              "95603db313741341748decdd01f4e5c521d8198fb47d4c77752a500762c9b1b8",
+              "a836c7cfddac8a7dcff11e082700e6a545ab34d4aa6f701a8960c3c29dd7db15",
+              "d7517df38d8a5b51a9cd5294808e26b5f75972c826627b62e1f399a84f7ea9db",
+              "a2c7bc9280345482fbae89e5ddba51abf75df0f36a1a775343f85ef5affc9cd6",
+              "0e66c5b921f27599935ff70bea0afa22457c66720b89dca5deb7fced6dae712a",
+              "bc9e4fcfb3d4fa94430fd5eac99b8c210162165d7d2f6866d69958943d155fa7",
+              "2bc24433da29cf63b2f72f5af3de803692742190c424b4a734eea2c2d35a71ba",
+              "38f16644408a7952d52b203820efbb293619d20d7c2aec31a63fab0c62321194",
+              "7770dc35bd05df1a1c81a3d571d4af15ec19a8ccd0ff0c6eb6148b127abd8daf"
+            ],
+            "size": 1048576,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "forged": {
+          "id": "462bda95be6ba5e2abf16dbed61da180fd1e372a98538e66f539dde8c04d9738",
+          "kind": {
+            "chunks": [
+              "ddf0b7d745d3449856636f77ed44ee983f95a66d54b7688b27062b32c712b164"
+            ],
+            "size": 10,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "opaque": {
+          "id": "6d2a31f7c93ce0e9627db769d486e2edd72a1f8dfeb2680e3174d63cf8003e26",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792684136664257515
+        },
+        "renamed": {
+          "id": "40ac66ea546b47730408234ea1bc4c4e8911d7457f61a492da34797530c6f790",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed-link": {
+          "id": "45d2b605d7a38e6c2fda57eb2aedc18734fc194ce9be75274297f7d24a022c17",
+          "kind": {
+            "target": [
+              98,
+              105,
+              110,
+              97,
+              114,
+              121
+            ],
+            "type": "symlink"
+          },
+          "mode": 511,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed/nested": {
+          "id": "88ddf4dd3b0dd60300ed23430d12548fbf0f27cf6b0a1a228ac8583f99f06549",
+          "kind": {
+            "chunks": [
+              "98081ad05231339f7150ccb360357f9d6c9e16d53d2c5fa8c61f4c72a51de8f2"
+            ],
+            "size": 7,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "sdk.txt": {
+          "id": "e482a368d573304c7fe41d6342b7da4ee6a1c53cbe68f71701c55671dc6fe502",
+          "kind": {
+            "chunks": [
+              "bbe71ff52f8ed9d5ec1ea21b6b6f3011a7f4655de6588fe394eea04d351306db"
+            ],
+            "size": 4,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792684136730029860
+        },
+        "shared.txt": {
+          "id": "570d667530a122bdfedfcf9b5b0965b991abc0223963a8efb6de2de20593a87e",
+          "kind": {
+            "chunks": [
+              "3c7ce238835a7123ea76071fde279fd9bac916496f759d83636e0a755c0bdb59"
+            ],
+            "size": 40,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792684136732548778
+        }
+      },
+      "manifest_file": "1b5de00326bbde6550d595f6af49971b3bf29f3d27a290ff6360e9b68fee7630.manifest.zst",
+      "message": "Experimental commit",
+      "parents": [
+        "e08214ed33ce3e257f5c15efbe4f99433bac83ce00c50e47c69719502eb859f8",
+        "ae0046a077ed33ce3f18d4b40de6c209476be9c33e55b4f9247950bd237878ec"
+      ]
+    },
+    {
+      "id": "e08214ed33ce3e257f5c15efbe4f99433bac83ce00c50e47c69719502eb859f8",
+      "manifest": {
+        "": {
+          "id": "689594dcd1e6da29ad2557bc3a499f8903e4776206e769e4db1a67afded1e0b4",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792684136664257515
+        },
+        "added": {
+          "id": "e7b093fc9f53980bf13d789c5439700db7112e2af1157b29546ffa4499548fa6",
+          "kind": {
+            "chunks": [
+              "7c7b69870900f4e7969fbedccce653004bd86668b9954dca2a709dc03464a151"
+            ],
+            "size": 6,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792684136662618158
+        },
+        "binary": {
+          "id": "ceaaaecc4963c55e97168ac50e5903b648003cb599a251152d6c3f55aa774626",
+          "kind": {
+            "chunks": [
+              "707c4e137cfc731871108f77130ab20f0f642463ded549e1f9bb4c1cc3a53f68",
+              "5b03b0ba50b393a8043b6c638852bf86ab2a846259d1f023566d2d1e5ee05f90",
+              "69bcee744022c3d2e278a478a4e36593f5f607c0ba31644cd980901ed5e818a2",
+              "ae048fb1094914c0661d4d4b1ed4354cd98bb9846be3be06dbe821f7138ba1d1",
+              "95603db313741341748decdd01f4e5c521d8198fb47d4c77752a500762c9b1b8",
+              "a836c7cfddac8a7dcff11e082700e6a545ab34d4aa6f701a8960c3c29dd7db15",
+              "d7517df38d8a5b51a9cd5294808e26b5f75972c826627b62e1f399a84f7ea9db",
+              "a2c7bc9280345482fbae89e5ddba51abf75df0f36a1a775343f85ef5affc9cd6",
+              "0e66c5b921f27599935ff70bea0afa22457c66720b89dca5deb7fced6dae712a",
+              "bc9e4fcfb3d4fa94430fd5eac99b8c210162165d7d2f6866d69958943d155fa7",
+              "2bc24433da29cf63b2f72f5af3de803692742190c424b4a734eea2c2d35a71ba",
+              "38f16644408a7952d52b203820efbb293619d20d7c2aec31a63fab0c62321194",
+              "7770dc35bd05df1a1c81a3d571d4af15ec19a8ccd0ff0c6eb6148b127abd8daf"
+            ],
+            "size": 1048576,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "forged": {
+          "id": "462bda95be6ba5e2abf16dbed61da180fd1e372a98538e66f539dde8c04d9738",
+          "kind": {
+            "chunks": [
+              "ddf0b7d745d3449856636f77ed44ee983f95a66d54b7688b27062b32c712b164"
+            ],
+            "size": 10,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "opaque": {
+          "id": "6d2a31f7c93ce0e9627db769d486e2edd72a1f8dfeb2680e3174d63cf8003e26",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792684136664257515
+        },
+        "renamed": {
+          "id": "40ac66ea546b47730408234ea1bc4c4e8911d7457f61a492da34797530c6f790",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed-link": {
+          "id": "45d2b605d7a38e6c2fda57eb2aedc18734fc194ce9be75274297f7d24a022c17",
+          "kind": {
+            "target": [
+              98,
+              105,
+              110,
+              97,
+              114,
+              121
+            ],
+            "type": "symlink"
+          },
+          "mode": 511,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed/nested": {
+          "id": "88ddf4dd3b0dd60300ed23430d12548fbf0f27cf6b0a1a228ac8583f99f06549",
+          "kind": {
+            "chunks": [
+              "98081ad05231339f7150ccb360357f9d6c9e16d53d2c5fa8c61f4c72a51de8f2"
+            ],
+            "size": 7,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "sdk.txt": {
+          "id": "e482a368d573304c7fe41d6342b7da4ee6a1c53cbe68f71701c55671dc6fe502",
+          "kind": {
+            "chunks": [
+              "bbe71ff52f8ed9d5ec1ea21b6b6f3011a7f4655de6588fe394eea04d351306db"
+            ],
+            "size": 4,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792684136730029860
+        },
+        "shared.txt": {
+          "id": "570d667530a122bdfedfcf9b5b0965b991abc0223963a8efb6de2de20593a87e",
+          "kind": {
+            "chunks": [
+              "8846c5c1dc0f7d4954e86fcbc626f81a7c4881f1c71e0aac1dade824e1bd36f4"
+            ],
+            "size": 38,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792684136703536112
+        }
+      },
+      "manifest_file": "127f7bf451ca9ca6d88e6048011769773911e45f61d4aa0f4ca6954c109472af.manifest.zst",
+      "message": "Experimental commit",
+      "parents": [
+        "756aa5b0a04a8a9fd1ed302ee0d2139c3c5a362c213dbe0d607f7023f1f5b62c"
+      ]
+    },
+    {
+      "id": "756aa5b0a04a8a9fd1ed302ee0d2139c3c5a362c213dbe0d607f7023f1f5b62c",
+      "manifest": {
+        "": {
+          "id": "689594dcd1e6da29ad2557bc3a499f8903e4776206e769e4db1a67afded1e0b4",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792684136664257515
+        },
+        "added": {
+          "id": "e7b093fc9f53980bf13d789c5439700db7112e2af1157b29546ffa4499548fa6",
+          "kind": {
+            "chunks": [
+              "7c7b69870900f4e7969fbedccce653004bd86668b9954dca2a709dc03464a151"
+            ],
+            "size": 6,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792684136662618158
+        },
+        "binary": {
+          "id": "ceaaaecc4963c55e97168ac50e5903b648003cb599a251152d6c3f55aa774626",
+          "kind": {
+            "chunks": [
+              "707c4e137cfc731871108f77130ab20f0f642463ded549e1f9bb4c1cc3a53f68",
+              "5b03b0ba50b393a8043b6c638852bf86ab2a846259d1f023566d2d1e5ee05f90",
+              "69bcee744022c3d2e278a478a4e36593f5f607c0ba31644cd980901ed5e818a2",
+              "ae048fb1094914c0661d4d4b1ed4354cd98bb9846be3be06dbe821f7138ba1d1",
+              "95603db313741341748decdd01f4e5c521d8198fb47d4c77752a500762c9b1b8",
+              "a836c7cfddac8a7dcff11e082700e6a545ab34d4aa6f701a8960c3c29dd7db15",
+              "d7517df38d8a5b51a9cd5294808e26b5f75972c826627b62e1f399a84f7ea9db",
+              "a2c7bc9280345482fbae89e5ddba51abf75df0f36a1a775343f85ef5affc9cd6",
+              "0e66c5b921f27599935ff70bea0afa22457c66720b89dca5deb7fced6dae712a",
+              "bc9e4fcfb3d4fa94430fd5eac99b8c210162165d7d2f6866d69958943d155fa7",
+              "2bc24433da29cf63b2f72f5af3de803692742190c424b4a734eea2c2d35a71ba",
+              "38f16644408a7952d52b203820efbb293619d20d7c2aec31a63fab0c62321194",
+              "7770dc35bd05df1a1c81a3d571d4af15ec19a8ccd0ff0c6eb6148b127abd8daf"
+            ],
+            "size": 1048576,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "forged": {
+          "id": "462bda95be6ba5e2abf16dbed61da180fd1e372a98538e66f539dde8c04d9738",
+          "kind": {
+            "chunks": [
+              "ddf0b7d745d3449856636f77ed44ee983f95a66d54b7688b27062b32c712b164"
+            ],
+            "size": 10,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "opaque": {
+          "id": "6d2a31f7c93ce0e9627db769d486e2edd72a1f8dfeb2680e3174d63cf8003e26",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792684136664257515
+        },
+        "renamed": {
+          "id": "40ac66ea546b47730408234ea1bc4c4e8911d7457f61a492da34797530c6f790",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed-link": {
+          "id": "45d2b605d7a38e6c2fda57eb2aedc18734fc194ce9be75274297f7d24a022c17",
+          "kind": {
+            "target": [
+              98,
+              105,
+              110,
+              97,
+              114,
+              121
+            ],
+            "type": "symlink"
+          },
+          "mode": 511,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed/nested": {
+          "id": "88ddf4dd3b0dd60300ed23430d12548fbf0f27cf6b0a1a228ac8583f99f06549",
+          "kind": {
+            "chunks": [
+              "98081ad05231339f7150ccb360357f9d6c9e16d53d2c5fa8c61f4c72a51de8f2"
+            ],
+            "size": 7,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "shared.txt": {
+          "id": "570d667530a122bdfedfcf9b5b0965b991abc0223963a8efb6de2de20593a87e",
+          "kind": {
+            "chunks": [
+              "8846c5c1dc0f7d4954e86fcbc626f81a7c4881f1c71e0aac1dade824e1bd36f4"
+            ],
+            "size": 38,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792684136703536112
+        }
+      },
+      "manifest_file": "d66fb4e111c22b9239aa546ad03ec83956846cc617e13c8a24e4fa2d00fab932.manifest.zst",
+      "message": "Experimental commit",
+      "parents": [
+        "8a98701decb2db447d7516a5ab9978df907655a693aa9dbef64b64788ad7de81",
+        "b9046db9883d19a17fd3687bc8d081d7a5a2dd3c3d3af8644fb8183dffc52980"
+      ]
+    },
+    {
+      "id": "8a98701decb2db447d7516a5ab9978df907655a693aa9dbef64b64788ad7de81",
+      "manifest": {
+        "": {
+          "id": "689594dcd1e6da29ad2557bc3a499f8903e4776206e769e4db1a67afded1e0b4",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792684136664257515
+        },
+        "added": {
+          "id": "e7b093fc9f53980bf13d789c5439700db7112e2af1157b29546ffa4499548fa6",
+          "kind": {
+            "chunks": [
+              "7c7b69870900f4e7969fbedccce653004bd86668b9954dca2a709dc03464a151"
+            ],
+            "size": 6,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792684136662618158
+        },
+        "binary": {
+          "id": "ceaaaecc4963c55e97168ac50e5903b648003cb599a251152d6c3f55aa774626",
+          "kind": {
+            "chunks": [
+              "707c4e137cfc731871108f77130ab20f0f642463ded549e1f9bb4c1cc3a53f68",
+              "5b03b0ba50b393a8043b6c638852bf86ab2a846259d1f023566d2d1e5ee05f90",
+              "69bcee744022c3d2e278a478a4e36593f5f607c0ba31644cd980901ed5e818a2",
+              "ae048fb1094914c0661d4d4b1ed4354cd98bb9846be3be06dbe821f7138ba1d1",
+              "95603db313741341748decdd01f4e5c521d8198fb47d4c77752a500762c9b1b8",
+              "a836c7cfddac8a7dcff11e082700e6a545ab34d4aa6f701a8960c3c29dd7db15",
+              "d7517df38d8a5b51a9cd5294808e26b5f75972c826627b62e1f399a84f7ea9db",
+              "a2c7bc9280345482fbae89e5ddba51abf75df0f36a1a775343f85ef5affc9cd6",
+              "0e66c5b921f27599935ff70bea0afa22457c66720b89dca5deb7fced6dae712a",
+              "bc9e4fcfb3d4fa94430fd5eac99b8c210162165d7d2f6866d69958943d155fa7",
+              "2bc24433da29cf63b2f72f5af3de803692742190c424b4a734eea2c2d35a71ba",
+              "38f16644408a7952d52b203820efbb293619d20d7c2aec31a63fab0c62321194",
+              "7770dc35bd05df1a1c81a3d571d4af15ec19a8ccd0ff0c6eb6148b127abd8daf"
+            ],
+            "size": 1048576,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "forged": {
+          "id": "462bda95be6ba5e2abf16dbed61da180fd1e372a98538e66f539dde8c04d9738",
+          "kind": {
+            "chunks": [
+              "ddf0b7d745d3449856636f77ed44ee983f95a66d54b7688b27062b32c712b164"
+            ],
+            "size": 10,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "opaque": {
+          "id": "6d2a31f7c93ce0e9627db769d486e2edd72a1f8dfeb2680e3174d63cf8003e26",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792684136664257515
+        },
+        "renamed": {
+          "id": "40ac66ea546b47730408234ea1bc4c4e8911d7457f61a492da34797530c6f790",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed-link": {
+          "id": "45d2b605d7a38e6c2fda57eb2aedc18734fc194ce9be75274297f7d24a022c17",
+          "kind": {
+            "target": [
+              98,
+              105,
+              110,
+              97,
+              114,
+              121
+            ],
+            "type": "symlink"
+          },
+          "mode": 511,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed/nested": {
+          "id": "88ddf4dd3b0dd60300ed23430d12548fbf0f27cf6b0a1a228ac8583f99f06549",
+          "kind": {
+            "chunks": [
+              "98081ad05231339f7150ccb360357f9d6c9e16d53d2c5fa8c61f4c72a51de8f2"
+            ],
+            "size": 7,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "shared.txt": {
+          "id": "570d667530a122bdfedfcf9b5b0965b991abc0223963a8efb6de2de20593a87e",
+          "kind": {
+            "chunks": [
+              "defcf00e2fea3d6729585b28c284bce3089f60cc761e958e9d0aaf45d7d336f1"
+            ],
+            "size": 36,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792684136662496110
+        }
+      },
+      "manifest_file": "7f9af7e51d99e520552a79e1cd17ea05ba98ea620361b9db61d2c786636665ff.manifest.zst",
+      "message": "Experimental commit",
+      "parents": [
+        "0a92205c1f2bbf090822a30d0c39ab081c6b2fac8728dca050f00b43141efcf4"
+      ]
+    },
+    {
+      "id": "0a92205c1f2bbf090822a30d0c39ab081c6b2fac8728dca050f00b43141efcf4",
+      "manifest": {
+        "": {
+          "id": "689594dcd1e6da29ad2557bc3a499f8903e4776206e769e4db1a67afded1e0b4",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "binary": {
+          "id": "ceaaaecc4963c55e97168ac50e5903b648003cb599a251152d6c3f55aa774626",
+          "kind": {
+            "chunks": [
+              "707c4e137cfc731871108f77130ab20f0f642463ded549e1f9bb4c1cc3a53f68",
+              "5b03b0ba50b393a8043b6c638852bf86ab2a846259d1f023566d2d1e5ee05f90",
+              "69bcee744022c3d2e278a478a4e36593f5f607c0ba31644cd980901ed5e818a2",
+              "ae048fb1094914c0661d4d4b1ed4354cd98bb9846be3be06dbe821f7138ba1d1",
+              "95603db313741341748decdd01f4e5c521d8198fb47d4c77752a500762c9b1b8",
+              "a836c7cfddac8a7dcff11e082700e6a545ab34d4aa6f701a8960c3c29dd7db15",
+              "d7517df38d8a5b51a9cd5294808e26b5f75972c826627b62e1f399a84f7ea9db",
+              "a2c7bc9280345482fbae89e5ddba51abf75df0f36a1a775343f85ef5affc9cd6",
+              "0e66c5b921f27599935ff70bea0afa22457c66720b89dca5deb7fced6dae712a",
+              "bc9e4fcfb3d4fa94430fd5eac99b8c210162165d7d2f6866d69958943d155fa7",
+              "2bc24433da29cf63b2f72f5af3de803692742190c424b4a734eea2c2d35a71ba",
+              "38f16644408a7952d52b203820efbb293619d20d7c2aec31a63fab0c62321194",
+              "7770dc35bd05df1a1c81a3d571d4af15ec19a8ccd0ff0c6eb6148b127abd8daf"
+            ],
+            "size": 1048576,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "dir": {
+          "id": "40ac66ea546b47730408234ea1bc4c4e8911d7457f61a492da34797530c6f790",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "dir/nested": {
+          "id": "88ddf4dd3b0dd60300ed23430d12548fbf0f27cf6b0a1a228ac8583f99f06549",
+          "kind": {
+            "chunks": [
+              "98081ad05231339f7150ccb360357f9d6c9e16d53d2c5fa8c61f4c72a51de8f2"
+            ],
+            "size": 7,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "forged": {
+          "id": "462bda95be6ba5e2abf16dbed61da180fd1e372a98538e66f539dde8c04d9738",
+          "kind": {
+            "chunks": [
+              "53b63a6fc8605d0c0ce559317a00177d72adb24d669235e4c914f443a8831ca1"
+            ],
+            "size": 10,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "link": {
+          "id": "39661c406c770508861335c75f49ba3b74543d4a2efbdce8116793939114748d",
+          "kind": {
+            "target": [
+              98,
+              105,
+              110,
+              97,
+              114,
+              121
+            ],
+            "type": "symlink"
+          },
+          "mode": 511,
+          "modified_ns": 1700000000123456789
+        },
+        "opaque": {
+          "id": "6d2a31f7c93ce0e9627db769d486e2edd72a1f8dfeb2680e3174d63cf8003e26",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "opaque/old": {
+          "id": "c5fff543a73f2a8bb91d5d3dd710886b61441f8bec1fc7f6e920d2f6f04422e6",
+          "kind": {
+            "chunks": [
+              "87b86a9f9e06007dc88bef0b92d8f046e2795cbdb25c211a4f2326570e2b820c"
+            ],
+            "size": 4,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "shared.txt": {
+          "id": "570d667530a122bdfedfcf9b5b0965b991abc0223963a8efb6de2de20593a87e",
+          "kind": {
+            "chunks": [
+              "a353f1357b187d89a7f84aaa954121118a90ad6bfbfa587f60219926a3c38545"
+            ],
+            "size": 34,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "victim": {
+          "id": "9b4362bbaa92d9f2d22c4e402822593c2139bbc7ddb3ac7cda0b7d7468ecb6fe",
+          "kind": {
+            "chunks": [
+              "02f1133e6754a4043e74dfdc555099150fd98deeb680c7b05b63a32a0f8b7588"
+            ],
+            "size": 7,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        }
+      },
+      "manifest_file": "0131262d70999ea75b41b42cf1299d1e7de4aedd248de7daf3f061c687d30bb1.manifest.zst",
+      "message": "Initial imported manifest",
+      "parents": []
+    }
+  ],
+  "remainingMounts": {
+    "views": [],
+    "lower": false
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "diagnosticOnly": true,
+  "external100CheckpointMs": 10441.757904999975,
+  "phaseMs": {
+    "timings": {
+      "base_identity_load_seconds": 88.95255200000001,
+      "capture_total_seconds": 8652.539439,
+      "identity_reconcile_seconds": 64.64381000000002,
+      "publication_total_seconds": 1324.8028729999996,
+      "transaction_open_seconds": 111.33697099999999
+    },
+    "capture": {
+      "content_hash_put_stream_seconds": 649.6176390000002,
+      "descriptor_close_seconds": 486.449479,
+      "directory_enumeration_seconds": 1423.745518,
+      "directory_open_seconds": 609.5405660000001,
+      "finalize_seconds": 70.61005599999997,
+      "lower_reusable_proof_seconds": 2233.5739080000008,
+      "metadata_seconds": 939.6591130000002,
+      "native_upper_state_seconds": 375.9499110000001,
+      "origin_xattr_seconds": 1096.6180380000005,
+      "regular_merged_open_seconds": 449.65146100000015,
+      "setup_seconds": 128.94655200000005,
+      "walk_total_seconds": 8442.872990000002
+    }
+  }
+}
