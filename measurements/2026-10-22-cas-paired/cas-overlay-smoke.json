@@ -1,0 +1,31 @@
+{
+  "prototypeOnly": true,
+  "performanceComparison": false,
+  "ok": true,
+  "checks": [
+    "FUSE bytes, symlink, mode, nanosecond mtime and repeated readdir",
+    "One write-open copy-up followed by write/mmap/truncate and lower isolation",
+    "Lower-directory rename, redirect, whiteout, delete/recreate and opaque xattrs",
+    "Ordinary unmount refuses an open file descriptor",
+    "Normal ordered unmount and foreground FUSE shutdown"
+  ],
+  "root": "/home/runner/work/_temp/sprig-cas-overlay-6sgqycs_",
+  "import": {
+    "entries": 10,
+    "event": "imported",
+    "logical_bytes": 4194364,
+    "manifest": "manifest.json",
+    "root": "/home/runner/work/_temp/sprig-cas-overlay-6sgqycs_/library",
+    "stored_object_bytes": 4194364,
+    "unique_chunks": 55
+  },
+  "mountInfo": "TARGET                                                    SOURCE  FSTYPE  OPTIONS\n/home/runner/work/_temp/sprig-cas-overlay-6sgqycs_/merged overlay overlay rw,relatime,lowerdir=/home/runner/work/_temp/sprig-cas-overlay-6sgqycs_/lower,upperdir=/home/runner/work/_temp/sprig-cas-overlay-6sgqycs_/upper,workdir=/home/runner/work/_temp/sprig-cas-overlay-6sgqycs_/work,uuid=on,nouserxattr\n",
+  "redirectXattr": "directory",
+  "whiteoutCharacterDevice": true,
+  "whiteoutXattrs": [],
+  "opaqueXattr": "y",
+  "remainingMounts": {
+    "overlay": false,
+    "fuse": false
+  }
+}
