@@ -19,9 +19,9 @@ The adapter makes one direct FUSE mount attempt, with no privileged helper fallb
 
 The captured FUSE lifecycle reports 55 verified chunk misses, 361 cache hits, 166 read requests and 4,194,364 cached bytes under a 16 MiB content-cache cap. These are functional observations for this small fixture, not total-RSS bounds, a benchmark, or proof of large-workload efficiency.
 
-## Not established
+## Scope of this earlier capability run
 
-There is no writable-layer reconciliation/checkpoint, reopenable workspace lifecycle, branch/merge integration, crash recovery, export, GC, multiwriter validation, or product API in this prototype. Production Sprig's existing features are not automatically inherited by merely mounting its content library. No speed or storage advantage over another product is claimed.
+This earlier capability run did not test writable-layer reconciliation/checkpoint or shared publication. The later [incremental capture and publication sequence](CAS-CHECKPOINT-SEMANTICS.md) now verifies a bounded subset, without establishing a complete product backend, crash recovery, export or GC. Production Sprig's existing features are not automatically inherited by merely mounting its content library. No speed or storage advantage over another product is claimed.
 
 The library must be trusted and immutable while mounted. This is not a hostile-owner sandbox. Ownership is synthesized; ACLs, original xattrs, hard-link relationships, sparse layout and special files are not preserved. Pre-1970 timestamps and oversized symlink targets are rejected. See the [prototype contract](feasibility/cas-projection/README.md) for complete restrictions.
 
