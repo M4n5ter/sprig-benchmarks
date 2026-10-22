@@ -35,9 +35,15 @@ jobs:
         run: python3 sprig/examples/compare.py --binary sprig/target/release/sprig > results/sprig-smoke.json
       - name: Prepare controlled runtime
         run: |
+          # Official Docker Ubuntu instructions; runner has binaries but no Docker APT source.
+          sudo install -m 0755 -d /etc/apt/keyrings
+          sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          sudo chmod a+r /etc/apt/keyrings/docker.asc
+          echo 'deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu noble stable' | sudo tee /etc/apt/sources.list.d/docker-benchmark.list
           sudo apt-get update
           apt-cache policy docker-ce docker-ce-cli > results/docker-packages.txt
-          sudo apt-get install -y --only-upgrade docker-ce docker-ce-cli
+          sudo apt-get install -y docker-ce=5:29.8.2-1~ubuntu.24.04~noble docker-ce-cli=5:29.8.2-1~ubuntu.24.04~noble containerd.io
+          sudo systemctl restart docker
           docker version > results/docker-updated.txt
           docker pull ubuntu:24.04
           echo "LAYERFS_IMAGE=$(docker image inspect --format '{{.Id}}' ubuntu:24.04)" >> "$GITHUB_ENV"

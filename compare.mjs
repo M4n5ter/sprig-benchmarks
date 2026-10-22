@@ -1,3 +1,4 @@
+import {checkMerge} from './merge-check.mjs';
 import {LayerFS} from './layerfs/sdk/js/src/index.js';
 import {LayerFSOperator} from './layerfs/sdk/js/operator/index.js';
 import fs from 'node:fs';
@@ -12,10 +13,11 @@ const command=(p,a)=>execFileSync(p,a,{encoding:'utf8',maxBuffer:16*1024*1024});
 const timed=async fn=>{const t=performance.now();const value=await fn();return {ms:performance.now()-t,value};};
 function treeStats(dir){let bytes=0,allocated=0,files=0;for(const e of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(e.isDirectory()){const s=treeStats(p);bytes+=s.bytes;allocated+=s.allocated;files+=s.files;}else{const s=fs.lstatSync(p);bytes+=s.size;allocated+=s.blocks*512;files++;}}return {bytes,allocated,files,exclusivePhysicalBytes:null};}
 function verify(dir,manifest){for(const f of manifest)assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,f.path))).digest('hex'),f.sha256);}
-function sprig(store,...args){const r=JSON.parse(command(path.join(root,'sprig/target/release/sprig'),['--store',store,'--json',...args]));return r.result??r;}
+function sprig(store,...args){try{const r=JSON.parse(command(path.join(root,'sprig/target/release/sprig'),['--store',store,'--json',...args]));return r.result??r;}catch(e){if(e.stdout)throw new Error(String(e.stdout));throw e;}}
 const rounds=Number(process.env.ROUNDS||1),cases=(process.env.CASES||'identical').split(',');
 for(let round=0;round<rounds;round++)for(const caseName of cases){
  const fixture=path.join(root,'fixtures',caseName),manifest=JSON.parse(fs.readFileSync(fixture+'.json'));
+ const checks='('+manifest.map(f=>`printf '%s  %s\\n' '${f.sha256}' '${f.path}'`).join(';')+') | sha256sum -c -';
  // Alternate order, fresh store each sample. Fixture generated and hashed before all timers.
  for(const product of round%2?['layerfs','sprig']:['sprig','layerfs']){
  const id=`${product}-${caseName}-${round}`,r={product,case:caseName,round,files:manifest.length,logicalBytes:manifest.reduce((a,x)=>a+x.bytes,0),durability:product==='layerfs'?'Disposable/WAL/synchronous=OFF':'default synchronization enabled',timingScope:product==='layerfs'?'JS SDK in-process':'whole CLI subprocess'};records.push(r);
@@ -25,9 +27,15 @@ for(let round=0;round<rounds;round++)for(const caseName of cases){
    let t=await timed(()=>sprig(store,'import',fixture,'main'));r.importMs=t.ms;r.copyStats=t.value.copy_stats;
    t=await timed(()=>sprig(store,'branch','metadata','main'));r.metadataBranchMs=t.ms;
    t=await timed(()=>sprig(store,'fork','main','work'));r.forkToWorkspaceMs=t.ms;const wp=t.value.path;r.forkCopyStats=t.value.copy_stats;
-   t=await timed(()=>verify(wp,manifest));r.firstFullReadVerifyMs=t.ms;
+   t=await timed(()=>command(path.join(root,'sprig/target/release/sprig'),['--store',store,'exec','work','--','bash','-c',checks]));r.firstFullReadVerifyMs=t.ms;verify(wp,manifest);
    r.totalImportForkReadMs=r.importMs+r.forkToWorkspaceMs+r.firstFullReadVerifyMs;
    r.productStats=sprig(store,'stats');r.fullStore=treeStats(store);r.correct=true;
+   if(caseName==='identical' && round===0)r.mergeChecks=await checkMerge({
+     write:async(b,p,t)=>sprig(store,'write',b,p,'--text',t),
+     fork:async(b,from)=>sprig(store,'fork',from,b),
+     merge:async(a,b,c)=>sprig(store,'merge',a,b,c),
+     read:async(b,p)=>Buffer.from(sprig(store,'read',b,p)).toString()
+   });
    fs.rmSync(store,{recursive:true});
  }else{
    const volume='sprigbench-'+id;command('docker',['volume','create',volume]);
@@ -38,11 +46,16 @@ for(let round=0;round<rounds;round++)for(const caseName of cases){
    try{
     let t=await timed(()=>l.project.init(fixture));r.importMs=t.ms;
     t=await timed(()=>l.branch.fork('work','main'));r.metadataBranchMs=t.ms;
+    r.afterImportStats=await op.store.stats();
     t=await timed(()=>l.workspace.mount('work'));r.mountMs=t.ms;const ws=t.value;r.forkToWorkspaceMs=r.metadataBranchMs+r.mountMs;
-    const checks=manifest.map(f=>`printf '%s  %s\\n' '${f.sha256}' '${f.path}'`).join(';');
-    t=await timed(()=>l.workspace.exec(ws,`(${checks}) | sha256sum -c -`));r.firstFullReadVerifyMs=t.ms;assert.equal(t.value.exitCode,0,json(t.value));
+    t=await timed(()=>l.workspace.exec(ws,checks));r.firstFullReadVerifyMs=t.ms;assert.equal(t.value.exitCode,0,json(t.value));
     r.totalImportForkReadMs=r.importMs+r.forkToWorkspaceMs+r.firstFullReadVerifyMs;
-    await l.workspace.unmount(ws,true);r.productStats=await op.store.stats();await l.close();r.fullStore=treeStats(mount);r.correct=true;
+    await l.workspace.unmount(ws,true);r.productStats=await op.store.stats();r.fullStore=treeStats(mount);r.correct=true;
+    if(caseName==='identical' && round===0)r.mergeChecks=await checkMerge({
+      write:async(b,p,t)=>l.fs.write(b,'/'+p,t),fork:async(b,from)=>l.branch.fork(b,from),merge:async(a,b,c)=>l.branch.merge(a,b,c),
+      read:async(b,p)=>{const v=await l.fs.read(b,'/'+p);return (v.lines??[]).map(x=>x.text).join('\n')||v.text;}
+    });
+    await l.close();
    }finally{
     await l.close();const containers=command('docker',['ps','-aq','--filter','volume='+volume]).trim().split('\n').filter(Boolean);if(containers.length)command('docker',['rm','-f',...containers]);command('docker',['volume','rm',volume]);fs.rmSync(home,{recursive:true});
    }
