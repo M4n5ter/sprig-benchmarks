@@ -1,3 +1,5 @@
+[CAS + OverlayFS kernel semantics smoke](CAS-OVERLAY-FEASIBILITY.md) passed; checkpoint integration and performance remain unproven.
+
 [Path-only Btrfs rerun](BTRFS-RELPATH-RESULTS.md): verified, still short of the speed/storage/feature target.
 
 [Independent native Btrfs feasibility results](BTRFS-FEASIBILITY-RESULTS.md): warm reads/forks improve, but import/checkpoint targets and feature parity are not met.
