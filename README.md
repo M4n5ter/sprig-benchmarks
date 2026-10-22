@@ -1,6 +1,6 @@
 # Sprig comparative benchmarks
 
-Independent, reproducible comparisons. [Verified baseline results and raw measurements](RESULTS.md) are available; no equal-durability comparison or overall Sprig win is claimed.
+Independent, reproducible comparisons. [Latest optimization results](OPTIMIZATION-RESULTS.md) and [preserved baseline](RESULTS.md) include complete raw measurements. No equal-durability comparison or overall Sprig win is claimed.
 
 Pinned products:
 - Sprig: `aab4985b03e245dabca21fc9eb8769f66896edd0`
