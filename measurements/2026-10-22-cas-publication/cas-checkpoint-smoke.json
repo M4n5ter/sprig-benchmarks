@@ -1,0 +1,984 @@
+{
+  "prototypeOnly": true,
+  "performanceComparison": false,
+  "ok": true,
+  "checks": [
+    "Untouched views reuse lower bytes with zero content hashing",
+    "Independent full-capture oracle for all captured paths, contents, modes and mtimes",
+    "Forged origin plus same size/mtime does not skip upper hashing",
+    "Directory and symlink rename, whiteout, opaque and lower isolation",
+    "Checkpoint identity continuity and no-op",
+    "Two non-overlapping workspace merges and shared SDK-write publication",
+    "Retained conflict candidate, strict stale CAS and orphan-base refusal",
+    "Immutable historical reads and merge parents",
+    "Busy ordinary unmount refusal"
+  ],
+  "captures": {
+    "initial-a": {
+      "event": "captured",
+      "manifest": "initial-a.json",
+      "stats": {
+        "bytes_hashed": 0,
+        "bytes_reused": 1048638,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 0,
+        "files_reused": 6,
+        "lower_reuse_enabled": true,
+        "symlinks": 1
+      }
+    },
+    "initial-b": {
+      "event": "captured",
+      "manifest": "initial-b.json",
+      "stats": {
+        "bytes_hashed": 0,
+        "bytes_reused": 1048638,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 0,
+        "files_reused": 6,
+        "lower_reuse_enabled": true,
+        "symlinks": 1
+      }
+    },
+    "changed-a": {
+      "event": "captured",
+      "manifest": "changed-a.json",
+      "stats": {
+        "bytes_hashed": 52,
+        "bytes_reused": 1048583,
+        "directories": 3,
+        "entries": 9,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 3,
+        "files_reused": 2,
+        "lower_reuse_enabled": true,
+        "symlinks": 1
+      }
+    },
+    "unchanged-a": {
+      "event": "captured",
+      "manifest": "unchanged-a.json",
+      "stats": {
+        "bytes_hashed": 52,
+        "bytes_reused": 1048583,
+        "directories": 3,
+        "entries": 9,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 3,
+        "files_reused": 2,
+        "lower_reuse_enabled": true,
+        "symlinks": 1
+      }
+    },
+    "changed-b": {
+      "event": "captured",
+      "manifest": "changed-b.json",
+      "stats": {
+        "bytes_hashed": 36,
+        "bytes_reused": 1048604,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 1,
+        "files_reused": 5,
+        "lower_reuse_enabled": true,
+        "symlinks": 1
+      }
+    },
+    "changed-b-again": {
+      "event": "captured",
+      "manifest": "changed-b-again.json",
+      "stats": {
+        "bytes_hashed": 38,
+        "bytes_reused": 1048604,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 1,
+        "files_reused": 5,
+        "lower_reuse_enabled": true,
+        "symlinks": 1
+      }
+    },
+    "conflicting-c": {
+      "event": "captured",
+      "manifest": "conflicting-c.json",
+      "stats": {
+        "bytes_hashed": 36,
+        "bytes_reused": 1048604,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 1,
+        "files_reused": 5,
+        "lower_reuse_enabled": true,
+        "symlinks": 1
+      }
+    }
+  },
+  "publications": {
+    "a": {
+      "capture": {
+        "bytes_hashed": 52,
+        "bytes_reused": 1048583,
+        "directories": 3,
+        "entries": 9,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 3,
+        "files_reused": 2,
+        "lower_reuse_enabled": true,
+        "symlinks": 1
+      },
+      "event": "checkpoint",
+      "publication": {
+        "candidate": "eea6e7134bb019a67b872dadb42791220390aa813dcf3593c10e948fe0e48160",
+        "candidate_manifest": "b9c9c3db3c1f11c6843d7c918c69819f773b323524d07614b1e1291fbc1d3f8b.manifest.zst",
+        "head": {
+          "generation": 1,
+          "head": "eea6e7134bb019a67b872dadb42791220390aa813dcf3593c10e948fe0e48160"
+        },
+        "manifest": "b9c9c3db3c1f11c6843d7c918c69819f773b323524d07614b1e1291fbc1d3f8b.manifest.zst",
+        "merged": false,
+        "status": "published"
+      }
+    },
+    "a-noop": {
+      "capture": {
+        "bytes_hashed": 52,
+        "bytes_reused": 1048583,
+        "directories": 3,
+        "entries": 9,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 3,
+        "files_reused": 2,
+        "lower_reuse_enabled": true,
+        "symlinks": 1
+      },
+      "event": "checkpoint",
+      "publication": {
+        "head": {
+          "generation": 1,
+          "head": "eea6e7134bb019a67b872dadb42791220390aa813dcf3593c10e948fe0e48160"
+        },
+        "manifest": "b9c9c3db3c1f11c6843d7c918c69819f773b323524d07614b1e1291fbc1d3f8b.manifest.zst",
+        "status": "noop"
+      }
+    },
+    "b-merge": {
+      "capture": {
+        "bytes_hashed": 36,
+        "bytes_reused": 1048604,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 1,
+        "files_reused": 5,
+        "lower_reuse_enabled": true,
+        "symlinks": 1
+      },
+      "event": "checkpoint",
+      "publication": {
+        "candidate": "98a7dcee75b67c9c8f26dbb2f0d602fd31d5348f119fbdd9fcd021aec81d821c",
+        "candidate_manifest": "ad92f8527999604049eddeb129cd1903261a09d82c76c162967d6131d81dae87.manifest.zst",
+        "head": {
+          "generation": 2,
+          "head": "3c4d787152571c10b412ac83e7620b582b72711008d54aca6e27ec8934b7c7c5"
+        },
+        "manifest": "a6a11244430f84f6d826c5de25f3dd55ebeaed62a18b73b0689d1d5b34c41a81.manifest.zst",
+        "merged": true,
+        "status": "published"
+      }
+    },
+    "sdk": {
+      "candidate": "dd809cf68cf4a756a8d5052c4a90b80c2339c19024887a4e9013456ca44ed2c4",
+      "candidate_manifest": "806790f9ef2d8d833698020f63843d2801a605d55e501663e4950415c5680a5a.manifest.zst",
+      "head": {
+        "generation": 3,
+        "head": "dd809cf68cf4a756a8d5052c4a90b80c2339c19024887a4e9013456ca44ed2c4"
+      },
+      "manifest": "806790f9ef2d8d833698020f63843d2801a605d55e501663e4950415c5680a5a.manifest.zst",
+      "merged": false,
+      "status": "published"
+    },
+    "b-again": {
+      "capture": {
+        "bytes_hashed": 38,
+        "bytes_reused": 1048604,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 1,
+        "files_reused": 5,
+        "lower_reuse_enabled": true,
+        "symlinks": 1
+      },
+      "event": "checkpoint",
+      "publication": {
+        "candidate": "85a4d8958fd4859c793c50c380e41469df38c6d11adbcdbd616e9a11933b5c06",
+        "candidate_manifest": "74c9ed22adf90c54e75e27548bc6d94d56644d7d68a6ce2d59180c3a00af6f85.manifest.zst",
+        "head": {
+          "generation": 4,
+          "head": "e23767ceb4d91b89566a8c2e3bfa2e6ca0cc9e54505f4fbe3c60560a7f6621f0"
+        },
+        "manifest": "fb4f2ad4c878c021f1bc3cb12e49f3d8d1756e5eea375a768435a847317684c4.manifest.zst",
+        "merged": true,
+        "status": "published"
+      }
+    },
+    "c-conflict": {
+      "capture": {
+        "bytes_hashed": 36,
+        "bytes_reused": 1048604,
+        "directories": 3,
+        "entries": 10,
+        "fallback_files": 0,
+        "fallback_reason": null,
+        "files_hashed": 1,
+        "files_reused": 5,
+        "lower_reuse_enabled": true,
+        "symlinks": 1
+      },
+      "event": "checkpoint",
+      "publication": {
+        "candidate": "81c828e3127b85d12557eb6068ab015a2b4fbbf5bc86aba3efaa830493a77393",
+        "candidate_manifest": "fa78c9e665eaf0f1701aeea5d63351ae3f25a87a38d2e32646c5254660aa7f4f.manifest.zst",
+        "conflict_file": "commit-backups/conflict-e23767ceb4d91b89566a8c2e3bfa2e6ca0cc9e54505f4fbe3c60560a7f6621f0-81c828e3127b85d12557eb6068ab015a2b4fbbf5bc86aba3efaa830493a77393.json",
+        "conflicts": [
+          {
+            "base": {
+              "id": "7f91d8769c8cf323402c750d3eff6e7bd61bbe7be835851da9b7191c488a7789",
+              "kind": {
+                "chunks": [
+                  "a353f1357b187d89a7f84aaa954121118a90ad6bfbfa587f60219926a3c38545"
+                ],
+                "size": 34,
+                "type": "file"
+              },
+              "mode": 420,
+              "modified_ns": 1700000000123456789
+            },
+            "kind": "content",
+            "ours": {
+              "id": "7f91d8769c8cf323402c750d3eff6e7bd61bbe7be835851da9b7191c488a7789",
+              "kind": {
+                "chunks": [
+                  "3c7ce238835a7123ea76071fde279fd9bac916496f759d83636e0a755c0bdb59"
+                ],
+                "size": 40,
+                "type": "file"
+              },
+              "mode": 420,
+              "modified_ns": 1792682850967803082
+            },
+            "path": "shared.txt",
+            "theirs": {
+              "id": "7f91d8769c8cf323402c750d3eff6e7bd61bbe7be835851da9b7191c488a7789",
+              "kind": {
+                "chunks": [
+                  "f5407726ed075d7893e185172f043024697f472986b38a17e14fc862432fe51c"
+                ],
+                "size": 36,
+                "type": "file"
+              },
+              "mode": 420,
+              "modified_ns": 1792682850990591466
+            }
+          }
+        ],
+        "head": {
+          "generation": 4,
+          "head": "e23767ceb4d91b89566a8c2e3bfa2e6ca0cc9e54505f4fbe3c60560a7f6621f0"
+        },
+        "status": "conflict"
+      }
+    }
+  },
+  "import": {
+    "entries": 10,
+    "event": "imported",
+    "logical_bytes": 1048638,
+    "manifest": "manifest.json",
+    "root": "/home/runner/work/_temp/sprig-cas-checkpoint-xrgqcosu/store",
+    "stored_object_bytes": 1048638,
+    "unique_chunks": 18
+  },
+  "initialHead": {
+    "generation": 0,
+    "head": "d07d761fd89203eebf2ba751415712a12ce7346641c259100dc1201d360a3f5a"
+  },
+  "stale-cas": {
+    "exitCode": 1,
+    "stderr": "{\"error\":\"expected head d07d761fd89203eebf2ba751415712a12ce7346641c259100dc1201d360a3f5a at generation 0, found e23767ceb4d91b89566a8c2e3bfa2e6ca0cc9e54505f4fbe3c60560a7f6621f0 at generation 4\",\"event\":\"error\"}\n"
+  },
+  "orphan-base": {
+    "exitCode": 1,
+    "stderr": "{\"error\":\"base is not an ancestor of this store's current head\",\"event\":\"error\"}\n"
+  },
+  "history": [
+    {
+      "id": "e23767ceb4d91b89566a8c2e3bfa2e6ca0cc9e54505f4fbe3c60560a7f6621f0",
+      "manifest": {
+        "": {
+          "id": "81c9c552c3c0c4eb319a9cf256e26584fbaa1ed5d2f3a26eeed913125c01b49e",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792682850913406828
+        },
+        "added": {
+          "id": "ccfc8ef4e226e19b71d6f51ef1519b02d1b7dc45f9d6f00a91eb2f5cafff7d7b",
+          "kind": {
+            "chunks": [
+              "7c7b69870900f4e7969fbedccce653004bd86668b9954dca2a709dc03464a151"
+            ],
+            "size": 6,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792682850911910054
+        },
+        "binary": {
+          "id": "264d44b989af1efb87a2a3a652bc9c72233df32a7d4626b2e8f8f78c7a10da22",
+          "kind": {
+            "chunks": [
+              "707c4e137cfc731871108f77130ab20f0f642463ded549e1f9bb4c1cc3a53f68",
+              "5b03b0ba50b393a8043b6c638852bf86ab2a846259d1f023566d2d1e5ee05f90",
+              "69bcee744022c3d2e278a478a4e36593f5f607c0ba31644cd980901ed5e818a2",
+              "ae048fb1094914c0661d4d4b1ed4354cd98bb9846be3be06dbe821f7138ba1d1",
+              "95603db313741341748decdd01f4e5c521d8198fb47d4c77752a500762c9b1b8",
+              "a836c7cfddac8a7dcff11e082700e6a545ab34d4aa6f701a8960c3c29dd7db15",
+              "d7517df38d8a5b51a9cd5294808e26b5f75972c826627b62e1f399a84f7ea9db",
+              "a2c7bc9280345482fbae89e5ddba51abf75df0f36a1a775343f85ef5affc9cd6",
+              "0e66c5b921f27599935ff70bea0afa22457c66720b89dca5deb7fced6dae712a",
+              "bc9e4fcfb3d4fa94430fd5eac99b8c210162165d7d2f6866d69958943d155fa7",
+              "2bc24433da29cf63b2f72f5af3de803692742190c424b4a734eea2c2d35a71ba",
+              "38f16644408a7952d52b203820efbb293619d20d7c2aec31a63fab0c62321194",
+              "7770dc35bd05df1a1c81a3d571d4af15ec19a8ccd0ff0c6eb6148b127abd8daf"
+            ],
+            "size": 1048576,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "forged": {
+          "id": "624970af651410c0500f0e650c7e902ca0bcc3a5fbd1ee4b4dc763a33d9f8a86",
+          "kind": {
+            "chunks": [
+              "ddf0b7d745d3449856636f77ed44ee983f95a66d54b7688b27062b32c712b164"
+            ],
+            "size": 10,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "opaque": {
+          "id": "531b9227c312fb014f814ea08591b0b6704a1a2b7988830b54e8d356f747d866",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792682850913406828
+        },
+        "renamed": {
+          "id": "d05aac1abc398210c4e4545ce930c2cd329145ababd66b1e863caad82c49686b",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed-link": {
+          "id": "f059ce6cf915269c11c4ae34f4502a9e9ea0648186683d29875c53b6074e7b5e",
+          "kind": {
+            "target": [
+              98,
+              105,
+              110,
+              97,
+              114,
+              121
+            ],
+            "type": "symlink"
+          },
+          "mode": 511,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed/nested": {
+          "id": "e1204589a5fa0ee1520b48283b0631baf82b000c8077edb1bc5abbe3eabcf3b6",
+          "kind": {
+            "chunks": [
+              "98081ad05231339f7150ccb360357f9d6c9e16d53d2c5fa8c61f4c72a51de8f2"
+            ],
+            "size": 7,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "sdk.txt": {
+          "id": "ccb46d1ee59c6a180cc5c4463b726550794cd1f12e8f4c8dea96fb84e8498f87",
+          "kind": {
+            "chunks": [
+              "bbe71ff52f8ed9d5ec1ea21b6b6f3011a7f4655de6588fe394eea04d351306db"
+            ],
+            "size": 4,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792682850964791349
+        },
+        "shared.txt": {
+          "id": "7f91d8769c8cf323402c750d3eff6e7bd61bbe7be835851da9b7191c488a7789",
+          "kind": {
+            "chunks": [
+              "3c7ce238835a7123ea76071fde279fd9bac916496f759d83636e0a755c0bdb59"
+            ],
+            "size": 40,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792682850967803082
+        }
+      },
+      "manifest_file": "fb4f2ad4c878c021f1bc3cb12e49f3d8d1756e5eea375a768435a847317684c4.manifest.zst",
+      "message": "Experimental commit",
+      "parents": [
+        "dd809cf68cf4a756a8d5052c4a90b80c2339c19024887a4e9013456ca44ed2c4",
+        "85a4d8958fd4859c793c50c380e41469df38c6d11adbcdbd616e9a11933b5c06"
+      ]
+    },
+    {
+      "id": "dd809cf68cf4a756a8d5052c4a90b80c2339c19024887a4e9013456ca44ed2c4",
+      "manifest": {
+        "": {
+          "id": "81c9c552c3c0c4eb319a9cf256e26584fbaa1ed5d2f3a26eeed913125c01b49e",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792682850913406828
+        },
+        "added": {
+          "id": "ccfc8ef4e226e19b71d6f51ef1519b02d1b7dc45f9d6f00a91eb2f5cafff7d7b",
+          "kind": {
+            "chunks": [
+              "7c7b69870900f4e7969fbedccce653004bd86668b9954dca2a709dc03464a151"
+            ],
+            "size": 6,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792682850911910054
+        },
+        "binary": {
+          "id": "264d44b989af1efb87a2a3a652bc9c72233df32a7d4626b2e8f8f78c7a10da22",
+          "kind": {
+            "chunks": [
+              "707c4e137cfc731871108f77130ab20f0f642463ded549e1f9bb4c1cc3a53f68",
+              "5b03b0ba50b393a8043b6c638852bf86ab2a846259d1f023566d2d1e5ee05f90",
+              "69bcee744022c3d2e278a478a4e36593f5f607c0ba31644cd980901ed5e818a2",
+              "ae048fb1094914c0661d4d4b1ed4354cd98bb9846be3be06dbe821f7138ba1d1",
+              "95603db313741341748decdd01f4e5c521d8198fb47d4c77752a500762c9b1b8",
+              "a836c7cfddac8a7dcff11e082700e6a545ab34d4aa6f701a8960c3c29dd7db15",
+              "d7517df38d8a5b51a9cd5294808e26b5f75972c826627b62e1f399a84f7ea9db",
+              "a2c7bc9280345482fbae89e5ddba51abf75df0f36a1a775343f85ef5affc9cd6",
+              "0e66c5b921f27599935ff70bea0afa22457c66720b89dca5deb7fced6dae712a",
+              "bc9e4fcfb3d4fa94430fd5eac99b8c210162165d7d2f6866d69958943d155fa7",
+              "2bc24433da29cf63b2f72f5af3de803692742190c424b4a734eea2c2d35a71ba",
+              "38f16644408a7952d52b203820efbb293619d20d7c2aec31a63fab0c62321194",
+              "7770dc35bd05df1a1c81a3d571d4af15ec19a8ccd0ff0c6eb6148b127abd8daf"
+            ],
+            "size": 1048576,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "forged": {
+          "id": "624970af651410c0500f0e650c7e902ca0bcc3a5fbd1ee4b4dc763a33d9f8a86",
+          "kind": {
+            "chunks": [
+              "ddf0b7d745d3449856636f77ed44ee983f95a66d54b7688b27062b32c712b164"
+            ],
+            "size": 10,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "opaque": {
+          "id": "531b9227c312fb014f814ea08591b0b6704a1a2b7988830b54e8d356f747d866",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792682850913406828
+        },
+        "renamed": {
+          "id": "d05aac1abc398210c4e4545ce930c2cd329145ababd66b1e863caad82c49686b",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed-link": {
+          "id": "f059ce6cf915269c11c4ae34f4502a9e9ea0648186683d29875c53b6074e7b5e",
+          "kind": {
+            "target": [
+              98,
+              105,
+              110,
+              97,
+              114,
+              121
+            ],
+            "type": "symlink"
+          },
+          "mode": 511,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed/nested": {
+          "id": "e1204589a5fa0ee1520b48283b0631baf82b000c8077edb1bc5abbe3eabcf3b6",
+          "kind": {
+            "chunks": [
+              "98081ad05231339f7150ccb360357f9d6c9e16d53d2c5fa8c61f4c72a51de8f2"
+            ],
+            "size": 7,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "sdk.txt": {
+          "id": "ccb46d1ee59c6a180cc5c4463b726550794cd1f12e8f4c8dea96fb84e8498f87",
+          "kind": {
+            "chunks": [
+              "bbe71ff52f8ed9d5ec1ea21b6b6f3011a7f4655de6588fe394eea04d351306db"
+            ],
+            "size": 4,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792682850964791349
+        },
+        "shared.txt": {
+          "id": "7f91d8769c8cf323402c750d3eff6e7bd61bbe7be835851da9b7191c488a7789",
+          "kind": {
+            "chunks": [
+              "8846c5c1dc0f7d4954e86fcbc626f81a7c4881f1c71e0aac1dade824e1bd36f4"
+            ],
+            "size": 38,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792682850942246130
+        }
+      },
+      "manifest_file": "806790f9ef2d8d833698020f63843d2801a605d55e501663e4950415c5680a5a.manifest.zst",
+      "message": "Experimental commit",
+      "parents": [
+        "3c4d787152571c10b412ac83e7620b582b72711008d54aca6e27ec8934b7c7c5"
+      ]
+    },
+    {
+      "id": "3c4d787152571c10b412ac83e7620b582b72711008d54aca6e27ec8934b7c7c5",
+      "manifest": {
+        "": {
+          "id": "81c9c552c3c0c4eb319a9cf256e26584fbaa1ed5d2f3a26eeed913125c01b49e",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792682850913406828
+        },
+        "added": {
+          "id": "ccfc8ef4e226e19b71d6f51ef1519b02d1b7dc45f9d6f00a91eb2f5cafff7d7b",
+          "kind": {
+            "chunks": [
+              "7c7b69870900f4e7969fbedccce653004bd86668b9954dca2a709dc03464a151"
+            ],
+            "size": 6,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792682850911910054
+        },
+        "binary": {
+          "id": "264d44b989af1efb87a2a3a652bc9c72233df32a7d4626b2e8f8f78c7a10da22",
+          "kind": {
+            "chunks": [
+              "707c4e137cfc731871108f77130ab20f0f642463ded549e1f9bb4c1cc3a53f68",
+              "5b03b0ba50b393a8043b6c638852bf86ab2a846259d1f023566d2d1e5ee05f90",
+              "69bcee744022c3d2e278a478a4e36593f5f607c0ba31644cd980901ed5e818a2",
+              "ae048fb1094914c0661d4d4b1ed4354cd98bb9846be3be06dbe821f7138ba1d1",
+              "95603db313741341748decdd01f4e5c521d8198fb47d4c77752a500762c9b1b8",
+              "a836c7cfddac8a7dcff11e082700e6a545ab34d4aa6f701a8960c3c29dd7db15",
+              "d7517df38d8a5b51a9cd5294808e26b5f75972c826627b62e1f399a84f7ea9db",
+              "a2c7bc9280345482fbae89e5ddba51abf75df0f36a1a775343f85ef5affc9cd6",
+              "0e66c5b921f27599935ff70bea0afa22457c66720b89dca5deb7fced6dae712a",
+              "bc9e4fcfb3d4fa94430fd5eac99b8c210162165d7d2f6866d69958943d155fa7",
+              "2bc24433da29cf63b2f72f5af3de803692742190c424b4a734eea2c2d35a71ba",
+              "38f16644408a7952d52b203820efbb293619d20d7c2aec31a63fab0c62321194",
+              "7770dc35bd05df1a1c81a3d571d4af15ec19a8ccd0ff0c6eb6148b127abd8daf"
+            ],
+            "size": 1048576,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "forged": {
+          "id": "624970af651410c0500f0e650c7e902ca0bcc3a5fbd1ee4b4dc763a33d9f8a86",
+          "kind": {
+            "chunks": [
+              "ddf0b7d745d3449856636f77ed44ee983f95a66d54b7688b27062b32c712b164"
+            ],
+            "size": 10,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "opaque": {
+          "id": "531b9227c312fb014f814ea08591b0b6704a1a2b7988830b54e8d356f747d866",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792682850913406828
+        },
+        "renamed": {
+          "id": "d05aac1abc398210c4e4545ce930c2cd329145ababd66b1e863caad82c49686b",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed-link": {
+          "id": "f059ce6cf915269c11c4ae34f4502a9e9ea0648186683d29875c53b6074e7b5e",
+          "kind": {
+            "target": [
+              98,
+              105,
+              110,
+              97,
+              114,
+              121
+            ],
+            "type": "symlink"
+          },
+          "mode": 511,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed/nested": {
+          "id": "e1204589a5fa0ee1520b48283b0631baf82b000c8077edb1bc5abbe3eabcf3b6",
+          "kind": {
+            "chunks": [
+              "98081ad05231339f7150ccb360357f9d6c9e16d53d2c5fa8c61f4c72a51de8f2"
+            ],
+            "size": 7,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "shared.txt": {
+          "id": "7f91d8769c8cf323402c750d3eff6e7bd61bbe7be835851da9b7191c488a7789",
+          "kind": {
+            "chunks": [
+              "8846c5c1dc0f7d4954e86fcbc626f81a7c4881f1c71e0aac1dade824e1bd36f4"
+            ],
+            "size": 38,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792682850942246130
+        }
+      },
+      "manifest_file": "a6a11244430f84f6d826c5de25f3dd55ebeaed62a18b73b0689d1d5b34c41a81.manifest.zst",
+      "message": "Experimental commit",
+      "parents": [
+        "eea6e7134bb019a67b872dadb42791220390aa813dcf3593c10e948fe0e48160",
+        "98a7dcee75b67c9c8f26dbb2f0d602fd31d5348f119fbdd9fcd021aec81d821c"
+      ]
+    },
+    {
+      "id": "eea6e7134bb019a67b872dadb42791220390aa813dcf3593c10e948fe0e48160",
+      "manifest": {
+        "": {
+          "id": "81c9c552c3c0c4eb319a9cf256e26584fbaa1ed5d2f3a26eeed913125c01b49e",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792682850913406828
+        },
+        "added": {
+          "id": "ccfc8ef4e226e19b71d6f51ef1519b02d1b7dc45f9d6f00a91eb2f5cafff7d7b",
+          "kind": {
+            "chunks": [
+              "7c7b69870900f4e7969fbedccce653004bd86668b9954dca2a709dc03464a151"
+            ],
+            "size": 6,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792682850911910054
+        },
+        "binary": {
+          "id": "264d44b989af1efb87a2a3a652bc9c72233df32a7d4626b2e8f8f78c7a10da22",
+          "kind": {
+            "chunks": [
+              "707c4e137cfc731871108f77130ab20f0f642463ded549e1f9bb4c1cc3a53f68",
+              "5b03b0ba50b393a8043b6c638852bf86ab2a846259d1f023566d2d1e5ee05f90",
+              "69bcee744022c3d2e278a478a4e36593f5f607c0ba31644cd980901ed5e818a2",
+              "ae048fb1094914c0661d4d4b1ed4354cd98bb9846be3be06dbe821f7138ba1d1",
+              "95603db313741341748decdd01f4e5c521d8198fb47d4c77752a500762c9b1b8",
+              "a836c7cfddac8a7dcff11e082700e6a545ab34d4aa6f701a8960c3c29dd7db15",
+              "d7517df38d8a5b51a9cd5294808e26b5f75972c826627b62e1f399a84f7ea9db",
+              "a2c7bc9280345482fbae89e5ddba51abf75df0f36a1a775343f85ef5affc9cd6",
+              "0e66c5b921f27599935ff70bea0afa22457c66720b89dca5deb7fced6dae712a",
+              "bc9e4fcfb3d4fa94430fd5eac99b8c210162165d7d2f6866d69958943d155fa7",
+              "2bc24433da29cf63b2f72f5af3de803692742190c424b4a734eea2c2d35a71ba",
+              "38f16644408a7952d52b203820efbb293619d20d7c2aec31a63fab0c62321194",
+              "7770dc35bd05df1a1c81a3d571d4af15ec19a8ccd0ff0c6eb6148b127abd8daf"
+            ],
+            "size": 1048576,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "forged": {
+          "id": "624970af651410c0500f0e650c7e902ca0bcc3a5fbd1ee4b4dc763a33d9f8a86",
+          "kind": {
+            "chunks": [
+              "ddf0b7d745d3449856636f77ed44ee983f95a66d54b7688b27062b32c712b164"
+            ],
+            "size": 10,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "opaque": {
+          "id": "531b9227c312fb014f814ea08591b0b6704a1a2b7988830b54e8d356f747d866",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1792682850913406828
+        },
+        "renamed": {
+          "id": "d05aac1abc398210c4e4545ce930c2cd329145ababd66b1e863caad82c49686b",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed-link": {
+          "id": "f059ce6cf915269c11c4ae34f4502a9e9ea0648186683d29875c53b6074e7b5e",
+          "kind": {
+            "target": [
+              98,
+              105,
+              110,
+              97,
+              114,
+              121
+            ],
+            "type": "symlink"
+          },
+          "mode": 511,
+          "modified_ns": 1700000000123456789
+        },
+        "renamed/nested": {
+          "id": "e1204589a5fa0ee1520b48283b0631baf82b000c8077edb1bc5abbe3eabcf3b6",
+          "kind": {
+            "chunks": [
+              "98081ad05231339f7150ccb360357f9d6c9e16d53d2c5fa8c61f4c72a51de8f2"
+            ],
+            "size": 7,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "shared.txt": {
+          "id": "7f91d8769c8cf323402c750d3eff6e7bd61bbe7be835851da9b7191c488a7789",
+          "kind": {
+            "chunks": [
+              "defcf00e2fea3d6729585b28c284bce3089f60cc761e958e9d0aaf45d7d336f1"
+            ],
+            "size": 36,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1792682850911823307
+        }
+      },
+      "manifest_file": "b9c9c3db3c1f11c6843d7c918c69819f773b323524d07614b1e1291fbc1d3f8b.manifest.zst",
+      "message": "Experimental commit",
+      "parents": [
+        "d07d761fd89203eebf2ba751415712a12ce7346641c259100dc1201d360a3f5a"
+      ]
+    },
+    {
+      "id": "d07d761fd89203eebf2ba751415712a12ce7346641c259100dc1201d360a3f5a",
+      "manifest": {
+        "": {
+          "id": "81c9c552c3c0c4eb319a9cf256e26584fbaa1ed5d2f3a26eeed913125c01b49e",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "binary": {
+          "id": "264d44b989af1efb87a2a3a652bc9c72233df32a7d4626b2e8f8f78c7a10da22",
+          "kind": {
+            "chunks": [
+              "707c4e137cfc731871108f77130ab20f0f642463ded549e1f9bb4c1cc3a53f68",
+              "5b03b0ba50b393a8043b6c638852bf86ab2a846259d1f023566d2d1e5ee05f90",
+              "69bcee744022c3d2e278a478a4e36593f5f607c0ba31644cd980901ed5e818a2",
+              "ae048fb1094914c0661d4d4b1ed4354cd98bb9846be3be06dbe821f7138ba1d1",
+              "95603db313741341748decdd01f4e5c521d8198fb47d4c77752a500762c9b1b8",
+              "a836c7cfddac8a7dcff11e082700e6a545ab34d4aa6f701a8960c3c29dd7db15",
+              "d7517df38d8a5b51a9cd5294808e26b5f75972c826627b62e1f399a84f7ea9db",
+              "a2c7bc9280345482fbae89e5ddba51abf75df0f36a1a775343f85ef5affc9cd6",
+              "0e66c5b921f27599935ff70bea0afa22457c66720b89dca5deb7fced6dae712a",
+              "bc9e4fcfb3d4fa94430fd5eac99b8c210162165d7d2f6866d69958943d155fa7",
+              "2bc24433da29cf63b2f72f5af3de803692742190c424b4a734eea2c2d35a71ba",
+              "38f16644408a7952d52b203820efbb293619d20d7c2aec31a63fab0c62321194",
+              "7770dc35bd05df1a1c81a3d571d4af15ec19a8ccd0ff0c6eb6148b127abd8daf"
+            ],
+            "size": 1048576,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "dir": {
+          "id": "d05aac1abc398210c4e4545ce930c2cd329145ababd66b1e863caad82c49686b",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "dir/nested": {
+          "id": "e1204589a5fa0ee1520b48283b0631baf82b000c8077edb1bc5abbe3eabcf3b6",
+          "kind": {
+            "chunks": [
+              "98081ad05231339f7150ccb360357f9d6c9e16d53d2c5fa8c61f4c72a51de8f2"
+            ],
+            "size": 7,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "forged": {
+          "id": "624970af651410c0500f0e650c7e902ca0bcc3a5fbd1ee4b4dc763a33d9f8a86",
+          "kind": {
+            "chunks": [
+              "53b63a6fc8605d0c0ce559317a00177d72adb24d669235e4c914f443a8831ca1"
+            ],
+            "size": 10,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "link": {
+          "id": "63e30ea38fd97c7d6a41fe51e1d037792e7cfa627deda799754a6b21e12c02b7",
+          "kind": {
+            "target": [
+              98,
+              105,
+              110,
+              97,
+              114,
+              121
+            ],
+            "type": "symlink"
+          },
+          "mode": 511,
+          "modified_ns": 1700000000123456789
+        },
+        "opaque": {
+          "id": "531b9227c312fb014f814ea08591b0b6704a1a2b7988830b54e8d356f747d866",
+          "kind": {
+            "type": "directory"
+          },
+          "mode": 493,
+          "modified_ns": 1700000000123456789
+        },
+        "opaque/old": {
+          "id": "3fec50a2c9d90b180f0535412357c762180039a0ef8ed8c5df1df15f861cb015",
+          "kind": {
+            "chunks": [
+              "87b86a9f9e06007dc88bef0b92d8f046e2795cbdb25c211a4f2326570e2b820c"
+            ],
+            "size": 4,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "shared.txt": {
+          "id": "7f91d8769c8cf323402c750d3eff6e7bd61bbe7be835851da9b7191c488a7789",
+          "kind": {
+            "chunks": [
+              "a353f1357b187d89a7f84aaa954121118a90ad6bfbfa587f60219926a3c38545"
+            ],
+            "size": 34,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        },
+        "victim": {
+          "id": "e3b8d672b777fc881ea9d2c2c2a9e5f2319e7a989383bde73bbde7048bbbbe44",
+          "kind": {
+            "chunks": [
+              "02f1133e6754a4043e74dfdc555099150fd98deeb680c7b05b63a32a0f8b7588"
+            ],
+            "size": 7,
+            "type": "file"
+          },
+          "mode": 420,
+          "modified_ns": 1700000000123456789
+        }
+      },
+      "manifest_file": "17cc33349365a5e2e966e10ba8ed172765b1041d99c17bbb718e675e422a8776.manifest.zst",
+      "message": "Initial imported manifest",
+      "parents": []
+    }
+  ],
+  "remainingMounts": {
+    "views": [],
+    "lower": false
+  }
+}
