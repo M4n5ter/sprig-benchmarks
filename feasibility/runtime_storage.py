@@ -16,6 +16,9 @@ def wait_docker():
 def stop():cmd('systemctl','stop','docker.service','docker.socket','containerd.service')
 def start():
     try:
+        # Repeated deliberate storage switches can hit systemd's transient start counter.
+        # Reset only these owned units' failed state; do not alter unit policy.
+        cmd('systemctl','reset-failed','docker.service','docker.socket','containerd.service')
         cmd('systemctl','start','containerd.service')
         cmd('systemctl','start','docker.socket')
         cmd('systemctl','start','docker.service');wait_docker()
