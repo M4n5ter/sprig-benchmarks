@@ -5,6 +5,7 @@ use std::fs::{self, File, OpenOptions};
 use std::io::Write;
 use std::os::unix::fs::OpenOptionsExt;
 use std::path::{Component, Path};
+use std::time::Instant;
 
 use sprig_cas_projection_prototype::{capture, commit, fuse, store};
 
@@ -118,7 +119,9 @@ fn run() -> store::Result<()> {
             allow_other,
         )?;
     } else {
+        let started = Instant::now();
         let mut transaction = commit::Transaction::open(root)?;
+        let transaction_open_seconds = started.elapsed().as_secs_f64();
         let optional_text = |name: &str, default: &str| -> store::Result<String> {
             match values.get(OsStr::new(name)) {
                 Some(value) => value
@@ -197,11 +200,14 @@ fn run() -> store::Result<()> {
                 expected.as_ref(),
             )?)?
         } else {
+            let started = Instant::now();
             let projection_base = optional_text("--projection-base", "manifest.json")?;
             let identity_manifest = match values.get(OsStr::new("--identity-base")) {
                 Some(filename) => store::ObjectStore::load(root, filename)?.1,
                 None => transaction.resolve_base(&base)?.manifest,
             };
+            let base_identity_load_seconds = started.elapsed().as_secs_f64();
+            let started = Instant::now();
             let mut captured = capture::capture(
                 root,
                 OsStr::new(&projection_base),
@@ -209,7 +215,10 @@ fn run() -> store::Result<()> {
                 Path::new(required("--upper")?),
                 Path::new(required("--lower")?),
             )?;
+            let capture_total_seconds = started.elapsed().as_secs_f64();
+            let started = Instant::now();
             captured.reconcile_identities(&identity_manifest)?;
+            let identity_reconcile_seconds = started.elapsed().as_secs_f64();
             let stats = captured.stats.json();
             if command == "capture" {
                 let output = required("--output")?
@@ -246,9 +255,20 @@ fn run() -> store::Result<()> {
                 }
                 serde_json::json!({"event":"captured", "manifest":output, "stats":stats})
             } else {
+                let started = Instant::now();
                 let published =
                     transaction.publish(&base, captured.manifest, &message, expected.as_ref())?;
-                serde_json::json!({"event":"checkpoint", "publication":published, "capture":stats})
+                let publication_total_seconds = started.elapsed().as_secs_f64();
+                serde_json::json!({
+                    "event":"checkpoint", "publication":published, "capture":stats,
+                    "timings": {
+                        "transaction_open_seconds": transaction_open_seconds,
+                        "base_identity_load_seconds": base_identity_load_seconds,
+                        "capture_total_seconds": capture_total_seconds,
+                        "identity_reconcile_seconds": identity_reconcile_seconds,
+                        "publication_total_seconds": publication_total_seconds,
+                    }
+                })
             }
         };
         println!("{result}");

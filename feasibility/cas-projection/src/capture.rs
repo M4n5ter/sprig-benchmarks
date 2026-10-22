@@ -13,7 +13,7 @@ use std::os::unix::ffi::{OsStrExt, OsStringExt};
 use std::os::unix::fs::{MetadataExt, OpenOptionsExt};
 use std::path::{Component, Path, PathBuf};
 use std::sync::atomic::{AtomicU64, Ordering};
-use std::time::{SystemTime, UNIX_EPOCH};
+use std::time::{Instant, SystemTime, UNIX_EPOCH};
 
 use fastcdc::v2020::FastCDC;
 use serde::Serialize;
@@ -28,8 +28,30 @@ const MAX_CHUNK: usize = 256 * 1024;
 const MAX_ORIGIN: usize = 64 * 1024;
 static NONCE: AtomicU64 = AtomicU64::new(0);
 
+/// Seconds measured in-process, not attribution to kernel or remote services.
+/// Walk categories are disjoint; walk_total_seconds includes them all. Lower
+/// proof includes its own opens, metadata, origin and chunk metadata checks.
+/// Unaccounted walk time includes readlink, validation, bookkeeping,
+/// recursion, and timer overhead. Setup/finalize are outside walk.
+#[derive(Debug, Default, Clone, Serialize)]
+pub struct CaptureTimings {
+    pub setup_seconds: f64,
+    pub walk_total_seconds: f64,
+    pub regular_merged_open_seconds: f64,
+    pub directory_open_seconds: f64,
+    pub descriptor_close_seconds: f64,
+    pub metadata_seconds: f64,
+    pub origin_xattr_seconds: f64,
+    pub native_upper_state_seconds: f64,
+    pub lower_reusable_proof_seconds: f64,
+    pub content_hash_put_stream_seconds: f64,
+    pub directory_enumeration_seconds: f64,
+    pub finalize_seconds: f64,
+}
+
 #[derive(Debug, Default, Clone, Serialize)]
 pub struct CaptureStats {
+    pub timings: CaptureTimings,
     pub entries: u64,
     pub directories: u64,
     pub symlinks: u64,
@@ -102,6 +124,7 @@ pub fn capture(
     upper: &Path,
     lower: &Path,
 ) -> Result<CaptureResult> {
+    let setup_started = Instant::now();
     // SAFETY: geteuid is a side-effect-free query.
     if unsafe { libc::geteuid() } != 0 {
         return Err(
@@ -148,7 +171,11 @@ pub fn capture(
             ..Default::default()
         },
     };
+    context.stats.timings.setup_seconds = setup_started.elapsed().as_secs_f64();
+    let walk_started = Instant::now();
     context.walk(&merged, "")?;
+    context.stats.timings.walk_total_seconds = walk_started.elapsed().as_secs_f64();
+    let finalize_started = Instant::now();
     assign_ids(&mut context.manifest, &base, &context.origins);
     content::validate_manifest(&context.manifest)?;
     File::open(&context.objects)?.sync_all()?;
@@ -158,6 +185,7 @@ pub fn capture(
     {
         return Err(store::invalid("mount or lower origin changed during capture").into());
     }
+    context.stats.timings.finalize_seconds = finalize_started.elapsed().as_secs_f64();
     Ok(CaptureResult {
         manifest: context.manifest,
         stats: context.stats,
@@ -179,21 +207,35 @@ struct Capture<'a> {
 
 impl Capture<'_> {
     fn walk(&mut self, path: &Path, relative: &str) -> Result<()> {
+        let started = Instant::now();
         let before = fs::symlink_metadata(path)?;
+        self.stats.timings.metadata_seconds += started.elapsed().as_secs_f64();
         let advisory;
         let kind = if before.is_file() {
+            let started = Instant::now();
             let mut file = OpenOptions::new()
                 .read(true)
                 .custom_flags(libc::O_NOFOLLOW | libc::O_NONBLOCK | libc::O_CLOEXEC)
                 .open(path)?;
+            self.stats.timings.regular_merged_open_seconds += started.elapsed().as_secs_f64();
+            let started = Instant::now();
             let opened = file.metadata()?;
+            self.stats.timings.metadata_seconds += started.elapsed().as_secs_f64();
             require_unchanged(path, &before, &opened)?;
+            let started = Instant::now();
             advisory = origin(&file, self.digest, self.base);
+            self.stats.timings.origin_xattr_seconds += started.elapsed().as_secs_f64();
+            let started = Instant::now();
             let upper_status = upper_state(self.upper, relative);
+            self.stats.timings.native_upper_state_seconds += started.elapsed().as_secs_f64();
             let reusable = if self.stats.lower_reuse_enabled && upper_status == UpperState::Absent {
-                advisory
-                    .as_deref()
-                    .and_then(|original| self.reusable(original, &opened))
+                advisory.as_deref().and_then(|original| {
+                    let started = Instant::now();
+                    let reusable = self.reusable(original, &opened);
+                    self.stats.timings.lower_reusable_proof_seconds +=
+                        started.elapsed().as_secs_f64();
+                    reusable
+                })
             } else {
                 None
             };
@@ -201,7 +243,10 @@ impl Capture<'_> {
                 self.stats.files_reused += 1;
                 self.stats.bytes_reused += opened.len();
                 // A copied-up/faked origin cannot make an upper file reusable.
-                if upper_state(self.upper, relative) != UpperState::Absent {
+                let started = Instant::now();
+                let upper_status = upper_state(self.upper, relative);
+                self.stats.timings.native_upper_state_seconds += started.elapsed().as_secs_f64();
+                if upper_status != UpperState::Absent {
                     return Err(store::invalid("upper changed during capture").into());
                 }
                 kind
@@ -209,7 +254,10 @@ impl Capture<'_> {
                 if upper_status != UpperState::Present {
                     self.stats.fallback_files += 1;
                 }
+                let started = Instant::now();
                 let kind = put_stream(&mut file, &self.objects, &mut self.buffer)?;
+                self.stats.timings.content_hash_put_stream_seconds +=
+                    started.elapsed().as_secs_f64();
                 let EntryKind::File { size, .. } = &kind else {
                     unreachable!()
                 };
@@ -220,13 +268,29 @@ impl Capture<'_> {
                 }
                 kind
             };
-            require_unchanged(path, &opened, &file.metadata()?)?;
+            let started = Instant::now();
+            let after = file.metadata()?;
+            self.stats.timings.metadata_seconds += started.elapsed().as_secs_f64();
+            require_unchanged(path, &opened, &after)?;
+            let started = Instant::now();
+            drop(file);
+            self.stats.timings.descriptor_close_seconds += started.elapsed().as_secs_f64();
             kind
         } else if before.is_dir() {
             self.stats.directories += 1;
+            let started = Instant::now();
             let directory = open_directory(path)?;
-            require_unchanged(path, &before, &directory.metadata()?)?;
+            self.stats.timings.directory_open_seconds += started.elapsed().as_secs_f64();
+            let started = Instant::now();
+            let opened = directory.metadata()?;
+            self.stats.timings.metadata_seconds += started.elapsed().as_secs_f64();
+            require_unchanged(path, &before, &opened)?;
+            let started = Instant::now();
             advisory = origin(&directory, self.digest, self.base);
+            self.stats.timings.origin_xattr_seconds += started.elapsed().as_secs_f64();
+            let started = Instant::now();
+            drop(directory);
+            self.stats.timings.descriptor_close_seconds += started.elapsed().as_secs_f64();
             EntryKind::Directory
         } else if before.file_type().is_symlink() {
             self.stats.symlinks += 1;
@@ -255,8 +319,10 @@ impl Capture<'_> {
         );
         self.stats.entries += 1;
         if before.is_dir() {
+            let started = Instant::now();
             let mut children = fs::read_dir(path)?.collect::<io::Result<Vec<_>>>()?;
             children.sort_by_key(|child| child.file_name());
+            self.stats.timings.directory_enumeration_seconds += started.elapsed().as_secs_f64();
             for child in children {
                 let name = child
                     .file_name()
@@ -270,7 +336,10 @@ impl Capture<'_> {
                 self.walk(&child.path(), &child_relative)?;
             }
         }
-        require_unchanged(path, &before, &fs::symlink_metadata(path)?)?;
+        let started = Instant::now();
+        let after = fs::symlink_metadata(path)?;
+        self.stats.timings.metadata_seconds += started.elapsed().as_secs_f64();
+        require_unchanged(path, &before, &after)?;
         Ok(())
     }
 
@@ -947,7 +1016,23 @@ mod tests {
                     ..Default::default()
                 },
             };
+            let started = Instant::now();
             context.walk(&merged, "").unwrap();
+            let elapsed = started.elapsed().as_secs_f64();
+            let json = context.stats.json();
+            let timings = json["timings"].as_object().unwrap();
+            assert_eq!(timings.len(), 12);
+            let sum: f64 = timings
+                .values()
+                .map(|value| {
+                    let seconds = value.as_f64().unwrap();
+                    assert!(seconds.is_finite() && seconds >= 0.0);
+                    seconds
+                })
+                .sum();
+            // Setup, walk_total and finalize are zero in this direct walk
+            // fixture. The nine disjoint walk categories fit within elapsed.
+            assert!(sum <= elapsed);
             assign_ids(&mut context.manifest, &base, &context.origins);
             content::validate_manifest(&context.manifest).unwrap();
             CaptureResult {
