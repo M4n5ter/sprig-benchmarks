@@ -38,6 +38,20 @@ def make(root,case,count):
         for i in range(count):
             at=65536+int.from_bytes(digest(family,case,i,'offset')[:8],'little')%917505
             (root/'variants'/f'v{i:04}.dat').write_bytes(base[:at]+content(family,case,i,'insertion',4096)+base[at:])
+    elif case.startswith('history-'):
+        from history_recipe import history_genesis,history_edit
+        import base64
+        genesis=history_genesis();current=genesis.copy();steps=[]
+        for name,data in genesis.items():
+            p=root/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(data)
+        (root/'dest').mkdir()
+        profile=case.removeprefix('history-')
+        for k in range(100):
+            name,offset,length,data=history_edit(profile,k,genesis)
+            current[name]=current[name][:offset]+data+current[name][offset+length:]
+            steps.append({'step':k+1,'path':name,'offset':offset,'data':base64.b64encode(data).decode(),'sha256':hashlib.sha256(current[name]).hexdigest()})
+        (root.parent/(case+'-steps.json')).write_text(json.dumps(steps))
+        (root.parent/(case+'-final.json')).write_text(json.dumps([{'path':name,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()} for name,data in sorted(current.items())]))
     else: raise ValueError(case)
     manifest=[]
     for p in sorted(root.rglob('*')):
@@ -47,6 +61,6 @@ def make(root,case,count):
     return manifest
 if __name__=='__main__':
     out=Path(sys.argv[1]);count=int(sys.argv[2]);out.mkdir(parents=True,exist_ok=True)
-    for case in ('identical','unique','mixed','insert'):
+    for case in ('identical','unique','mixed','insert','history-distributed','history-hotset','history-recurring'):
         manifest=make(out/case,case,count);(out/(case+'.json')).write_text(json.dumps(manifest,indent=2))
         print(case,len(manifest),sum(x['bytes'] for x in manifest),hashlib.sha256(json.dumps(manifest,sort_keys=True).encode()).hexdigest(),flush=True)
