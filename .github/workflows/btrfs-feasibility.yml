@@ -13,7 +13,7 @@ jobs:
         run: |
           mkdir -p results
           sudo apt-get update
-          sudo apt-get install -y btrfs-progs libbtrfsutil1
+          sudo apt-get install -y btrfs-progs libbtrfsutil1 python3-btrfsutil
           { uname -a; btrfs version; df -h; } > results/btrfs-environment.txt
       - name: Validate isolated snapshot and extent accounting
         run: bash feasibility/run_btrfs_smoke.sh
