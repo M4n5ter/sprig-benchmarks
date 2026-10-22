@@ -36,7 +36,7 @@ jobs:
           git -C sprig checkout 22e6e4c289be67b78d39a7eae157bfa3219d23a4
           rustup toolchain install stable --profile minimal
           rustc +stable --version > results/projection-rust-version.txt
-          find feasibility/cas-projection -type f -not -path '*/target/*' -print0 | sort -z | xargs -0 sha256sum > results/projection-source-hashes.txt
+          find feasibility/cas-projection feasibility/cas-shared-core -type f -not -path '*/target/*' -print0 | sort -z | xargs -0 sha256sum > results/projection-source-hashes.txt
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: |
@@ -56,6 +56,7 @@ jobs:
           (cd layerfs && cargo +1.85.1 build --manifest-path core/Cargo.toml --locked --offline --release -p layerfs-daemon)
       - name: Build reviewed experimental adapter
         run: |
+          cargo +stable test --locked --manifest-path feasibility/cas-shared-core/Cargo.toml
           cargo +stable test --locked --manifest-path feasibility/cas-projection/Cargo.toml
           cargo +stable build --release --locked --manifest-path feasibility/cas-projection/Cargo.toml
       - name: Verify bounded kernel semantics first

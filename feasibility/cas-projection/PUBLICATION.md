@@ -1,62 +1,69 @@
-# Publication-cost experiment
+# Shared publication primitives experiment
 
-This is a fresh-store-only candidate, not a production backend. The original
-projection experiment and production Sprig remain unchanged. Use the same
-fixtures, operation sequence, permissions, lifetime accounting and full-history
-oracles when comparing it. No new mount permissions or lifecycle mechanisms are
-introduced.
+This isolated, fresh-store candidate is not a production backend. The production
+checkout and all prior measurements remain unchanged. Fixtures, operation order,
+mount lifetimes, whole-filesystem accounting and history readback oracles must
+remain unchanged in a paired run.
 
-## Two changes
+## One content writer and one revision representation
 
-1. Immutable history manifests use `<uncompressed-json-hash>.manifest.zst`.
-   Encoding uses the production metadata settings: zstd level 1, a 1 MiB window,
-   pledged input size and a checksum. Decoding limits both the encoded file and
-   decoded document to 256 MiB, validates the complete frame and any checksum,
-   and rejects trailing bytes and concatenated frames. Manifest validation and
-   canonical uncompressed-address checks in the revision reader remain intact.
-   Initial `manifest.json` and explicit capture outputs remain plain JSON.
-2. Each transaction reconstructs an in-memory set of durable object hashes from
-   its already-read, validated current head manifest. Publication still opens
-   and checks every referenced object, including regular-file type, no symlink
-   following, individual lengths, overflow and aggregate file size. It omits
-   only repeated file fsync calls for hashes whose durability is already implied
-   by prior successful publication. New or unproven objects still receive fsync.
+`sprig::content::ObjectBatch` owns one bounded 256 KiB CDC buffer. Core capture,
+core byte writes, and incremental adapter capture use the same writer. Every
+existing chunk encountered during ingestion is still checked for regular-file
+type, length, content hash and byte equality. Every new chunk inode is synced
+before its non-overwriting immutable publication. A successful batch finish
+syncs the objects directory before capture returns. Errors return no successful
+manifest; unused durable objects may remain. Publication retains its independent
+object-directory barrier and checks arbitrary referenced objects.
 
-The proof depends on the existing trusted, immutable store contract. A published
-head is durability evidence, not a new verification of object payloads. There
-was no commit-time payload rehash in the original experiment; ingestion and
-cold content reads continue to verify hashes. Replacing an immutable object
-behind the tool is not supported. Missing or malformed known objects still fail
-non-noop publication without advancing the head.
+A published revision is one `<revision-id>.revision.zst` file containing the
+existing public `sprig::Revision` model: parents, logical clock, message and
+manifest. Its identity is BLAKE3 of the canonical uncompressed JSON bytes.
+The projection reads the embedded manifest directly; no per-revision second
+manifest is written. The initial import's `manifest.json` remains a bootstrap
+input, and explicit capture JSON files remain diagnostic outputs.
 
-No persistent cache or history-wide scan is added. Reopening reconstructs the
-set from the current manifest that initialization already reads. Unpublished
-conflict candidates cannot enter the set. It changes only after successful head
-publication, and old hashes absent from the current head are conservatively
-synced again if a later candidate references them.
+The shared codec writes a checksummed zstd frame, with level 1 and a 1 MiB window.
+Adapter reads separately bound encoded and decoded data to 256 MiB, consume the
+complete frame, reject trailing bytes and concatenated frames, and check the
+revision address. The generic production reader retains its existing trusted-
+store, unbounded-document policy. A checksum is validated when present; revision
+address verification supplies independent integrity. Parent clocks are derived
+from already validated parent views using checked `max(parent) + 1`, not head
+generation. No persistent cache or second source of truth is introduced.
 
-## Publication order and failures
+## Publication order
 
-The order remains: required object inode syncs, objects directory sync, immutable
-manifest and revision file/directory syncs, retained previous head, atomic head
-rename, root directory sync. A post-rename sync failure still reports an unknown
-outcome. It does not advance the transaction's cached head or durability set;
-callers must reopen and inspect rather than replay blindly.
+The required order remains:
 
-Existing experimental histories with `.manifest.json` revision records are
-explicitly rejected. There is no migration, reset, overwrite or deletion of old
-stores. Create new synthetic stores for this candidate.
+1. New object inode syncs and object-directory barrier.
+2. Referenced-object type, length, aggregate-size and necessary durability checks.
+3. Immutable revision inode sync, no-overwrite publication and directory barrier.
+4. Retained previous-head backup and its directory barrier.
+5. Atomic new-head rename and root-directory barrier.
 
-## Validation and comparison boundary
+A failure after the head rename reports outcome unknown. Cached head/durability
+state advances only after confirmed success. Callers reopen and inspect instead
+of blindly replaying. Previously published current-head objects provide
+*durability evidence*, not a new payload integrity check. Unchanged lower objects
+remain governed by the trusted immutable-store contract; this experiment does
+not introduce universal commit-time rehashing or claim concurrent hostile-store
+protection. New or unproven object references still receive inode syncs.
 
-Grouped tests cover compressed projection loading, publication/reopen, merge,
-conflict retention, stale CAS, no-op, damaged known objects, old-format rejection,
-and codec corruption/bounds. They do not simulate power loss. Real-kernel upper
-capture semantics and the same full-history performance workload must be rerun
-before attributing an end-to-end improvement to this candidate.
+Existing incompatible current-head records are rejected before lock or directory
+creation. There is no migration, overwrite, deletion or automatic retry of an old
+store. Use new synthetic stores. Revision IDs change with this representation.
 
-The existing semantic driver's one direct JSON read of a published manifest must
-instead select the same revision's decoded `manifest` from the existing history
-API, then perform the identical full-manifest equality assertion. Initial and
-explicit capture JSON reads are unchanged. The performance sample driver needs
-no change, and all timing and physical-space boundaries remain unchanged.
+## Validation and limits
+
+Grouped tests cover CDC equivalence, short/interrupted reads, corruption and
+symlink refusal, failed final barriers, publication/reopen, merge/conflict/CAS,
+no-op, codec bounds, immutable reuse, legacy rejection, and projection loading.
+These are not power-cut certification. The same real-kernel semantic driver and
+full paired workload must pass before claiming an end-to-end improvement.
+
+The opaque `manifest` CLI field now names an embedded revision file. The existing
+sample driver needs no change. An exact revision filename or revision hash is an
+exact historical reference; bootstrap/capture JSON base resolution remains
+content-based. This is still an experimental single-head publisher, not the
+production multi-workspace Store, complete SDK, or recovery implementation.

@@ -38,15 +38,8 @@ pub struct Revision {
     pub manifest_file: String,
     pub manifest: Manifest,
     pub parents: Vec<String>,
+    pub clock: u64,
     pub message: String,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(deny_unknown_fields)]
-struct Record {
-    manifest: String,
-    parents: Vec<String>,
-    message: String,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -121,7 +114,6 @@ pub struct Transaction {
     root: PathBuf,
     root_dir: File,
     objects_dir: File,
-    commits_dir: File,
     backups_dir: File,
     _lock: File,
     head: Head,
@@ -144,6 +136,20 @@ impl Transaction {
         let root: PathBuf = root.components().collect();
         let root_dir = open_directory(&root)?;
         let root = fs::canonicalize(root)?;
+        // Reject incompatible prior experimental history before creating a lock
+        // or directory. This is detection, not migration or repair.
+        if let Some(head) = read_optional_json::<Head>(&root_dir, "head.json")? {
+            validate_hash(&head.head)?;
+            crate::metadata::decode_revision(
+                &read_bytes(&root_dir, &format!("{}.revision.zst", head.head))?,
+                &head.head,
+            )?;
+        } else if root.join("commits").exists() || root.join("commit-backups").exists() {
+            return Err(
+                invalid("incomplete or incompatible history; no migration attempted").into(),
+            );
+        }
+
         let lock = OpenOptions::new()
             .read(true)
             .write(true)
@@ -163,7 +169,6 @@ impl Transaction {
             return Err(io::Error::last_os_error().into());
         }
         let objects_dir = open_directory(&root.join("objects"))?;
-        let commits_dir = ensure_directory(&root.join("commits"))?;
         let backups_dir = ensure_directory(&root.join("commit-backups"))?;
         root_dir.sync_all()?;
         let existing: Option<Head> = read_optional_json(&root_dir, "head.json")?;
@@ -171,7 +176,6 @@ impl Transaction {
             root,
             root_dir,
             objects_dir,
-            commits_dir,
             backups_dir,
             _lock: lock,
             durable_objects: BTreeSet::new(),
@@ -186,7 +190,7 @@ impl Transaction {
             transaction.durable_objects = content::referenced_chunks(&current.manifest);
         } else {
             let manifest = transaction.read_manifest("manifest.json")?;
-            let revision = transaction.store_revision(&manifest, Vec::new(), IMPORT_MESSAGE)?;
+            let revision = transaction.store_revision(&manifest, &[], IMPORT_MESSAGE)?;
             let head = Head {
                 head: revision.id,
                 generation: 0,
@@ -206,12 +210,22 @@ impl Transaction {
     /// Retained but unmerged candidates remain readable via `revision`, not
     /// usable as an unrelated three-way merge base. Filenames are root-only.
     pub fn resolve_base(&self, base: &str) -> Result<Revision> {
-        let is_id = validate_hash(base).is_ok();
-        let filename = if is_id {
+        let exact_id = if validate_hash(base).is_ok() {
+            Some(base)
+        } else if let Some(id) = base.strip_suffix(".revision.zst") {
+            validate_filename(base)?;
+            validate_hash(id)?;
+            // Verify address and schema even for a retained non-ancestor.
+            self.read_record(id)?;
+            Some(id)
+        } else {
+            None
+        };
+        let filename = if exact_id.is_some() {
             None
         } else {
             validate_filename(base)?;
-            Some(manifest_filename(&self.read_manifest(base)?)?)
+            Some(self.read_manifest(base)?)
         };
         let mut pending = vec![self.head.head.clone()];
         let mut visited = BTreeSet::new();
@@ -220,7 +234,7 @@ impl Transaction {
                 continue;
             }
             let record = self.read_record(&id)?;
-            if (is_id && id == base) || filename.as_ref() == Some(&record.manifest) {
+            if (exact_id == Some(id.as_str())) || filename.as_ref() == Some(&record.manifest) {
                 return self.revision(&id);
             }
             pending.extend(record.parents);
@@ -230,15 +244,12 @@ impl Transaction {
 
     pub fn revision(&self, id: &str) -> Result<Revision> {
         let record = self.read_record(id)?;
-        let manifest = self.read_manifest(&record.manifest)?;
-        if manifest_filename(&manifest)? != record.manifest {
-            return Err(invalid("immutable manifest does not match its address").into());
-        }
         Ok(Revision {
             id: id.to_owned(),
-            manifest_file: record.manifest,
-            manifest,
+            manifest_file: format!("{id}.revision.zst"),
+            manifest: record.manifest,
             parents: record.parents,
+            clock: record.clock,
             message: record.message,
         })
     }
@@ -279,7 +290,7 @@ impl Transaction {
         if candidate == base.manifest || candidate == current.manifest {
             return Ok(self.noop(&current));
         }
-        let candidate = self.store_revision(&candidate, vec![base.id.clone()], message)?;
+        let candidate = self.store_revision(&candidate, &[&base], message)?;
         let (result, merged) = if base.id == current.id {
             (candidate.clone(), false)
         } else {
@@ -289,8 +300,8 @@ impl Transaction {
                 &candidate.manifest,
                 &self.root.join("objects"),
                 MergeStrategy::Conflict,
-                (self.head.generation, &current.id),
-                (self.head.generation, &candidate.id),
+                (current.clock, &current.id),
+                (candidate.clock, &candidate.id),
                 &[],
             )?;
             if !result.conflicts.is_empty() {
@@ -310,11 +321,7 @@ impl Transaction {
                 return Ok(self.noop(&current));
             }
             (
-                self.store_revision(
-                    &result.manifest,
-                    vec![current.id, candidate.id.clone()],
-                    message,
-                )?,
+                self.store_revision(&result.manifest, &[&current, &candidate], message)?,
                 true,
             )
         };
@@ -418,37 +425,29 @@ impl Transaction {
     fn read_manifest(&self, name: &str) -> Result<Manifest> {
         validate_filename(name)?;
         let bytes = read_bytes(&self.root_dir, name)?;
-        let bytes = if name.ends_with(".manifest.zst") {
-            crate::metadata::decode(&bytes)?
-        } else {
-            bytes
-        };
+        if let Some(id) = name.strip_suffix(".revision.zst") {
+            return Ok(crate::metadata::decode_revision(&bytes, id)?.manifest);
+        }
+        if name.ends_with(".zst") {
+            return Err(invalid("unsupported manifest format").into());
+        }
         let manifest = serde_json::from_slice(&bytes)?;
         content::validate_manifest(&manifest)?;
         Ok(manifest)
     }
 
-    fn read_record(&self, id: &str) -> Result<Record> {
+    fn read_record(&self, id: &str) -> Result<sprig::Revision> {
         validate_hash(id)?;
-        let bytes = read_bytes(&self.commits_dir, &format!("{id}.json"))?;
-        if blake3::hash(&bytes).to_hex().as_str() != id {
-            return Err(invalid("immutable commit does not match its address").into());
-        }
-        let record: Record = serde_json::from_slice(&bytes)?;
-        validate_manifest_filename(&record.manifest)?;
-        if record.parents.len() > 2 {
-            return Err(invalid("commit has more than two parents").into());
-        }
-        for parent in &record.parents {
-            validate_hash(parent)?;
-        }
-        Ok(record)
+        crate::metadata::decode_revision(
+            &read_bytes(&self.root_dir, &format!("{id}.revision.zst"))?,
+            id,
+        )
     }
 
     fn store_revision(
         &self,
         manifest: &Manifest,
-        parents: Vec<String>,
+        parents: &[&Revision],
         message: &str,
     ) -> Result<Revision> {
         content::validate_manifest(manifest)?;
@@ -482,26 +481,30 @@ impl Transaction {
             }
         }
         self.objects_dir.sync_all()?;
-        let manifest_bytes = json_bytes(manifest)?;
-        let manifest_file = format!("{}.manifest.zst", blake3::hash(&manifest_bytes).to_hex());
-        self.write_immutable(
-            &self.root_dir,
-            &manifest_file,
-            &crate::metadata::encode(&manifest_bytes)?,
-        )?;
-        let record = Record {
-            manifest: manifest_file.clone(),
-            parents,
+        let mut max_clock = 0;
+        for parent in parents {
+            max_clock = max_clock.max(parent.clock);
+        }
+        let record = sprig::Revision {
+            manifest: manifest.clone(),
+            parents: parents.iter().map(|parent| parent.id.clone()).collect(),
+            clock: max_clock
+                .checked_add(1)
+                .ok_or_else(|| invalid("revision clock exhausted"))?,
             message: message.to_owned(),
         };
-        let bytes = json_bytes(&record)?;
+        // Exactly the production Revision serialization defines the identity.
+        let bytes = serde_json::to_vec(&record)?;
+        let encoded = crate::metadata::encode(&bytes)?;
         let id = blake3::hash(&bytes).to_hex().to_string();
-        self.write_immutable(&self.commits_dir, &format!("{id}.json"), &bytes)?;
+        let manifest_file = format!("{id}.revision.zst");
+        self.write_immutable(&self.root_dir, &manifest_file, &encoded)?;
         Ok(Revision {
             id,
             manifest_file,
             manifest: manifest.clone(),
             parents: record.parents,
+            clock: record.clock,
             message: record.message,
         })
     }
@@ -588,20 +591,6 @@ fn confirm_head_durability(attempted_head: &Head, result: io::Result<()>) -> Res
             source,
         }) as content::Error
     })
-}
-
-fn manifest_filename(manifest: &Manifest) -> Result<String> {
-    Ok(format!(
-        "{}.manifest.zst",
-        blake3::hash(&json_bytes(manifest)?).to_hex()
-    ))
-}
-
-fn validate_manifest_filename(name: &str) -> io::Result<()> {
-    let hash = name
-        .strip_suffix(".manifest.zst")
-        .ok_or_else(|| invalid("invalid immutable manifest filename"))?;
-    validate_hash(hash)
 }
 
 fn validate_filename(name: &str) -> io::Result<()> {
@@ -771,6 +760,33 @@ mod tests {
         let initial = transaction.head().clone();
         let base = transaction.resolve_base("manifest.json").unwrap();
         assert_eq!(base.id, initial.head);
+        assert_eq!(base.clock, 1);
+        assert!(!root.join("commits").exists());
+        assert!(fs::read_dir(&root).unwrap().all(|entry| {
+            !entry
+                .unwrap()
+                .file_name()
+                .to_string_lossy()
+                .ends_with(".manifest.zst")
+        }));
+        let revision_bytes = fs::read(root.join(&base.manifest_file)).unwrap();
+        let decoded = crate::metadata::decode(&revision_bytes).unwrap();
+        let core_revision: sprig::Revision = serde_json::from_slice(&decoded).unwrap();
+        assert_eq!(core_revision.manifest, base.manifest);
+        assert_eq!(serde_json::to_vec(&core_revision).unwrap(), decoded);
+        // The same logical revision reuses and fsyncs its existing inode.
+        let inode = fs::metadata(root.join(&base.manifest_file)).unwrap().ino();
+        assert_eq!(
+            transaction
+                .store_revision(&base.manifest, &[], IMPORT_MESSAGE)
+                .unwrap()
+                .id,
+            base.id
+        );
+        assert_eq!(
+            fs::metadata(root.join(&base.manifest_file)).unwrap().ino(),
+            inode
+        );
         assert!(matches!(
             transaction
                 .publish(&base.id, base.manifest.clone(), "ignored", None)
@@ -833,6 +849,10 @@ mod tests {
             crate::store::ObjectStore::load(&root, OsStr::new(&merged.manifest_file)).unwrap();
         assert_eq!(projected, merged.manifest);
         assert_eq!(merged.parents.len(), 2);
+        assert_eq!(merged.clock, 3);
+        for parent in &merged.parents {
+            assert_eq!(transaction.revision(parent).unwrap().clock, 2);
+        }
         assert_eq!(merged.parents[0], first.head);
         assert!(transaction.resolve_base(&merged.parents[1]).is_ok());
         assert_eq!(
@@ -931,6 +951,27 @@ mod tests {
             error
                 .to_string()
                 .contains("publication outcome unknown; reopen and inspect, do not retry")
+        );
+        // A revision filename is identity, even when later history restores the
+        // exact same manifest. Legacy capture JSON remains content-based.
+        let repeated_root = fixture("repeated-content");
+        let mut repeated = Transaction::open(&repeated_root).unwrap();
+        let first = repeated.resolve_base("manifest.json").unwrap();
+        repeated
+            .write_file(&first.id, "file", b"temporary", "change", None)
+            .unwrap();
+        let changed = repeated.head().head.clone();
+        repeated
+            .publish(&changed, first.manifest.clone(), "restore", None)
+            .unwrap();
+        assert_ne!(repeated.head().head, first.id);
+        assert_eq!(
+            repeated.resolve_base(&first.manifest_file).unwrap().id,
+            first.id
+        );
+        assert_eq!(
+            repeated.resolve_base("manifest.json").unwrap().id,
+            repeated.head().head
         );
     }
 
@@ -1049,19 +1090,18 @@ mod tests {
         // An older experimental history is rejected, never reset or migrated.
         let old_manifest = newest
             .manifest_file
-            .replace(".manifest.zst", ".manifest.json");
+            .replace(".revision.zst", ".manifest.json");
         fs::write(
             root.join(&old_manifest),
             json_bytes(&newest.manifest).unwrap(),
         )
         .unwrap();
-        let old_record = json_bytes(&Record {
-            manifest: old_manifest,
-            parents: newest.parents,
-            message: newest.message,
-        })
+        let old_record = json_bytes(&serde_json::json!({
+            "manifest": old_manifest, "parents": newest.parents, "message": newest.message,
+        }))
         .unwrap();
         let old_id = blake3::hash(&old_record).to_hex().to_string();
+        fs::create_dir_all(root.join("commits")).unwrap();
         fs::write(
             root.join("commits").join(format!("{old_id}.json")),
             &old_record,
@@ -1078,7 +1118,16 @@ mod tests {
         })
         .unwrap();
         fs::write(root.join("head.json"), &old_head).unwrap();
+        let before_names: BTreeSet<_> = fs::read_dir(&root)
+            .unwrap()
+            .map(|e| e.unwrap().file_name())
+            .collect();
         assert!(Transaction::open(&root).is_err());
+        let after_names: BTreeSet<_> = fs::read_dir(&root)
+            .unwrap()
+            .map(|e| e.unwrap().file_name())
+            .collect();
+        assert_eq!(before_names, after_names);
         assert_eq!(fs::read(root.join("head.json")).unwrap(), old_head);
 
         let linked_root = root.parent().unwrap().join("linked-store");

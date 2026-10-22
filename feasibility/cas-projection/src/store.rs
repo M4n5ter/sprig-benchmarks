@@ -101,14 +101,17 @@ impl ObjectStore {
         if bytes.len() as u64 > MAX_MANIFEST_BYTES {
             return Err(invalid("manifest grew beyond metadata limit").into());
         }
-        // Immutable published manifests are compressed. Import/capture JSON
-        // remains a distinct intentional format, selected only by filename.
-        let bytes = if manifest_name.as_bytes().ends_with(b".manifest.zst") {
-            crate::metadata::decode(&bytes)?
+        let name = manifest_name
+            .to_str()
+            .ok_or_else(|| invalid("non-UTF-8 manifest filename"))?;
+        let manifest: Manifest = if let Some(id) = name.strip_suffix(".revision.zst") {
+            crate::metadata::decode_revision(&bytes, id)?.manifest
         } else {
-            bytes
+            if name.ends_with(".zst") {
+                return Err(invalid("unsupported manifest format").into());
+            }
+            serde_json::from_slice(&bytes)?
         };
-        let manifest: Manifest = serde_json::from_slice(&bytes)?;
         content::validate_manifest(&manifest)?;
         let objects = open_at(&root, OsStr::new("objects"), true)?;
         Ok((Self { objects }, manifest))

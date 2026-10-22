@@ -1,0 +1,202 @@
+--- sprig-history-rewrite/src/content.rs	2026-10-22 19:09:35.496233685 +0900
++++ sprig-cas-shared-primitives/core/src/content.rs	2026-10-23 01:58:17.647533300 +0900
+@@ -62,38 +62,25 @@
+     if !root_metadata.is_dir() || root_metadata.file_type().is_symlink() {
+         return invalid("capture root must be a real directory, not a symbolic link");
+     }
+-    prepare_objects(objects)?;
++    let mut batch = ObjectBatch::open(objects)?;
+     if fs::canonicalize(objects)?.starts_with(fs::canonicalize(&root)?) {
+         return invalid("object store must not be inside the captured tree");
+     }
+     let mut manifest = Manifest::new();
+     let mut observed = Observed::new();
+-    // Reuse allocation only, never content: every file is read and verified.
+-    let mut buffer = vec![0_u8; MAX_CHUNK];
+-    capture_entry(
+-        &root,
+-        "",
+-        objects,
+-        &mut manifest,
+-        &mut observed,
+-        &mut buffer,
+-    )?;
++    capture_entry(&root, "", &mut batch, &mut manifest, &mut observed)?;
+     assign_ids(&mut manifest, &mut observed, previous);
+     validate_manifest(&manifest)?;
+-    // Flush all publications together before returning a usable manifest. Do
+-    // this even for dedup-only captures: an earlier failure may have left an
+-    // existing, fully synced chunk with an unsynced directory entry.
+-    File::open(objects)?.sync_all()?;
++    batch.finish()?;
+     Ok((manifest, observed))
+ }
+ 
+ fn capture_entry(
+     path: &Path,
+     relative: &str,
+-    objects: &Path,
++    batch: &mut ObjectBatch,
+     manifest: &mut Manifest,
+     observed: &mut Observed,
+-    buffer: &mut [u8],
+ ) -> Result<()> {
+     validate_path(relative)?;
+     let metadata = fs::symlink_metadata(path)?;
+@@ -109,7 +96,7 @@
+         if !unchanged(&metadata, &before) {
+             return invalid(format!("source changed during capture: {}", path.display()));
+         }
+-        let kind = put_reader(&mut input, objects, buffer)?;
++        let kind = batch.put_reader(&mut input)?;
+         let after = input.metadata()?;
+         let EntryKind::File { size, .. } = &kind else {
+             unreachable!()
+@@ -150,14 +137,7 @@
+             } else {
+                 format!("{relative}/{name}")
+             };
+-            capture_entry(
+-                &child.path(),
+-                &child_relative,
+-                objects,
+-                manifest,
+-                observed,
+-                buffer,
+-            )?;
++            capture_entry(&child.path(), &child_relative, batch, manifest, observed)?;
+         }
+         if !unchanged(&metadata, &fs::symlink_metadata(path)?) {
+             return invalid(format!(
+@@ -325,11 +305,44 @@
+     Ok(output)
+ }
+ 
++/// A bounded writer for one durability batch of immutable content objects.
++///
++/// Every existing object is read and hash-verified, including repeated chunks
++/// within this batch. The allocation is reused, never trusted object content.
++/// Callers must successfully call `finish` before publishing or returning a
++/// manifest containing the entries returned by `put_reader`. Dropping a batch
++/// does not make directory entries durable. An error may leave valid objects
++/// behind; retrying verifies them and `finish` syncs dedup-only batches too.
++#[must_use = "finish the batch before publishing its object references"]
++pub struct ObjectBatch {
++    objects: PathBuf,
++    buffer: Vec<u8>,
++}
++
++impl ObjectBatch {
++    pub fn open(objects: &Path) -> Result<Self> {
++        prepare_objects(objects)?;
++        Ok(Self {
++            objects: objects.to_owned(),
++            buffer: vec![0_u8; MAX_CHUNK],
++        })
++    }
++
++    pub fn put_reader(&mut self, reader: &mut impl Read) -> Result<EntryKind> {
++        put_reader(reader, &self.objects, &mut self.buffer)
++    }
++
++    /// Flush all publications, even if this batch only reused existing chunks.
++    pub fn finish(self) -> Result<()> {
++        File::open(&self.objects)?.sync_all()?;
++        Ok(())
++    }
++}
++
+ pub fn put_bytes(bytes: &[u8], objects: &Path) -> Result<EntryKind> {
+-    prepare_objects(objects)?;
+-    let kind = put_reader(&mut Cursor::new(bytes), objects, &mut vec![0_u8; MAX_CHUNK])?;
+-    // Like capture, sync even when every chunk already existed.
+-    File::open(objects)?.sync_all()?;
++    let mut batch = ObjectBatch::open(objects)?;
++    let kind = batch.put_reader(&mut Cursor::new(bytes))?;
++    batch.finish()?;
+     Ok(kind)
+ }
+ 
+--- sprig-history-rewrite/src/metadata.rs	2026-10-22 18:23:43.746189986 +0900
++++ sprig-cas-shared-primitives/core/src/metadata.rs	2026-10-23 02:00:07.532926491 +0900
+@@ -6,7 +6,7 @@
+ //! must remain trusted; document size and model allocations are not bounded.
+ 
+ use std::fs::OpenOptions;
+-use std::io::{self, BufRead, Read, Write};
++use std::io::{self, BufRead, BufReader, Read, Write};
+ use std::os::unix::fs::OpenOptionsExt;
+ use std::path::Path;
+ 
+@@ -20,7 +20,7 @@
+ 
+ /// Encodes exactly these JSON bytes in one checksummed, fast zstd frame.
+ /// The caller remains responsible for durable, immutable publication.
+-pub(crate) fn encode(bytes: &[u8]) -> Result<Vec<u8>> {
++pub fn encode(bytes: &[u8]) -> Result<Vec<u8>> {
+     let mut encoder = zstd::stream::write::Encoder::new(Vec::new(), 1)?;
+     encoder.window_log(WINDOW_LOG)?;
+     encoder.include_checksum(true)?;
+@@ -46,21 +46,42 @@
+         .into());
+     }
+ 
+-    let mut decoder = zstd::stream::read::Decoder::new(file)?.single_frame();
++    let bytes = decode_reader(BufReader::new(file), None)?;
++    let hash = blake3::hash(&bytes);
++    let value = serde_json::from_slice(&bytes)?;
++    Ok((value, hash))
++}
++
++/// Decode exactly one complete checksummed frame. An optional limit bounds
++/// decoded document size; no allocation trusts frame sizes.
++pub fn decode(compressed: &[u8], limit: Option<usize>) -> Result<Vec<u8>> {
++    decode_reader(compressed, limit)
++}
++
++fn decode_reader<R: BufRead>(compressed: R, limit: Option<usize>) -> Result<Vec<u8>> {
++    let mut decoder = zstd::stream::read::Decoder::with_buffer(compressed)?.single_frame();
+     decoder.window_log_max(WINDOW_LOG)?;
+     let mut bytes = Vec::new();
+-    // Read through decoded EOF to validate the frame epilogue and checksum,
+-    // including when the final JSON value precedes the end of the frame.
+-    decoder.read_to_end(&mut bytes)?;
+-    let mut compressed = decoder.finish();
+-    if !compressed.fill_buf()?.is_empty() {
++    if let Some(limit) = limit {
++        (&mut decoder)
++            .take((limit as u64).saturating_add(1))
++            .read_to_end(&mut bytes)?;
++        if bytes.len() > limit {
++            return Err(io::Error::new(
++                io::ErrorKind::InvalidData,
++                "decoded metadata exceeds limit",
++            )
++            .into());
++        }
++    } else {
++        decoder.read_to_end(&mut bytes)?;
++    }
++    if !decoder.finish().fill_buf()?.is_empty() {
+         return Err(io::Error::new(
+             io::ErrorKind::InvalidData,
+             "trailing data after metadata frame",
+         )
+         .into());
+     }
+-    let hash = blake3::hash(&bytes);
+-    let value = serde_json::from_slice(&bytes)?;
+-    Ok((value, hash))
++    Ok(bytes)
+ }
+--- sprig-history-rewrite/src/lib.rs	2026-10-22 18:16:24.955267886 +0900
++++ sprig-cas-shared-primitives/core/src/lib.rs	2026-10-23 01:58:43.716234722 +0900
+@@ -9,7 +9,7 @@
+ pub mod content;
+ pub mod copy_tree;
+ pub mod merge;
+-mod metadata;
++pub mod metadata;
+ mod model;
+ mod store;
+ 

@@ -19,7 +19,7 @@ jobs:
           git -C sprig checkout 22e6e4c289be67b78d39a7eae157bfa3219d23a4
           rustup toolchain install stable --profile minimal
           rustc +stable --version > results/rust-version.txt
-          find feasibility/cas-projection -type f -not -path '*/target/*' -print0 | sort -z | xargs -0 sha256sum > results/source-hashes.txt
+          find feasibility/cas-projection feasibility/cas-shared-core -type f -not -path '*/target/*' -print0 | sort -z | xargs -0 sha256sum > results/source-hashes.txt
           sha256sum feasibility/cas_overlay_smoke.py feasibility/cas_checkpoint_smoke.py >> results/source-hashes.txt
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
@@ -30,6 +30,7 @@ jobs:
           key: cas-projection-ubuntu24-amd64-${{ hashFiles('feasibility/cas-projection/Cargo.lock') }}
       - name: Build and mount-free tests
         run: |
+          cargo +stable test --locked --manifest-path feasibility/cas-shared-core/Cargo.toml
           cargo +stable test --locked --manifest-path feasibility/cas-projection/Cargo.toml
           cargo +stable build --locked --release --manifest-path feasibility/cas-projection/Cargo.toml
       - name: Authorized synthetic FUSE and OverlayFS semantics smoke

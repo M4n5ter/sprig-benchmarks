@@ -7,7 +7,7 @@ publish = false
 description = "Experimental read-only FUSE projection of Sprig chunk manifests"
 
 [dependencies]
-sprig = { path = "../../sprig" }
+sprig = { path = "../cas-shared-core" }
 fuser = { version = "=0.16.0", default-features = false, features = ["abi-7-31"] }
 libc = "0.2"
 serde = { version = "1", features = ["derive"] }

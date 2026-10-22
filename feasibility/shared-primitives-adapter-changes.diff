@@ -1,0 +1,811 @@
+--- sprig-cas-linear-inventory/src/capture.rs	2026-10-23 01:34:09.358431047 +0900
++++ sprig-cas-shared-primitives/adapter/src/capture.rs	2026-10-23 01:58:17.683533230 +0900
+@@ -7,7 +7,7 @@
+ use std::collections::{BTreeMap, BTreeSet};
+ use std::ffi::{CString, OsStr, OsString};
+ use std::fs::{self, File, Metadata, OpenOptions};
+-use std::io::{self, Read};
++use std::io;
+ use std::os::fd::{AsRawFd, FromRawFd};
+ use std::os::unix::ffi::{OsStrExt, OsStringExt};
+ use std::os::unix::fs::{MetadataExt, OpenOptionsExt};
+@@ -15,16 +15,12 @@
+ use std::sync::atomic::{AtomicU64, Ordering};
+ use std::time::{Instant, SystemTime, UNIX_EPOCH};
+ 
+-use fastcdc::v2020::FastCDC;
+ use serde::Serialize;
+ use sprig::content::{self, Entry, EntryKind, Manifest};
+ 
+ use crate::projection::ORIGIN_XATTR;
+ use crate::store::{self, ObjectStore, Result};
+ 
+-const MIN_CHUNK: usize = 16 * 1024;
+-const AVG_CHUNK: usize = 64 * 1024;
+-const MAX_CHUNK: usize = 256 * 1024;
+ const MAX_ORIGIN: usize = 64 * 1024;
+ static NONCE: AtomicU64 = AtomicU64::new(0);
+ 
+@@ -169,8 +165,7 @@
+         store: &store,
+         upper: &upper_fd,
+         lower: &lower_fd,
+-        objects: root.join("objects"),
+-        buffer: vec![0; MAX_CHUNK],
++        batch: content::ObjectBatch::open(&root.join("objects"))?,
+         manifest: Manifest::new(),
+         origins: BTreeMap::new(),
+         certificate: enabled.then(|| Certificate::new(&base)),
+@@ -188,7 +183,7 @@
+     context.validate_inventories()?;
+     assign_ids(&mut context.manifest, &base, &context.origins);
+     content::validate_manifest(&context.manifest)?;
+-    File::open(&context.objects)?.sync_all()?;
++    context.batch.finish()?;
+     // Topology changes during traversal invalidate all reuse evidence.
+     if current_binding(&root, &merged, &upper, &lower)? != binding
+         || (enabled && origin(&lower_fd, &digest, &base).as_deref() != Some(""))
+@@ -208,8 +203,7 @@
+     store: &'a ObjectStore,
+     upper: &'a File,
+     lower: &'a File,
+-    objects: PathBuf,
+-    buffer: Vec<u8>,
++    batch: content::ObjectBatch,
+     manifest: Manifest,
+     origins: BTreeMap<String, String>,
+     stats: CaptureStats,
+@@ -275,7 +269,7 @@
+                     self.stats.fallback_files += 1;
+                 }
+                 let started = Instant::now();
+-                let kind = put_stream(&mut file, &self.objects, &mut self.buffer)?;
++                let kind = self.batch.put_reader(&mut file)?;
+                 self.stats.timings.content_hash_put_stream_seconds +=
+                     started.elapsed().as_secs_f64();
+                 let EntryKind::File { size, .. } = &kind else {
+@@ -990,56 +984,6 @@
+     hash.finalize().to_hex().to_string()
+ }
+ 
+-/// Same refill-before-cut FastCDC algorithm and constants as production. The
+-/// public writer handles verification, fully synced inode publication, and
+-/// directory fsync. Per-chunk directory fsync is conservative extra overhead.
+-fn put_stream(reader: &mut impl Read, objects: &Path, buffer: &mut [u8]) -> Result<EntryKind> {
+-    assert_eq!(buffer.len(), MAX_CHUNK);
+-    let (mut filled, mut eof, mut size) = (0, false, 0_u64);
+-    let mut chunks = Vec::new();
+-    loop {
+-        while filled < MAX_CHUNK && !eof {
+-            match reader.read(&mut buffer[filled..]) {
+-                Ok(0) => eof = true,
+-                Ok(length) => filled += length,
+-                Err(error) if error.kind() == io::ErrorKind::Interrupted => continue,
+-                Err(error) => return Err(error.into()),
+-            }
+-        }
+-        if filled == 0 {
+-            break;
+-        }
+-        let cut = FastCDC::new(
+-            &buffer[..filled],
+-            MIN_CHUNK as _,
+-            AVG_CHUNK as _,
+-            MAX_CHUNK as _,
+-        )
+-        .next()
+-        .expect("nonempty input has a chunk")
+-        .length;
+-        let EntryKind::File {
+-            size: stored,
+-            chunks: published,
+-        } = content::put_bytes(&buffer[..cut], objects)?
+-        else {
+-            unreachable!()
+-        };
+-        if stored != cut as u64 || published.len() != 1 {
+-            return Err(
+-                store::invalid("production chunker disagrees with streaming boundary").into(),
+-            );
+-        }
+-        chunks.extend(published);
+-        size = size
+-            .checked_add(cut as u64)
+-            .ok_or_else(|| store::invalid("file size overflow"))?;
+-        buffer.copy_within(cut..filled, 0);
+-        filled -= cut;
+-    }
+-    Ok(EntryKind::File { size, chunks })
+-}
+-
+ #[derive(Debug, Clone, Eq, PartialEq)]
+ struct Mount {
+     id: String,
+@@ -1224,7 +1168,11 @@
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+-    use std::io::{Cursor, Write};
++    use std::io::{Cursor, Read, Write};
++
++    const MIN_CHUNK: usize = 16 * 1024;
++    const AVG_CHUNK: usize = 64 * 1024;
++    const MAX_CHUNK: usize = 256 * 1024;
+     use std::os::unix::fs::symlink;
+ 
+     struct Fixture(PathBuf);
+@@ -1520,8 +1468,7 @@
+             store: &store,
+             upper: &upper_fd,
+             lower: &lower_fd,
+-            objects: library.join("objects"),
+-            buffer: vec![0; MAX_CHUNK],
++            batch: content::ObjectBatch::open(&library.join("objects")).unwrap(),
+             manifest: Manifest::new(),
+             origins: BTreeMap::new(),
+             certificate: enabled.then(|| Certificate::new(&base)),
+@@ -1689,8 +1636,7 @@
+                 store: &store,
+                 upper: &upper_fd,
+                 lower: &lower_fd,
+-                objects: library.join("objects"),
+-                buffer: vec![0; MAX_CHUNK],
++                batch: content::ObjectBatch::open(&library.join("objects")).unwrap(),
+                 manifest: Manifest::new(),
+                 origins: BTreeMap::new(),
+                 certificate: None,
+@@ -1779,7 +1725,7 @@
+                 random as u8
+             })
+             .collect();
+-        let mut buffer = vec![0; MAX_CHUNK];
++        let mut batch = content::ObjectBatch::open(&objects).unwrap();
+         for size in [
+             0,
+             1,
+@@ -1790,11 +1736,69 @@
+             data.len(),
+         ] {
+             let expected = content::put_bytes(&data[..size], &objects).unwrap();
++            let direct = EntryKind::File {
++                size: size as u64,
++                chunks: fastcdc::v2020::FastCDC::new(
++                    &data[..size],
++                    MIN_CHUNK as _,
++                    AVG_CHUNK as _,
++                    MAX_CHUNK as _,
++                )
++                .map(|chunk| {
++                    blake3::hash(&data[chunk.offset..chunk.offset + chunk.length])
++                        .to_hex()
++                        .to_string()
++                })
++                .collect(),
++            };
++            assert_eq!(expected, direct);
+             assert_eq!(
+-                put_stream(&mut Cursor::new(&data[..size]), &objects, &mut buffer).unwrap(),
++                batch.put_reader(&mut Cursor::new(&data[..size])).unwrap(),
+                 expected
+             );
+         }
++        // Arbitrary short reads and EINTR must not change CDC boundaries.
++        struct Fragmented<'a> {
++            remaining: &'a [u8],
++            interrupt: bool,
++        }
++        impl Read for Fragmented<'_> {
++            fn read(&mut self, output: &mut [u8]) -> io::Result<usize> {
++                self.interrupt = !self.interrupt;
++                if self.interrupt {
++                    return Err(io::ErrorKind::Interrupted.into());
++                }
++                let count = output.len().min(self.remaining.len()).min(97);
++                output[..count].copy_from_slice(&self.remaining[..count]);
++                self.remaining = &self.remaining[count..];
++                Ok(count)
++            }
++        }
++        assert_eq!(
++            batch
++                .put_reader(&mut Fragmented {
++                    remaining: &data,
++                    interrupt: false
++                })
++                .unwrap(),
++            content::put_bytes(&data, &objects).unwrap(),
++        );
++        // A failed reader may have published complete chunks, but returns no
++        // file entry. Reusing the batch must not retain stale buffered bytes.
++        struct Fails;
++        impl Read for Fails {
++            fn read(&mut self, _: &mut [u8]) -> io::Result<usize> {
++                Err(io::Error::other("injected read failure"))
++            }
++        }
++        let mut failing = Cursor::new(&data[..MAX_CHUNK + 100]).chain(Fails);
++        assert!(batch.put_reader(&mut failing).is_err());
++        assert_eq!(
++            batch.put_reader(&mut Cursor::new(b"fresh")).unwrap(),
++            content::put_bytes(b"fresh", &objects).unwrap()
++        );
++        batch.finish().unwrap();
++        let mut batch = content::ObjectBatch::open(&objects).unwrap();
+         // Stream a file beyond the production merge helper's 16 MiB limit. No
+         // whole-file read/allocation is used by either capture implementation.
+         let source = fixture.0.join("source");
+@@ -1805,12 +1809,9 @@
+         }
+         drop(file);
+         let (expected, _) = content::capture(&source, &objects, &content::Observed::new()).unwrap();
+-        let streamed = put_stream(
+-            &mut File::open(source.join("large")).unwrap(),
+-            &objects,
+-            &mut buffer,
+-        )
+-        .unwrap();
++        let streamed = batch
++            .put_reader(&mut File::open(source.join("large")).unwrap())
++            .unwrap();
+         assert_eq!(streamed, expected["large"].kind);
+         let EntryKind::File { chunks, .. } = streamed else {
+             unreachable!()
+@@ -1818,15 +1819,43 @@
+         let target = objects.join(&chunks[0]);
+         use std::os::unix::fs::PermissionsExt;
+         fs::set_permissions(&target, fs::Permissions::from_mode(0o600)).unwrap();
+-        fs::write(target, "corrupt").unwrap();
++        let original = fs::read(&target).unwrap();
++        // Same-length corruption is still rejected after reuse in this batch.
++        let mut corrupt = original.clone();
++        corrupt[0] ^= 1;
++        fs::write(&target, &corrupt).unwrap();
+         assert!(
+-            put_stream(
+-                &mut File::open(source.join("large")).unwrap(),
+-                &objects,
+-                &mut buffer
+-            )
+-            .is_err()
++            batch
++                .put_reader(&mut File::open(source.join("large")).unwrap())
++                .is_err()
++        );
++        fs::remove_file(&target).unwrap();
++        let alternate = fixture.0.join("alternate");
++        fs::write(&alternate, &original).unwrap();
++        std::os::unix::fs::symlink(&alternate, &target).unwrap();
++        assert!(batch.put_reader(&mut Cursor::new(&original)).is_err());
++        fs::remove_file(&target).unwrap();
++        fs::create_dir(&target).unwrap();
++        assert!(batch.put_reader(&mut Cursor::new(&original)).is_err());
++        fs::remove_dir(&target).unwrap();
++        batch.put_reader(&mut Cursor::new(&original)).unwrap();
++        batch.finish().unwrap();
++        assert!(
++            fs::read_dir(&objects).unwrap().all(|item| !item
++                .unwrap()
++                .file_name()
++                .as_bytes()
++                .starts_with(b".tmp-"))
+         );
++        // Even empty/dedup-only batches must execute a fallible final barrier.
++        let empty = fixture.0.join("empty");
++        let empty_batch = content::ObjectBatch::open(&empty).unwrap();
++        fs::remove_dir(&empty).unwrap();
++        assert!(empty_batch.finish().is_err());
++        let mut dedup_batch = content::ObjectBatch::open(&objects).unwrap();
++        dedup_batch.put_reader(&mut Cursor::new(&original)).unwrap();
++        fs::rename(&objects, fixture.0.join("moved-objects")).unwrap();
++        assert!(dedup_batch.finish().is_err());
+     }
+ 
+     #[test]
+--- sprig-cas-linear-inventory/src/commit.rs	2026-10-22 23:56:19.445438953 +0900
++++ sprig-cas-shared-primitives/adapter/src/commit.rs	2026-10-23 02:01:38.779106171 +0900
+@@ -38,17 +38,10 @@
+     pub manifest_file: String,
+     pub manifest: Manifest,
+     pub parents: Vec<String>,
++    pub clock: u64,
+     pub message: String,
+ }
+ 
+-#[derive(Clone, Debug, Deserialize, Serialize)]
+-#[serde(deny_unknown_fields)]
+-struct Record {
+-    manifest: String,
+-    parents: Vec<String>,
+-    message: String,
+-}
+-
+ #[derive(Clone, Debug, Serialize)]
+ #[serde(tag = "status", rename_all = "snake_case")]
+ pub enum PublishOutcome {
+@@ -121,7 +114,6 @@
+     root: PathBuf,
+     root_dir: File,
+     objects_dir: File,
+-    commits_dir: File,
+     backups_dir: File,
+     _lock: File,
+     head: Head,
+@@ -144,6 +136,20 @@
+         let root: PathBuf = root.components().collect();
+         let root_dir = open_directory(&root)?;
+         let root = fs::canonicalize(root)?;
++        // Reject incompatible prior experimental history before creating a lock
++        // or directory. This is detection, not migration or repair.
++        if let Some(head) = read_optional_json::<Head>(&root_dir, "head.json")? {
++            validate_hash(&head.head)?;
++            crate::metadata::decode_revision(
++                &read_bytes(&root_dir, &format!("{}.revision.zst", head.head))?,
++                &head.head,
++            )?;
++        } else if root.join("commits").exists() || root.join("commit-backups").exists() {
++            return Err(
++                invalid("incomplete or incompatible history; no migration attempted").into(),
++            );
++        }
++
+         let lock = OpenOptions::new()
+             .read(true)
+             .write(true)
+@@ -163,7 +169,6 @@
+             return Err(io::Error::last_os_error().into());
+         }
+         let objects_dir = open_directory(&root.join("objects"))?;
+-        let commits_dir = ensure_directory(&root.join("commits"))?;
+         let backups_dir = ensure_directory(&root.join("commit-backups"))?;
+         root_dir.sync_all()?;
+         let existing: Option<Head> = read_optional_json(&root_dir, "head.json")?;
+@@ -171,7 +176,6 @@
+             root,
+             root_dir,
+             objects_dir,
+-            commits_dir,
+             backups_dir,
+             _lock: lock,
+             durable_objects: BTreeSet::new(),
+@@ -186,7 +190,7 @@
+             transaction.durable_objects = content::referenced_chunks(&current.manifest);
+         } else {
+             let manifest = transaction.read_manifest("manifest.json")?;
+-            let revision = transaction.store_revision(&manifest, Vec::new(), IMPORT_MESSAGE)?;
++            let revision = transaction.store_revision(&manifest, &[], IMPORT_MESSAGE)?;
+             let head = Head {
+                 head: revision.id,
+                 generation: 0,
+@@ -206,12 +210,22 @@
+     /// Retained but unmerged candidates remain readable via `revision`, not
+     /// usable as an unrelated three-way merge base. Filenames are root-only.
+     pub fn resolve_base(&self, base: &str) -> Result<Revision> {
+-        let is_id = validate_hash(base).is_ok();
+-        let filename = if is_id {
++        let exact_id = if validate_hash(base).is_ok() {
++            Some(base)
++        } else if let Some(id) = base.strip_suffix(".revision.zst") {
++            validate_filename(base)?;
++            validate_hash(id)?;
++            // Verify address and schema even for a retained non-ancestor.
++            self.read_record(id)?;
++            Some(id)
++        } else {
++            None
++        };
++        let filename = if exact_id.is_some() {
+             None
+         } else {
+             validate_filename(base)?;
+-            Some(manifest_filename(&self.read_manifest(base)?)?)
++            Some(self.read_manifest(base)?)
+         };
+         let mut pending = vec![self.head.head.clone()];
+         let mut visited = BTreeSet::new();
+@@ -220,7 +234,7 @@
+                 continue;
+             }
+             let record = self.read_record(&id)?;
+-            if (is_id && id == base) || filename.as_ref() == Some(&record.manifest) {
++            if (exact_id == Some(id.as_str())) || filename.as_ref() == Some(&record.manifest) {
+                 return self.revision(&id);
+             }
+             pending.extend(record.parents);
+@@ -230,15 +244,12 @@
+ 
+     pub fn revision(&self, id: &str) -> Result<Revision> {
+         let record = self.read_record(id)?;
+-        let manifest = self.read_manifest(&record.manifest)?;
+-        if manifest_filename(&manifest)? != record.manifest {
+-            return Err(invalid("immutable manifest does not match its address").into());
+-        }
+         Ok(Revision {
+             id: id.to_owned(),
+-            manifest_file: record.manifest,
+-            manifest,
++            manifest_file: format!("{id}.revision.zst"),
++            manifest: record.manifest,
+             parents: record.parents,
++            clock: record.clock,
+             message: record.message,
+         })
+     }
+@@ -279,7 +290,7 @@
+         if candidate == base.manifest || candidate == current.manifest {
+             return Ok(self.noop(&current));
+         }
+-        let candidate = self.store_revision(&candidate, vec![base.id.clone()], message)?;
++        let candidate = self.store_revision(&candidate, &[&base], message)?;
+         let (result, merged) = if base.id == current.id {
+             (candidate.clone(), false)
+         } else {
+@@ -289,8 +300,8 @@
+                 &candidate.manifest,
+                 &self.root.join("objects"),
+                 MergeStrategy::Conflict,
+-                (self.head.generation, &current.id),
+-                (self.head.generation, &candidate.id),
++                (current.clock, &current.id),
++                (candidate.clock, &candidate.id),
+                 &[],
+             )?;
+             if !result.conflicts.is_empty() {
+@@ -310,11 +321,7 @@
+                 return Ok(self.noop(&current));
+             }
+             (
+-                self.store_revision(
+-                    &result.manifest,
+-                    vec![current.id, candidate.id.clone()],
+-                    message,
+-                )?,
++                self.store_revision(&result.manifest, &[&current, &candidate], message)?,
+                 true,
+             )
+         };
+@@ -418,37 +425,29 @@
+     fn read_manifest(&self, name: &str) -> Result<Manifest> {
+         validate_filename(name)?;
+         let bytes = read_bytes(&self.root_dir, name)?;
+-        let bytes = if name.ends_with(".manifest.zst") {
+-            crate::metadata::decode(&bytes)?
+-        } else {
+-            bytes
+-        };
++        if let Some(id) = name.strip_suffix(".revision.zst") {
++            return Ok(crate::metadata::decode_revision(&bytes, id)?.manifest);
++        }
++        if name.ends_with(".zst") {
++            return Err(invalid("unsupported manifest format").into());
++        }
+         let manifest = serde_json::from_slice(&bytes)?;
+         content::validate_manifest(&manifest)?;
+         Ok(manifest)
+     }
+ 
+-    fn read_record(&self, id: &str) -> Result<Record> {
++    fn read_record(&self, id: &str) -> Result<sprig::Revision> {
+         validate_hash(id)?;
+-        let bytes = read_bytes(&self.commits_dir, &format!("{id}.json"))?;
+-        if blake3::hash(&bytes).to_hex().as_str() != id {
+-            return Err(invalid("immutable commit does not match its address").into());
+-        }
+-        let record: Record = serde_json::from_slice(&bytes)?;
+-        validate_manifest_filename(&record.manifest)?;
+-        if record.parents.len() > 2 {
+-            return Err(invalid("commit has more than two parents").into());
+-        }
+-        for parent in &record.parents {
+-            validate_hash(parent)?;
+-        }
+-        Ok(record)
++        crate::metadata::decode_revision(
++            &read_bytes(&self.root_dir, &format!("{id}.revision.zst"))?,
++            id,
++        )
+     }
+ 
+     fn store_revision(
+         &self,
+         manifest: &Manifest,
+-        parents: Vec<String>,
++        parents: &[&Revision],
+         message: &str,
+     ) -> Result<Revision> {
+         content::validate_manifest(manifest)?;
+@@ -482,26 +481,30 @@
+             }
+         }
+         self.objects_dir.sync_all()?;
+-        let manifest_bytes = json_bytes(manifest)?;
+-        let manifest_file = format!("{}.manifest.zst", blake3::hash(&manifest_bytes).to_hex());
+-        self.write_immutable(
+-            &self.root_dir,
+-            &manifest_file,
+-            &crate::metadata::encode(&manifest_bytes)?,
+-        )?;
+-        let record = Record {
+-            manifest: manifest_file.clone(),
+-            parents,
++        let mut max_clock = 0;
++        for parent in parents {
++            max_clock = max_clock.max(parent.clock);
++        }
++        let record = sprig::Revision {
++            manifest: manifest.clone(),
++            parents: parents.iter().map(|parent| parent.id.clone()).collect(),
++            clock: max_clock
++                .checked_add(1)
++                .ok_or_else(|| invalid("revision clock exhausted"))?,
+             message: message.to_owned(),
+         };
+-        let bytes = json_bytes(&record)?;
++        // Exactly the production Revision serialization defines the identity.
++        let bytes = serde_json::to_vec(&record)?;
++        let encoded = crate::metadata::encode(&bytes)?;
+         let id = blake3::hash(&bytes).to_hex().to_string();
+-        self.write_immutable(&self.commits_dir, &format!("{id}.json"), &bytes)?;
++        let manifest_file = format!("{id}.revision.zst");
++        self.write_immutable(&self.root_dir, &manifest_file, &encoded)?;
+         Ok(Revision {
+             id,
+             manifest_file,
+             manifest: manifest.clone(),
+             parents: record.parents,
++            clock: record.clock,
+             message: record.message,
+         })
+     }
+@@ -590,20 +593,6 @@
+     })
+ }
+ 
+-fn manifest_filename(manifest: &Manifest) -> Result<String> {
+-    Ok(format!(
+-        "{}.manifest.zst",
+-        blake3::hash(&json_bytes(manifest)?).to_hex()
+-    ))
+-}
+-
+-fn validate_manifest_filename(name: &str) -> io::Result<()> {
+-    let hash = name
+-        .strip_suffix(".manifest.zst")
+-        .ok_or_else(|| invalid("invalid immutable manifest filename"))?;
+-    validate_hash(hash)
+-}
+-
+ fn validate_filename(name: &str) -> io::Result<()> {
+     if name.is_empty() || name.contains('\0') || name.contains('/') || name == "." || name == ".." {
+         return Err(invalid(
+@@ -771,6 +760,33 @@
+         let initial = transaction.head().clone();
+         let base = transaction.resolve_base("manifest.json").unwrap();
+         assert_eq!(base.id, initial.head);
++        assert_eq!(base.clock, 1);
++        assert!(!root.join("commits").exists());
++        assert!(fs::read_dir(&root).unwrap().all(|entry| {
++            !entry
++                .unwrap()
++                .file_name()
++                .to_string_lossy()
++                .ends_with(".manifest.zst")
++        }));
++        let revision_bytes = fs::read(root.join(&base.manifest_file)).unwrap();
++        let decoded = crate::metadata::decode(&revision_bytes).unwrap();
++        let core_revision: sprig::Revision = serde_json::from_slice(&decoded).unwrap();
++        assert_eq!(core_revision.manifest, base.manifest);
++        assert_eq!(serde_json::to_vec(&core_revision).unwrap(), decoded);
++        // The same logical revision reuses and fsyncs its existing inode.
++        let inode = fs::metadata(root.join(&base.manifest_file)).unwrap().ino();
++        assert_eq!(
++            transaction
++                .store_revision(&base.manifest, &[], IMPORT_MESSAGE)
++                .unwrap()
++                .id,
++            base.id
++        );
++        assert_eq!(
++            fs::metadata(root.join(&base.manifest_file)).unwrap().ino(),
++            inode
++        );
+         assert!(matches!(
+             transaction
+                 .publish(&base.id, base.manifest.clone(), "ignored", None)
+@@ -833,6 +849,10 @@
+             crate::store::ObjectStore::load(&root, OsStr::new(&merged.manifest_file)).unwrap();
+         assert_eq!(projected, merged.manifest);
+         assert_eq!(merged.parents.len(), 2);
++        assert_eq!(merged.clock, 3);
++        for parent in &merged.parents {
++            assert_eq!(transaction.revision(parent).unwrap().clock, 2);
++        }
+         assert_eq!(merged.parents[0], first.head);
+         assert!(transaction.resolve_base(&merged.parents[1]).is_ok());
+         assert_eq!(
+@@ -932,6 +952,27 @@
+                 .to_string()
+                 .contains("publication outcome unknown; reopen and inspect, do not retry")
+         );
++        // A revision filename is identity, even when later history restores the
++        // exact same manifest. Legacy capture JSON remains content-based.
++        let repeated_root = fixture("repeated-content");
++        let mut repeated = Transaction::open(&repeated_root).unwrap();
++        let first = repeated.resolve_base("manifest.json").unwrap();
++        repeated
++            .write_file(&first.id, "file", b"temporary", "change", None)
++            .unwrap();
++        let changed = repeated.head().head.clone();
++        repeated
++            .publish(&changed, first.manifest.clone(), "restore", None)
++            .unwrap();
++        assert_ne!(repeated.head().head, first.id);
++        assert_eq!(
++            repeated.resolve_base(&first.manifest_file).unwrap().id,
++            first.id
++        );
++        assert_eq!(
++            repeated.resolve_base("manifest.json").unwrap().id,
++            repeated.head().head
++        );
+     }
+ 
+     #[test]
+@@ -1049,19 +1090,18 @@
+         // An older experimental history is rejected, never reset or migrated.
+         let old_manifest = newest
+             .manifest_file
+-            .replace(".manifest.zst", ".manifest.json");
++            .replace(".revision.zst", ".manifest.json");
+         fs::write(
+             root.join(&old_manifest),
+             json_bytes(&newest.manifest).unwrap(),
+         )
+         .unwrap();
+-        let old_record = json_bytes(&Record {
+-            manifest: old_manifest,
+-            parents: newest.parents,
+-            message: newest.message,
+-        })
++        let old_record = json_bytes(&serde_json::json!({
++            "manifest": old_manifest, "parents": newest.parents, "message": newest.message,
++        }))
+         .unwrap();
+         let old_id = blake3::hash(&old_record).to_hex().to_string();
++        fs::create_dir_all(root.join("commits")).unwrap();
+         fs::write(
+             root.join("commits").join(format!("{old_id}.json")),
+             &old_record,
+@@ -1078,7 +1118,16 @@
+         })
+         .unwrap();
+         fs::write(root.join("head.json"), &old_head).unwrap();
++        let before_names: BTreeSet<_> = fs::read_dir(&root)
++            .unwrap()
++            .map(|e| e.unwrap().file_name())
++            .collect();
+         assert!(Transaction::open(&root).is_err());
++        let after_names: BTreeSet<_> = fs::read_dir(&root)
++            .unwrap()
++            .map(|e| e.unwrap().file_name())
++            .collect();
++        assert_eq!(before_names, after_names);
+         assert_eq!(fs::read(root.join("head.json")).unwrap(), old_head);
+ 
+         let linked_root = root.parent().unwrap().join("linked-store");
+--- sprig-cas-linear-inventory/src/metadata.rs	2026-10-22 23:54:50.698236877 +0900
++++ sprig-cas-shared-primitives/adapter/src/metadata.rs	2026-10-23 02:00:07.533095316 +0900
+@@ -1,63 +1,43 @@
+-//! Bounded lossless storage for immutable manifest JSON bytes.
+-//!
+-//! Identities remain hashes of the uncompressed JSON. File opening and manifest
+-//! model validation belong to the caller; this module only validates the codec.
+-
+-use std::io::{self, Read, Write};
+-
+-use crate::store::Result;
+-
++//! Prototype size policy over the shared production metadata codec.
++use crate::store::{Result, invalid, validate_hash};
++use std::io;
+ pub(crate) const MAX_METADATA_BYTES: usize = 256 * 1024 * 1024;
+-const WINDOW_LOG: u32 = 20;
+-
+-/// Match the production metadata encoder's level, window and checksum settings.
+ pub(crate) fn encode(bytes: &[u8]) -> Result<Vec<u8>> {
+     check_size(bytes.len(), MAX_METADATA_BYTES)?;
+-    let mut encoder = zstd::stream::write::Encoder::new(Vec::new(), 1)?;
+-    encoder.window_log(WINDOW_LOG)?;
+-    encoder.include_checksum(true)?;
+-    encoder.set_pledged_src_size(Some(bytes.len() as u64))?;
+-    encoder.write_all(bytes)?;
+-    let compressed = encoder.finish()?;
+-    check_size(compressed.len(), MAX_METADATA_BYTES)?;
+-    Ok(compressed)
++    let encoded = sprig::metadata::encode(bytes)?;
++    check_size(encoded.len(), MAX_METADATA_BYTES)?;
++    Ok(encoded)
+ }
+-
+ pub(crate) fn decode(bytes: &[u8]) -> Result<Vec<u8>> {
+     decode_bounded(bytes, MAX_METADATA_BYTES)
+ }
+-
+ fn decode_bounded(bytes: &[u8], limit: usize) -> Result<Vec<u8>> {
+     check_size(bytes.len(), MAX_METADATA_BYTES)?;
+-    let mut decoder = zstd::stream::read::Decoder::with_buffer(bytes)?.single_frame();
+-    decoder.window_log_max(WINDOW_LOG)?;
+-    // Never allocate from an untrusted pledged frame size. Read through EOF
+-    // (including the epilogue/checksum), unless the decoded limit is exceeded.
+-    let mut decoded = Vec::new();
+-    (&mut decoder)
+-        .take(limit as u64 + 1)
+-        .read_to_end(&mut decoded)?;
+-    check_size(decoded.len(), limit)?;
+-    if !decoder.finish().is_empty() {
+-        return Err(io::Error::new(
+-            io::ErrorKind::InvalidData,
+-            "trailing data after metadata frame",
+-        )
+-        .into());
+-    }
+-    Ok(decoded)
++    sprig::metadata::decode(bytes, Some(limit))
+ }
+-
+ fn check_size(size: usize, limit: usize) -> io::Result<()> {
+     if size > limit {
+-        return Err(io::Error::new(
+-            io::ErrorKind::InvalidData,
+-            "manifest exceeds the prototype's metadata limit",
+-        ));
++        return Err(invalid("metadata exceeds limit"));
+     }
+     Ok(())
+ }
+-
++/// The on-disk schema is production Revision, never a second adapter model.
++pub(crate) fn decode_revision(bytes: &[u8], id: &str) -> Result<sprig::Revision> {
++    validate_hash(id)?;
++    let bytes = decode(bytes)?;
++    if blake3::hash(&bytes).to_hex().as_str() != id {
++        return Err(invalid("immutable revision does not match its address").into());
++    }
++    let revision: sprig::Revision = serde_json::from_slice(&bytes)?;
++    if revision.clock == 0 || revision.parents.len() > 2 {
++        return Err(invalid("invalid revision clock or parents").into());
++    }
++    for parent in &revision.parents {
++        validate_hash(parent)?;
++    }
++    sprig::content::validate_manifest(&revision.manifest)?;
++    Ok(revision)
++}
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+--- sprig-cas-linear-inventory/src/store.rs	2026-10-22 23:47:02.470476267 +0900
++++ sprig-cas-shared-primitives/adapter/src/store.rs	2026-10-23 01:59:38.867357059 +0900
+@@ -101,14 +101,17 @@
+         if bytes.len() as u64 > MAX_MANIFEST_BYTES {
+             return Err(invalid("manifest grew beyond metadata limit").into());
+         }
+-        // Immutable published manifests are compressed. Import/capture JSON
+-        // remains a distinct intentional format, selected only by filename.
+-        let bytes = if manifest_name.as_bytes().ends_with(b".manifest.zst") {
+-            crate::metadata::decode(&bytes)?
++        let name = manifest_name
++            .to_str()
++            .ok_or_else(|| invalid("non-UTF-8 manifest filename"))?;
++        let manifest: Manifest = if let Some(id) = name.strip_suffix(".revision.zst") {
++            crate::metadata::decode_revision(&bytes, id)?.manifest
+         } else {
+-            bytes
++            if name.ends_with(".zst") {
++                return Err(invalid("unsupported manifest format").into());
++            }
++            serde_json::from_slice(&bytes)?
+         };
+-        let manifest: Manifest = serde_json::from_slice(&bytes)?;
+         content::validate_manifest(&manifest)?;
+         let objects = open_at(&root, OsStr::new("objects"), true)?;
+         Ok((Self { objects }, manifest))

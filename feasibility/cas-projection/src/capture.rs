@@ -7,7 +7,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::ffi::{CString, OsStr, OsString};
 use std::fs::{self, File, Metadata, OpenOptions};
-use std::io::{self, Read};
+use std::io;
 use std::os::fd::{AsRawFd, FromRawFd};
 use std::os::unix::ffi::{OsStrExt, OsStringExt};
 use std::os::unix::fs::{MetadataExt, OpenOptionsExt};
@@ -15,16 +15,12 @@ use std::path::{Component, Path, PathBuf};
 use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
 
-use fastcdc::v2020::FastCDC;
 use serde::Serialize;
 use sprig::content::{self, Entry, EntryKind, Manifest};
 
 use crate::projection::ORIGIN_XATTR;
 use crate::store::{self, ObjectStore, Result};
 
-const MIN_CHUNK: usize = 16 * 1024;
-const AVG_CHUNK: usize = 64 * 1024;
-const MAX_CHUNK: usize = 256 * 1024;
 const MAX_ORIGIN: usize = 64 * 1024;
 static NONCE: AtomicU64 = AtomicU64::new(0);
 
@@ -169,8 +165,7 @@ pub fn capture(
         store: &store,
         upper: &upper_fd,
         lower: &lower_fd,
-        objects: root.join("objects"),
-        buffer: vec![0; MAX_CHUNK],
+        batch: content::ObjectBatch::open(&root.join("objects"))?,
         manifest: Manifest::new(),
         origins: BTreeMap::new(),
         certificate: enabled.then(|| Certificate::new(&base)),
@@ -188,7 +183,7 @@ pub fn capture(
     context.validate_inventories()?;
     assign_ids(&mut context.manifest, &base, &context.origins);
     content::validate_manifest(&context.manifest)?;
-    File::open(&context.objects)?.sync_all()?;
+    context.batch.finish()?;
     // Topology changes during traversal invalidate all reuse evidence.
     if current_binding(&root, &merged, &upper, &lower)? != binding
         || (enabled && origin(&lower_fd, &digest, &base).as_deref() != Some(""))
@@ -208,8 +203,7 @@ struct Capture<'a> {
     store: &'a ObjectStore,
     upper: &'a File,
     lower: &'a File,
-    objects: PathBuf,
-    buffer: Vec<u8>,
+    batch: content::ObjectBatch,
     manifest: Manifest,
     origins: BTreeMap<String, String>,
     stats: CaptureStats,
@@ -275,7 +269,7 @@ impl Capture<'_> {
                     self.stats.fallback_files += 1;
                 }
                 let started = Instant::now();
-                let kind = put_stream(&mut file, &self.objects, &mut self.buffer)?;
+                let kind = self.batch.put_reader(&mut file)?;
                 self.stats.timings.content_hash_put_stream_seconds +=
                     started.elapsed().as_secs_f64();
                 let EntryKind::File { size, .. } = &kind else {
@@ -990,56 +984,6 @@ fn fresh_id(path: &str) -> String {
     hash.finalize().to_hex().to_string()
 }
 
-/// Same refill-before-cut FastCDC algorithm and constants as production. The
-/// public writer handles verification, fully synced inode publication, and
-/// directory fsync. Per-chunk directory fsync is conservative extra overhead.
-fn put_stream(reader: &mut impl Read, objects: &Path, buffer: &mut [u8]) -> Result<EntryKind> {
-    assert_eq!(buffer.len(), MAX_CHUNK);
-    let (mut filled, mut eof, mut size) = (0, false, 0_u64);
-    let mut chunks = Vec::new();
-    loop {
-        while filled < MAX_CHUNK && !eof {
-            match reader.read(&mut buffer[filled..]) {
-                Ok(0) => eof = true,
-                Ok(length) => filled += length,
-                Err(error) if error.kind() == io::ErrorKind::Interrupted => continue,
-                Err(error) => return Err(error.into()),
-            }
-        }
-        if filled == 0 {
-            break;
-        }
-        let cut = FastCDC::new(
-            &buffer[..filled],
-            MIN_CHUNK as _,
-            AVG_CHUNK as _,
-            MAX_CHUNK as _,
-        )
-        .next()
-        .expect("nonempty input has a chunk")
-        .length;
-        let EntryKind::File {
-            size: stored,
-            chunks: published,
-        } = content::put_bytes(&buffer[..cut], objects)?
-        else {
-            unreachable!()
-        };
-        if stored != cut as u64 || published.len() != 1 {
-            return Err(
-                store::invalid("production chunker disagrees with streaming boundary").into(),
-            );
-        }
-        chunks.extend(published);
-        size = size
-            .checked_add(cut as u64)
-            .ok_or_else(|| store::invalid("file size overflow"))?;
-        buffer.copy_within(cut..filled, 0);
-        filled -= cut;
-    }
-    Ok(EntryKind::File { size, chunks })
-}
-
 #[derive(Debug, Clone, Eq, PartialEq)]
 struct Mount {
     id: String,
@@ -1224,7 +1168,11 @@ fn decode_mount(input: &str) -> io::Result<OsString> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::io::{Cursor, Write};
+    use std::io::{Cursor, Read, Write};
+
+    const MIN_CHUNK: usize = 16 * 1024;
+    const AVG_CHUNK: usize = 64 * 1024;
+    const MAX_CHUNK: usize = 256 * 1024;
     use std::os::unix::fs::symlink;
 
     struct Fixture(PathBuf);
@@ -1520,8 +1468,7 @@ mod tests {
             store: &store,
             upper: &upper_fd,
             lower: &lower_fd,
-            objects: library.join("objects"),
-            buffer: vec![0; MAX_CHUNK],
+            batch: content::ObjectBatch::open(&library.join("objects")).unwrap(),
             manifest: Manifest::new(),
             origins: BTreeMap::new(),
             certificate: enabled.then(|| Certificate::new(&base)),
@@ -1689,8 +1636,7 @@ mod tests {
                 store: &store,
                 upper: &upper_fd,
                 lower: &lower_fd,
-                objects: library.join("objects"),
-                buffer: vec![0; MAX_CHUNK],
+                batch: content::ObjectBatch::open(&library.join("objects")).unwrap(),
                 manifest: Manifest::new(),
                 origins: BTreeMap::new(),
                 certificate: None,
@@ -1779,7 +1725,7 @@ mod tests {
                 random as u8
             })
             .collect();
-        let mut buffer = vec![0; MAX_CHUNK];
+        let mut batch = content::ObjectBatch::open(&objects).unwrap();
         for size in [
             0,
             1,
@@ -1790,11 +1736,69 @@ mod tests {
             data.len(),
         ] {
             let expected = content::put_bytes(&data[..size], &objects).unwrap();
+            let direct = EntryKind::File {
+                size: size as u64,
+                chunks: fastcdc::v2020::FastCDC::new(
+                    &data[..size],
+                    MIN_CHUNK as _,
+                    AVG_CHUNK as _,
+                    MAX_CHUNK as _,
+                )
+                .map(|chunk| {
+                    blake3::hash(&data[chunk.offset..chunk.offset + chunk.length])
+                        .to_hex()
+                        .to_string()
+                })
+                .collect(),
+            };
+            assert_eq!(expected, direct);
             assert_eq!(
-                put_stream(&mut Cursor::new(&data[..size]), &objects, &mut buffer).unwrap(),
+                batch.put_reader(&mut Cursor::new(&data[..size])).unwrap(),
                 expected
             );
         }
+        // Arbitrary short reads and EINTR must not change CDC boundaries.
+        struct Fragmented<'a> {
+            remaining: &'a [u8],
+            interrupt: bool,
+        }
+        impl Read for Fragmented<'_> {
+            fn read(&mut self, output: &mut [u8]) -> io::Result<usize> {
+                self.interrupt = !self.interrupt;
+                if self.interrupt {
+                    return Err(io::ErrorKind::Interrupted.into());
+                }
+                let count = output.len().min(self.remaining.len()).min(97);
+                output[..count].copy_from_slice(&self.remaining[..count]);
+                self.remaining = &self.remaining[count..];
+                Ok(count)
+            }
+        }
+        assert_eq!(
+            batch
+                .put_reader(&mut Fragmented {
+                    remaining: &data,
+                    interrupt: false
+                })
+                .unwrap(),
+            content::put_bytes(&data, &objects).unwrap(),
+        );
+        // A failed reader may have published complete chunks, but returns no
+        // file entry. Reusing the batch must not retain stale buffered bytes.
+        struct Fails;
+        impl Read for Fails {
+            fn read(&mut self, _: &mut [u8]) -> io::Result<usize> {
+                Err(io::Error::other("injected read failure"))
+            }
+        }
+        let mut failing = Cursor::new(&data[..MAX_CHUNK + 100]).chain(Fails);
+        assert!(batch.put_reader(&mut failing).is_err());
+        assert_eq!(
+            batch.put_reader(&mut Cursor::new(b"fresh")).unwrap(),
+            content::put_bytes(b"fresh", &objects).unwrap()
+        );
+        batch.finish().unwrap();
+        let mut batch = content::ObjectBatch::open(&objects).unwrap();
         // Stream a file beyond the production merge helper's 16 MiB limit. No
         // whole-file read/allocation is used by either capture implementation.
         let source = fixture.0.join("source");
@@ -1805,12 +1809,9 @@ mod tests {
         }
         drop(file);
         let (expected, _) = content::capture(&source, &objects, &content::Observed::new()).unwrap();
-        let streamed = put_stream(
-            &mut File::open(source.join("large")).unwrap(),
-            &objects,
-            &mut buffer,
-        )
-        .unwrap();
+        let streamed = batch
+            .put_reader(&mut File::open(source.join("large")).unwrap())
+            .unwrap();
         assert_eq!(streamed, expected["large"].kind);
         let EntryKind::File { chunks, .. } = streamed else {
             unreachable!()
@@ -1818,15 +1819,43 @@ mod tests {
         let target = objects.join(&chunks[0]);
         use std::os::unix::fs::PermissionsExt;
         fs::set_permissions(&target, fs::Permissions::from_mode(0o600)).unwrap();
-        fs::write(target, "corrupt").unwrap();
+        let original = fs::read(&target).unwrap();
+        // Same-length corruption is still rejected after reuse in this batch.
+        let mut corrupt = original.clone();
+        corrupt[0] ^= 1;
+        fs::write(&target, &corrupt).unwrap();
         assert!(
-            put_stream(
-                &mut File::open(source.join("large")).unwrap(),
-                &objects,
-                &mut buffer
-            )
-            .is_err()
+            batch
+                .put_reader(&mut File::open(source.join("large")).unwrap())
+                .is_err()
         );
+        fs::remove_file(&target).unwrap();
+        let alternate = fixture.0.join("alternate");
+        fs::write(&alternate, &original).unwrap();
+        std::os::unix::fs::symlink(&alternate, &target).unwrap();
+        assert!(batch.put_reader(&mut Cursor::new(&original)).is_err());
+        fs::remove_file(&target).unwrap();
+        fs::create_dir(&target).unwrap();
+        assert!(batch.put_reader(&mut Cursor::new(&original)).is_err());
+        fs::remove_dir(&target).unwrap();
+        batch.put_reader(&mut Cursor::new(&original)).unwrap();
+        batch.finish().unwrap();
+        assert!(
+            fs::read_dir(&objects).unwrap().all(|item| !item
+                .unwrap()
+                .file_name()
+                .as_bytes()
+                .starts_with(b".tmp-"))
+        );
+        // Even empty/dedup-only batches must execute a fallible final barrier.
+        let empty = fixture.0.join("empty");
+        let empty_batch = content::ObjectBatch::open(&empty).unwrap();
+        fs::remove_dir(&empty).unwrap();
+        assert!(empty_batch.finish().is_err());
+        let mut dedup_batch = content::ObjectBatch::open(&objects).unwrap();
+        dedup_batch.put_reader(&mut Cursor::new(&original)).unwrap();
+        fs::rename(&objects, fixture.0.join("moved-objects")).unwrap();
+        assert!(dedup_batch.finish().is_err());
     }
 
     #[test]
