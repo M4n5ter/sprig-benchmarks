@@ -23,10 +23,11 @@ def main():
  def checkpoint(label,view,base,identity=None):
   value=cli('checkpoint',*common(view,base),*(['--identity-base',identity] if identity else []));report['publications'][label]=value;return value['publication']
  def read(revision,path):return bytes(cli('read','--base',revision,'--path',path)['bytes'])
- def newview(name):
+ def newview(name,root_opaque=None):
   v={k:root/(name+'-'+k) for k in ['upper','work','view']}
   for p in v.values():p.mkdir()
   v['upper'].chmod(source.stat().st_mode&0o7777);os.utime(v['upper'],ns=(ns,ns));views.append(v)
+  if root_opaque is not None:os.setxattr(v['upper'],'trusted.overlay.opaque',root_opaque)
   command('mount','-t','overlay','overlay','-o',f"lowerdir={lower},upperdir={v['upper']},workdir={v['work']},redirect_dir=on,index=off,nfs_export=off,metacopy=off",str(v['view']))
   return v
  try:
@@ -41,7 +42,7 @@ def main():
    else:raise RuntimeError('FUSE initialization timed out')
    a,b=newview('a'),newview('b')
    for name,v in [('initial-a',a),('initial-b',b)]:
-    stats=cap(name,v,h0['head'])['stats'];assert stats['lower_reuse_enabled'],stats['fallback_reason'];assert stats['bytes_reused']>0 and stats['bytes_hashed']==0
+    stats=cap(name,v,h0['head'])['stats'];assert stats['lower_reuse_enabled'],stats['fallback_reason'];assert stats['bytes_reused']>0 and stats['bytes_hashed']==0;assert stats['certificate_files_reused']>0 and stats['certificate_directories_reused']>0
    av,bv=a['view'],b['view'];a_text=original.replace('one\n','A-one\n');(av/'shared.txt').write_text(a_text);(av/'added').write_bytes(b'added\n')
    origin=os.getxattr(lower/'forged','user.sprig.prototype.origin');(av/'forged').write_bytes(b'9876543210');os.utime(av/'forged',ns=(ns,ns));os.setxattr(av/'forged','user.sprig.prototype.origin',origin)
    (av/'dir').rename(av/'renamed');(av/'link').rename(av/'renamed-link');(av/'victim').unlink();(av/'opaque'/'old').unlink();(av/'opaque').rmdir();(av/'opaque').mkdir()
@@ -66,7 +67,11 @@ def main():
    final_manifest=next(r['manifest'] for r in history if r['id']==before['head']);assert 'victim' not in final_manifest and 'dir' not in final_manifest and 'link' not in final_manifest and 'renamed-link' in final_manifest and 'opaque/old' not in final_manifest
    with (av/'shared.txt').open('rb') as held:
     attempt=subprocess.run(['umount','-i',str(av)],capture_output=True,text=True);assert attempt.returncode!=0 and mounted(av);assert held.read()==a_text.encode()
-   report['checks']=['Untouched views reuse lower bytes with zero content hashing','Independent full-capture oracle for all captured paths, contents, modes and mtimes','Forged origin plus same size/mtime does not skip upper hashing','Directory and symlink rename, whiteout, opaque and lower isolation','Checkpoint identity continuity and no-op','Two non-overlapping workspace merges and shared SDK-write publication','Retained conflict candidate, strict stale CAS and orphan-base refusal','Immutable historical reads and merge parents','Busy ordinary unmount refusal']
+   capture_head=cli('head')
+   collision=newview('collision');cv=collision['view'];(cv/'opaque'/'old').unlink();(cv/'opaque').rmdir();(cv/'dir').rename(cv/'opaque')
+   cap('redirect-existing-prefix',collision,h0['head']);assert (cv/'opaque'/'nested').read_bytes()==b'nested\n' and not (cv/'opaque'/'old').exists() and not (cv/'dir').exists();assert cli('head')==capture_head
+   root_flag=newview('root-flag',root_opaque=b'x');observed_root_flag=os.getxattr(root_flag['upper'],'trusted.overlay.opaque');assert observed_root_flag==b'x';report['rootOpaqueFlagAfterMount']=observed_root_flag.decode('ascii');root_stats=cap('root-flag-fallback',root_flag,h0['head'])['stats'];assert root_stats['certificate_subtrees_reused']==0 and cli('head')==capture_head
+   report['checks']=['Untouched views reuse lower bytes with zero content hashing','Independent full-capture oracle for all captured paths, contents, modes and mtimes','Forged origin plus same size/mtime does not skip upper hashing','Directory and symlink rename, whiteout, opaque and lower isolation','Checkpoint identity continuity and no-op','Two non-overlapping workspace merges and shared SDK-write publication','Retained conflict candidate, strict stale CAS and orphan-base refusal','Immutable historical reads and merge parents','Busy ordinary unmount refusal','Upper-absence certificate counters and redirect collision full oracle','Root opaque flag forces transitive certificate fallback']
    for v in reversed(views):command('umount','-i',str(v['view']))
    command('umount','-i',str(lower));assert fuse.wait(timeout=10)==0;report['ok']=True
  except BaseException as e:

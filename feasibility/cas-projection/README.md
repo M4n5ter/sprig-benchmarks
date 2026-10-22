@@ -1,8 +1,10 @@
 # Sprig CAS projection prototype
 
-This candidate adds compressed immutable manifests and transaction-local
-durability evidence. See [PUBLICATION.md](PUBLICATION.md) for the exact changes,
-fresh-store restriction and unchanged safety/measurement boundaries.
+This candidate adds bounded upper-absence subtree capture to the compressed
+immutable-manifest publication candidate. See [CERTIFICATE.md](CERTIFICATE.md)
+for its proof, conservative fallback, and validation boundary;
+[PUBLICATION.md](PUBLICATION.md) describes the retained publication format,
+fresh-store restriction and durability guarantees.
 
 This is an isolated, **read-only Linux FUSE feasibility prototype**, not a full
 Sprig implementation or a new production backend. It imports a quiescent source

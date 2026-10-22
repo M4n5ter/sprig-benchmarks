@@ -46,6 +46,10 @@ pub struct CaptureTimings {
     pub lower_reusable_proof_seconds: f64,
     pub content_hash_put_stream_seconds: f64,
     pub directory_enumeration_seconds: f64,
+    /// Native upper certificate scans during walk; final rechecks are in finalize.
+    pub certificate_inventory_seconds: f64,
+    /// Base-entry cloning and per-file chunk length checks (capture-local cache).
+    pub certificate_reuse_seconds: f64,
     pub finalize_seconds: f64,
 }
 
@@ -57,6 +61,10 @@ pub struct CaptureStats {
     pub symlinks: u64,
     pub files_hashed: u64,
     pub files_reused: u64,
+    pub certificate_subtrees_reused: u64,
+    pub certificate_files_reused: u64,
+    pub certificate_directories_reused: u64,
+    pub certificate_symlinks_reused: u64,
     pub bytes_hashed: u64,
     pub bytes_reused: u64,
     /// Files hashed because lower provenance or upper absence was uncertain.
@@ -165,6 +173,7 @@ pub fn capture(
         buffer: vec![0; MAX_CHUNK],
         manifest: Manifest::new(),
         origins: BTreeMap::new(),
+        certificate: enabled.then(|| Certificate::new(&base)),
         stats: CaptureStats {
             lower_reuse_enabled: enabled,
             fallback_reason,
@@ -176,6 +185,7 @@ pub fn capture(
     context.walk(&merged, "")?;
     context.stats.timings.walk_total_seconds = walk_started.elapsed().as_secs_f64();
     let finalize_started = Instant::now();
+    context.validate_inventories()?;
     assign_ids(&mut context.manifest, &base, &context.origins);
     content::validate_manifest(&context.manifest)?;
     File::open(&context.objects)?.sync_all()?;
@@ -203,10 +213,20 @@ struct Capture<'a> {
     manifest: Manifest,
     origins: BTreeMap<String, String>,
     stats: CaptureStats,
+    certificate: Option<Certificate>,
 }
 
 impl Capture<'_> {
     fn walk(&mut self, path: &Path, relative: &str) -> Result<()> {
+        self.walk_certified(path, relative, self.certificate.is_some())
+    }
+
+    fn walk_certified(
+        &mut self,
+        path: &Path,
+        relative: &str,
+        allow_certificate: bool,
+    ) -> Result<()> {
         let started = Instant::now();
         let before = fs::symlink_metadata(path)?;
         self.stats.timings.metadata_seconds += started.elapsed().as_secs_f64();
@@ -286,7 +306,13 @@ impl Capture<'_> {
             self.stats.timings.metadata_seconds += started.elapsed().as_secs_f64();
             require_unchanged(path, &before, &opened)?;
             let started = Instant::now();
-            advisory = origin(&directory, self.digest, self.base);
+            // Same-path directory IDs always win in assign_ids; an origin
+            // query here is only an identity hint, never a reuse proof.
+            advisory = if self.base.contains_key(relative) {
+                None
+            } else {
+                origin(&directory, self.digest, self.base)
+            };
             self.stats.timings.origin_xattr_seconds += started.elapsed().as_secs_f64();
             let started = Instant::now();
             drop(directory);
@@ -319,27 +345,148 @@ impl Capture<'_> {
         );
         self.stats.entries += 1;
         if before.is_dir() {
-            let started = Instant::now();
-            let mut children = fs::read_dir(path)?.collect::<io::Result<Vec<_>>>()?;
-            children.sort_by_key(|child| child.file_name());
-            self.stats.timings.directory_enumeration_seconds += started.elapsed().as_secs_f64();
-            for child in children {
-                let name = child
-                    .file_name()
-                    .into_string()
-                    .map_err(|_| store::invalid("non-UTF-8 path rejected"))?;
-                let child_relative = if relative.is_empty() {
-                    name
-                } else {
-                    format!("{relative}/{name}")
-                };
-                self.walk(&child.path(), &child_relative)?;
+            let inventory = if allow_certificate {
+                let started = Instant::now();
+                let inventory = clean_inventory(self.upper, relative).ok();
+                self.stats.timings.certificate_inventory_seconds += started.elapsed().as_secs_f64();
+                inventory
+            } else {
+                None
+            };
+            if let Some(inventory) = inventory {
+                // Complete native inventory is the ONLY source of absence
+                // evidence. ENOENT while opening an inventory never proves it.
+                let certificate = self.certificate.as_mut().expect("certificate enabled");
+                let mut names = certificate
+                    .children
+                    .get(relative)
+                    .cloned()
+                    .unwrap_or_default();
+                names.extend(inventory.children.keys().cloned());
+                let upper_names: BTreeSet<_> = inventory.children.keys().cloned().collect();
+                certificate
+                    .inventories
+                    .insert(relative.to_owned(), inventory);
+                for name in names {
+                    let child_relative = child_path(relative, &name);
+                    if !upper_names.contains(&name) {
+                        let started = Instant::now();
+                        self.clone_subtree(&child_relative)?;
+                        self.stats.timings.certificate_reuse_seconds +=
+                            started.elapsed().as_secs_f64();
+                    } else {
+                        // Whiteouts and redirect semantics are interpreted by
+                        // the kernel, never by guessing native upper encodings.
+                        let child = path.join(&name);
+                        match fs::symlink_metadata(&child) {
+                            Ok(_) => self.walk_certified(&child, &child_relative, true)?,
+                            Err(error) if error.raw_os_error() == Some(libc::ENOENT) => {}
+                            Err(error) => return Err(error.into()),
+                        }
+                    }
+                }
+            } else {
+                // Any unknown flag/read/enumeration disables certificates
+                // throughout this subtree, including all redirected children.
+                let started = Instant::now();
+                let mut children = fs::read_dir(path)?.collect::<io::Result<Vec<_>>>()?;
+                children.sort_by_key(|child| child.file_name());
+                self.stats.timings.directory_enumeration_seconds += started.elapsed().as_secs_f64();
+                for child in children {
+                    let name = child
+                        .file_name()
+                        .into_string()
+                        .map_err(|_| store::invalid("non-UTF-8 path rejected"))?;
+                    self.walk_certified(&child.path(), &child_path(relative, &name), false)?;
+                }
             }
         }
         let started = Instant::now();
         let after = fs::symlink_metadata(path)?;
         self.stats.timings.metadata_seconds += started.elapsed().as_secs_f64();
         require_unchanged(path, &before, &after)?;
+        Ok(())
+    }
+
+    fn validate_inventories(&self) -> Result<()> {
+        if let Some(certificate) = &self.certificate {
+            for (relative, expected) in &certificate.inventories {
+                if clean_inventory(self.upper, relative)? != *expected {
+                    return Err(
+                        store::invalid("native upper inventory changed during capture").into(),
+                    );
+                }
+            }
+        }
+        Ok(())
+    }
+
+    fn clone_subtree(&mut self, relative: &str) -> Result<()> {
+        // Separate exact node and slash-prefixed descendants: `a` must never
+        // include sibling `ab`. Disjoint cloned ranges each visit nodes once.
+        let entry = self
+            .base
+            .get(relative)
+            .ok_or_else(|| store::invalid("certificate child missing from base"))?;
+        self.clone_entry(relative, entry)?;
+        let prefix = format!("{relative}/");
+        for (path, entry) in self
+            .base
+            .range(prefix.clone()..)
+            .take_while(|(path, _)| path.starts_with(&prefix))
+        {
+            self.clone_entry(path, entry)?;
+        }
+        self.stats.certificate_subtrees_reused += 1;
+        Ok(())
+    }
+
+    fn clone_entry(&mut self, path: &str, entry: &Entry) -> Result<()> {
+        match &entry.kind {
+            EntryKind::File { size, chunks } => {
+                let lengths = &mut self
+                    .certificate
+                    .as_mut()
+                    .expect("certificate enabled")
+                    .chunk_lengths;
+                let mut total = 0u64;
+                for hash in chunks {
+                    let length = if let Some(length) = lengths.get(hash) {
+                        *length
+                    } else {
+                        let length = self.store.chunk_length(hash)? as u64;
+                        lengths.insert(hash.clone(), length);
+                        length
+                    };
+                    total = total
+                        .checked_add(length)
+                        .ok_or_else(|| store::invalid("certificate file size overflow"))?;
+                }
+                if total != *size {
+                    return Err(store::invalid(
+                        "certificate object lengths disagree with file size",
+                    )
+                    .into());
+                }
+                self.stats.files_reused += 1;
+                self.stats.certificate_files_reused += 1;
+                self.stats.bytes_reused += size;
+            }
+            EntryKind::Directory => {
+                self.stats.directories += 1;
+                self.stats.certificate_directories_reused += 1;
+            }
+            EntryKind::Symlink { .. } => {
+                self.stats.symlinks += 1;
+                self.stats.certificate_symlinks_reused += 1;
+            }
+        }
+        let mut cloned = entry.clone();
+        cloned.id.clear(); // Normal same-path/origin ID policy runs once later.
+        if self.manifest.insert(path.to_owned(), cloned).is_some() {
+            return Err(store::invalid("certificate prefixes overlap").into());
+        }
+        self.stats.entries += 1;
         Ok(())
     }
 
@@ -373,6 +520,151 @@ impl Capture<'_> {
         }
         Some(entry.kind.clone())
     }
+}
+
+// This state is capture-local and is created by the public entry point only
+// after immutable-root and exact mount-binding proof. It is never persisted.
+struct Certificate {
+    children: BTreeMap<String, BTreeSet<String>>,
+    inventories: BTreeMap<String, UpperInventory>,
+    chunk_lengths: BTreeMap<String, u64>,
+}
+
+impl Certificate {
+    fn new(base: &Manifest) -> Self {
+        let mut children: BTreeMap<String, BTreeSet<String>> = BTreeMap::new();
+        for path in base.keys().filter(|path| !path.is_empty()) {
+            let (parent, name) = path.rsplit_once('/').unwrap_or(("", path));
+            children
+                .entry(parent.to_owned())
+                .or_default()
+                .insert(name.to_owned());
+        }
+        Self {
+            children,
+            inventories: BTreeMap::new(),
+            chunk_lengths: BTreeMap::new(),
+        }
+    }
+}
+
+fn child_path(parent: &str, name: &str) -> String {
+    if parent.is_empty() {
+        name.to_owned()
+    } else {
+        format!("{parent}/{name}")
+    }
+}
+
+#[derive(Debug, Eq, PartialEq)]
+struct UpperInventory {
+    own: StatIdentity,
+    // Includes every native child, without interpreting whiteouts or symlinks.
+    children: BTreeMap<String, StatIdentity>,
+}
+
+#[derive(Debug, Eq, PartialEq)]
+struct StatIdentity {
+    dev: u64,
+    ino: u64,
+    mode: u32,
+    size: i64,
+    mtime: i64,
+    mtime_ns: i64,
+    ctime: i64,
+    ctime_ns: i64,
+}
+
+fn stat_identity(parent: &File, name: &OsStr) -> io::Result<StatIdentity> {
+    let name = CString::new(name.as_bytes()).map_err(|_| store::invalid("NUL path"))?;
+    let mut stat = std::mem::MaybeUninit::<libc::stat>::uninit();
+    // SAFETY: parent/name are live; output points to a stat. Never follows a child symlink.
+    if unsafe {
+        libc::fstatat(
+            parent.as_raw_fd(),
+            name.as_ptr(),
+            stat.as_mut_ptr(),
+            libc::AT_SYMLINK_NOFOLLOW,
+        )
+    } != 0
+    {
+        return Err(io::Error::last_os_error());
+    }
+    // SAFETY: successful fstatat initialized the structure.
+    let stat = unsafe { stat.assume_init() };
+    Ok(StatIdentity {
+        dev: stat.st_dev,
+        ino: stat.st_ino,
+        mode: stat.st_mode,
+        size: stat.st_size,
+        mtime: stat.st_mtime,
+        mtime_ns: stat.st_mtime_nsec,
+        ctime: stat.st_ctime,
+        ctime_ns: stat.st_ctime_nsec,
+    })
+}
+
+fn flag_is_absent(result: isize, errno: Option<i32>) -> bool {
+    result == -1 && errno == Some(libc::ENODATA)
+}
+
+fn require_clean_flags(directory: &File) -> io::Result<()> {
+    for name in [c"trusted.overlay.redirect", c"trusted.overlay.opaque"] {
+        // Query existence, not value: even an empty/x/unknown value blocks reuse.
+        // SAFETY: owned fd and static C string; null zero-length output is legal.
+        let result = unsafe {
+            libc::fgetxattr(
+                directory.as_raw_fd(),
+                name.as_ptr(),
+                std::ptr::null_mut(),
+                0,
+            )
+        };
+        let error = if result < 0 {
+            io::Error::last_os_error().raw_os_error()
+        } else {
+            None
+        };
+        if !flag_is_absent(result, error) {
+            return Err(store::invalid(
+                "native upper overlay flags are present or uncertain",
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn clean_inventory(upper: &File, relative: &str) -> io::Result<UpperInventory> {
+    // Walk every ancestor nofollow and check its flags, including upper root.
+    // This also makes final revalidation independent of traversal ordering.
+    let mut directory = upper.try_clone()?;
+    require_clean_flags(&directory)?;
+    for component in Path::new(relative).components() {
+        let Component::Normal(name) = component else {
+            return Err(store::invalid("invalid native upper path"));
+        };
+        directory = open_at(&directory, name, true)?;
+        require_clean_flags(&directory)?;
+    }
+    let own = stat_identity(&directory, OsStr::new("."))?;
+    let mut children = BTreeMap::new();
+    // The proc link is to our owned FD, not a user path. The FD stays alive
+    // through enumeration. Child metadata remains descriptor-relative/nofollow.
+    for child in fs::read_dir(format!("/proc/self/fd/{}", directory.as_raw_fd()))? {
+        let name = child?.file_name();
+        let identity = stat_identity(&directory, &name)?;
+        let name = name
+            .into_string()
+            .map_err(|_| store::invalid("non-UTF-8 upper name"))?;
+        if children.insert(name, identity).is_some() {
+            return Err(store::invalid("duplicate native upper name"));
+        }
+    }
+    require_clean_flags(&directory)?;
+    if stat_identity(&directory, OsStr::new("."))? != own {
+        return Err(store::invalid("native upper changed during enumeration"));
+    }
+    Ok(UpperInventory { own, children })
 }
 
 fn modified_ns(metadata: &Metadata) -> i128 {
@@ -954,6 +1246,171 @@ mod tests {
         );
         assert!(real_directory(&upper_path.join("alias")).is_err());
         synthetic_origin_proof();
+        synthetic_certificate_proof();
+    }
+
+    // A private proof-engine differential test, NOT a real OverlayFS test.
+    // The caller constructs equivalent merged/upper trees, with no mount or
+    // special-file/xattr privilege. Real redirects/whiteouts need runner tests.
+    fn synthetic_certificate_proof() {
+        use std::os::unix::fs::PermissionsExt;
+        let fixture = Fixture::new();
+        let source = fixture.0.join("source");
+        let merged = fixture.0.join("merged");
+        let upper = fixture.0.join("upper");
+        let library = fixture.0.join("library");
+        fs::create_dir_all(source.join("a/deep/nested")).unwrap();
+        fs::create_dir(&upper).unwrap();
+        for path in ["a/deep/nested/file", "a/duplicate", "ab", "edited"] {
+            fs::write(source.join(path), "same immutable bytes").unwrap();
+        }
+        fs::set_permissions(source.join("a/deep"), fs::Permissions::from_mode(0o751)).unwrap();
+        File::open(source.join("a/deep/nested/file"))
+            .unwrap()
+            .set_times(
+                fs::FileTimes::new()
+                    .set_modified(UNIX_EPOCH + std::time::Duration::new(1234, 56789)),
+            )
+            .unwrap();
+        symlink(
+            OsString::from_vec(vec![0xff, b'/', b'x']),
+            source.join("a/link"),
+        )
+        .unwrap();
+        store::import(&source, &library).unwrap();
+        let (store, base) = ObjectStore::load(&library, OsStr::new("manifest.json")).unwrap();
+        let digest = blake3::hash(&serde_json::to_vec(&base).unwrap())
+            .to_hex()
+            .to_string();
+        content::materialize(&base, &library.join("objects"), &merged).unwrap();
+        fs::write(merged.join("edited"), "changed sibling").unwrap();
+        fs::write(upper.join("edited"), "changed sibling").unwrap();
+        // The root's own metadata must come from merged, not base.
+        fs::set_permissions(&merged, fs::Permissions::from_mode(0o750)).unwrap();
+        let upper_fd = open_directory(&upper).unwrap();
+        let lower_fd = open_directory(&source).unwrap();
+        let make_context = |enabled: bool| Capture {
+            base: &base,
+            digest: &digest,
+            store: &store,
+            upper: &upper_fd,
+            lower: &lower_fd,
+            objects: library.join("objects"),
+            buffer: vec![0; MAX_CHUNK],
+            manifest: Manifest::new(),
+            origins: BTreeMap::new(),
+            certificate: enabled.then(|| Certificate::new(&base)),
+            stats: CaptureStats::default(),
+        };
+        let mut certified = make_context(true);
+        certified.walk(&merged, "").unwrap();
+        certified.validate_inventories().unwrap();
+        assert_eq!(certified.stats.certificate_subtrees_reused, 2); // a, ab
+        assert_eq!(certified.stats.certificate_files_reused, 3);
+        assert_eq!(certified.stats.certificate_directories_reused, 3);
+        assert_eq!(certified.stats.certificate_symlinks_reused, 1);
+        assert_eq!(certified.stats.files_hashed, 1);
+        assert_eq!(
+            certified.certificate.as_ref().unwrap().chunk_lengths.len(),
+            1
+        );
+        assert_eq!(certified.manifest[""].mode, 0o750);
+        let mut full = make_context(false);
+        full.walk(&merged, "").unwrap();
+        assert_eq!(certified.manifest, full.manifest);
+        assert_eq!(certified.stats.entries, full.stats.entries);
+        assert_eq!(certified.manifest["a/link"].kind, base["a/link"].kind);
+        assert_eq!(certified.manifest["a/deep"].mode, 0o751);
+        assert_eq!(
+            certified.manifest["a/deep/nested/file"].modified_ns,
+            1_234_000_056_789
+        );
+        // An unchanged inventory validates; any added name invalidates it.
+        fs::write(upper.join("late"), "late writer").unwrap();
+        assert!(certified.validate_inventories().is_err());
+        fs::remove_file(upper.join("late")).unwrap();
+        // Failure to open/scan a native upper directory never creates evidence.
+        assert!(clean_inventory(&upper_fd, "missing").is_err());
+        symlink("missing", upper.join("alias")).unwrap();
+        assert!(clean_inventory(&upper_fd, "alias").is_err());
+        fs::remove_file(upper.join("alias")).unwrap();
+        assert!(flag_is_absent(-1, Some(libc::ENODATA)));
+        for errno in [
+            libc::EACCES,
+            libc::EIO,
+            libc::ENOTSUP,
+            libc::ERANGE,
+            libc::ENOENT,
+        ] {
+            assert!(!flag_is_absent(-1, Some(errno)));
+        }
+        for length in [0, 1, 4096] {
+            assert!(!flag_is_absent(length, None));
+        }
+        // Explicit fallback is transitive, even with available certificate state.
+        let mut fallback = make_context(true);
+        fallback.walk_certified(&merged, "", false).unwrap();
+        assert_eq!(fallback.manifest, full.manifest);
+        assert_eq!(fallback.stats.certificate_subtrees_reused, 0);
+        assert!(
+            fallback
+                .certificate
+                .as_ref()
+                .unwrap()
+                .inventories
+                .is_empty()
+        );
+        // Normal identity assignment produces the same snapshot as fullwalk;
+        // reconciling a prior checkpoint preserves cloned-node IDs exactly.
+        let mut certified_manifest = certified.manifest.clone();
+        let mut full_manifest = full.manifest.clone();
+        assign_ids(&mut certified_manifest, &base, &certified.origins);
+        assign_ids(&mut full_manifest, &base, &full.origins);
+        assert_eq!(certified_manifest, full_manifest);
+        for path in ["a", "a/deep", "a/deep/nested/file", "a/link", "ab"] {
+            assert_eq!(certified_manifest[path].id, base[path].id);
+        }
+        let mut result = CaptureResult {
+            manifest: certified_manifest,
+            stats: CaptureStats::default(),
+        };
+        result.reconcile_identities(&full_manifest).unwrap();
+        assert_eq!(result.manifest, full_manifest); // identical/no-op candidate
+        full_manifest.get_mut("a").unwrap().id = "previous-checkpoint-directory".into();
+        full_manifest.get_mut("a/link").unwrap().id = "previous-checkpoint-symlink".into();
+        result.reconcile_identities(&full_manifest).unwrap();
+        assert_eq!(result.manifest, full_manifest);
+        content::validate_manifest(&result.manifest).unwrap();
+        // Each file still checks its aggregate length even when all hashes
+        // have already been validated and cached for another cloned file.
+        let mut wrong_size = base["ab"].clone();
+        let EntryKind::File { size, .. } = &mut wrong_size.kind else {
+            unreachable!()
+        };
+        *size += 1;
+        assert!(certified.clone_entry("bad-size", &wrong_size).is_err());
+        // Missing referenced objects are fatal, not silently trusted or omitted.
+        let EntryKind::File { chunks, .. } = &base["ab"].kind else {
+            unreachable!()
+        };
+        let object = library.join("objects").join(&chunks[0]);
+        fs::remove_file(&object).unwrap();
+        assert!(make_context(true).walk(&merged, "").is_err());
+        // A fresh capture must reject symlinks and directories, not reuse a
+        // previous capture's successful length cache or follow object symlinks.
+        symlink(source.join("ab"), &object).unwrap();
+        assert!(make_context(true).walk(&merged, "").is_err());
+        fs::remove_file(&object).unwrap();
+        fs::create_dir(&object).unwrap();
+        assert!(make_context(true).walk(&merged, "").is_err());
+        fs::remove_dir(&object).unwrap();
+        // Empty/oversized chunks violate the object contract; a legal but
+        // incorrect length must still fail the per-file aggregate check.
+        for length in [0, MAX_CHUNK + 1, 1] {
+            fs::write(&object, vec![b'x'; length]).unwrap();
+            assert!(make_context(true).walk(&merged, "").is_err());
+            fs::remove_file(&object).unwrap();
+        }
     }
 
     // Isolated proof-engine fixture only: no mount creation and no public
@@ -1011,6 +1468,7 @@ mod tests {
                 buffer: vec![0; MAX_CHUNK],
                 manifest: Manifest::new(),
                 origins: BTreeMap::new(),
+                certificate: None,
                 stats: CaptureStats {
                     lower_reuse_enabled: true,
                     ..Default::default()
@@ -1021,7 +1479,7 @@ mod tests {
             let elapsed = started.elapsed().as_secs_f64();
             let json = context.stats.json();
             let timings = json["timings"].as_object().unwrap();
-            assert_eq!(timings.len(), 12);
+            assert_eq!(timings.len(), 14);
             let sum: f64 = timings
                 .values()
                 .map(|value| {
