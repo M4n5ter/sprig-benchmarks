@@ -1,3 +1,5 @@
+> Timing scope: import + fork + verified read is a sum of defined phases, not complete startup wall time. Sprig store initialization, software installation/build, and runtime setup are excluded; LayerFS project initialization includes its store initialization. CLI versus SDK and durability differences remain.
+
 # Sprig comparative benchmarks
 
 > **Storage correction (22 October 2026):** the LayerFS figures below count only the store volume plus SDK home. They omit active workspace overlay databases and other writable-container state. They are **not complete active footprint** and must not support whole-product storage ratios or a storage winner. Raw measurements are preserved unchanged. See [scope correction and source evidence](STORAGE-CORRECTION.md). Timing and byte/history checks are separate measurements; this omission does not by itself invalidate them.
