@@ -27,9 +27,9 @@ Milliseconds, median of three. Cold task = import + usable fork + full SHA-256 r
 
 The first mount includes Docker sandbox startup; the warm task does not. Sprig CLI subprocess overhead and LayerFS in-process SDK / Docker transport overhead are included. Import outputs differ: Sprig immediately creates a native tree, while LayerFS stores history until a workspace is mounted. No overall winner should be inferred from a small difference in one cold-task median.
 
-## Matched active data-store footprint
+## Measured storage components (incomplete cross-product scope)
 
-Allocated MiB (1 MiB = 1,048,576 bytes), median of three. Both measured workspaces are still usable at this point. All Sprig native trees, objects, manifests and retained recovery generations count. LayerFS Store volume plus SDK home count. Immutable binaries/runtime images are excluded for both. Sprig import additionally materializes a main workspace; LayerFS project initialization does not require one. These are actual representation costs, not an attempt to hide native materialization.
+Allocated MiB (1 MiB = 1,048,576 bytes), median of three. Both measured workspaces are still usable at this point. All Sprig native trees, objects, manifests and retained recovery generations count. The LayerFS column counts only its Store volume plus SDK home and omits container workspace overlays and other writable-layer state. This is not a complete matched footprint. Immutable binaries/runtime images were excluded for both. Sprig import additionally materializes a main workspace; LayerFS project initialization does not require one. These recorded components do not establish whole-product storage costs or a storage winner.
 
 | Recipe | Sprig active MiB | LayerFS store + home subset MiB |
 |---|---:|---:|
