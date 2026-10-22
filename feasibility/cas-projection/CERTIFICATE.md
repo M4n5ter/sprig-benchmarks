@@ -39,6 +39,22 @@ checks remain. Reused file chunk types and lengths are checked, each file's
 aggregate length is verified, and only duplicate chunk-length lookups within the
 same capture are memoized. No persisted cache or mtime-based reuse is introduced.
 
+The saved inventories are explicitly prefix-closed: each non-root directory
+requires its immediate parent's saved inventory to contain the same directory
+identity and metadata. Each directory checks its own flags before and after
+enumeration; final validation checks every saved directory again. Thus ancestors
+remain covered without repeatedly opening and querying the entire ancestor
+chain for each descendant.
+
+Native paths use Linux openat2 with RESOLVE_BENEATH and RESOLVE_NO_SYMLINKS,
+anchored at the owned upper-root descriptor. This rejects symlinks, magic links,
+and escapes throughout resolution, not just in the final component. Only ENOSYS
+uses the prior component-by-component no-follow opener; other errors do not
+relax the flags or trigger that fallback. Root-relative empty paths clone the
+owned descriptor. No per-node descriptor cache or increased descriptor limit is
+needed. This removes repeated userspace ancestor opens and flag checks, not all
+path-length or map-lookup costs. See the [Linux openat2 manual](https://man7.org/linux/man-pages/man2/openat2.2.html).
+
 Logical identities continue through the existing assignment and reconciliation
 rules. A directory's optional origin hint is omitted only when its same-path
 base identity necessarily takes priority; root provenance checks are unchanged.
@@ -58,6 +74,12 @@ whiteout, redirect, or opaque behavior. The authorized temporary-runner semantic
 suite must still compare every captured manifest with independent full capture,
 exercise those kernel behaviors, and pass the shared publication/merge/history
 checks before a separate unchanged-sample performance comparison.
+
+The existing grouped check also compares all 129 inventories in a synthetic
+128-level directory chain against the original implementation, checks missing
+parent evidence and changed edges, and exercises the unsupported-syscall path
+and rejected escapes. Optional SPRIG_INVENTORY_AB output measures seven local,
+unmounted helper traversals only; it is not a mounted checkpoint benchmark.
 
 The prior diagnostic measured capture and publication separately. Its timings
 are evidence for investigating this path, not predicted savings: this candidate

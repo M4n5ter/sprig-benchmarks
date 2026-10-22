@@ -347,7 +347,18 @@ impl Capture<'_> {
         if before.is_dir() {
             let inventory = if allow_certificate {
                 let started = Instant::now();
-                let inventory = clean_inventory(self.upper, relative).ok();
+                let inventory = self.certificate.as_ref().and_then(|certificate| {
+                    clean_inventory(self.upper, relative)
+                        .and_then(|inventory| {
+                            require_parent_inventory(
+                                &certificate.inventories,
+                                relative,
+                                &inventory,
+                            )?;
+                            Ok(inventory)
+                        })
+                        .ok()
+                });
                 self.stats.timings.certificate_inventory_seconds += started.elapsed().as_secs_f64();
                 inventory
             } else {
@@ -410,13 +421,7 @@ impl Capture<'_> {
 
     fn validate_inventories(&self) -> Result<()> {
         if let Some(certificate) = &self.certificate {
-            for (relative, expected) in &certificate.inventories {
-                if clean_inventory(self.upper, relative)? != *expected {
-                    return Err(
-                        store::invalid("native upper inventory changed during capture").into(),
-                    );
-                }
-            }
+            validate_inventory_set(self.upper, &certificate.inventories)?;
         }
         Ok(())
     }
@@ -634,25 +639,58 @@ fn require_clean_flags(directory: &File) -> io::Result<()> {
     Ok(())
 }
 
-fn clean_inventory(upper: &File, relative: &str) -> io::Result<UpperInventory> {
-    // Walk every ancestor nofollow and check its flags, including upper root.
-    // This also makes final revalidation independent of traversal ordering.
-    let mut directory = upper.try_clone()?;
-    require_clean_flags(&directory)?;
-    for component in Path::new(relative).components() {
-        let Component::Normal(name) = component else {
-            return Err(store::invalid("invalid native upper path"));
-        };
-        directory = open_at(&directory, name, true)?;
-        require_clean_flags(&directory)?;
+fn validate_inventory_set(
+    upper: &File,
+    inventories: &BTreeMap<String, UpperInventory>,
+) -> io::Result<()> {
+    for (relative, expected) in inventories {
+        require_parent_inventory(inventories, relative, expected)?;
+        if clean_inventory(upper, relative)? != *expected {
+            return Err(store::invalid(
+                "native upper inventory changed during capture",
+            ));
+        }
     }
-    let own = stat_identity(&directory, OsStr::new("."))?;
+    Ok(())
+}
+
+// Immediate-parent evidence makes the saved inventory set prefix-closed. At
+// insertion the parent is already certified; final validation checks every
+// saved prefix again. Native child identity also binds each edge of the tree.
+fn require_parent_inventory(
+    inventories: &BTreeMap<String, UpperInventory>,
+    relative: &str,
+    inventory: &UpperInventory,
+) -> io::Result<()> {
+    if relative.is_empty() {
+        return Ok(());
+    }
+    let (parent, name) = relative.rsplit_once('/').unwrap_or(("", relative));
+    let expected = inventories
+        .get(parent)
+        .and_then(|parent| parent.children.get(name));
+    if expected != Some(&inventory.own) || inventory.own.mode & libc::S_IFMT != libc::S_IFDIR {
+        return Err(store::invalid(
+            "missing or changed native upper parent evidence",
+        ));
+    }
+    Ok(())
+}
+
+fn clean_inventory(upper: &File, relative: &str) -> io::Result<UpperInventory> {
+    let directory = open_inventory_directory(upper, relative)?;
+    require_clean_flags(&directory)?;
+    inventory_from_clean_directory(&directory)
+}
+
+fn inventory_from_clean_directory(directory: &File) -> io::Result<UpperInventory> {
+    let own = stat_identity(directory, OsStr::new("."))?;
     let mut children = BTreeMap::new();
     // The proc link is to our owned FD, not a user path. The FD stays alive
     // through enumeration. Child metadata remains descriptor-relative/nofollow.
     for child in fs::read_dir(format!("/proc/self/fd/{}", directory.as_raw_fd()))? {
         let name = child?.file_name();
-        let identity = stat_identity(&directory, &name)?;
+        let identity = stat_identity(directory, &name)?;
         let name = name
             .into_string()
             .map_err(|_| store::invalid("non-UTF-8 upper name"))?;
@@ -660,8 +698,8 @@ fn clean_inventory(upper: &File, relative: &str) -> io::Result<UpperInventory> {
             return Err(store::invalid("duplicate native upper name"));
         }
     }
-    require_clean_flags(&directory)?;
-    if stat_identity(&directory, OsStr::new("."))? != own {
+    require_clean_flags(directory)?;
+    if stat_identity(directory, OsStr::new("."))? != own {
         return Err(store::invalid("native upper changed during enumeration"));
     }
     Ok(UpperInventory { own, children })
@@ -808,6 +846,60 @@ fn open_directory(path: &Path) -> io::Result<File> {
         .read(true)
         .custom_flags(libc::O_DIRECTORY | libc::O_NOFOLLOW | libc::O_CLOEXEC)
         .open(path)
+}
+
+// No userspace ancestor FD cache: each open owns only its resulting FD.
+// openat2 resolves every component beneath the root and rejects all symlinks,
+// including magic links. ENOSYS alone permits the equivalent legacy walk.
+fn open_inventory_directory(root: &File, relative: &str) -> io::Result<File> {
+    open_inventory_directory_with(root, relative, |name| {
+        // SAFETY: open_how is an integer-only C struct; zeroing initializes all
+        // fields and padding, including mode (no creation is requested).
+        let mut how: libc::open_how = unsafe { std::mem::zeroed() };
+        how.flags =
+            (libc::O_RDONLY | libc::O_DIRECTORY | libc::O_CLOEXEC | libc::O_NOFOLLOW) as u64;
+        how.resolve = libc::RESOLVE_BENEATH | libc::RESOLVE_NO_SYMLINKS;
+        // SAFETY: root/name/how remain live for the syscall; size is exact.
+        let fd = unsafe {
+            libc::syscall(
+                libc::SYS_openat2,
+                root.as_raw_fd(),
+                name.as_ptr(),
+                &how,
+                std::mem::size_of::<libc::open_how>(),
+            )
+        };
+        if fd < 0 {
+            Err(io::Error::last_os_error())
+        } else {
+            // SAFETY: successful openat2 returned a new owned descriptor.
+            Ok(unsafe { File::from_raw_fd(fd as libc::c_int) })
+        }
+    })
+}
+
+fn open_inventory_directory_with(
+    root: &File,
+    relative: &str,
+    open: impl FnOnce(&std::ffi::CStr) -> io::Result<File>,
+) -> io::Result<File> {
+    if relative.is_empty() {
+        return root.try_clone();
+    }
+    // Reject noncanonical components rather than silently normalize paths.
+    if relative
+        .split('/')
+        .any(|part| part.is_empty() || part == "." || part == "..")
+    {
+        return Err(store::invalid("invalid native upper path"));
+    }
+    let name = CString::new(relative).map_err(|_| store::invalid("NUL path"))?;
+    match open(&name) {
+        Err(error) if error.raw_os_error() == Some(libc::ENOSYS) => {
+            open_beneath(root, relative, true)
+        }
+        result => result,
+    }
 }
 
 fn open_beneath(root: &File, relative: &str, directory: bool) -> io::Result<File> {
@@ -1247,6 +1339,139 @@ mod tests {
         assert!(real_directory(&upper_path.join("alias")).is_err());
         synthetic_origin_proof();
         synthetic_certificate_proof();
+        synthetic_deep_inventory_proof();
+    }
+
+    fn synthetic_deep_inventory_proof() {
+        let fixture = Fixture::new();
+        let upper_path = fixture.0.join("deep-upper");
+        fs::create_dir(&upper_path).unwrap();
+        let mut paths = vec![String::new()];
+        for _ in 0..128 {
+            let next = child_path(paths.last().unwrap(), "d");
+            fs::create_dir(upper_path.join(&next)).unwrap();
+            paths.push(next);
+        }
+        let upper = open_directory(&upper_path).unwrap();
+        // The exact original algorithm, retained only for differential proof
+        // and local unmounted traversal measurements (not production tuning).
+        let original = |relative: &str| {
+            let mut directory = upper.try_clone()?;
+            require_clean_flags(&directory)?;
+            for component in Path::new(relative).components() {
+                let Component::Normal(name) = component else {
+                    return Err(store::invalid("invalid native upper path"));
+                };
+                directory = open_at(&directory, name, true)?;
+                require_clean_flags(&directory)?;
+            }
+            inventory_from_clean_directory(&directory)
+        };
+        let mut inventories = BTreeMap::new();
+        for path in &paths {
+            let inventory = clean_inventory(&upper, path).unwrap();
+            assert_eq!(inventory, original(path).unwrap());
+            require_parent_inventory(&inventories, path, &inventory).unwrap();
+            inventories.insert(path.clone(), inventory);
+        }
+        validate_inventory_set(&upper, &inventories).unwrap();
+        let root = inventories.remove("").unwrap();
+        assert!(validate_inventory_set(&upper, &inventories).is_err());
+        assert!(require_parent_inventory(&inventories, "d", &inventories["d"]).is_err());
+        inventories.insert(String::new(), root);
+        let child = inventories.get_mut("d").unwrap();
+        child.own.ino ^= 1;
+        assert!(require_parent_inventory(&inventories, "d", &inventories["d"]).is_err());
+        inventories.get_mut("d").unwrap().own.ino ^= 1;
+        let original_mode = inventories["d"].own.mode;
+        inventories.get_mut("d").unwrap().own.mode = libc::S_IFREG;
+        // Even mutually matching forged edge evidence cannot certify a file.
+        inventories
+            .get_mut("")
+            .unwrap()
+            .children
+            .get_mut("d")
+            .unwrap()
+            .mode = libc::S_IFREG;
+        assert!(require_parent_inventory(&inventories, "d", &inventories["d"]).is_err());
+        inventories.get_mut("d").unwrap().own.mode = original_mode;
+        inventories
+            .get_mut("")
+            .unwrap()
+            .children
+            .get_mut("d")
+            .unwrap()
+            .mode = original_mode;
+        // Ancestor identity/metadata mutation must invalidate final proof even
+        // though each descendant's own flags remain clean.
+        fs::write(upper_path.join("d/late"), "mutation").unwrap();
+        assert!(validate_inventory_set(&upper, &inventories).is_err());
+        fs::remove_file(upper_path.join("d/late")).unwrap();
+        symlink("d", upper_path.join("alias")).unwrap();
+        for path in [
+            "/d", "../d", "d/../d", "./d", "d//d", "d/", "d\0", "alias", "alias/d",
+        ] {
+            assert!(
+                open_inventory_directory(&upper, path).is_err(),
+                "accepted {path:?}"
+            );
+            assert!(
+                open_inventory_directory_with(&upper, path, |_| {
+                    Err(io::Error::from_raw_os_error(libc::ENOSYS))
+                })
+                .is_err(),
+                "fallback accepted {path:?}"
+            );
+        }
+        let fallback = open_inventory_directory_with(&upper, paths.last().unwrap(), |_| {
+            Err(io::Error::from_raw_os_error(libc::ENOSYS))
+        })
+        .unwrap();
+        assert_eq!(
+            stat_identity(&fallback, OsStr::new(".")).unwrap(),
+            clean_inventory(&upper, paths.last().unwrap()).unwrap().own
+        );
+        for errno in [
+            libc::EACCES,
+            libc::EIO,
+            libc::EINVAL,
+            libc::EAGAIN,
+            libc::EXDEV,
+            libc::EPERM,
+        ] {
+            assert_eq!(
+                open_inventory_directory_with(&upper, "d", |_| {
+                    Err(io::Error::from_raw_os_error(errno))
+                })
+                .unwrap_err()
+                .raw_os_error(),
+                Some(errno)
+            );
+        }
+        fs::remove_file(upper_path.join("alias")).unwrap();
+        // Opt-in repetitions remain inside the existing grouped test. Timings
+        // exclude fixture construction and verify exact inventories every pass.
+        if std::env::var_os("SPRIG_INVENTORY_AB").is_some() {
+            for repeat in 0..7 {
+                let started = Instant::now();
+                let old: Vec<_> = paths.iter().map(|path| original(path).unwrap()).collect();
+                let old_seconds = started.elapsed().as_secs_f64();
+                let started = Instant::now();
+                let mut new = BTreeMap::new();
+                for (path, expected) in paths.iter().zip(&old) {
+                    let inventory = clean_inventory(&upper, path).unwrap();
+                    assert_eq!(&inventory, expected);
+                    require_parent_inventory(&new, path, &inventory).unwrap();
+                    new.insert(path.clone(), inventory);
+                }
+                let new_seconds = started.elapsed().as_secs_f64();
+                eprintln!(
+                    "inventory_ab repeat={} directories={} old_seconds={old_seconds:.6} new_seconds={new_seconds:.6}",
+                    repeat + 1,
+                    paths.len()
+                );
+            }
+        }
     }
 
     // A private proof-engine differential test, NOT a real OverlayFS test.
