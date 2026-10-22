@@ -1,5 +1,7 @@
 # Baseline results: 22 October 2026
 
+> **Storage correction (22 October 2026):** the LayerFS figures below count only the store volume plus SDK home. They omit active workspace overlay databases and other writable-container state. They are **not complete active footprint** and must not support whole-product storage ratios or a storage winner. Raw measurements are preserved unchanged. See [scope correction and source evidence](STORAGE-CORRECTION.md). Timing and byte/history checks are separate measurements; this omission does not by itself invalidate them.
+
 This baseline does **not** show Sprig beating LayerFS in its strong deduplication and history workloads. It establishes a measured starting point for optimization, not an equal-durability comparison.
 
 - [Successful run and complete raw artifact](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/39752100080).
@@ -29,7 +31,7 @@ The first mount includes Docker sandbox startup; the warm task does not. Sprig C
 
 Allocated MiB (1 MiB = 1,048,576 bytes), median of three. Both measured workspaces are still usable at this point. All Sprig native trees, objects, manifests and retained recovery generations count. LayerFS Store volume plus SDK home count. Immutable binaries/runtime images are excluded for both. Sprig import additionally materializes a main workspace; LayerFS project initialization does not require one. These are actual representation costs, not an attempt to hide native materialization.
 
-| Recipe | Sprig active MiB | LayerFS active MiB |
+| Recipe | Sprig active MiB | LayerFS store + home subset MiB |
 |---|---:|---:|
 | identical | 301.297 | 2.551 |
 | unique | 402.961 | 202.809 |

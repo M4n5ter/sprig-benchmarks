@@ -1,5 +1,7 @@
 # Metadata optimization: 22 October 2026
 
+> **Storage correction (22 October 2026):** the LayerFS figures below count only the store volume plus SDK home. They omit active workspace overlay databases and other writable-container state. They are **not complete active footprint** and must not support whole-product storage ratios or a storage winner. Raw measurements are preserved unchanged. See [scope correction and source evidence](STORAGE-CORRECTION.md). Timing and byte/history checks are separate measurements; this omission does not by itself invalidate them.
+
 **Result:** Sprig is faster in this run's complete `unique` and `mixed` tasks, but still loses the identical-content, small-insertion and deep-history comparisons. Metadata compression greatly reduces retained-history footprint; it is not an overall win against LayerFS.
 
 - [Successful optimized run and raw artifact](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/39756383155).
@@ -25,11 +27,11 @@ Milliseconds, median of three. Cold task = import + usable fork + full SHA-256 r
 
 `unique` and `mixed` are genuine complete-task observations, not a claim that Sprig won the strongest deduplication cases. All seven cases are reported, including losses. Import outputs differ: Sprig immediately materializes its native main tree; LayerFS imports stored history before mounting a workspace.
 
-## Matched active footprint
+## Measured storage components (not whole-product matched footprint)
 
-Allocated MiB, median of three, with both measured workspaces still usable. Sprig additionally retains its natively materialized main workspace. All native trees, objects, manifests and retained recovery generations count; LayerFS volume plus SDK home count. Immutable software/runtime images are excluded for both.
+Allocated MiB, median of three, with both measured workspaces still usable. Sprig additionally retains its natively materialized main workspace. All measured Sprig native trees, objects, manifests and retained recovery generations count; the LayerFS column counts only its volume plus SDK home, omitting container workspace overlays. Immutable software/runtime images are excluded for both.
 
-| Recipe | Sprig active MiB | LayerFS active MiB |
+| Recipe | Sprig active MiB | LayerFS store + home subset MiB |
 |---|---:|---:|
 | identical | 301.160 | 2.551 |
 | unique | 402.867 | 202.840 |
@@ -51,7 +53,7 @@ The earlier uncompressed Sprig baseline is preserved separately. These are alloc
 | history-hotset | 46.613 | 15.781 | 66.1% |
 | history-recurring | 42.633 | 11.805 | 72.3% |
 
-For distributed repetition 0, state backups now allocate 2,105,344 bytes and revisions 2,506,752 bytes, compared with 25,333,760 and 11,599,872 bytes in baseline repetition 0. Native trees and content objects still allocate 5,988,352 + 2,035,712 bytes. That subtotal alone exceeds LayerFS's complete active footprint in the paired sample, so metadata-only compression cannot make Sprig win total storage on this ext4 workload.
+For distributed repetition 0, state backups now allocate 2,105,344 bytes and revisions 2,506,752 bytes, compared with 25,333,760 and 11,599,872 bytes in baseline repetition 0. Native trees and content objects still allocate 5,988,352 + 2,035,712 bytes. That subtotal exceeds the measured LayerFS store + home subset, but the omitted writable-container data prevents drawing a whole-product storage lower-bound or winner from this comparison.
 
 The implementation compresses immutable revision records and state backups and batches redundant content-directory synchronization. It retains file fsync, original revision-hash validation, every recovery generation/root, and full content capture even when size and mtime are unchanged. Fresh stores are used; old-store migration is not benchmarked.
 

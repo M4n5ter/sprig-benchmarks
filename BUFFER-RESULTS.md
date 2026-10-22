@@ -1,5 +1,7 @@
 # Buffer reuse verification: 22 October 2026
 
+> **Storage correction (22 October 2026):** the LayerFS figures below count only the store volume plus SDK home. They omit active workspace overlay databases and other writable-container state. They are **not complete active footprint** and must not support whole-product storage ratios or a storage winner. Raw measurements are preserved unchanged. See [scope correction and source evidence](STORAGE-CORRECTION.md). Timing and byte/history checks are separate measurements; this omission does not by itself invalidate them.
+
 **The result has not changed:** Sprig is faster on the complete unique/mixed tasks in this paired run, but still loses identical-content, small-insertion and deep-history comparisons. This is not a speed-and-storage victory over LayerFS.
 
 - Sprig `22e6e4c289be67b78d39a7eae157bfa3219d23a4`, LayerFS `2aaf2552ce21154928b9f9c83582e41a637f5910`.
@@ -13,7 +15,7 @@
 
 Median of three, milliseconds. Cold means import + usable fork + full SHA-256 read with first sandbox startup; warm means another usable fork + full read. Generated inputs are setup-warm, not cold-cache. Both products run the same full-read shell command; their CLI/SDK transports differ and remain included.
 
-| Recipe | Sprig cold | LayerFS cold | Sprig warm | LayerFS warm | Sprig active MiB | LayerFS active MiB |
+| Recipe | Sprig cold | LayerFS cold | Sprig warm | LayerFS warm | Sprig active MiB | LayerFS store + home subset MiB |
 |---|---:|---:|---:|---:|---:|---:|
 | identical | 627.304 | 436.007 | 358.802 | 202.297 | 301.160 | 2.551 |
 | unique | 1189.630 | 1712.743 | 361.133 | 680.650 | 402.863 | 202.809 |
@@ -23,7 +25,7 @@ Median of three, milliseconds. Cold means import + usable fork + full SHA-256 re
 | history-hotset | 350.128 | 327.364 | 145.755 | 78.189 | 15.785 | 6.652 |
 | history-recurring | 372.513 | 314.551 | 156.247 | 76.186 | 11.805 | 6.262 |
 
-Active footprint counts all retained representations and recovery generations, with both measured workspaces still usable. Sprig import also materializes main. Ext4 clone falls back to copy; allocated blocks are not exclusive physical extent usage. Software/runtime images are excluded for both.
+The Sprig measurement counts its retained store representations and recovery generations, with both measured workspaces still usable. The LayerFS measurement omits workspace overlay databases and other container-writable state, so this is not a matched complete footprint. Sprig import also materializes main. Ext4 clone falls back to copy; allocated blocks are not exclusive physical extent usage. Software/runtime images are excluded for both.
 
 ## One hundred edits and checkpoints
 
