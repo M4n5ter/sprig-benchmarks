@@ -1,3 +1,5 @@
+[Independent native Btrfs feasibility results](BTRFS-FEASIBILITY-RESULTS.md): warm reads/forks improve, but import/checkpoint targets and feature parity are not met.
+
 > Timing scope: import + fork + verified read is a sum of defined phases, not complete startup wall time. Sprig store initialization, software installation/build, and runtime setup are excluded; LayerFS project initialization includes its store initialization. CLI versus SDK and durability differences remain.
 
 # Sprig comparative benchmarks
