@@ -4,7 +4,6 @@ import {LayerFS} from './layerfs/sdk/js/src/index.js';
 import {LayerFSOperator} from './layerfs/sdk/js/operator/index.js';
 import fs from 'node:fs';
 import path from 'node:path';
-import crypto from 'node:crypto';
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {performance} from 'node:perf_hooks';
@@ -15,9 +14,10 @@ const timed=async fn=>{const t=performance.now();const value=await fn();return {
 function treeStats(dir){const own=fs.lstatSync(dir);let bytes=own.size,allocated=own.blocks*512,files=0;for(const e of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(e.isDirectory()){const s=treeStats(p);bytes+=s.bytes;allocated+=s.allocated;files+=s.files;}else{const s=fs.lstatSync(p);bytes+=s.size;allocated+=s.blocks*512;files++;}}return {bytes,allocated,files,exclusivePhysicalBytes:null};}
 function diskStats(dir){return {...treeStats(dir),duApparentBytes:Number(command('du',['-s','--apparent-size','-B1',dir]).split(/\s/)[0]),duAllocatedBytes:Number(command('du',['-s','-B1',dir]).split(/\s/)[0])};}
 function components(dir){return Object.fromEntries(fs.readdirSync(dir,{withFileTypes:true}).map(e=>{const p=path.join(dir,e.name);const t=fs.lstatSync(p);return [e.name,e.isDirectory()?diskStats(p):{bytes:t.size,allocated:t.blocks*512}];}));}
-function verify(dir,manifest){for(const f of manifest)assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,f.path))).digest('hex'),f.sha256);}
 function sprig(store,...args){try{const r=JSON.parse(command(path.join(root,'sprig/target/release/sprig'),['--store',store,'--json',...args]));return r.result??r;}catch(e){if(e.stdout)throw new Error(String(e.stdout));throw e;}}
 const rounds=Number(process.env.ROUNDS||1),cases=(process.env.CASES||'identical').split(',');
+const expectedRecords=rounds*cases.length*2;
+function appendHistorySample(r,sample){fs.appendFileSync('results/history-samples.jsonl',JSON.stringify({product:r.product,case:r.case,round:r.round,...sample})+'\n');}
 for(let round=0;round<rounds;round++)for(const caseName of cases){
  const fixture=path.join(root,'fixtures',caseName),manifest=JSON.parse(fs.readFileSync(fixture+'.json'));
  const checks='('+manifest.map(f=>`printf '%s  %s\\n' '${f.sha256}' '${f.path}'`).join(';')+') | sha256sum -c -';
@@ -29,18 +29,17 @@ for(let round=0;round<rounds;round++)for(const caseName of cases){
    const store=path.join(root,'scratch',id);fs.mkdirSync(path.dirname(store),{recursive:true});sprig(store,'init');
    let t=await timed(()=>sprig(store,'import',fixture,'main'));r.importMs=t.ms;r.copyStats=t.value.copy_stats;
    t=await timed(()=>sprig(store,'branch','metadata','main'));r.metadataBranchMs=t.ms;
-   t=await timed(()=>sprig(store,'fork','main','work'));r.forkToWorkspaceMs=t.ms;const wp=t.value.path;r.forkCopyStats=t.value.copy_stats;
-   t=await timed(()=>command(path.join(root,'sprig/target/release/sprig'),['--store',store,'exec','work','--','bash','-c',checks]));r.firstFullReadVerifyMs=t.ms;verify(wp,manifest);
+   t=await timed(()=>sprig(store,'fork','main','work'));r.forkToWorkspaceMs=t.ms;r.forkCopyStats=t.value.copy_stats;
+   t=await timed(()=>command(path.join(root,'sprig/target/release/sprig'),['--store',store,'exec','work','--','bash','-c',checks]));r.firstFullReadVerifyMs=t.ms;
    r.totalImportForkReadMs=r.importMs+r.forkToWorkspaceMs+r.firstFullReadVerifyMs;
-   r.afterFirstTaskStore=diskStats(store);
    t=await timed(()=>sprig(store,'fork','main','second'));r.warmForkToWorkspaceMs=t.ms;
    t=await timed(()=>command(path.join(root,'sprig/target/release/sprig'),['--store',store,'exec','second','--','bash','-c',checks]));r.warmFirstFullReadMs=t.ms;
    if(caseName.startsWith('history-'))await checkHistory(caseName,{
     exec:async cmd=>command(path.join(root,'sprig/target/release/sprig'),['--store',store,'exec','work','--','bash','-c',cmd]),
     commit:async msg=>sprig(store,'checkpoint','work','-m',msg),
-    history:async()=>sprig(store,'log','work')
+    history:async()=>sprig(store,'log','work'),onSample:sample=>appendHistorySample(r,sample)
    },r.historyCheck={});
-   r.productStats=sprig(store,'stats');r.fullStore=diskStats(store);r.storeComponents=components(store);r.correct=true;
+   r.activeStore=diskStats(store);r.activeStoreComponents=components(store);r.productStats=sprig(store,'stats');r.fullStore=diskStats(store);r.storeComponents=components(store);r.correct=true;
    if(caseName==='identical' && round===0)r.mergeChecks=await checkMerge({
      write:async(b,p,t)=>sprig(store,'write',b,p,'--text',t),
      fork:async(b,from)=>sprig(store,'fork',from,b),
@@ -56,18 +55,19 @@ for(let round=0;round<rounds;round++)for(const caseName of cases){
    const l=new LayerFS(id,{storePath:process.env.LAYERFS_STORE_PATH}),op=new LayerFSOperator(l);
    try{
     let t=await timed(()=>l.project.init(fixture));r.importMs=t.ms;
-    t=await timed(()=>l.branch.fork('work','main'));r.metadataBranchMs=t.ms;
-    r.afterImportStats=await op.store.stats();
-    t=await timed(()=>l.workspace.mount('work'));r.mountMs=t.ms;const ws=t.value;r.forkToWorkspaceMs=r.metadataBranchMs+r.mountMs;
+    t=await timed(()=>l.branch.fork('metadata','main'));r.metadataBranchMs=t.ms;
+    t=await timed(async()=>{await l.branch.fork('work','main');return l.workspace.mount('work');});const ws=t.value;r.forkToWorkspaceMs=t.ms;
     t=await timed(()=>l.workspace.exec(ws,checks));r.firstFullReadVerifyMs=t.ms;assert.equal(t.value.exitCode,0,json(t.value));
     r.totalImportForkReadMs=r.importMs+r.forkToWorkspaceMs+r.firstFullReadVerifyMs;
     t=await timed(async()=>{await l.branch.fork('second','main');return l.workspace.mount('second');});r.warmForkToWorkspaceMs=t.ms;const ws2=t.value;
-    t=await timed(()=>l.workspace.exec(ws2,checks));r.warmFirstFullReadMs=t.ms;assert.equal(t.value.exitCode,0,json(t.value));await l.workspace.unmount(ws2,true);
+    t=await timed(()=>l.workspace.exec(ws2,checks));r.warmFirstFullReadMs=t.ms;assert.equal(t.value.exitCode,0,json(t.value));
     if(caseName.startsWith('history-'))await checkHistory(caseName,{
       exec:async cmd=>{const result=await l.workspace.exec(ws,cmd);assert.equal(result.exitCode,0,json(result));return result;},
-      commit:async msg=>l.workspace.commit(ws,msg),history:async()=>{const items=[];let more=true;while(more){const page=await l.branch.list_commits('work',1000,items.length);assert.ok(page.items.length||!page.hasMore,'Non-progressing history page');items.push(...page.items);more=page.hasMore;}return items;}
+      commit:async msg=>l.workspace.commit(ws,msg),history:async()=>{const items=[];let more=true;while(more){const page=await l.branch.list_commits('work',1000,items.length);assert.ok(page.items.length||!page.hasMore,'Non-progressing history page');items.push(...page.items);more=page.hasMore;}return items;},onSample:sample=>appendHistorySample(r,sample)
     },r.historyCheck={});
-    await l.workspace.unmount(ws,true);r.productStats=await op.store.stats();await l.close();const stopped=command('docker',['ps','-q','--filter','volume='+volume]).trim().split('\n').filter(Boolean);if(stopped.length)command('docker',['stop','-t','10',...stopped]);r.fullStore=diskStats(mount);r.storeComponents=components(mount);if(fs.existsSync(path.join(mount,'global')))r.globalFiles=components(path.join(mount,'global'));r.sdkHome=diskStats(home);for(const key of ['bytes','allocated','duApparentBytes','duAllocatedBytes'])r.fullStore[key]+=r.sdkHome[key];r.correct=true;
+    r.activeStore=diskStats(mount);r.activeSdkHome=diskStats(home);for(const key of ['bytes','allocated','duApparentBytes','duAllocatedBytes'])r.activeStore[key]+=r.activeSdkHome[key];
+    r.activeStoreComponents=components(mount);if(fs.existsSync(path.join(mount,'global')))r.activeGlobalFiles=components(path.join(mount,'global'));
+    await l.workspace.unmount(ws2,true);await l.workspace.unmount(ws,true);r.productStats=await op.store.stats();await l.close();const stopped=command('docker',['ps','-q','--filter','volume='+volume]).trim().split('\n').filter(Boolean);if(stopped.length)command('docker',['stop','-t','10',...stopped]);r.fullStore=diskStats(mount);r.storeComponents=components(mount);if(fs.existsSync(path.join(mount,'global')))r.globalFiles=components(path.join(mount,'global'));r.sdkHome=diskStats(home);for(const key of ['bytes','allocated','duApparentBytes','duAllocatedBytes'])r.fullStore[key]+=r.sdkHome[key];r.correct=true;
     if(caseName==='identical' && round===0)r.mergeChecks=await checkMerge({
       write:async(b,p,t)=>l.fs.write(b,'/'+p,t),fork:async(b,from)=>l.branch.fork(b,from),merge:async(a,b,c)=>l.branch.merge(a,b,c),
       read:async(b,p)=>{const v=await l.fs.read(b,'/'+p);return (v.lines??[]).map(x=>x.text).join('\n')||v.text;}
@@ -78,6 +78,6 @@ for(let round=0;round<rounds;round++)for(const caseName of cases){
    }
  }
  }catch(e){r.correct=false;r.error={message:e.message,stack:e.stack};throw e;}
- finally{fs.writeFileSync('results/comparison.json',json({records,caveats:['Different durability contracts; no durability-matched speed claim.','Warm generated inputs; no cold-cache claim.','Metadata-only branch is separate from fully usable workspace.','Full-read timers include the same shell sha256sum workload, via Sprig exec CLI versus SDK Docker exec; transport overhead is included.','Allocated blocks are not exclusive physical allocation.']}));console.log(json(r));}
+ finally{fs.writeFileSync('results/comparison.json',json({schemaVersion:2,expectedRecords,rounds,cases,complete:records.length===expectedRecords&&records.every(v=>v.correct===true),records,caveats:['Different durability contracts; no durability-matched speed claim.','Warm generated inputs; no cold-cache claim.','Metadata-only branch is separate from fully usable workspace.','Full-read timers include the same shell sha256sum workload, via Sprig exec CLI versus SDK Docker exec; transport overhead is included.','activeStore measures both work and second workspaces still usable; Sprig import additionally materializes main. fullStore is a post-SDK-close diagnostic with different lifecycle, not a matched footprint.', 'Allocated blocks are not exclusive physical allocation.', 'Byte/history smoke only: no extra-path, directory, mode, mtime or historical-remount oracle.', 'dd fsync precedes restoring mtime; writeMs does not promise final mtime durability.']}));console.log(json(r));}
  }
 }
