@@ -14,7 +14,7 @@ use sprig::content::{self, Manifest, Observed};
 pub type Result<T> = std::result::Result<T, content::Error>;
 pub const MAX_CHUNK_BYTES: usize = 256 * 1024;
 pub const CACHE_BYTES: usize = 16 * 1024 * 1024;
-const MAX_MANIFEST_BYTES: u64 = 256 * 1024 * 1024;
+const MAX_MANIFEST_BYTES: u64 = crate::metadata::MAX_METADATA_BYTES as u64;
 
 /// Captures a trusted, quiescent source into a fresh library root. On failure,
 /// incomplete objects may remain, but no partial manifest is published.
@@ -101,6 +101,13 @@ impl ObjectStore {
         if bytes.len() as u64 > MAX_MANIFEST_BYTES {
             return Err(invalid("manifest grew beyond metadata limit").into());
         }
+        // Immutable published manifests are compressed. Import/capture JSON
+        // remains a distinct intentional format, selected only by filename.
+        let bytes = if manifest_name.as_bytes().ends_with(b".manifest.zst") {
+            crate::metadata::decode(&bytes)?
+        } else {
+            bytes
+        };
         let manifest: Manifest = serde_json::from_slice(&bytes)?;
         content::validate_manifest(&manifest)?;
         let objects = open_at(&root, OsStr::new("objects"), true)?;

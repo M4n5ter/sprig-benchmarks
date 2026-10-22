@@ -48,7 +48,7 @@ def main():
    assert os.readlink(av/'renamed-link')=='binary' and not (av/'link').exists() and not (av/'opaque'/'old').exists()
    changed=cap('changed-a',a,h0['head']);assert changed['stats']['bytes_hashed']>=10 and changed['stats']['bytes_reused']>0
    pa=checkpoint('a',a,h0['head']);assert pa['status']=='published';ha=pa['head']['head']
-   same=cap('unchanged-a',a,ha);assert json.loads((store/same['manifest']).read_text())==json.loads((store/pa['manifest']).read_text())
+   same=cap('unchanged-a',a,ha);assert json.loads((store/same['manifest']).read_text())==next(r['manifest'] for r in cli('history') if r['id']==ha)
    noop=checkpoint('a-noop',a,ha);assert noop['status']=='noop' and noop['head']==pa['head']
    assert (store/'manifest.json').read_bytes()==initial and (lower/'shared.txt').read_text()==original and (lower/'forged').read_bytes()==b'0123456789'
    b_text=original.replace('seven\n','B-seven\n');(bv/'shared.txt').write_text(b_text);cap('changed-b',b,h0['head']);pb=checkpoint('b-merge',b,h0['head']);assert pb['status']=='published' and pb['merged']

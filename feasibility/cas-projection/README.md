@@ -1,5 +1,9 @@
 # Sprig CAS projection prototype
 
+This candidate adds compressed immutable manifests and transaction-local
+durability evidence. See [PUBLICATION.md](PUBLICATION.md) for the exact changes,
+fresh-store restriction and unchanged safety/measurement boundaries.
+
 This is an isolated, **read-only Linux FUSE feasibility prototype**, not a full
 Sprig implementation or a new production backend. It imports a quiescent source
 using the existing Sprig content-defined chunk capture code, then exposes that
@@ -17,7 +21,7 @@ own real-kernel semantic validation before any performance conclusion.
 ## Build and test
 
 Requires stable Rust 1.89 or newer. The only direct dependencies beyond Sprig are
-`fuser` 0.16.0, `libc`, `serde`/`serde_json`, `fastcdc`, and `blake3`; fuser's default/libfuse features
+`fuser` 0.16.0, `libc`, `serde`/`serde_json`, `fastcdc`, `blake3`, and `zstd` 0.13.3; fuser's default/libfuse features
 are disabled. No system libfuse development package is required for compilation.
 The local path dependency is `../sprig-history-rewrite`. When copying this folder
 to the benchmark runner's `feasibility/cas-projection`, change only that dependency
@@ -91,7 +95,7 @@ The library owns all persistent data:
 ```text
 LIBRARY/
   manifest.json       # immutable initial projection manifest
-  <hash>.manifest.json # immutable captured/merged manifests
+  <hash>.manifest.zst # immutable history manifests; explicit capture outputs remain JSON
   head.json           # atomically published head + generation
   commits/            # immutable parent/message/manifest records
   commit-backups/     # previous heads and retained conflict reports

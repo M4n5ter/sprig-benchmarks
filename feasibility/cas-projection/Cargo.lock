@@ -503,6 +503,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sprig",
+ "zstd",
 ]
 
 [[package]]

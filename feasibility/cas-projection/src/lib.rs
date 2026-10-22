@@ -1,6 +1,7 @@
 //! Experimental immutable CAS projection, upper capture, and shared publication.
 
 pub mod fuse;
+mod metadata;
 pub mod projection;
 pub mod store;
 

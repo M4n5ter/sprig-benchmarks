@@ -125,6 +125,9 @@ pub struct Transaction {
     backups_dir: File,
     _lock: File,
     head: Head,
+    // Only successful publication establishes this durability evidence.
+    // Rebuilt from the already-validated current revision when reopening.
+    durable_objects: BTreeSet<String>,
 }
 
 impl Transaction {
@@ -171,6 +174,7 @@ impl Transaction {
             commits_dir,
             backups_dir,
             _lock: lock,
+            durable_objects: BTreeSet::new(),
             head: existing.clone().unwrap_or(Head {
                 head: String::new(),
                 generation: 0,
@@ -178,7 +182,8 @@ impl Transaction {
         };
         if let Some(head) = existing {
             validate_hash(&head.head)?;
-            transaction.revision(&head.head)?;
+            let current = transaction.revision(&head.head)?;
+            transaction.durable_objects = content::referenced_chunks(&current.manifest);
         } else {
             let manifest = transaction.read_manifest("manifest.json")?;
             let revision = transaction.store_revision(&manifest, Vec::new(), IMPORT_MESSAGE)?;
@@ -188,6 +193,7 @@ impl Transaction {
             };
             transaction.publish_head(&head, None)?;
             transaction.head = head;
+            transaction.durable_objects = content::referenced_chunks(&manifest);
         }
         Ok(transaction)
     }
@@ -322,6 +328,7 @@ impl Transaction {
         };
         self.publish_head(&head, Some(&self.head))?;
         self.head = head.clone();
+        self.durable_objects = content::referenced_chunks(&result.manifest);
         Ok(PublishOutcome::Published {
             head,
             candidate: candidate.id,
@@ -410,7 +417,13 @@ impl Transaction {
 
     fn read_manifest(&self, name: &str) -> Result<Manifest> {
         validate_filename(name)?;
-        let manifest = read_json(&self.root_dir, name)?;
+        let bytes = read_bytes(&self.root_dir, name)?;
+        let bytes = if name.ends_with(".manifest.zst") {
+            crate::metadata::decode(&bytes)?
+        } else {
+            bytes
+        };
+        let manifest = serde_json::from_slice(&bytes)?;
         content::validate_manifest(&manifest)?;
         Ok(manifest)
     }
@@ -449,7 +462,12 @@ impl Transaction {
             if length == 0 || length > MAX_CHUNK_BYTES as u64 {
                 return Err(invalid("referenced chunk length is outside 1..=256 KiB").into());
             }
-            file.sync_all()?;
+            // A published current head proves prior object durability, not
+            // integrity. Keep all existing type/length checks above and below.
+            // Arbitrary new/orphan candidate objects still require fsync.
+            if !self.durable_objects.contains(&hash) {
+                file.sync_all()?;
+            }
             lengths.insert(hash, length);
         }
         for entry in manifest.values() {
@@ -464,8 +482,13 @@ impl Transaction {
             }
         }
         self.objects_dir.sync_all()?;
-        let manifest_file = manifest_filename(manifest)?;
-        self.write_immutable(&self.root_dir, &manifest_file, &json_bytes(manifest)?)?;
+        let manifest_bytes = json_bytes(manifest)?;
+        let manifest_file = format!("{}.manifest.zst", blake3::hash(&manifest_bytes).to_hex());
+        self.write_immutable(
+            &self.root_dir,
+            &manifest_file,
+            &crate::metadata::encode(&manifest_bytes)?,
+        )?;
         let record = Record {
             manifest: manifest_file.clone(),
             parents,
@@ -569,14 +592,14 @@ fn confirm_head_durability(attempted_head: &Head, result: io::Result<()>) -> Res
 
 fn manifest_filename(manifest: &Manifest) -> Result<String> {
     Ok(format!(
-        "{}.manifest.json",
+        "{}.manifest.zst",
         blake3::hash(&json_bytes(manifest)?).to_hex()
     ))
 }
 
 fn validate_manifest_filename(name: &str) -> io::Result<()> {
     let hash = name
-        .strip_suffix(".manifest.json")
+        .strip_suffix(".manifest.zst")
         .ok_or_else(|| invalid("invalid immutable manifest filename"))?;
     validate_hash(hash)
 }
@@ -802,6 +825,13 @@ mod tests {
         assert!(root.join(candidate_manifest).is_file());
         let merged_head = transaction.head().clone();
         let merged = transaction.revision(&merged_head.head).unwrap();
+        assert_eq!(
+            transaction.durable_objects,
+            content::referenced_chunks(&merged.manifest)
+        );
+        let (_, projected) =
+            crate::store::ObjectStore::load(&root, OsStr::new(&merged.manifest_file)).unwrap();
+        assert_eq!(projected, merged.manifest);
         assert_eq!(merged.parents.len(), 2);
         assert_eq!(merged.parents[0], first.head);
         assert!(transaction.resolve_base(&merged.parents[1]).is_ok());
@@ -883,6 +913,10 @@ mod tests {
         let reopened = Transaction::open(&root).unwrap();
         assert_eq!(reopened.head(), &merged_head);
         assert_eq!(reopened.history(100).unwrap().len(), 3);
+        assert_eq!(
+            reopened.durable_objects,
+            content::referenced_chunks(&merged.manifest)
+        );
 
         // Exercise only error classification, without inducing a filesystem
         // failure or claiming that the attempted head was actually published.
@@ -967,7 +1001,85 @@ mod tests {
         let newest = transaction.revision(&transaction.head().head).unwrap();
         assert_eq!(newest.manifest["new"].mode, 0o644);
         assert_eq!(bytes(&newest, "new", &root), b"new bytes");
+        // Durability evidence never skips validation of a known referenced
+        // object. Damage only this synthetic fixture, retaining the original.
+        let known = content::referenced_chunks(&newest.manifest)
+            .into_iter()
+            .next()
+            .unwrap();
+        assert!(transaction.durable_objects.contains(&known));
+        let object = root.join("objects").join(&known);
+        let retained = root.join("retained-test-object");
+        fs::rename(&object, &retained).unwrap();
+        let mut changed = newest.manifest.clone();
+        changed.get_mut("file").unwrap().mode ^= 0o100;
+        let before = transaction.head().clone();
+        assert!(
+            transaction
+                .publish(&newest.id, changed.clone(), "missing durable", None)
+                .is_err()
+        );
+        symlink(&retained, &object).unwrap();
+        assert!(
+            transaction
+                .publish(&newest.id, changed.clone(), "linked durable", None)
+                .is_err()
+        );
+        fs::rename(&object, root.join("retained-test-link")).unwrap();
+        fs::create_dir(&object).unwrap();
+        assert!(
+            transaction
+                .publish(&newest.id, changed.clone(), "directory durable", None)
+                .is_err()
+        );
+        fs::rename(&object, root.join("retained-test-directory")).unwrap();
+        let damaged = File::create(&object).unwrap();
+        for length in [0, MAX_CHUNK_BYTES as u64 + 1, 1] {
+            damaged.set_len(length).unwrap();
+            assert!(
+                transaction
+                    .publish(&newest.id, changed.clone(), "damaged durable", None)
+                    .is_err()
+            );
+        }
+        assert_eq!(transaction.head(), &before);
+        fs::rename(&retained, &object).unwrap();
         drop(transaction);
+
+        // An older experimental history is rejected, never reset or migrated.
+        let old_manifest = newest
+            .manifest_file
+            .replace(".manifest.zst", ".manifest.json");
+        fs::write(
+            root.join(&old_manifest),
+            json_bytes(&newest.manifest).unwrap(),
+        )
+        .unwrap();
+        let old_record = json_bytes(&Record {
+            manifest: old_manifest,
+            parents: newest.parents,
+            message: newest.message,
+        })
+        .unwrap();
+        let old_id = blake3::hash(&old_record).to_hex().to_string();
+        fs::write(
+            root.join("commits").join(format!("{old_id}.json")),
+            &old_record,
+        )
+        .unwrap();
+        fs::rename(
+            root.join("head.json"),
+            root.join("retained-new-format-head"),
+        )
+        .unwrap();
+        let old_head = json_bytes(&Head {
+            head: old_id,
+            generation: before.generation,
+        })
+        .unwrap();
+        fs::write(root.join("head.json"), &old_head).unwrap();
+        assert!(Transaction::open(&root).is_err());
+        assert_eq!(fs::read(root.join("head.json")).unwrap(), old_head);
 
         let linked_root = root.parent().unwrap().join("linked-store");
         symlink(&root, &linked_root).unwrap();
