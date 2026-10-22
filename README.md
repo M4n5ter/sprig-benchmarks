@@ -3,7 +3,7 @@
 Independent, reproducible comparisons. [Latest optimization results](OPTIMIZATION-RESULTS.md) and [preserved baseline](RESULTS.md) include complete raw measurements. No equal-durability comparison or overall Sprig win is claimed.
 
 Pinned products:
-- Sprig: `aab4985b03e245dabca21fc9eb8769f66896edd0`
+- Sprig: `22e6e4c289be67b78d39a7eae157bfa3219d23a4`
 - LayerFS v1.0.0: `2aaf2552ce21154928b9f9c83582e41a637f5910`
 
 All benchmarks use disposable synthetic data on temporary GitHub-hosted runners. LayerFS currently supports only its Disposable SQLite WAL/synchronous=OFF profile; Sprig synchronization remains enabled. These are different durability contracts and will be reported, not hidden.
