@@ -16,7 +16,7 @@ use fuser::{
     SessionACL, TimeOrNow,
 };
 
-use crate::projection::{MAX_READ_BYTES, Projection};
+use crate::projection::{MAX_READ_BYTES, ORIGIN_XATTR, Projection};
 use crate::store::{self, Result};
 
 const TTL: Duration = Duration::from_secs(3600);
@@ -114,6 +114,20 @@ pub fn mount(
 
 fn errno(error: &io::Error) -> i32 {
     error.raw_os_error().unwrap_or(libc::EIO)
+}
+
+fn reply_xattr(reply: ReplyXattr, size: u32, value: &[u8]) {
+    let Ok(length) = u32::try_from(value.len()) else {
+        reply.error(libc::E2BIG);
+        return;
+    };
+    if size == 0 {
+        reply.size(length);
+    } else if size < length {
+        reply.error(libc::ERANGE);
+    } else {
+        reply.data(value);
+    }
 }
 
 // The signatures are imposed by the FUSE protocol, not application API design.
@@ -302,20 +316,27 @@ impl Filesystem for ReadOnlyFilesystem {
         &mut self,
         _request: &Request<'_>,
         inode: u64,
-        _name: &OsStr,
-        _size: u32,
+        name: &OsStr,
+        size: u32,
         reply: ReplyXattr,
     ) {
-        match self.projection.getattr(inode) {
+        match self.projection.origin(inode) {
+            Ok(origin) if name == ORIGIN_XATTR => reply_xattr(reply, size, origin),
             Ok(_) => reply.error(libc::ENODATA),
             Err(error) => reply.error(errno(&error)),
         }
     }
 
     fn listxattr(&mut self, _request: &Request<'_>, inode: u64, size: u32, reply: ReplyXattr) {
-        match self.projection.getattr(inode) {
-            Ok(_) if size == 0 => reply.size(0),
-            Ok(_) => reply.data(&[]),
+        match self.projection.origin(inode) {
+            Ok(_) => {
+                let mut names = ORIGIN_XATTR.as_bytes().to_vec();
+                names.push(0);
+                reply_xattr(reply, size, &names);
+            }
+            Err(error) if error.raw_os_error() == Some(libc::ENODATA) => {
+                reply_xattr(reply, size, &[])
+            }
             Err(error) => reply.error(errno(&error)),
         }
     }

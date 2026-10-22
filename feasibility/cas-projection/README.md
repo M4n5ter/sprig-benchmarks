@@ -5,17 +5,19 @@ Sprig implementation or a new production backend. It imports a quiescent source
 using the existing Sprig content-defined chunk capture code, then exposes that
 immutable manifest without cloning or materializing the source tree.
 
-Production Sprig and its native workspace behavior are unchanged. There is no
-writable VFS, snapshot/checkpoint command, merge, writable-layer import, automatic
-OverlayFS mount, background service, privileged installation, configuration edit,
-or authentication helper here. OverlayFS compatibility must be tested separately
-on an explicitly authorized runner. Compiling or passing these tests does not
-establish that any FUSE or OverlayFS mount works.
+Production Sprig and its native workspace behavior are unchanged. This experiment
+adds validated OverlayFS upper capture and a small shared publication engine that
+reuses Sprig's content and merge modules. It is not a complete workspace manager,
+SDK, recovery service, or production backend. There is no automatic OverlayFS
+mount, privileged installation, configuration edit, or authentication helper.
+Actual read-only FUSE and OverlayFS capability checks passed on an explicitly
+authorized temporary Linux runner; the incremental commit extension requires its
+own real-kernel semantic validation before any performance conclusion.
 
 ## Build and test
 
 Requires stable Rust 1.89 or newer. The only direct dependencies beyond Sprig are
-`fuser` 0.16.0, `libc`, `serde_json`, and `blake3`; fuser's default/libfuse features
+`fuser` 0.16.0, `libc`, `serde`/`serde_json`, `fastcdc`, and `blake3`; fuser's default/libfuse features
 are disabled. No system libfuse development package is required for compilation.
 The local path dependency is `../sprig-history-rewrite`. When copying this folder
 to the benchmark runner's `feasibility/cas-projection`, change only that dependency
@@ -88,7 +90,12 @@ The library owns all persistent data:
 
 ```text
 LIBRARY/
-  manifest.json       # validated Sprig manifest
+  manifest.json       # immutable initial projection manifest
+  <hash>.manifest.json # immutable captured/merged manifests
+  head.json           # atomically published head + generation
+  commits/            # immutable parent/message/manifest records
+  commit-backups/     # previous heads and retained conflict reports
+  commit.lock         # cooperative single-writer lock
   objects/
     <64 lowercase hex BLAKE3 hash>
 ```
@@ -153,8 +160,8 @@ for this bounded prototype, not an optimized production service.
   verified cached bytes remain the original content if someone violates the
   immutability contract. Referenced missing/invalid-sized chunks fail load.
 - A corrupt same-sized object is detected on its first uncached read, not during
-  mount. There is no eager whole-store verification, writable-layer reconciliation,
-  or claim of OverlayFS NFS-export/file-handle support.
+  mount. There is no eager whole-store verification or claim of OverlayFS
+  NFS-export/file-handle support.
 
 ## Validation scope
 
@@ -166,10 +173,83 @@ missing/symlinked/oversized/mis-sized objects, pre-epoch timestamp rejection,
 readlink reply-size boundaries, and
 read-only opens/access checks.
 
-A real mount smoke test is still required to establish kernel protocol behavior,
-directory-cookie behavior through libc, executable reads, direct writes returning
-`EROFS`, and any OverlayFS copy-up/whiteout integration. No mount is part of the
-default build/test workflow.
+The first real-kernel smoke passed read-only projection, copy-up/in-place and mmap
+writes, truncation, lower-directory rename with redirect, whiteouts, opaque
+replacement, old-lower isolation, and ordinary unmount refusing an open descriptor.
+That result does not establish incremental capture or workspace publication.
+No mount is part of the default build/test workflow.
+
+## Incremental capture and shared publication experiment
+
+Use only an already-authorized, private, rootful temporary Linux runner. Keep all
+external writers quiescent. The merged view, lower, upper, work, and object store
+must be separate trees; nested mounts, extra lowers, rootless userxattr, volatile
+mode, and ambiguous mount paths are rejected. The actual mount table must bind
+these exact paths. The lower must be this root-owned read-only projection.
+
+A metadata walk uses the kernel's merged namespace, including redirects,
+whiteouts, and opaque directories. Content reuse requires an absent upper leaf
+proved through descriptor-relative, no-follow ancestor checks, a bound immutable
+lower origin, and a matching base entry. Metacopy must be proven disabled. All
+upper files and every uncertain file are streamed through the normal CDC/hash
+writer. Preserved sizes, timestamps, inode numbers, or copied/forged origin xattrs
+never authorize content reuse. The public prototype origin xattr is advisory for
+identity and does not expose arbitrary original xattrs. It is not advertised on
+symlinks, because Linux forbids user.* attributes there; symlink rename identity
+hints are consequently unavailable.
+
+After mounting one lower and OverlayFS view through the runner's reviewed helper:
+
+```sh
+# Initialize/read the experimental head; save its head and generation values.
+$BIN head --root "$STORE"
+
+# Capture a candidate without moving the head, then check every path/content,
+# mode and mtime using the independent full-capture oracle (outside any timer).
+$BIN capture --root "$STORE" --projection-base manifest.json \
+  --base manifest.json --merged "$VIEW" --upper "$UPPER" --lower "$LOWER" \
+  --output candidate.json
+$BIN verify --root "$STORE" --merged "$VIEW" --manifest candidate.json
+
+# Checkpoint through the same publication core as direct SDK writes.
+$BIN checkpoint --root "$STORE" --projection-base manifest.json \
+  --base "$APPLIED_BASE" --merged "$VIEW" --upper "$UPPER" --lower "$LOWER"
+$BIN write --root "$STORE" --base "$APPLIED_BASE" --path file.txt --text 'new text'
+$BIN history --root "$STORE"
+```
+
+`--base` is the known history state actually applied to that workspace, not merely
+the latest published head. `--projection-base` identifies the immutable mounted
+lower. Identity reconciliation defaults to the logical base; an optional
+`--identity-base FILENAME` supplies the previous local candidate's immutable
+manifest when its identities must survive a still-mounted older projection.
+It affects IDs only, never content reuse. These explicit experimental inputs are
+not an automatic workspace lifecycle. In particular, a successful merge does
+**not** rewrite or refresh the mounted view, advance its applied base, or release
+its lower pin. Upper-only renames without a known identity are not tracked by a
+persistent inode journal.
+
+All cooperating captures and writes hold one nonblocking transaction lock. A
+candidate is immutable before the head changes. A stale candidate uses Sprig's
+three-way merge; a clean merge retains both parents. The current head's `.lww`
+rules are honored by that existing core; without such an explicit policy,
+overlapping incompatible edits return structured conflicts. Conflicts retain the
+candidate and report, leave the head unchanged, and do not overwrite the mounted
+view or inject textual markers. This is not a full interactive conflict resolver.
+An explicit CAS requires both `--expected-head ID` and
+`--expected-generation NUMBER`. Unrelated or orphan candidate commits cannot be
+used as publication bases. Unchanged candidates do not create head updates just
+because the message differs.
+
+Checked content fsyncs and directory publication precede immutable records, then
+an old-head backup precedes atomic head replacement and root-directory fsync.
+A post-replacement sync failure reports publication outcome unknown: reopen and
+inspect the head before deciding what to do, never blindly retry. Orphan files
+may remain after failed publication; this experiment never purges them. Ordinary
+close/reopen checks are not a complete crash/power-failure test suite. There is no
+GC or mount-epoch reset, so all prior manifests, candidates, chunks, and the live
+projection base remain retained. Busy mounts keep the old projection unchanged;
+only normal, successful unmount allows external lifecycle cleanup.
 
 Style follows the [Google Rust Style Guide](https://google.github.io/styleguide/rustguide.html)
 where appropriate for a standalone Cargo crate: stable Rust, rustfmt, explicit

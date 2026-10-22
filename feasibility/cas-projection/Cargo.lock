@@ -497,8 +497,10 @@ name = "sprig-cas-projection-prototype"
 version = "0.1.0"
 dependencies = [
  "blake3",
+ "fastcdc",
  "fuser",
  "libc",
+ "serde",
  "serde_json",
  "sprig",
 ]

@@ -13,6 +13,8 @@ use crate::store::{self, ChunkCache, ObjectStore, Result};
 
 pub const ROOT_INODE: u64 = 1;
 pub const MAX_READ_BYTES: usize = 1024 * 1024;
+/// Advisory source identity, not proof that an OverlayFS upper entry is unchanged.
+pub const ORIGIN_XATTR: &str = "user.sprig.prototype.origin";
 // Conservative Linux readlink reply bound for the intended 4 KiB-page runner.
 pub const MAX_SYMLINK_BYTES: usize = 4095;
 
@@ -32,6 +34,7 @@ struct Node {
     attr: FileAttr,
     parent: u64,
     data: Data,
+    origin: Vec<u8>,
 }
 
 pub struct DirectoryEntry {
@@ -55,6 +58,11 @@ pub struct Projection {
 impl Projection {
     pub fn load(root: &Path, manifest_name: &OsStr, uid: u32, gid: u32) -> Result<Self> {
         let (store, manifest) = ObjectStore::load(root, manifest_name)?;
+        // Hash the validated manifest value, not its filename, JSON whitespace,
+        // or a branch name that may later refer to a different snapshot.
+        let manifest_hash = blake3::hash(&serde_json::to_vec(&manifest)?)
+            .to_hex()
+            .to_string();
         let paths: BTreeMap<_, _> = manifest
             .keys()
             .enumerate()
@@ -143,7 +151,12 @@ impl Projection {
                 flags: 0,
                 blksize: 4096,
             };
-            nodes.push(Node { attr, parent, data });
+            nodes.push(Node {
+                attr,
+                parent,
+                data,
+                origin: serde_json::to_vec(&[manifest_hash.as_str(), path.as_str()])?,
+            });
             if inode != ROOT_INODE {
                 let parent = &mut nodes[(parent - ROOT_INODE) as usize];
                 let Data::Directory { children } = &mut parent.data else {
@@ -191,6 +204,19 @@ impl Projection {
 
     pub fn getattr(&self, inode: u64) -> io::Result<FileAttr> {
         Ok(self.node(inode)?.attr)
+    }
+
+    /// JSON `[manifest_digest, original_utf8_path]` for this immutable source.
+    /// Copy-up may preserve this hint even after content changes: consumers must
+    /// independently validate mount binding and upper-layer absence before reuse.
+    pub fn origin(&self, inode: u64) -> io::Result<&[u8]> {
+        let node = self.node(inode)?;
+        // Linux forbids user.* attributes on symlinks. Advertising one would
+        // make OverlayFS copy-up fail while copying its xattr list.
+        if node.attr.kind == FileType::Symlink {
+            return Err(io::Error::from_raw_os_error(libc::ENODATA));
+        }
+        Ok(&node.origin)
     }
 
     pub fn lookup(&self, parent: u64, name: &OsStr) -> io::Result<u64> {

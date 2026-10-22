@@ -36,8 +36,34 @@ impl Fixture {
         self.path.join("library")
     }
     fn load(&self) -> Projection {
-        Projection::load(&self.library(), OsStr::new("manifest.json"), 1000, 1000)
-            .expect("load projection")
+        let projection = Projection::load(&self.library(), OsStr::new("manifest.json"), 1000, 1000)
+            .expect("load projection");
+        let (_, manifest) = ObjectStore::load(&self.library(), OsStr::new("manifest.json"))
+            .expect("read immutable manifest");
+        let digest = blake3::hash(&serde_json::to_vec(&manifest).unwrap())
+            .to_hex()
+            .to_string();
+        for (index, path) in manifest.keys().enumerate() {
+            if matches!(manifest[path].kind, EntryKind::Symlink { .. }) {
+                assert_eq!(
+                    projection
+                        .origin(index as u64 + ROOT_INODE)
+                        .unwrap_err()
+                        .raw_os_error(),
+                    Some(libc::ENODATA)
+                );
+                continue;
+            }
+            let origin: (String, String) =
+                serde_json::from_slice(projection.origin(index as u64 + ROOT_INODE).unwrap())
+                    .unwrap();
+            assert_eq!(origin, (digest.clone(), path.clone()));
+        }
+        assert_eq!(
+            projection.origin(u64::MAX).unwrap_err().raw_os_error(),
+            Some(libc::ENOENT)
+        );
+        projection
     }
     fn import(&self) {
         store::import(&self.source(), &self.library()).expect("capture fixture");
