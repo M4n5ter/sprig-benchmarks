@@ -14,6 +14,7 @@ const command=(p,a)=>execFileSync(p,a,{encoding:'utf8',maxBuffer:16*1024*1024});
 const timed=async fn=>{const t=performance.now();const value=await fn();return {ms:performance.now()-t,value};};
 function treeStats(dir){const own=fs.lstatSync(dir);let bytes=own.size,allocated=own.blocks*512,files=0;for(const e of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(e.isDirectory()){const s=treeStats(p);bytes+=s.bytes;allocated+=s.allocated;files+=s.files;}else{const s=fs.lstatSync(p);bytes+=s.size;allocated+=s.blocks*512;files++;}}return {bytes,allocated,files,exclusivePhysicalBytes:null};}
 function diskStats(dir){return {...treeStats(dir),duApparentBytes:Number(command('du',['-s','--apparent-size','-B1',dir]).split(/\s/)[0]),duAllocatedBytes:Number(command('du',['-s','-B1',dir]).split(/\s/)[0])};}
+function components(dir){return Object.fromEntries(fs.readdirSync(dir,{withFileTypes:true}).map(e=>{const p=path.join(dir,e.name);const t=fs.lstatSync(p);return [e.name,e.isDirectory()?diskStats(p):{bytes:t.size,allocated:t.blocks*512}];}));}
 function verify(dir,manifest){for(const f of manifest)assert.equal(crypto.createHash('sha256').update(fs.readFileSync(path.join(dir,f.path))).digest('hex'),f.sha256);}
 function sprig(store,...args){try{const r=JSON.parse(command(path.join(root,'sprig/target/release/sprig'),['--store',store,'--json',...args]));return r.result??r;}catch(e){if(e.stdout)throw new Error(String(e.stdout));throw e;}}
 const rounds=Number(process.env.ROUNDS||1),cases=(process.env.CASES||'identical').split(',');
@@ -34,12 +35,12 @@ for(let round=0;round<rounds;round++)for(const caseName of cases){
    r.afterFirstTaskStore=diskStats(store);
    t=await timed(()=>sprig(store,'fork','main','second'));r.warmForkToWorkspaceMs=t.ms;
    t=await timed(()=>command(path.join(root,'sprig/target/release/sprig'),['--store',store,'exec','second','--','bash','-c',checks]));r.warmFirstFullReadMs=t.ms;
-   if(caseName.startsWith('history-'))r.historyCheck=await checkHistory(caseName,{
+   if(caseName.startsWith('history-'))await checkHistory(caseName,{
     exec:async cmd=>command(path.join(root,'sprig/target/release/sprig'),['--store',store,'exec','work','--','bash','-c',cmd]),
     commit:async msg=>sprig(store,'checkpoint','work','-m',msg),
     history:async()=>sprig(store,'log','work')
-   });
-   r.productStats=sprig(store,'stats');r.fullStore=diskStats(store);r.correct=true;
+   },r.historyCheck={});
+   r.productStats=sprig(store,'stats');r.fullStore=diskStats(store);r.storeComponents=components(store);r.correct=true;
    if(caseName==='identical' && round===0)r.mergeChecks=await checkMerge({
      write:async(b,p,t)=>sprig(store,'write',b,p,'--text',t),
      fork:async(b,from)=>sprig(store,'fork',from,b),
@@ -62,11 +63,11 @@ for(let round=0;round<rounds;round++)for(const caseName of cases){
     r.totalImportForkReadMs=r.importMs+r.forkToWorkspaceMs+r.firstFullReadVerifyMs;
     t=await timed(async()=>{await l.branch.fork('second','main');return l.workspace.mount('second');});r.warmForkToWorkspaceMs=t.ms;const ws2=t.value;
     t=await timed(()=>l.workspace.exec(ws2,checks));r.warmFirstFullReadMs=t.ms;assert.equal(t.value.exitCode,0,json(t.value));await l.workspace.unmount(ws2,true);
-    if(caseName.startsWith('history-'))r.historyCheck=await checkHistory(caseName,{
+    if(caseName.startsWith('history-'))await checkHistory(caseName,{
       exec:async cmd=>{const result=await l.workspace.exec(ws,cmd);assert.equal(result.exitCode,0,json(result));return result;},
-      commit:async msg=>l.workspace.commit(ws,msg),history:async()=>(await l.branch.list_commits('work',1000)).items
-    });
-    await l.workspace.unmount(ws,true);r.productStats=await op.store.stats();await l.close();const stopped=command('docker',['ps','-q','--filter','volume='+volume]).trim().split('\n').filter(Boolean);if(stopped.length)command('docker',['stop','-t','10',...stopped]);r.fullStore=diskStats(mount);r.sdkHome=diskStats(home);for(const key of ['bytes','allocated','duApparentBytes','duAllocatedBytes'])r.fullStore[key]+=r.sdkHome[key];r.correct=true;
+      commit:async msg=>l.workspace.commit(ws,msg),history:async()=>{const items=[];let more=true;while(more){const page=await l.branch.list_commits('work',1000,items.length);assert.ok(page.items.length||!page.hasMore,'Non-progressing history page');items.push(...page.items);more=page.hasMore;}return items;}
+    },r.historyCheck={});
+    await l.workspace.unmount(ws,true);r.productStats=await op.store.stats();await l.close();const stopped=command('docker',['ps','-q','--filter','volume='+volume]).trim().split('\n').filter(Boolean);if(stopped.length)command('docker',['stop','-t','10',...stopped]);r.fullStore=diskStats(mount);r.storeComponents=components(mount);if(fs.existsSync(path.join(mount,'global')))r.globalFiles=components(path.join(mount,'global'));r.sdkHome=diskStats(home);for(const key of ['bytes','allocated','duApparentBytes','duAllocatedBytes'])r.fullStore[key]+=r.sdkHome[key];r.correct=true;
     if(caseName==='identical' && round===0)r.mergeChecks=await checkMerge({
       write:async(b,p,t)=>l.fs.write(b,'/'+p,t),fork:async(b,from)=>l.branch.fork(b,from),merge:async(a,b,c)=>l.branch.merge(a,b,c),
       read:async(b,p)=>{const v=await l.fs.read(b,'/'+p);return (v.lines??[]).map(x=>x.text).join('\n')||v.text;}
