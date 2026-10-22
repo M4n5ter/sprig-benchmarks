@@ -1,0 +1,24 @@
+name: Isolated Btrfs feasibility
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  capabilities:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Install official filesystem tools
+        run: |
+          mkdir -p results
+          sudo apt-get update
+          sudo apt-get install -y btrfs-progs libbtrfsutil1
+          { uname -a; btrfs version; df -h; } > results/btrfs-environment.txt
+      - name: Validate isolated snapshot and extent accounting
+        run: bash feasibility/run_btrfs_smoke.sh
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: btrfs-capabilities
+          path: results/
