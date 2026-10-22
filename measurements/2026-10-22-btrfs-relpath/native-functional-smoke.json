@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "prototype_only": true,
+  "dedup": {
+    "ioctls": 11,
+    "bytes_compared_and_shared": 61440,
+    "different": 0
+  },
+  "checks": [
+    "duplicate and repeated blocks",
+    "same-size fixed-mtime edit",
+    "history and fork isolation",
+    "opaque symlink",
+    "no-op",
+    "rename and delete",
+    "special file rejects before publication"
+  ]
+}
