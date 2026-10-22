@@ -35,6 +35,10 @@ jobs:
         run: python3 sprig/examples/compare.py --binary sprig/target/release/sprig > results/sprig-smoke.json
       - name: Prepare controlled runtime
         run: |
+          sudo apt-get update
+          apt-cache policy docker-ce docker-ce-cli > results/docker-packages.txt
+          sudo apt-get install -y --only-upgrade docker-ce docker-ce-cli
+          docker version > results/docker-updated.txt
           docker pull ubuntu:24.04
           echo "LAYERFS_IMAGE=$(docker image inspect --format '{{.Id}}' ubuntu:24.04)" >> "$GITHUB_ENV"
           echo "LAYERFS_DAEMON=$PWD/layerfs/core/target/release/layerfs-daemon" >> "$GITHUB_ENV"
