@@ -1,5 +1,5 @@
 """Runner-only, single-daemon storage relocation; no networking/security changes."""
-import argparse, hashlib, json, os, pathlib, re, stat, subprocess, tempfile, time, tomllib
+import argparse, hashlib, json, os, pathlib, re, stat, subprocess, tempfile, time, tomllib, sys
 DOCKER=pathlib.Path('/etc/docker/daemon.json');CONTAINERD=pathlib.Path('/etc/containerd/config.toml')
 def cmd(*args):return subprocess.check_output(args,text=True,stderr=subprocess.STDOUT)
 def digest(data):return hashlib.sha256(data).hexdigest()
@@ -14,27 +14,40 @@ def wait_docker():
         except subprocess.CalledProcessError:time.sleep(1)
     raise RuntimeError('Docker did not become ready')
 def stop():cmd('systemctl','stop','docker.service','docker.socket','containerd.service')
-def start():cmd('systemctl','start','containerd.service','docker.service');wait_docker()
+def start():
+    try:
+        cmd('systemctl','start','containerd.service')
+        cmd('systemctl','start','docker.socket')
+        cmd('systemctl','start','docker.service');wait_docker()
+    except (subprocess.CalledProcessError,RuntimeError) as error:
+        print(getattr(error,"output",str(error)),file=sys.stderr)
+        # Only runtime service diagnostics, never product records/config contents.
+        print(cmd('journalctl','-u','docker.service','-u','containerd.service','-n','30','--no-pager'),file=sys.stderr)
+        raise
 def require_empty():
     if cmd('docker','ps','-aq').strip():raise RuntimeError('Refusing runtime relocation with any existing container')
 def restore(state_path):
     state=json.loads(state_path.read_text())
     if state.get('restored'):return
+    if state.get('configurationRestored'):
+        for item in state['files']:
+            path=pathlib.Path(item['path'])
+            assert (digest(path.read_bytes())==item['original_sha256']) if item['existed'] else not path.exists()
+        start();state['restored']=True;state_path.write_text(json.dumps(state));return
     # Refuse to overwrite unrelated changes, including after a daemon outage.
     for item in state['files']:
         path=pathlib.Path(item['path'])
         assert path.exists() and digest(path.read_bytes())==item['installed_sha256']
     try:require_empty()
-    except subprocess.CalledProcessError:pass  # Owned configuration is verified above.
+    except subprocess.CalledProcessError:pass
     stop()
     for item in state['files']:
         path=pathlib.Path(item['path'])
         if item['existed']:atomic(path,pathlib.Path(item['backup']).read_bytes(),item['mode'])
-        else:
-            # Only remove the configuration file this experiment created.
-            if path.exists():
-                assert digest(path.read_bytes())==item['installed_sha256']
-                path.unlink()
+        elif path.exists():
+            assert digest(path.read_bytes())==item['installed_sha256']
+            path.unlink()
+    state['configurationRestored']=True;state_path.write_text(json.dumps(state))
     start();state['restored']=True;state_path.write_text(json.dumps(state))
 def relocate(mount,state_path,archive,image):
     assert os.environ.get('GITHUB_ACTIONS')=='true' and os.geteuid()==0
@@ -78,7 +91,7 @@ def relocate(mount,state_path,archive,image):
         if existed:
             fd=os.open(backup,os.O_WRONLY|os.O_CREAT|os.O_EXCL,0o600)
             with os.fdopen(fd,'wb') as f:f.write(path.read_bytes())
-        files.append(dict(path=str(path),backup=str(backup),existed=existed,mode=mode,installed_sha256=digest(data)))
+        files.append(dict(path=str(path),backup=str(backup),existed=existed,mode=mode,original_sha256=digest(path.read_bytes()) if existed else None,installed_sha256=digest(data)))
     state_path.write_text(json.dumps({'files':files,'restored':False}));os.chmod(state_path,0o600)
     try:
         stop()
@@ -86,7 +99,7 @@ def relocate(mount,state_path,archive,image):
         start()
         info=json.loads(cmd('docker','info','--format','{{json .}}'))
         assert info['Driver']=='overlay2' and pathlib.Path(info['DockerRootDir']).resolve()==mount/'docker-data'
-        effective=tomllib.loads(cmd('containerd','config','dump'))
+        effective=tomllib.loads(subprocess.check_output(['containerd','config','dump'],text=True))
         assert effective['root']==str(mount/'containerd-data')
         cmd('docker','load','-i',str(archive))
         assert cmd('docker','image','inspect','--format','{{.Id}}',image).strip()==image
@@ -99,7 +112,8 @@ def relocate(mount,state_path,archive,image):
             path=pathlib.Path(item['path'])
             if item['existed']:atomic(path,pathlib.Path(item['backup']).read_bytes(),item['mode'])
             elif path.exists() and digest(path.read_bytes())==item['installed_sha256']:path.unlink()
-        start();state=json.loads(state_path.read_text());state['restored']=True;state_path.write_text(json.dumps(state));raise
+        state=json.loads(state_path.read_text());state['configurationRestored']=True;state_path.write_text(json.dumps(state))
+        start();state['restored']=True;state_path.write_text(json.dumps(state));raise
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('action',choices=['enter','leave']);p.add_argument('--state',required=True);p.add_argument('--mount');p.add_argument('--archive');p.add_argument('--image');a=p.parse_args()
     assert os.environ.get('GITHUB_ACTIONS')=='true' and os.geteuid()==0
