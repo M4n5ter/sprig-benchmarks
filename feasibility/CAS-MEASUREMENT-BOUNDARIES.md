@@ -1,0 +1,25 @@
+# CAS/Overlay paired experiment boundary
+
+Draft until the driver and independent review are complete. This is a new series, not a revision of any prior measurement. Production Sprig is unchanged. The seven fixture generators, 100 history writes, fixed mtimes, data amounts and three alternating-order paired repetitions are reused. The unsupported metadata-only branch probe is omitted on both sides.
+
+## Timing
+
+Software builds, package/image installation and runtime-image loading are separately recorded setup, not timed application operations. CAS import includes the CLI process and lazy initial publication/head initialization. Import also charges a metadata-only fixture safety inventory and reads its initial manifest for the later immutability oracle. Its first fork includes FUSE startup through actual initialization, directory setup and Overlay mount; the second view starts its own FUSE process and Overlay mount, with all startup charged. Both retain the same immutable CAS objects, while userspace content caches are separate (16 MiB content cache per FUSE process, not a total RSS bound). LayerFS project initialization, branch and mounted workspace calls use the existing official SDK path. Its SDK/volume initialization is separately timed and included in the initialization-inclusive phase sum.
+
+Each first/warm read runs the same full SHA256 oracle, with host child execution versus Docker exec transport disclosed. No cache dropping is attempted; these are first-use and warm phases, not verified cold-cache measurements. Physical diagnostics and extra full oracles occur after timed work. No aggregate claims include complete software setup/startup. CAS-only instrumentation writes small lifecycle records and performs binding/readiness checks inside its timed phases. The result is an instrumented practical interface, not pure product/API latency; its overhead is not measured or subtracted. Close speed claims would require a separately versioned symmetric-instrumentation study.
+
+History uses the same positional dd block writes, fsync and touch restoring mtime. Restored mtime itself is not guaranteed durable by that earlier fsync. Each CAS checkpoint invokes its public experimental CLI; process startup and capture/publication costs are included, versus comparator SDK calls. The applied base advances after each successful sequential checkpoint; the immutable projection base does not change. There is no artificial stale-merge workload. Per-step changed-file verification is outside timers on both sides. Every acknowledged ID must be distinct and retained in complete history; all 100 historical snapshots are full-read verified after storage sampling.
+
+## Storage and lifecycle
+
+Both samples get separate fresh identical 2 GiB Btrfs images, Data SINGLE, Metadata DUP, compression disabled, noatime. Common fixtures remain outside each image. CAS objects, all manifests/commits, active upper/work directories, and runtime logs are inside its image. Physical Used is sampled while both live FUSE lowers and Overlay views remain mounted; their separate userspace caches are not treated as zero-RAM work.
+
+The comparator reuses the reviewed storage-only runtime relocation: Docker data root, containerd persistent root, image/software state, writable overlays, volume/store, metadata and logs, plus SDK home all reside inside its image. Both workspaces and SDK remain live when sampled. Empty, runtime-ready and final filesystem Used plus raw allocation groups distinguish whole runtime from runtime-ready increments. Neither is exact application-data-only accounting. Host journal, volatile /run daemon state and RAM remain outside disk metrics. Do not infer equivalent RAM or background compute from equal disk boundaries.
+
+Whole-filesystem Used, including Data/Metadata/System, is the primary physical measure. Logical file sums and FIEMAP/du are not substitutes for shared backing allocations. Accounting sync is outside timers and does not make the durability configurations equivalent: comparator Disposable SQLite synchronous=OFF differs from CAS fsync publication. No equal-durability performance claim is allowed.
+
+All mounts use temporary synthetic runner paths. Cleanup uses ordinary unmount only; a busy mount fails and is retained rather than forced or lazily detached. History verification is after sampling and may add verification views, but those are not included as retained active workload state. Failures or incomplete tuple sets cannot be reported as complete successful measurements.
+
+## Interpretation
+
+This adapter has passed a bounded semantic smoke, not full production lifecycle, recovery, security or API compatibility. Same-runner paired results describe these concrete interfaces/settings, not theoretical filesystem limits. Across-run historical changes cannot establish causal speedups. The user goal of speed, storage and basic capabilities is not satisfied merely by one favorable phase or by whole-runtime differences dominated by software baseline.
