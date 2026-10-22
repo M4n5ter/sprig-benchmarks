@@ -1,0 +1,4 @@
+{"allow_other":false,"event":"mount_prepared","mountpoint":"/home/runner/work/_temp/sprig-cas-overlay-8_8b57ub/lower","stats":{"cache_bytes":0,"cache_hits":0,"cache_limit_bytes":16777216,"cache_misses":0,"entries":10,"logical_bytes":4194364,"read_requests":0,"returned_bytes":0,"unique_chunks":55,"verified_chunk_bytes":0}}
+{"event":"fuse_initialized"}
+{"cleanup":"external_normal_unmount_only","error":null,"event":"session_stopped"}
+{"event":"filesystem_destroyed","stats":{"cache_bytes":4194364,"cache_hits":361,"cache_limit_bytes":16777216,"cache_misses":55,"entries":10,"logical_bytes":4194364,"read_requests":166,"returned_bytes":20971617,"unique_chunks":55,"verified_chunk_bytes":4194364}}
