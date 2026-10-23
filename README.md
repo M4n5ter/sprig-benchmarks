@@ -1,3 +1,5 @@
+**Same-runner decision (23 October 2026):** [direct baseline/candidate A/B](WORKSPACE-SYNC-AB-RESULTS.md) passed 80 samples and 8,000 readbacks but demonstrated no checkpoint benefit. Candidate remains unmerged; earlier cross-run changes are not evidence of a speedup.
+
 **Candidate verification (23 October 2026):** [workspace synchronization scheduling](WORKSPACE-SYNC-RESULTS.md), both backends passed all paired samples and historical readbacks; overall target still unmet, candidate not merged to main.
 
 **Current production results (23 October 2026):** [native and projection CLI comparison](PRODUCTION-CLI-RESULTS.md), pinned to Sprig `46f9634`, passed 84 paired records and 3,600 historical readbacks. The speed + storage target remains unmet. This new series includes initialization, three active workspaces and whole-filesystem/runtime accounting.

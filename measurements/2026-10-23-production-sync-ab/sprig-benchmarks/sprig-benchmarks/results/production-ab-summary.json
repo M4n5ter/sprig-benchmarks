@@ -1,0 +1,1888 @@
+{
+  "complete": true,
+  "expectedRecords": 80,
+  "historicalReadbacks": 8000,
+  "ratioDirection": "candidate/baseline",
+  "rows": [
+    {
+      "backend": "native",
+      "case": "history-distributed",
+      "metric": "preparationMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 751.1306389999959,
+          "candidate": 721.6246709999155,
+          "candidateOverBaseline": 0.9607179277903473,
+          "candidateMinusBaseline": -29.50596800008043
+        },
+        {
+          "pair": 1,
+          "baseline": 631.3874319998831,
+          "candidate": 695.0554860000011,
+          "candidateOverBaseline": 1.1008383296424717,
+          "candidateMinusBaseline": 63.66805400011799
+        },
+        {
+          "pair": 2,
+          "baseline": 581.7669700001034,
+          "candidate": 596.3510839999344,
+          "candidateOverBaseline": 1.0250686524878312,
+          "candidateMinusBaseline": 14.584113999831061
+        },
+        {
+          "pair": 3,
+          "baseline": 629.6120530003009,
+          "candidate": 718.8470150001649,
+          "candidateOverBaseline": 1.1417300726290598,
+          "candidateMinusBaseline": 89.23496199986403
+        },
+        {
+          "pair": 4,
+          "baseline": 600.8299540003463,
+          "candidate": 598.4541949999311,
+          "candidateOverBaseline": 0.9960458712409438,
+          "candidateMinusBaseline": -2.3757590004152007
+        }
+      ],
+      "baselineMedian": 629.6120530003009,
+      "candidateMedian": 695.0554860000011,
+      "medianPairedRatio": 1.0250686524878312,
+      "minPairedRatio": 0.9607179277903473,
+      "maxPairedRatio": 1.1417300726290598
+    },
+    {
+      "backend": "native",
+      "case": "history-distributed",
+      "metric": "warmMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 270.90748199998416,
+          "candidate": 261.2276170000314,
+          "candidateOverBaseline": 0.9642687424928583,
+          "candidateMinusBaseline": -9.67986499995277
+        },
+        {
+          "pair": 1,
+          "baseline": 219.92525999996815,
+          "candidate": 252.15491300002668,
+          "candidateOverBaseline": 1.146548209150978,
+          "candidateMinusBaseline": 32.22965300005853
+        },
+        {
+          "pair": 2,
+          "baseline": 213.4258300000056,
+          "candidate": 210.8787030001622,
+          "candidateOverBaseline": 0.9880655167191182,
+          "candidateMinusBaseline": -2.5471269998433854
+        },
+        {
+          "pair": 3,
+          "baseline": 206.46552499988502,
+          "candidate": 252.31687200016495,
+          "candidateOverBaseline": 1.2220774969589012,
+          "candidateMinusBaseline": 45.85134700027993
+        },
+        {
+          "pair": 4,
+          "baseline": 206.34930899996107,
+          "candidate": 210.07122900027753,
+          "candidateOverBaseline": 1.0180369879519062,
+          "candidateMinusBaseline": 3.7219200003164588
+        }
+      ],
+      "baselineMedian": 213.4258300000056,
+      "candidateMedian": 252.15491300002668,
+      "medianPairedRatio": 1.0180369879519062,
+      "minPairedRatio": 0.9642687424928583,
+      "maxPairedRatio": 1.2220774969589012
+    },
+    {
+      "backend": "native",
+      "case": "history-distributed",
+      "metric": "writeAndCheckpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 2952.2918869998307,
+          "candidate": 2994.754750999448,
+          "candidateOverBaseline": 1.0143830168644905,
+          "candidateMinusBaseline": 42.462863999617184
+        },
+        {
+          "pair": 1,
+          "baseline": 2836.851353000384,
+          "candidate": 2707.306774000699,
+          "candidateOverBaseline": 0.9543350839081954,
+          "candidateMinusBaseline": -129.54457899968475
+        },
+        {
+          "pair": 2,
+          "baseline": 2741.9245319991887,
+          "candidate": 2743.2173859995146,
+          "candidateOverBaseline": 1.0004715133422666,
+          "candidateMinusBaseline": 1.2928540003258604
+        },
+        {
+          "pair": 3,
+          "baseline": 2763.163348999342,
+          "candidate": 2922.9108429972257,
+          "candidateOverBaseline": 1.0578132646612206,
+          "candidateMinusBaseline": 159.7474939978838
+        },
+        {
+          "pair": 4,
+          "baseline": 2782.9845530018247,
+          "candidate": 2740.998536000461,
+          "candidateOverBaseline": 0.9849133129553034,
+          "candidateMinusBaseline": -41.98601700136351
+        }
+      ],
+      "baselineMedian": 2782.9845530018247,
+      "candidateMedian": 2743.2173859995146,
+      "medianPairedRatio": 1.0004715133422666,
+      "minPairedRatio": 0.9543350839081954,
+      "maxPairedRatio": 1.0578132646612206
+    },
+    {
+      "backend": "native",
+      "case": "history-distributed",
+      "metric": "checkpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 2546.4874089997807,
+          "candidate": 2606.479953999383,
+          "candidateOverBaseline": 1.0235589403613687,
+          "candidateMinusBaseline": 59.99254499960216
+        },
+        {
+          "pair": 1,
+          "baseline": 2453.2269379999434,
+          "candidate": 2354.1986750007027,
+          "candidateOverBaseline": 0.9596334682840324,
+          "candidateMinusBaseline": -99.02826299924072
+        },
+        {
+          "pair": 2,
+          "baseline": 2372.4439599994867,
+          "candidate": 2377.1811259998685,
+          "candidateOverBaseline": 1.0019967451624792,
+          "candidateMinusBaseline": 4.737166000381876
+        },
+        {
+          "pair": 3,
+          "baseline": 2387.9812139996375,
+          "candidate": 2531.7849939981443,
+          "candidateOverBaseline": 1.0602198120971185,
+          "candidateMinusBaseline": 143.8037799985068
+        },
+        {
+          "pair": 4,
+          "baseline": 2407.100528002047,
+          "candidate": 2375.2297179994457,
+          "candidateOverBaseline": 0.9867596680604549,
+          "candidateMinusBaseline": -31.8708100026015
+        }
+      ],
+      "baselineMedian": 2407.100528002047,
+      "candidateMedian": 2377.1811259998685,
+      "medianPairedRatio": 1.0019967451624792,
+      "minPairedRatio": 0.9596334682840324,
+      "maxPairedRatio": 1.0602198120971185
+    },
+    {
+      "backend": "native",
+      "case": "history-distributed",
+      "metric": "filesystemUsedDeltaBytes",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 10158080,
+          "candidate": 10158080,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 1,
+          "baseline": 10596352,
+          "candidate": 10534912,
+          "candidateOverBaseline": 0.9942017781213761,
+          "candidateMinusBaseline": -61440
+        },
+        {
+          "pair": 2,
+          "baseline": 10567680,
+          "candidate": 10563584,
+          "candidateOverBaseline": 0.9996124031007751,
+          "candidateMinusBaseline": -4096
+        },
+        {
+          "pair": 3,
+          "baseline": 10567680,
+          "candidate": 10162176,
+          "candidateOverBaseline": 0.9616279069767442,
+          "candidateMinusBaseline": -405504
+        },
+        {
+          "pair": 4,
+          "baseline": 10567680,
+          "candidate": 10162176,
+          "candidateOverBaseline": 0.9616279069767442,
+          "candidateMinusBaseline": -405504
+        }
+      ],
+      "baselineMedian": 10567680,
+      "candidateMedian": 10162176,
+      "medianPairedRatio": 0.9942017781213761,
+      "minPairedRatio": 0.9616279069767442,
+      "maxPairedRatio": 1.0
+    },
+    {
+      "backend": "native",
+      "case": "history-hotset",
+      "metric": "preparationMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 687.1916119999355,
+          "candidate": 718.3716289999893,
+          "candidateOverBaseline": 1.0453731047579444,
+          "candidateMinusBaseline": 31.180017000053795
+        },
+        {
+          "pair": 1,
+          "baseline": 738.030050000134,
+          "candidate": 674.9702350001598,
+          "candidateOverBaseline": 0.9145565753048095,
+          "candidateMinusBaseline": -63.05981499997415
+        },
+        {
+          "pair": 2,
+          "baseline": 623.9365219998945,
+          "candidate": 714.8215759998493,
+          "candidateOverBaseline": 1.145663943038055,
+          "candidateMinusBaseline": 90.88505399995483
+        },
+        {
+          "pair": 3,
+          "baseline": 613.3622920001471,
+          "candidate": 746.1319049998565,
+          "candidateOverBaseline": 1.2164619748089722,
+          "candidateMinusBaseline": 132.76961299970935
+        },
+        {
+          "pair": 4,
+          "baseline": 613.0268020001495,
+          "candidate": 705.4778130000159,
+          "candidateOverBaseline": 1.1508107161028236,
+          "candidateMinusBaseline": 92.45101099986641
+        }
+      ],
+      "baselineMedian": 623.9365219998945,
+      "candidateMedian": 714.8215759998493,
+      "medianPairedRatio": 1.145663943038055,
+      "minPairedRatio": 0.9145565753048095,
+      "maxPairedRatio": 1.2164619748089722
+    },
+    {
+      "backend": "native",
+      "case": "history-hotset",
+      "metric": "warmMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 245.7468900000208,
+          "candidate": 259.72435699998186,
+          "candidateOverBaseline": 1.0568774929357596,
+          "candidateMinusBaseline": 13.977466999961052
+        },
+        {
+          "pair": 1,
+          "baseline": 281.5581539999812,
+          "candidate": 249.69859400005134,
+          "candidateOverBaseline": 0.8868455431060541,
+          "candidateMinusBaseline": -31.859559999929843
+        },
+        {
+          "pair": 2,
+          "baseline": 226.37762399995154,
+          "candidate": 247.43390100002216,
+          "candidateOverBaseline": 1.0930139500009732,
+          "candidateMinusBaseline": 21.056277000070622
+        },
+        {
+          "pair": 3,
+          "baseline": 247.55991200004246,
+          "candidate": 258.603482999888,
+          "candidateOverBaseline": 1.0446096902791098,
+          "candidateMinusBaseline": 11.043570999845542
+        },
+        {
+          "pair": 4,
+          "baseline": 220.50332500020886,
+          "candidate": 245.31844299986005,
+          "candidateOverBaseline": 1.1125385206759475,
+          "candidateMinusBaseline": 24.815117999651193
+        }
+      ],
+      "baselineMedian": 245.7468900000208,
+      "candidateMedian": 249.69859400005134,
+      "medianPairedRatio": 1.0568774929357596,
+      "minPairedRatio": 0.8868455431060541,
+      "maxPairedRatio": 1.1125385206759475
+    },
+    {
+      "backend": "native",
+      "case": "history-hotset",
+      "metric": "writeAndCheckpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 2748.2893299995226,
+          "candidate": 2931.2808729999915,
+          "candidateOverBaseline": 1.066583798511673,
+          "candidateMinusBaseline": 182.99154300046894
+        },
+        {
+          "pair": 1,
+          "baseline": 3106.6599860002952,
+          "candidate": 2873.307058999899,
+          "candidateOverBaseline": 0.9248862353614599,
+          "candidateMinusBaseline": -233.35292700039645
+        },
+        {
+          "pair": 2,
+          "baseline": 2870.7899689995884,
+          "candidate": 2944.2765450000934,
+          "candidateOverBaseline": 1.025598032873897,
+          "candidateMinusBaseline": 73.48657600050501
+        },
+        {
+          "pair": 3,
+          "baseline": 2787.7380739989803,
+          "candidate": 3231.666405999704,
+          "candidateOverBaseline": 1.1592432001202728,
+          "candidateMinusBaseline": 443.92833200072346
+        },
+        {
+          "pair": 4,
+          "baseline": 2820.2306759988005,
+          "candidate": 2820.1687110013154,
+          "candidateOverBaseline": 0.9999780283939138,
+          "candidateMinusBaseline": -0.061964997485119966
+        }
+      ],
+      "baselineMedian": 2820.2306759988005,
+      "candidateMedian": 2931.2808729999915,
+      "medianPairedRatio": 1.025598032873897,
+      "minPairedRatio": 0.9248862353614599,
+      "maxPairedRatio": 1.1592432001202728
+    },
+    {
+      "backend": "native",
+      "case": "history-hotset",
+      "metric": "checkpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 2380.6888969998568,
+          "candidate": 2535.865453999918,
+          "candidateOverBaseline": 1.0651813671226067,
+          "candidateMinusBaseline": 155.17655700006117
+        },
+        {
+          "pair": 1,
+          "baseline": 2668.6869059997207,
+          "candidate": 2489.4864149996465,
+          "candidateOverBaseline": 0.9328506875058303,
+          "candidateMinusBaseline": -179.20049100007418
+        },
+        {
+          "pair": 2,
+          "baseline": 2468.9328280012433,
+          "candidate": 2546.4060009996956,
+          "candidateOverBaseline": 1.031379214582023,
+          "candidateMinusBaseline": 77.47317299845236
+        },
+        {
+          "pair": 3,
+          "baseline": 2407.6484659995003,
+          "candidate": 2783.6000410011366,
+          "candidateOverBaseline": 1.1561488648823846,
+          "candidateMinusBaseline": 375.95157500163623
+        },
+        {
+          "pair": 4,
+          "baseline": 2427.576154999997,
+          "candidate": 2447.1853120012383,
+          "candidateOverBaseline": 1.0080776691437066,
+          "candidateMinusBaseline": 19.60915700124133
+        }
+      ],
+      "baselineMedian": 2427.576154999997,
+      "candidateMedian": 2535.865453999918,
+      "medianPairedRatio": 1.031379214582023,
+      "minPairedRatio": 0.9328506875058303,
+      "maxPairedRatio": 1.1561488648823846
+    },
+    {
+      "backend": "native",
+      "case": "history-hotset",
+      "metric": "filesystemUsedDeltaBytes",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 13787136,
+          "candidate": 13787136,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 1,
+          "baseline": 14225408,
+          "candidate": 13828096,
+          "candidateOverBaseline": 0.9720702562625971,
+          "candidateMinusBaseline": -397312
+        },
+        {
+          "pair": 2,
+          "baseline": 14196736,
+          "candidate": 13787136,
+          "candidateOverBaseline": 0.9711482977495672,
+          "candidateMinusBaseline": -409600
+        },
+        {
+          "pair": 3,
+          "baseline": 14163968,
+          "candidate": 13819904,
+          "candidateOverBaseline": 0.9757085020242915,
+          "candidateMinusBaseline": -344064
+        },
+        {
+          "pair": 4,
+          "baseline": 14229504,
+          "candidate": 13754368,
+          "candidateOverBaseline": 0.9666090961427749,
+          "candidateMinusBaseline": -475136
+        }
+      ],
+      "baselineMedian": 14196736,
+      "candidateMedian": 13787136,
+      "medianPairedRatio": 0.9720702562625971,
+      "minPairedRatio": 0.9666090961427749,
+      "maxPairedRatio": 1.0
+    },
+    {
+      "backend": "native",
+      "case": "history-recurring",
+      "metric": "preparationMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 718.0881879999674,
+          "candidate": 651.0444110000435,
+          "candidateOverBaseline": 0.9066357334373435,
+          "candidateMinusBaseline": -67.04377699992392
+        },
+        {
+          "pair": 1,
+          "baseline": 602.3211420000507,
+          "candidate": 741.5589400000044,
+          "candidateOverBaseline": 1.231168704351975,
+          "candidateMinusBaseline": 139.23779799995373
+        },
+        {
+          "pair": 2,
+          "baseline": 625.7712159999755,
+          "candidate": 761.2360059999901,
+          "candidateOverBaseline": 1.2164765437214036,
+          "candidateMinusBaseline": 135.46479000001455
+        },
+        {
+          "pair": 3,
+          "baseline": 586.0090610001407,
+          "candidate": 701.0860149998734,
+          "candidateOverBaseline": 1.196374018182127,
+          "candidateMinusBaseline": 115.07695399973272
+        },
+        {
+          "pair": 4,
+          "baseline": 599.8918500001764,
+          "candidate": 693.8704589999816,
+          "candidateOverBaseline": 1.1566592528299517,
+          "candidateMinusBaseline": 93.97860899980515
+        }
+      ],
+      "baselineMedian": 602.3211420000507,
+      "candidateMedian": 701.0860149998734,
+      "medianPairedRatio": 1.196374018182127,
+      "minPairedRatio": 0.9066357334373435,
+      "maxPairedRatio": 1.231168704351975
+    },
+    {
+      "backend": "native",
+      "case": "history-recurring",
+      "metric": "warmMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 245.6368040000143,
+          "candidate": 249.93970700001,
+          "candidateOverBaseline": 1.01751733832197,
+          "candidateMinusBaseline": 4.302902999995695
+        },
+        {
+          "pair": 1,
+          "baseline": 214.32165400005943,
+          "candidate": 252.02487199999268,
+          "candidateOverBaseline": 1.1759188457920486,
+          "candidateMinusBaseline": 37.70321799993326
+        },
+        {
+          "pair": 2,
+          "baseline": 222.00708800005486,
+          "candidate": 266.18092300009266,
+          "candidateOverBaseline": 1.1989748858830438,
+          "candidateMinusBaseline": 44.1738350000378
+        },
+        {
+          "pair": 3,
+          "baseline": 207.09976700004518,
+          "candidate": 246.52660899982948,
+          "candidateOverBaseline": 1.1903760809145463,
+          "candidateMinusBaseline": 39.4268419997843
+        },
+        {
+          "pair": 4,
+          "baseline": 213.65249500013306,
+          "candidate": 257.38005899984273,
+          "candidateOverBaseline": 1.2046667603843448,
+          "candidateMinusBaseline": 43.72756399970967
+        }
+      ],
+      "baselineMedian": 214.32165400005943,
+      "candidateMedian": 252.02487199999268,
+      "medianPairedRatio": 1.1903760809145463,
+      "minPairedRatio": 1.01751733832197,
+      "maxPairedRatio": 1.2046667603843448
+    },
+    {
+      "backend": "native",
+      "case": "history-recurring",
+      "metric": "writeAndCheckpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 2870.635199999583,
+          "candidate": 2850.8968659996867,
+          "candidateOverBaseline": 0.9931240535196185,
+          "candidateMinusBaseline": -19.73833399989644
+        },
+        {
+          "pair": 1,
+          "baseline": 2897.6471500004664,
+          "candidate": 2972.664999000358,
+          "candidateOverBaseline": 1.0258892284382795,
+          "candidateMinusBaseline": 75.01784899989161
+        },
+        {
+          "pair": 2,
+          "baseline": 2957.3153099975116,
+          "candidate": 3090.0961569991523,
+          "candidateOverBaseline": 1.0448991173016828,
+          "candidateMinusBaseline": 132.78084700164072
+        },
+        {
+          "pair": 3,
+          "baseline": 2819.6664640013296,
+          "candidate": 2851.8248560003485,
+          "candidateOverBaseline": 1.0114050340384528,
+          "candidateMinusBaseline": 32.15839199901893
+        },
+        {
+          "pair": 4,
+          "baseline": 2858.322323999573,
+          "candidate": 2945.3174779985147,
+          "candidateOverBaseline": 1.0304357396184807,
+          "candidateMinusBaseline": 86.99515399894153
+        }
+      ],
+      "baselineMedian": 2870.635199999583,
+      "candidateMedian": 2945.3174779985147,
+      "medianPairedRatio": 1.0258892284382795,
+      "minPairedRatio": 0.9931240535196185,
+      "maxPairedRatio": 1.0448991173016828
+    },
+    {
+      "backend": "native",
+      "case": "history-recurring",
+      "metric": "checkpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 2286.606644999722,
+          "candidate": 2270.0381999997603,
+          "candidateOverBaseline": 0.9927541341506232,
+          "candidateMinusBaseline": -16.568444999961685
+        },
+        {
+          "pair": 1,
+          "baseline": 2296.2418820005723,
+          "candidate": 2371.884058000319,
+          "candidateOverBaseline": 1.0329417282180413,
+          "candidateMinusBaseline": 75.64217599974654
+        },
+        {
+          "pair": 2,
+          "baseline": 2329.4173089987,
+          "candidate": 2457.9230639994876,
+          "candidateOverBaseline": 1.055166480692129,
+          "candidateMinusBaseline": 128.50575500078776
+        },
+        {
+          "pair": 3,
+          "baseline": 2238.6090480008534,
+          "candidate": 2273.08021299973,
+          "candidateOverBaseline": 1.015398474793828,
+          "candidateMinusBaseline": 34.4711649988767
+        },
+        {
+          "pair": 4,
+          "baseline": 2254.5480629989925,
+          "candidate": 2343.932023999969,
+          "candidateOverBaseline": 1.0396460658647828,
+          "candidateMinusBaseline": 89.38396100097634
+        }
+      ],
+      "baselineMedian": 2286.606644999722,
+      "candidateMedian": 2343.932023999969,
+      "medianPairedRatio": 1.0329417282180413,
+      "minPairedRatio": 0.9927541341506232,
+      "maxPairedRatio": 1.055166480692129
+    },
+    {
+      "backend": "native",
+      "case": "history-recurring",
+      "metric": "filesystemUsedDeltaBytes",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 9924608,
+          "candidate": 9883648,
+          "candidateOverBaseline": 0.9958728848534875,
+          "candidateMinusBaseline": -40960
+        },
+        {
+          "pair": 1,
+          "baseline": 9854976,
+          "candidate": 9859072,
+          "candidateOverBaseline": 1.0004156275976726,
+          "candidateMinusBaseline": 4096
+        },
+        {
+          "pair": 2,
+          "baseline": 9854976,
+          "candidate": 9891840,
+          "candidateOverBaseline": 1.0037406483790523,
+          "candidateMinusBaseline": 36864
+        },
+        {
+          "pair": 3,
+          "baseline": 9859072,
+          "candidate": 9859072,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 4,
+          "baseline": 9891840,
+          "candidate": 9859072,
+          "candidateOverBaseline": 0.9966873706004141,
+          "candidateMinusBaseline": -32768
+        }
+      ],
+      "baselineMedian": 9859072,
+      "candidateMedian": 9859072,
+      "medianPairedRatio": 1.0,
+      "minPairedRatio": 0.9958728848534875,
+      "maxPairedRatio": 1.0037406483790523
+    },
+    {
+      "backend": "native",
+      "case": "history-small-control",
+      "metric": "preparationMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 38.46857300015927,
+          "candidate": 37.8977020000093,
+          "candidateOverBaseline": 0.9851600681900106,
+          "candidateMinusBaseline": -0.570871000149964
+        },
+        {
+          "pair": 1,
+          "baseline": 39.60823700015226,
+          "candidate": 40.285262999987026,
+          "candidateOverBaseline": 1.0170930607144206,
+          "candidateMinusBaseline": 0.6770259998347683
+        },
+        {
+          "pair": 2,
+          "baseline": 45.45881799981544,
+          "candidate": 42.00589000015498,
+          "candidateOverBaseline": 0.9240427236873058,
+          "candidateMinusBaseline": -3.45292799966046
+        },
+        {
+          "pair": 3,
+          "baseline": 41.6480449998744,
+          "candidate": 39.598522999540364,
+          "candidateOverBaseline": 0.9507894788257115,
+          "candidateMinusBaseline": -2.0495220003340364
+        },
+        {
+          "pair": 4,
+          "baseline": 41.29740900020806,
+          "candidate": 39.14195200013637,
+          "candidateOverBaseline": 0.9478064834512782,
+          "candidateMinusBaseline": -2.155457000071692
+        }
+      ],
+      "baselineMedian": 41.29740900020806,
+      "candidateMedian": 39.598522999540364,
+      "medianPairedRatio": 0.9507894788257115,
+      "minPairedRatio": 0.9240427236873058,
+      "maxPairedRatio": 1.0170930607144206
+    },
+    {
+      "backend": "native",
+      "case": "history-small-control",
+      "metric": "warmMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 13.831302000085088,
+          "candidate": 14.607444999910513,
+          "candidateOverBaseline": 1.05611496298907,
+          "candidateMinusBaseline": 0.7761429998254243
+        },
+        {
+          "pair": 1,
+          "baseline": 15.140768999913234,
+          "candidate": 15.807011999982024,
+          "candidateOverBaseline": 1.0440032471318073,
+          "candidateMinusBaseline": 0.6662430000687891
+        },
+        {
+          "pair": 2,
+          "baseline": 16.52202400009628,
+          "candidate": 15.727436999895872,
+          "candidateOverBaseline": 0.9519074055215161,
+          "candidateMinusBaseline": -0.7945870002004085
+        },
+        {
+          "pair": 3,
+          "baseline": 15.488752000010209,
+          "candidate": 13.868875000071057,
+          "candidateOverBaseline": 0.895415912144627,
+          "candidateMinusBaseline": -1.6198769999391516
+        },
+        {
+          "pair": 4,
+          "baseline": 14.337373999978809,
+          "candidate": 15.264550999972926,
+          "candidateOverBaseline": 1.0646685369298092,
+          "candidateMinusBaseline": 0.9271769999941171
+        }
+      ],
+      "baselineMedian": 15.140768999913234,
+      "candidateMedian": 15.264550999972926,
+      "medianPairedRatio": 1.0440032471318073,
+      "minPairedRatio": 0.895415912144627,
+      "maxPairedRatio": 1.0646685369298092
+    },
+    {
+      "backend": "native",
+      "case": "history-small-control",
+      "metric": "writeAndCheckpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 1093.5161349996179,
+          "candidate": 1080.654400000185,
+          "candidateOverBaseline": 0.9882381845244219,
+          "candidateMinusBaseline": -12.861734999432883
+        },
+        {
+          "pair": 1,
+          "baseline": 1163.6286200001678,
+          "candidate": 1284.7935470000493,
+          "candidateOverBaseline": 1.1041268020718364,
+          "candidateMinusBaseline": 121.16492699988157
+        },
+        {
+          "pair": 2,
+          "baseline": 1261.5989119979076,
+          "candidate": 1253.3590559992263,
+          "candidateOverBaseline": 0.9934687197965061,
+          "candidateMinusBaseline": -8.239855998681378
+        },
+        {
+          "pair": 3,
+          "baseline": 1157.5562680000075,
+          "candidate": 1271.0200839990193,
+          "candidateOverBaseline": 1.0980201301100043,
+          "candidateMinusBaseline": 113.46381599901179
+        },
+        {
+          "pair": 4,
+          "baseline": 1187.0533169990267,
+          "candidate": 1215.2977090011063,
+          "candidateOverBaseline": 1.0237937012580731,
+          "candidateMinusBaseline": 28.24439200207962
+        }
+      ],
+      "baselineMedian": 1163.6286200001678,
+      "candidateMedian": 1253.3590559992263,
+      "medianPairedRatio": 1.0237937012580731,
+      "minPairedRatio": 0.9882381845244219,
+      "maxPairedRatio": 1.1041268020718364
+    },
+    {
+      "backend": "native",
+      "case": "history-small-control",
+      "metric": "checkpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 764.3080710003005,
+          "candidate": 753.4928799999534,
+          "candidateOverBaseline": 0.9858496967247872,
+          "candidateMinusBaseline": -10.815191000347113
+        },
+        {
+          "pair": 1,
+          "baseline": 812.2940579999067,
+          "candidate": 921.2139029995114,
+          "candidateOverBaseline": 1.1340891810384475,
+          "candidateMinusBaseline": 108.91984499960472
+        },
+        {
+          "pair": 2,
+          "baseline": 865.6392929992762,
+          "candidate": 865.1154269991821,
+          "candidateOverBaseline": 0.9993948218336081,
+          "candidateMinusBaseline": -0.5238660000941309
+        },
+        {
+          "pair": 3,
+          "baseline": 809.7708100003729,
+          "candidate": 906.5900890000194,
+          "candidateOverBaseline": 1.1195638047259346,
+          "candidateMinusBaseline": 96.81927899964649
+        },
+        {
+          "pair": 4,
+          "baseline": 823.5028700003113,
+          "candidate": 840.9067359993969,
+          "candidateOverBaseline": 1.0211339469880403,
+          "candidateMinusBaseline": 17.40386599908561
+        }
+      ],
+      "baselineMedian": 812.2940579999067,
+      "candidateMedian": 865.1154269991821,
+      "medianPairedRatio": 1.0211339469880403,
+      "minPairedRatio": 0.9858496967247872,
+      "maxPairedRatio": 1.1340891810384475
+    },
+    {
+      "backend": "native",
+      "case": "history-small-control",
+      "metric": "filesystemUsedDeltaBytes",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 1122304,
+          "candidate": 1122304,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 1,
+          "baseline": 1122304,
+          "candidate": 1122304,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 2,
+          "baseline": 1122304,
+          "candidate": 1122304,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 3,
+          "baseline": 1155072,
+          "candidate": 1122304,
+          "candidateOverBaseline": 0.9716312056737588,
+          "candidateMinusBaseline": -32768
+        },
+        {
+          "pair": 4,
+          "baseline": 1122304,
+          "candidate": 1155072,
+          "candidateOverBaseline": 1.0291970802919708,
+          "candidateMinusBaseline": 32768
+        }
+      ],
+      "baselineMedian": 1122304,
+      "candidateMedian": 1122304,
+      "medianPairedRatio": 1.0,
+      "minPairedRatio": 0.9716312056737588,
+      "maxPairedRatio": 1.0291970802919708
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "preparationMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 320.8850970000299,
+          "candidate": 322.98529300004475,
+          "candidateOverBaseline": 1.0065450094742627,
+          "candidateMinusBaseline": 2.1001960000148756
+        },
+        {
+          "pair": 1,
+          "baseline": 272.57279100012966,
+          "candidate": 293.7329360000831,
+          "candidateOverBaseline": 1.0776311711903166,
+          "candidateMinusBaseline": 21.160144999953445
+        },
+        {
+          "pair": 2,
+          "baseline": 305.0164249999625,
+          "candidate": 305.98991299996214,
+          "candidateOverBaseline": 1.0031915920593448,
+          "candidateMinusBaseline": 0.9734879999996338
+        },
+        {
+          "pair": 3,
+          "baseline": 298.0203249999249,
+          "candidate": 286.5347289998681,
+          "candidateOverBaseline": 0.9614603601279217,
+          "candidateMinusBaseline": -11.48559600005683
+        },
+        {
+          "pair": 4,
+          "baseline": 297.9711010002575,
+          "candidate": 338.80759099997704,
+          "candidateOverBaseline": 1.1370484918256696,
+          "candidateMinusBaseline": 40.83648999971956
+        }
+      ],
+      "baselineMedian": 298.0203249999249,
+      "candidateMedian": 305.98991299996214,
+      "medianPairedRatio": 1.0065450094742627,
+      "minPairedRatio": 0.9614603601279217,
+      "maxPairedRatio": 1.1370484918256696
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "warmMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 80.58571799995207,
+          "candidate": 76.53102699998726,
+          "candidateOverBaseline": 0.9496847443865026,
+          "candidateMinusBaseline": -4.054690999964805
+        },
+        {
+          "pair": 1,
+          "baseline": 67.26823200006038,
+          "candidate": 71.83979799992812,
+          "candidateOverBaseline": 1.0679602520230298,
+          "candidateMinusBaseline": 4.571565999867744
+        },
+        {
+          "pair": 2,
+          "baseline": 74.03228200007561,
+          "candidate": 74.34319000003597,
+          "candidateOverBaseline": 1.0041996273998421,
+          "candidateMinusBaseline": 0.31090799996036367
+        },
+        {
+          "pair": 3,
+          "baseline": 81.94203500011099,
+          "candidate": 78.58031799992204,
+          "candidateOverBaseline": 0.958974450656682,
+          "candidateMinusBaseline": -3.3617170001889463
+        },
+        {
+          "pair": 4,
+          "baseline": 81.56284700021388,
+          "candidate": 74.99117300017133,
+          "candidateOverBaseline": 0.9194280945094362,
+          "candidateMinusBaseline": -6.571674000042549
+        }
+      ],
+      "baselineMedian": 80.58571799995207,
+      "candidateMedian": 74.99117300017133,
+      "medianPairedRatio": 0.958974450656682,
+      "minPairedRatio": 0.9194280945094362,
+      "maxPairedRatio": 1.0679602520230298
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "writeAndCheckpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 3121.2021519999666,
+          "candidate": 3252.894292000178,
+          "candidateOverBaseline": 1.0421927621432105,
+          "candidateMinusBaseline": 131.69214000021157
+        },
+        {
+          "pair": 1,
+          "baseline": 2929.875702999766,
+          "candidate": 2888.806843001362,
+          "candidateOverBaseline": 0.9859827295893967,
+          "candidateMinusBaseline": -41.06885999840415
+        },
+        {
+          "pair": 2,
+          "baseline": 3046.113529999161,
+          "candidate": 3205.560647000425,
+          "candidateOverBaseline": 1.0523444433147269,
+          "candidateMinusBaseline": 159.4471170012639
+        },
+        {
+          "pair": 3,
+          "baseline": 3236.0505160006596,
+          "candidate": 3054.226664999078,
+          "candidateOverBaseline": 0.9438130368785799,
+          "candidateMinusBaseline": -181.82385100158172
+        },
+        {
+          "pair": 4,
+          "baseline": 3089.472116002298,
+          "candidate": 3259.8682100017413,
+          "candidateOverBaseline": 1.0551537892563767,
+          "candidateMinusBaseline": 170.3960939994431
+        }
+      ],
+      "baselineMedian": 3089.472116002298,
+      "candidateMedian": 3205.560647000425,
+      "medianPairedRatio": 1.0421927621432105,
+      "minPairedRatio": 0.9438130368785799,
+      "maxPairedRatio": 1.0551537892563767
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "checkpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 2653.9267060001634,
+          "candidate": 2761.358339000026,
+          "candidateOverBaseline": 1.0404802562018665,
+          "candidateMinusBaseline": 107.43163299986236
+        },
+        {
+          "pair": 1,
+          "baseline": 2487.381058999631,
+          "candidate": 2454.3589030010935,
+          "candidateOverBaseline": 0.9867241266153975,
+          "candidateMinusBaseline": -33.02215599853753
+        },
+        {
+          "pair": 2,
+          "baseline": 2581.7037659995776,
+          "candidate": 2725.544380000656,
+          "candidateOverBaseline": 1.0557153829557926,
+          "candidateMinusBaseline": 143.8406140010784
+        },
+        {
+          "pair": 3,
+          "baseline": 2724.0034899996317,
+          "candidate": 2583.8270399988232,
+          "candidateOverBaseline": 0.9485402825233431,
+          "candidateMinusBaseline": -140.17645000080847
+        },
+        {
+          "pair": 4,
+          "baseline": 2619.928588000448,
+          "candidate": 2770.087536999881,
+          "candidateOverBaseline": 1.0573141381361222,
+          "candidateMinusBaseline": 150.15894899943305
+        }
+      ],
+      "baselineMedian": 2619.928588000448,
+      "candidateMedian": 2725.544380000656,
+      "medianPairedRatio": 1.0404802562018665,
+      "minPairedRatio": 0.9485402825233431,
+      "maxPairedRatio": 1.0573141381361222
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "filesystemUsedDeltaBytes",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 7491584,
+          "candidate": 7495680,
+          "candidateOverBaseline": 1.0005467468562055,
+          "candidateMinusBaseline": 4096
+        },
+        {
+          "pair": 1,
+          "baseline": 7491584,
+          "candidate": 7495680,
+          "candidateOverBaseline": 1.0005467468562055,
+          "candidateMinusBaseline": 4096
+        },
+        {
+          "pair": 2,
+          "baseline": 7888896,
+          "candidate": 7491584,
+          "candidateOverBaseline": 0.9496365524402908,
+          "candidateMinusBaseline": -397312
+        },
+        {
+          "pair": 3,
+          "baseline": 7495680,
+          "candidate": 7495680,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 4,
+          "baseline": 7495680,
+          "candidate": 7495680,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        }
+      ],
+      "baselineMedian": 7495680,
+      "candidateMedian": 7495680,
+      "medianPairedRatio": 1.0,
+      "minPairedRatio": 0.9496365524402908,
+      "maxPairedRatio": 1.0005467468562055
+    },
+    {
+      "backend": "projection",
+      "case": "history-hotset",
+      "metric": "preparationMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 325.61273300001403,
+          "candidate": 307.4220419999847,
+          "candidateOverBaseline": 0.9441339691097751,
+          "candidateMinusBaseline": -18.190691000029346
+        },
+        {
+          "pair": 1,
+          "baseline": 280.6205560000308,
+          "candidate": 294.87774400001854,
+          "candidateOverBaseline": 1.0508059288428828,
+          "candidateMinusBaseline": 14.257187999987764
+        },
+        {
+          "pair": 2,
+          "baseline": 288.29405199996927,
+          "candidate": 321.7834369997945,
+          "candidateOverBaseline": 1.1161639817661893,
+          "candidateMinusBaseline": 33.48938499982523
+        },
+        {
+          "pair": 3,
+          "baseline": 294.36916399981783,
+          "candidate": 301.42828400016697,
+          "candidateOverBaseline": 1.023980500893611,
+          "candidateMinusBaseline": 7.0591200003491394
+        },
+        {
+          "pair": 4,
+          "baseline": 288.71837299993786,
+          "candidate": 313.7608010003987,
+          "candidateOverBaseline": 1.0867365236935103,
+          "candidateMinusBaseline": 25.04242800046086
+        }
+      ],
+      "baselineMedian": 288.71837299993786,
+      "candidateMedian": 307.4220419999847,
+      "medianPairedRatio": 1.0508059288428828,
+      "minPairedRatio": 0.9441339691097751,
+      "maxPairedRatio": 1.1161639817661893
+    },
+    {
+      "backend": "projection",
+      "case": "history-hotset",
+      "metric": "warmMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 73.97334099999853,
+          "candidate": 76.8094360000191,
+          "candidateOverBaseline": 1.0383394201435439,
+          "candidateMinusBaseline": 2.8360950000205776
+        },
+        {
+          "pair": 1,
+          "baseline": 76.23117100001764,
+          "candidate": 85.78020200002356,
+          "candidateOverBaseline": 1.1252641258784246,
+          "candidateMinusBaseline": 9.549031000005925
+        },
+        {
+          "pair": 2,
+          "baseline": 73.3034460000681,
+          "candidate": 77.60039599997981,
+          "candidateOverBaseline": 1.05861866302858,
+          "candidateMinusBaseline": 4.296949999911703
+        },
+        {
+          "pair": 3,
+          "baseline": 75.7801219999692,
+          "candidate": 84.52335700008007,
+          "candidateOverBaseline": 1.1153763647954331,
+          "candidateMinusBaseline": 8.743235000110872
+        },
+        {
+          "pair": 4,
+          "baseline": 76.94171000025563,
+          "candidate": 80.29723300001024,
+          "candidateOverBaseline": 1.0436112350471995,
+          "candidateMinusBaseline": 3.355522999754612
+        }
+      ],
+      "baselineMedian": 75.7801219999692,
+      "candidateMedian": 80.29723300001024,
+      "medianPairedRatio": 1.05861866302858,
+      "minPairedRatio": 1.0383394201435439,
+      "maxPairedRatio": 1.1252641258784246
+    },
+    {
+      "backend": "projection",
+      "case": "history-hotset",
+      "metric": "writeAndCheckpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 4393.275827000309,
+          "candidate": 4457.541201999788,
+          "candidateOverBaseline": 1.0146281220506383,
+          "candidateMinusBaseline": 64.26537499947972
+        },
+        {
+          "pair": 1,
+          "baseline": 4328.233457999772,
+          "candidate": 4354.678353998111,
+          "candidateOverBaseline": 1.0061098589655466,
+          "candidateMinusBaseline": 26.444895998338325
+        },
+        {
+          "pair": 2,
+          "baseline": 4222.951378000403,
+          "candidate": 4410.60677100063,
+          "candidateOverBaseline": 1.0444370242995986,
+          "candidateMinusBaseline": 187.65539300022738
+        },
+        {
+          "pair": 3,
+          "baseline": 4174.372499998526,
+          "candidate": 4425.663810999822,
+          "candidateOverBaseline": 1.060198583380229,
+          "candidateMinusBaseline": 251.29131100129598
+        },
+        {
+          "pair": 4,
+          "baseline": 4290.58617899932,
+          "candidate": 4411.930665,
+          "candidateOverBaseline": 1.0282815636228477,
+          "candidateMinusBaseline": 121.34448600068026
+        }
+      ],
+      "baselineMedian": 4290.58617899932,
+      "candidateMedian": 4411.930665,
+      "medianPairedRatio": 1.0282815636228477,
+      "minPairedRatio": 1.0061098589655466,
+      "maxPairedRatio": 1.060198583380229
+    },
+    {
+      "backend": "projection",
+      "case": "history-hotset",
+      "metric": "checkpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 3884.4941130000166,
+          "candidate": 3941.1088489999315,
+          "candidateOverBaseline": 1.0145745454499329,
+          "candidateMinusBaseline": 56.614735999914956
+        },
+        {
+          "pair": 1,
+          "baseline": 3834.446747000584,
+          "candidate": 3853.9604819993656,
+          "candidateOverBaseline": 1.0050890614178032,
+          "candidateMinusBaseline": 19.51373499878173
+        },
+        {
+          "pair": 2,
+          "baseline": 3741.188852999926,
+          "candidate": 3897.0766610002556,
+          "candidateOverBaseline": 1.041667986868754,
+          "candidateMinusBaseline": 155.88780800032964
+        },
+        {
+          "pair": 3,
+          "baseline": 3702.3967299987817,
+          "candidate": 3917.5430259992936,
+          "candidateOverBaseline": 1.0581100059475752,
+          "candidateMinusBaseline": 215.14629600051194
+        },
+        {
+          "pair": 4,
+          "baseline": 3797.956316999489,
+          "candidate": 3900.9029770008965,
+          "candidateOverBaseline": 1.0271058041243453,
+          "candidateMinusBaseline": 102.94666000140751
+        }
+      ],
+      "baselineMedian": 3797.956316999489,
+      "candidateMedian": 3900.9029770008965,
+      "medianPairedRatio": 1.0271058041243453,
+      "minPairedRatio": 1.0050890614178032,
+      "maxPairedRatio": 1.0581100059475752
+    },
+    {
+      "backend": "projection",
+      "case": "history-hotset",
+      "metric": "filesystemUsedDeltaBytes",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 11563008,
+          "candidate": 11567104,
+          "candidateOverBaseline": 1.00035423308537,
+          "candidateMinusBaseline": 4096
+        },
+        {
+          "pair": 1,
+          "baseline": 11563008,
+          "candidate": 11563008,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 2,
+          "baseline": 11567104,
+          "candidate": 11567104,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 3,
+          "baseline": 11567104,
+          "candidate": 11567104,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 4,
+          "baseline": 11567104,
+          "candidate": 11567104,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        }
+      ],
+      "baselineMedian": 11567104,
+      "candidateMedian": 11567104,
+      "medianPairedRatio": 1.0,
+      "minPairedRatio": 1.0,
+      "maxPairedRatio": 1.00035423308537
+    },
+    {
+      "backend": "projection",
+      "case": "history-recurring",
+      "metric": "preparationMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 300.68571399988286,
+          "candidate": 300.09078999989924,
+          "candidateOverBaseline": 0.9980214424155055,
+          "candidateMinusBaseline": -0.5949239999836209
+        },
+        {
+          "pair": 1,
+          "baseline": 286.7826410000589,
+          "candidate": 322.04603199988924,
+          "candidateOverBaseline": 1.122962083328548,
+          "candidateMinusBaseline": 35.263390999830335
+        },
+        {
+          "pair": 2,
+          "baseline": 297.7284750002127,
+          "candidate": 321.9251619998431,
+          "candidateOverBaseline": 1.0812709869273105,
+          "candidateMinusBaseline": 24.1966869996304
+        },
+        {
+          "pair": 3,
+          "baseline": 293.1659650000711,
+          "candidate": 322.77938800029915,
+          "candidateOverBaseline": 1.1010124862216557,
+          "candidateMinusBaseline": 29.613423000228067
+        },
+        {
+          "pair": 4,
+          "baseline": 293.9212090000183,
+          "candidate": 315.14179399960085,
+          "candidateOverBaseline": 1.072198209417345,
+          "candidateMinusBaseline": 21.22058499958257
+        }
+      ],
+      "baselineMedian": 293.9212090000183,
+      "candidateMedian": 321.9251619998431,
+      "medianPairedRatio": 1.0812709869273105,
+      "minPairedRatio": 0.9980214424155055,
+      "maxPairedRatio": 1.122962083328548
+    },
+    {
+      "backend": "projection",
+      "case": "history-recurring",
+      "metric": "warmMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 69.8343730000488,
+          "candidate": 78.61456399996314,
+          "candidateOverBaseline": 1.1257287868813286,
+          "candidateMinusBaseline": 8.780190999914339
+        },
+        {
+          "pair": 1,
+          "baseline": 78.86123599996608,
+          "candidate": 72.58955499992226,
+          "candidateOverBaseline": 0.9204719413724821,
+          "candidateMinusBaseline": -6.271681000043827
+        },
+        {
+          "pair": 2,
+          "baseline": 84.42905900005826,
+          "candidate": 75.22151199987093,
+          "candidateOverBaseline": 0.8909433895244411,
+          "candidateMinusBaseline": -9.207547000187333
+        },
+        {
+          "pair": 3,
+          "baseline": 72.00797200016495,
+          "candidate": 78.95926499986672,
+          "candidateOverBaseline": 1.0965350475317628,
+          "candidateMinusBaseline": 6.951292999701764
+        },
+        {
+          "pair": 4,
+          "baseline": 72.74586900007307,
+          "candidate": 72.38806899999872,
+          "candidateOverBaseline": 0.9950815076513281,
+          "candidateMinusBaseline": -0.35780000007434865
+        }
+      ],
+      "baselineMedian": 72.74586900007307,
+      "candidateMedian": 75.22151199987093,
+      "medianPairedRatio": 0.9950815076513281,
+      "minPairedRatio": 0.8909433895244411,
+      "maxPairedRatio": 1.1257287868813286
+    },
+    {
+      "backend": "projection",
+      "case": "history-recurring",
+      "metric": "writeAndCheckpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 2702.1905810000817,
+          "candidate": 2935.4824430002964,
+          "candidateOverBaseline": 1.0863343480065988,
+          "candidateMinusBaseline": 233.29186200021468
+        },
+        {
+          "pair": 1,
+          "baseline": 2751.05545500071,
+          "candidate": 2942.9890389993716,
+          "candidateOverBaseline": 1.0697672537461125,
+          "candidateMinusBaseline": 191.93358399866156
+        },
+        {
+          "pair": 2,
+          "baseline": 2898.211152999693,
+          "candidate": 3070.7105630003753,
+          "candidateOverBaseline": 1.0595192692644713,
+          "candidateMinusBaseline": 172.49941000068247
+        },
+        {
+          "pair": 3,
+          "baseline": 2696.7713840006127,
+          "candidate": 2832.1596980006234,
+          "candidateOverBaseline": 1.0502038529492124,
+          "candidateMinusBaseline": 135.38831400001072
+        },
+        {
+          "pair": 4,
+          "baseline": 2762.5606739989053,
+          "candidate": 2880.0622049971025,
+          "candidateOverBaseline": 1.0425335566759188,
+          "candidateMinusBaseline": 117.50153099819727
+        }
+      ],
+      "baselineMedian": 2751.05545500071,
+      "candidateMedian": 2935.4824430002964,
+      "medianPairedRatio": 1.0595192692644713,
+      "minPairedRatio": 1.0425335566759188,
+      "maxPairedRatio": 1.0863343480065988
+    },
+    {
+      "backend": "projection",
+      "case": "history-recurring",
+      "metric": "checkpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 2136.740802000304,
+          "candidate": 2324.1432649997478,
+          "candidateOverBaseline": 1.0877048179283175,
+          "candidateMinusBaseline": 187.40246299944374
+        },
+        {
+          "pair": 1,
+          "baseline": 2173.4969770000134,
+          "candidate": 2325.2168709996113,
+          "candidateOverBaseline": 1.0698045111656933,
+          "candidateMinusBaseline": 151.71989399959784
+        },
+        {
+          "pair": 2,
+          "baseline": 2277.045122998743,
+          "candidate": 2416.9095020006353,
+          "candidateOverBaseline": 1.0614236308227825,
+          "candidateMinusBaseline": 139.8643790018923
+        },
+        {
+          "pair": 3,
+          "baseline": 2130.9391470010723,
+          "candidate": 2246.579168000153,
+          "candidateOverBaseline": 1.0542671625146236,
+          "candidateMinusBaseline": 115.64002099908066
+        },
+        {
+          "pair": 4,
+          "baseline": 2182.337084998835,
+          "candidate": 2283.4521829986443,
+          "candidateOverBaseline": 1.0463334004150249,
+          "candidateMinusBaseline": 101.11509799980922
+        }
+      ],
+      "baselineMedian": 2173.4969770000134,
+      "candidateMedian": 2324.1432649997478,
+      "medianPairedRatio": 1.0614236308227825,
+      "minPairedRatio": 1.0463334004150249,
+      "maxPairedRatio": 1.0877048179283175
+    },
+    {
+      "backend": "projection",
+      "case": "history-recurring",
+      "metric": "filesystemUsedDeltaBytes",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 6471680,
+          "candidate": 6471680,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 1,
+          "baseline": 6471680,
+          "candidate": 6471680,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 2,
+          "baseline": 6475776,
+          "candidate": 6475776,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 3,
+          "baseline": 6881280,
+          "candidate": 6475776,
+          "candidateOverBaseline": 0.9410714285714286,
+          "candidateMinusBaseline": -405504
+        },
+        {
+          "pair": 4,
+          "baseline": 6475776,
+          "candidate": 6475776,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        }
+      ],
+      "baselineMedian": 6475776,
+      "candidateMedian": 6475776,
+      "medianPairedRatio": 1.0,
+      "minPairedRatio": 0.9410714285714286,
+      "maxPairedRatio": 1.0
+    },
+    {
+      "backend": "projection",
+      "case": "history-small-control",
+      "metric": "preparationMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 53.57849099993928,
+          "candidate": 53.8526869999032,
+          "candidateOverBaseline": 1.0051176506625434,
+          "candidateMinusBaseline": 0.2741959999639221
+        },
+        {
+          "pair": 1,
+          "baseline": 47.84384100003081,
+          "candidate": 57.452427999919564,
+          "candidateOverBaseline": 1.2008322659521122,
+          "candidateMinusBaseline": 9.608586999888757
+        },
+        {
+          "pair": 2,
+          "baseline": 58.82303500015951,
+          "candidate": 70.98239400011153,
+          "candidateOverBaseline": 1.2067108404032374,
+          "candidateMinusBaseline": 12.159358999952019
+        },
+        {
+          "pair": 3,
+          "baseline": 52.93285500010825,
+          "candidate": 59.266805999868666,
+          "candidateOverBaseline": 1.1196601052361046,
+          "candidateMinusBaseline": 6.333950999760418
+        },
+        {
+          "pair": 4,
+          "baseline": 56.59456499984117,
+          "candidate": 60.33326999977362,
+          "candidateOverBaseline": 1.0660612021656664,
+          "candidateMinusBaseline": 3.7387049999324518
+        }
+      ],
+      "baselineMedian": 53.57849099993928,
+      "candidateMedian": 59.266805999868666,
+      "medianPairedRatio": 1.1196601052361046,
+      "minPairedRatio": 1.0051176506625434,
+      "maxPairedRatio": 1.2067108404032374
+    },
+    {
+      "backend": "projection",
+      "case": "history-small-control",
+      "metric": "warmMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 20.99654800008466,
+          "candidate": 21.66062600008445,
+          "candidateOverBaseline": 1.0316279609389654,
+          "candidateMinusBaseline": 0.6640779999997903
+        },
+        {
+          "pair": 1,
+          "baseline": 20.406409999964126,
+          "candidate": 19.56807099998059,
+          "candidateOverBaseline": 0.9589178596340557,
+          "candidateMinusBaseline": -0.8383389999835344
+        },
+        {
+          "pair": 2,
+          "baseline": 22.689030999799797,
+          "candidate": 25.685849999945276,
+          "candidateOverBaseline": 1.1320822824109114,
+          "candidateMinusBaseline": 2.9968190001454786
+        },
+        {
+          "pair": 3,
+          "baseline": 19.78426699974989,
+          "candidate": 21.00731300015468,
+          "candidateOverBaseline": 1.0618191212451922,
+          "candidateMinusBaseline": 1.2230460004047927
+        },
+        {
+          "pair": 4,
+          "baseline": 20.47769200021321,
+          "candidate": 22.708813000008377,
+          "candidateOverBaseline": 1.1089537336420499,
+          "candidateMinusBaseline": 2.2311209997951664
+        }
+      ],
+      "baselineMedian": 20.47769200021321,
+      "candidateMedian": 21.66062600008445,
+      "medianPairedRatio": 1.0618191212451922,
+      "minPairedRatio": 0.9589178596340557,
+      "maxPairedRatio": 1.1320822824109114
+    },
+    {
+      "backend": "projection",
+      "case": "history-small-control",
+      "metric": "writeAndCheckpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 1366.7030580007804,
+          "candidate": 1506.1032980001983,
+          "candidateOverBaseline": 1.1019974596408186,
+          "candidateMinusBaseline": 139.40023999941786
+        },
+        {
+          "pair": 1,
+          "baseline": 1414.7592369995436,
+          "candidate": 1426.6378470001655,
+          "candidateOverBaseline": 1.008396206004503,
+          "candidateMinusBaseline": 11.878610000621848
+        },
+        {
+          "pair": 2,
+          "baseline": 1565.384705001179,
+          "candidate": 1716.9541670002673,
+          "candidateOverBaseline": 1.0968256949967925,
+          "candidateMinusBaseline": 151.56946199908816
+        },
+        {
+          "pair": 3,
+          "baseline": 1420.5421270005445,
+          "candidate": 1422.5907350003126,
+          "candidateOverBaseline": 1.0014421311137698,
+          "candidateMinusBaseline": 2.0486079997681372
+        },
+        {
+          "pair": 4,
+          "baseline": 1444.1406549995008,
+          "candidate": 1576.3191429994095,
+          "candidateOverBaseline": 1.0915274336625849,
+          "candidateMinusBaseline": 132.1784879999086
+        }
+      ],
+      "baselineMedian": 1420.5421270005445,
+      "candidateMedian": 1506.1032980001983,
+      "medianPairedRatio": 1.0915274336625849,
+      "minPairedRatio": 1.0014421311137698,
+      "maxPairedRatio": 1.1019974596408186
+    },
+    {
+      "backend": "projection",
+      "case": "history-small-control",
+      "metric": "checkpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 1015.7247800007099,
+          "candidate": 1147.2388950003278,
+          "candidateOverBaseline": 1.1294781003566006,
+          "candidateMinusBaseline": 131.51411499961796
+        },
+        {
+          "pair": 1,
+          "baseline": 1050.4280159998416,
+          "candidate": 1058.5456059997114,
+          "candidateOverBaseline": 1.0077278879430336,
+          "candidateMinusBaseline": 8.117589999869779
+        },
+        {
+          "pair": 2,
+          "baseline": 1163.6775609999859,
+          "candidate": 1290.1918909992673,
+          "candidateOverBaseline": 1.10871940324308,
+          "candidateMinusBaseline": 126.51432999928147
+        },
+        {
+          "pair": 3,
+          "baseline": 1050.123072000133,
+          "candidate": 1055.004981000593,
+          "candidateOverBaseline": 1.0046488922399939,
+          "candidateMinusBaseline": 4.8819090004599275
+        },
+        {
+          "pair": 4,
+          "baseline": 1067.1630610004286,
+          "candidate": 1192.8388799992717,
+          "candidateOverBaseline": 1.117766275456561,
+          "candidateMinusBaseline": 125.67581899884317
+        }
+      ],
+      "baselineMedian": 1050.4280159998416,
+      "candidateMedian": 1147.2388950003278,
+      "medianPairedRatio": 1.10871940324308,
+      "minPairedRatio": 1.0046488922399939,
+      "maxPairedRatio": 1.1294781003566006
+    },
+    {
+      "backend": "projection",
+      "case": "history-small-control",
+      "metric": "filesystemUsedDeltaBytes",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 1191936,
+          "candidate": 1224704,
+          "candidateOverBaseline": 1.0274914089347078,
+          "candidateMinusBaseline": 32768
+        },
+        {
+          "pair": 1,
+          "baseline": 1224704,
+          "candidate": 1191936,
+          "candidateOverBaseline": 0.9732441471571907,
+          "candidateMinusBaseline": -32768
+        },
+        {
+          "pair": 2,
+          "baseline": 1163264,
+          "candidate": 1196032,
+          "candidateOverBaseline": 1.028169014084507,
+          "candidateMinusBaseline": 32768
+        },
+        {
+          "pair": 3,
+          "baseline": 1196032,
+          "candidate": 1196032,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        },
+        {
+          "pair": 4,
+          "baseline": 1196032,
+          "candidate": 1163264,
+          "candidateOverBaseline": 0.9726027397260274,
+          "candidateMinusBaseline": -32768
+        }
+      ],
+      "baselineMedian": 1196032,
+      "candidateMedian": 1196032,
+      "medianPairedRatio": 1.0,
+      "minPairedRatio": 0.9726027397260274,
+      "maxPairedRatio": 1.028169014084507
+    }
+  ]
+}

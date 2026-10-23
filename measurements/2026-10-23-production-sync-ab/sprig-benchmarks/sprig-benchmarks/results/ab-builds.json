@@ -1,0 +1,10 @@
+{
+  "baseline": {
+    "sha": "46f96341498ef040280720d8f97c17de82db4419",
+    "binarySha256": "61adcafe9a615f684cb753673e3b1c409d98fac53d156f6fe8a62486ad1b2576"
+  },
+  "candidate": {
+    "sha": "17130154de38f3c30be6eae620ad0c0b6d404d48",
+    "binarySha256": "184832a114ccf4f846d46392d02b74ff756a733dead15ed00b20e1b4e7170afa"
+  }
+}
