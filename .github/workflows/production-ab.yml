@@ -1,0 +1,68 @@
+name: Same-runner production synchronization A-B
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  paired:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      CARGO_BUILD_JOBS: '2'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Record environment and install official tools
+        run: |
+          mkdir results
+          sudo apt-get update
+          sudo apt-get install -y btrfs-progs python3-btrfsutil
+          { uname -a; lscpu; free -h; df -h; findmnt -T "$PWD"; btrfs version; python3 --version; } > results/environment.txt
+          sha256sum feasibility/production_ab.py feasibility/production_ab_sample.py feasibility/production_sample.py feasibility/cas_sample.py feasibility/production_ab_small.py feasibility/summarize_production_ab.py fixtures.py history_recipe.py > results/script-hashes.txt
+      - name: Fetch two immutable production revisions
+        run: |
+          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig-baseline
+          git -C sprig-baseline checkout 46f96341498ef040280720d8f97c17de82db4419
+          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig-candidate
+          git -C sprig-candidate checkout 17130154de38f3c30be6eae620ad0c0b6d404d48
+          rustup toolchain install stable --profile minimal
+          rustc +stable --version > results/rust-version.txt
+          for label in baseline candidate; do
+            find "sprig-$label/src" "sprig-$label/tests" -type f -print0 | sort -z | xargs -0 sha256sum > "results/$label-source-hashes.txt"
+          done
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: production-ab-registry-46f9634-17130154-v1
+      - name: Build test and gate both revisions
+        run: |
+          for label in baseline candidate; do
+            cargo +stable test --locked --features projection --manifest-path "sprig-$label/Cargo.toml"
+            cargo +stable build --release --locked --features projection --manifest-path "sprig-$label/Cargo.toml"
+            mkdir "$RUNNER_TEMP/production-ab-gate-$label"
+            sudo env TMPDIR="$RUNNER_TEMP/production-ab-gate-$label" /usr/bin/python3 "sprig-$label/tests/projection_workflow.py" --binary "$PWD/sprig-$label/target/release/sprig" > "results/$label-kernel-contract.json"
+          done
+          python3 - <<'PY'
+          import hashlib,json,pathlib,subprocess
+          builds={}
+          for label in ['baseline','candidate']:
+              root=pathlib.Path('sprig-'+label)
+              builds[label]={'sha':subprocess.check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip(),'binarySha256':hashlib.sha256((root/'target/release/sprig').read_bytes()).hexdigest()}
+          pathlib.Path('results/ab-builds.json').write_text(json.dumps(builds,indent=2)+'\n')
+          PY
+      - name: Generate frozen recipes and separate small-tree control
+        run: |
+          python3 fixtures.py fixtures 100 > results/fixture-generation.txt
+          python3 feasibility/production_ab_small.py fixtures/history-small-control > results/small-control-generation.json
+      - name: Run five fixed same-runner pairs
+        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/production_ab.py
+      - name: Validate completeness and summarize paired ratios
+        run: python3 feasibility/summarize_production_ab.py results/production-ab.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: production-ab-measurements
+          path: |
+            results/
+            ${{ runner.temp }}/production-ab-records/
