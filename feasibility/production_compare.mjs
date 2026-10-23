@@ -81,7 +81,7 @@ for(let round=0;round<rounds;round++)for(const caseName of cases)for(const produ
    process.env.LAYERFS_VOLUME=id;process.env.LAYERFS_HOME=home;process.env.LAYERFS_STORE_PATH=storePath;process.env.LAYERFS_CONTAINER_PREFIX='nativefeas-';
    const l=new LayerFS(id,{storePath});r.initMs=performance.now()-setupStart;r.lifecycle={fileTreesRetained:true,controlProcessExited:false,reopenImplemented:true};
    try{
-    let main;let t=await timed(async()=>{await l.project.init(fixture);main=await l.workspace.mount('main');});r.importMs=t.ms;
+    let main;let t=await timed(async()=>{await l.project.init(fixture);await l.branch.fork('import-main','main');main=await l.workspace.mount('import-main');});r.importMs=t.ms;
     t=await timed(async()=>{await l.branch.fork('work','main');return l.workspace.mount('work');});const ws=t.value;r.forkToWorkspaceMs=t.ms;
     t=await timed(()=>l.workspace.exec(ws,checks));assert.equal(t.value.exitCode,0);r.firstFullReadVerifyMs=t.ms;r.totalImportForkReadMs=r.importMs+r.forkToWorkspaceMs+r.firstFullReadVerifyMs;
     t=await timed(async()=>{await l.branch.fork('second','main');return l.workspace.mount('second');});const second=t.value;r.warmForkToWorkspaceMs=t.ms;
