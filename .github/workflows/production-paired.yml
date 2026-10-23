@@ -38,7 +38,7 @@ jobs:
       - name: Fetch fixed production CLI
         run: |
           git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig
-          git -C sprig checkout 46f96341498ef040280720d8f97c17de82db4419
+          git -C sprig checkout 17130154de38f3c30be6eae620ad0c0b6d404d48
           rustup toolchain install stable --profile minimal
           rustc +stable --version > results/projection-rust-version.txt
           find sprig/src sprig/tests -type f -not -path '*/target/*' -print0 | sort -z | xargs -0 sha256sum > results/production-source-hashes.txt
@@ -49,7 +49,7 @@ jobs:
             ~/.cargo/git
             layerfs/core/target
             sprig/target
-          key: paired-production-ubuntu24-46f9634-2aaf255-v1
+          key: paired-production-ubuntu24-17130154-2aaf255-v1
           restore-keys: |
             pinned-products-ubuntu24-amd64-22e6e4c-2aaf255-rust1851-v1
             cas-projection-ubuntu24-amd64-

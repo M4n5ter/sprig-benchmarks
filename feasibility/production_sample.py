@@ -19,7 +19,7 @@ from cas_sample import (HEX64, Parser, Sample, SampleError, checked_path,
                         full_checks, changed_check, write_command, inventory_source,
                         mount_table, exact_mount, inside, new_report, require)
 
-PRODUCTION_SHA = "46f96341498ef040280720d8f97c17de82db4419"
+PRODUCTION_SHA = "17130154de38f3c30be6eae620ad0c0b6d404d48"
 
 
 def production_report():

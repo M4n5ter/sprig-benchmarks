@@ -1,6 +1,6 @@
 # Production CLI measurement contract
 
-This is a new series, not a continuation of prototype performance figures. Sprig production commit 46f96341498ef040280720d8f97c17de82db4419 is built locked/release with the optional projection feature. The same real binary provides default native and explicit projected backends. No source patch, private prototype API or direct library shortcut is used. The comparator remains the fixed v1.0.0 SHA 2aaf2552ce21154928b9f9c83582e41a637f5910, not current upstream main.
+This is a new series, not a continuation of prototype performance figures. Sprig production-CLI candidate commit 17130154de38f3c30be6eae620ad0c0b6d404d48 (optimize-workspace-sync, not merged to main) is built locked/release with the optional projection feature. The same real binary provides default native and explicit projected backends. No source patch, private prototype API or direct library shortcut is used. The comparator remains the fixed v1.0.0 SHA 2aaf2552ce21154928b9f9c83582e41a637f5910, not current upstream main.
 
 ## Unchanged workload and isolation
 
