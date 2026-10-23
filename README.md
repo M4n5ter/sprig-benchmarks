@@ -1,3 +1,7 @@
+**Current production results (23 October 2026):** [native and projection CLI comparison](PRODUCTION-CLI-RESULTS.md), pinned to Sprig `46f9634`, passed 84 paired records and 3,600 historical readbacks. The speed + storage target remains unmet. This new series includes initialization, three active workspaces and whole-filesystem/runtime accounting.
+
+**The material below describes preserved older experimental series.** Its pins, omitted costs and limitations do not describe the new production series; use the report above and its measurement contract for current results.
+
 [CAS + OverlayFS kernel semantics smoke](CAS-OVERLAY-FEASIBILITY.md) passed; checkpoint integration and performance remain unproven.
 
 [Path-only Btrfs rerun](BTRFS-RELPATH-RESULTS.md): verified, still short of the speed/storage/feature target.
