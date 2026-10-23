@@ -1,43 +1,63 @@
-//! Prototype size policy over the shared production metadata codec.
-use crate::store::{Result, invalid, validate_hash};
-use std::io;
+//! Bounded lossless storage for immutable manifest JSON bytes.
+//!
+//! Identities remain hashes of the uncompressed JSON. File opening and manifest
+//! model validation belong to the caller; this module only validates the codec.
+
+use std::io::{self, Read, Write};
+
+use crate::store::Result;
+
 pub(crate) const MAX_METADATA_BYTES: usize = 256 * 1024 * 1024;
+const WINDOW_LOG: u32 = 20;
+
+/// Match the production metadata encoder's level, window and checksum settings.
 pub(crate) fn encode(bytes: &[u8]) -> Result<Vec<u8>> {
     check_size(bytes.len(), MAX_METADATA_BYTES)?;
-    let encoded = sprig::metadata::encode(bytes)?;
-    check_size(encoded.len(), MAX_METADATA_BYTES)?;
-    Ok(encoded)
+    let mut encoder = zstd::stream::write::Encoder::new(Vec::new(), 1)?;
+    encoder.window_log(WINDOW_LOG)?;
+    encoder.include_checksum(true)?;
+    encoder.set_pledged_src_size(Some(bytes.len() as u64))?;
+    encoder.write_all(bytes)?;
+    let compressed = encoder.finish()?;
+    check_size(compressed.len(), MAX_METADATA_BYTES)?;
+    Ok(compressed)
 }
+
 pub(crate) fn decode(bytes: &[u8]) -> Result<Vec<u8>> {
     decode_bounded(bytes, MAX_METADATA_BYTES)
 }
+
 fn decode_bounded(bytes: &[u8], limit: usize) -> Result<Vec<u8>> {
     check_size(bytes.len(), MAX_METADATA_BYTES)?;
-    sprig::metadata::decode(bytes, Some(limit))
+    let mut decoder = zstd::stream::read::Decoder::with_buffer(bytes)?.single_frame();
+    decoder.window_log_max(WINDOW_LOG)?;
+    // Never allocate from an untrusted pledged frame size. Read through EOF
+    // (including the epilogue/checksum), unless the decoded limit is exceeded.
+    let mut decoded = Vec::new();
+    (&mut decoder)
+        .take(limit as u64 + 1)
+        .read_to_end(&mut decoded)?;
+    check_size(decoded.len(), limit)?;
+    if !decoder.finish().is_empty() {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "trailing data after metadata frame",
+        )
+        .into());
+    }
+    Ok(decoded)
 }
+
 fn check_size(size: usize, limit: usize) -> io::Result<()> {
     if size > limit {
-        return Err(invalid("metadata exceeds limit"));
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidData,
+            "manifest exceeds the prototype's metadata limit",
+        ));
     }
     Ok(())
 }
-/// The on-disk schema is production Revision, never a second adapter model.
-pub(crate) fn decode_revision(bytes: &[u8], id: &str) -> Result<sprig::Revision> {
-    validate_hash(id)?;
-    let bytes = decode(bytes)?;
-    if blake3::hash(&bytes).to_hex().as_str() != id {
-        return Err(invalid("immutable revision does not match its address").into());
-    }
-    let revision: sprig::Revision = serde_json::from_slice(&bytes)?;
-    if revision.clock == 0 || revision.parents.len() > 2 {
-        return Err(invalid("invalid revision clock or parents").into());
-    }
-    for parent in &revision.parents {
-        validate_hash(parent)?;
-    }
-    sprig::content::validate_manifest(&revision.manifest)?;
-    Ok(revision)
-}
+
 #[cfg(test)]
 mod tests {
     use super::*;

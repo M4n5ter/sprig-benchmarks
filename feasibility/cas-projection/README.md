@@ -97,8 +97,9 @@ The library owns all persistent data:
 ```text
 LIBRARY/
   manifest.json       # immutable initial projection manifest
-  <hash>.revision.zst # one immutable production Revision including its manifest
+  <hash>.manifest.zst # immutable history manifests; explicit capture outputs remain JSON
   head.json           # atomically published head + generation
+  commits/            # immutable parent/message/manifest records
   commit-backups/     # previous heads and retained conflict reports
   commit.lock         # cooperative single-writer lock
   objects/

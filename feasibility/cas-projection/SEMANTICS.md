@@ -40,8 +40,8 @@ file. `read --root STORE --base COMMIT --path RELATIVE` returns `{revision,path,
 bytes}`; bytes is a JSON integer array, limited to the core's 16 MiB read helper.
 It can read retained conflict candidates as well as ancestral commits.
 `history --root STORE` returns first-parent decoded revisions with all parents.
-Each revision includes id, manifest_file, manifest, parents, clock, message. Published
-manifest files use the compressed `.revision.zst` representation embedding the production Revision. Compare their
+Each revision includes id, manifest_file, manifest, parents, message. Published
+manifest files use the compressed `.manifest.zst` representation. Compare their
 decoded `manifest` from this history API with plain capture outputs, rather than
 parsing a compressed file as JSON. See PUBLICATION.md for the fresh-store limit.
 

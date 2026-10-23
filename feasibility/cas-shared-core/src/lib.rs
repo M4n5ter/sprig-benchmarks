@@ -9,7 +9,7 @@ pub mod blame;
 pub mod content;
 pub mod copy_tree;
 pub mod merge;
-pub mod metadata;
+mod metadata;
 mod model;
 mod store;
 
