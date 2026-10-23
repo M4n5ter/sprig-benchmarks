@@ -1,3 +1,5 @@
+**Candidate verification (23 October 2026):** [workspace synchronization scheduling](WORKSPACE-SYNC-RESULTS.md), both backends passed all paired samples and historical readbacks; overall target still unmet, candidate not merged to main.
+
 **Current production results (23 October 2026):** [native and projection CLI comparison](PRODUCTION-CLI-RESULTS.md), pinned to Sprig `46f9634`, passed 84 paired records and 3,600 historical readbacks. The speed + storage target remains unmet. This new series includes initialization, three active workspaces and whole-filesystem/runtime accounting.
 
 **The material below describes preserved older experimental series.** Its pins, omitted costs and limitations do not describe the new production series; use the report above and its measurement contract for current results.
