@@ -1,0 +1,10 @@
+{
+  "run": 40054772895,
+  "benchmarkSha": "5f1d2d28dee53782568c767b78459f00ac2660c4",
+  "productionSha": "e38225e1e1160e8de90aa911d6f1740bef93bacc",
+  "policy": "auto (default init)",
+  "comparatorSha": "9f97a7ec95b662e9cb288704afa165feff132cfa",
+  "records": 12,
+  "artifactSha256": "c3a958b752fc2804ba81bcda356a66b814076848cca92f75f1fb4992358ec533",
+  "originalComparisonSha256": "5c9ae93c1d072c1c1342eb6fcde9efc45c0edf88088606e8342713e199ee2f67"
+}
