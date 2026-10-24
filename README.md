@@ -1,3 +1,5 @@
+**Frozen 24 October baseline, not latest main:** [fba02ad versus LayerFS v1.1.0](FBA-V11-RESULTS.md) passed all three production backends (126 records, 5,400 history readbacks). New e382/default-auto and Cargo results are separate; no overall win is claimed.
+
 **Same-runner decision (23 October 2026):** [direct baseline/candidate A/B](WORKSPACE-SYNC-AB-RESULTS.md) passed 80 samples and 8,000 readbacks but demonstrated no checkpoint benefit. Candidate remains unmerged; earlier cross-run changes are not evidence of a speedup.
 
 **Candidate verification (23 October 2026):** [workspace synchronization scheduling](WORKSPACE-SYNC-RESULTS.md), both backends passed all paired samples and historical readbacks; overall target still unmet, candidate not merged to main.

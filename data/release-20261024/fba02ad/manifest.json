@@ -1,0 +1,35 @@
+[
+  {
+    "backend": "writable",
+    "run": 40053721046,
+    "benchmarkSha": "931a57f9c6ae69fd109dc04c3fa0253ac601995f",
+    "artifact": "writable-40053721046-full-artifact.tar.gz",
+    "artifactSha256": "f6a1a6576c3216fff96ea47536b9b6487f1631b76dbe240c63dcc642bc774ce8",
+    "originalComparisonSha256": "d010875230b42b2af6d6fabc8710e271f672ff95f4fd3345c5fdaa10d228e4b9",
+    "records": 42,
+    "historicalReadbacks": 1800,
+    "cpu": "AMD EPYC 9V45 96-Core Processor"
+  },
+  {
+    "backend": "native",
+    "run": 40054112873,
+    "benchmarkSha": "a4f0972b5e1f921baeba9ffb20fddaf90d4b3339",
+    "artifact": "native-40054112873-full-artifact.tar.gz",
+    "artifactSha256": "7c622e61e142d728ac179b569a5e1ea8e5e1d7035a39264445cb4541dedd2a80",
+    "originalComparisonSha256": "542a2684dc1dfe28d76ee7677f1dc691797ce4f606876600eaa83a39fdc3f283",
+    "records": 42,
+    "historicalReadbacks": 1800,
+    "cpu": "AMD EPYC 7763 64-Core Processor"
+  },
+  {
+    "backend": "projection",
+    "run": 40054144941,
+    "benchmarkSha": "a4f0972b5e1f921baeba9ffb20fddaf90d4b3339",
+    "artifact": "projection-40054144941-full-artifact.tar.gz",
+    "artifactSha256": "c40954e2457c86514022757da3399e1fde2aa14c407b6e7b1da5bc12df123b26",
+    "originalComparisonSha256": "e7487bdbc6ae2b28e342d031178cb7047abfdfba491755a1c39b4aef2c9ec677",
+    "records": 42,
+    "historicalReadbacks": 1800,
+    "cpu": "AMD EPYC 9V74 80-Core Processor"
+  }
+]
