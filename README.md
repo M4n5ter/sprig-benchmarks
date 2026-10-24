@@ -1,3 +1,5 @@
+**Latest complete production comparison (24 October):** [e382/default-auto versus LayerFS v1.1.0](LATEST-V11-RESULTS.md) passed 126 records and 5,400 history readbacks across native, projection and owned writable. Full timing/storage/durability boundaries and original raw evidence are preserved; the overall speed-plus-storage target is not met.
+
 **Latest production Cargo (24 October):** [e382/default-auto tiny real Cargo comparison](CARGO-CURRENT-RESULTS.md) passed 12 samples with complete build-tree restoration and Fresh rebuilds. Full task/transport and durability differences are explicit; no overall win.
 
 **Frozen 24 October baseline, not latest main:** [fba02ad versus LayerFS v1.1.0](FBA-V11-RESULTS.md) passed all three production backends (126 records, 5,400 history readbacks). New e382/default-auto and Cargo results are separate; no overall win is claimed.

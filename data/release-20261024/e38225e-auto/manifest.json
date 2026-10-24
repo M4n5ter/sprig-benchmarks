@@ -1,0 +1,41 @@
+[
+  {
+    "backend": "writable",
+    "run": 40054689786,
+    "benchmarkSha": "5f1d2d28dee53782568c767b78459f00ac2660c4",
+    "productionSha": "e38225e1e1160e8de90aa911d6f1740bef93bacc",
+    "compressionPolicy": "auto (default init)",
+    "artifact": "writable-40054689786-full-artifact.tar.gz",
+    "artifactSha256": "8106b8f4347af0a3a02486e8f05b14947c5bd117b7d80030936bc1fadc27038b",
+    "originalComparisonSha256": "a6ee9007517adb067afba72bc019fb35846e23d3398e3a8281a4e059eb3c3848",
+    "records": 42,
+    "historicalReadbacks": 1800,
+    "cpu": "Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz"
+  },
+  {
+    "backend": "native",
+    "run": 40055336925,
+    "benchmarkSha": "5f1d2d28dee53782568c767b78459f00ac2660c4",
+    "productionSha": "e38225e1e1160e8de90aa911d6f1740bef93bacc",
+    "compressionPolicy": "auto (default init)",
+    "artifact": "native-40055336925-full-artifact.tar.gz",
+    "artifactSha256": "555a9f52acaf17f498b3a8526f1516d1e8a1fb9092b2e23704ec01e735e33b7b",
+    "originalComparisonSha256": "c907041042a231d706f20204eb2ab76b0a8f6e09447063b7f5171804dd542bcb",
+    "records": 42,
+    "historicalReadbacks": 1800,
+    "cpu": "AMD EPYC 9V45 96-Core Processor"
+  },
+  {
+    "backend": "projection",
+    "run": 40055092686,
+    "benchmarkSha": "5f1d2d28dee53782568c767b78459f00ac2660c4",
+    "productionSha": "e38225e1e1160e8de90aa911d6f1740bef93bacc",
+    "compressionPolicy": "auto (default init)",
+    "artifact": "projection-40055092686-full-artifact.tar.gz",
+    "artifactSha256": "d95185ef3783d351cb08737049977b17da0b272ed704cd138d24f3512fc2585d",
+    "originalComparisonSha256": "65e6eb90217d94ff6f1c9d61aad98c9601121d04614a10b6885f1a3ab53a2445",
+    "records": 42,
+    "historicalReadbacks": 1800,
+    "cpu": "AMD EPYC 9V45 96-Core Processor"
+  }
+]
