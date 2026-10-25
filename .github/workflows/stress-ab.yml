@@ -1,5 +1,5 @@
-name: Same-runner cold unique cache A/B
-run-name: Cold product-cache unique10k inventory versus threshold, one pair
+name: Same-runner writable lease backoff A/B
+run-name: Writable history100 baseline versus lease backoff, one pair
 on:
   push:
     branches: [stress/canary-validation]
@@ -21,8 +21,8 @@ jobs:
     timeout-minutes: 45
     env:
       CARGO_BUILD_JOBS: '2'
-      BASELINE_SHA: '8558b130323d904ae8eaec822d502f52459c5b79'
-      CANDIDATE_SHA: '9f83c4aec3205b4eb067ca2a367dd7a0b52f49c9'
+      BASELINE_SHA: '071036f83691b89bd9e35bb162d34e305e1874b7'
+      CANDIDATE_SHA: '2c3a7910fe98bf3a8df61f7142cbef740e4ccb2a'
       PAIR_ORDER: ${{ inputs.pair_order || 'forward' }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
@@ -71,9 +71,8 @@ jobs:
           test "$(realpath build-target-baseline)" != "$(realpath build-target-candidate)"
           if cmp -s bin/baseline-sprig bin/candidate-sprig; then echo "Unexpected identical variant binaries"; exit 1; fi
           sha256sum bin/*-sprig > results/both-binary-hashes-after-build.txt
-          printf '%s  %s\n' 'b16c2e2527d2e06f34f4c5af67f80ed5e8ac04532cec73e768971568e92a01e6' 'bin/baseline-sprig' '882afd27c94a41831ac4004a49e49b3117425960de981708f5026d827ff586df' 'bin/candidate-sprig' | sha256sum -c -
           python3 -m unittest discover -s feasibility -p 'test_stress*.py' -v
-      - name: Native canary then cold unique10k under one remaining budget
+      - name: Writable canary then history100 under one remaining budget
         run: |
           export STRESS_MEASURE_BUDGET=$((2700 - ($(date +%s) - STRESS_JOB_START) - 300))
           if [ "$STRESS_MEASURE_BUDGET" -gt 1200 ]; then export STRESS_MEASURE_BUDGET=1200; fi
@@ -85,17 +84,17 @@ jobs:
           import json,os
           from pathlib import Path
           root=Path.cwd()
-          products=[dict(label='inventory',type='sprig',sha=os.environ['BASELINE_SHA'],binary=str(root/'bin/baseline-sprig')),
-                    dict(label='threshold',type='sprig',sha=os.environ['CANDIDATE_SHA'],binary=str(root/'bin/candidate-sprig'))]
+          products=[dict(label='baseline',type='sprig',sha=os.environ['BASELINE_SHA'],binary=str(root/'bin/baseline-sprig')),
+                    dict(label='backoff',type='sprig',sha=os.environ['CANDIDATE_SHA'],binary=str(root/'bin/candidate-sprig'))]
           Path('results/stress-products.json').write_text(json.dumps(products,indent=2))
           PYCONFIG
-          sudo --preserve-env=GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_sequence.py --products "$PWD/results/stress-products.json" --cell files-10000 --pair-order "$PAIR_ORDER" --budget-seconds "$STRESS_MEASURE_BUDGET" --output "$RUNNER_TEMP/cache-sequence"
+          sudo --preserve-env=GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_sequence.py --products "$PWD/results/stress-products.json" --cell history-hot-100 --backend writable --pair-order "$PAIR_ORDER" --budget-seconds "$STRESS_MEASURE_BUDGET" --output "$RUNNER_TEMP/cache-sequence"
       - name: Summarize only complete exact paired records
         run: python3 feasibility/stress_summarize.py "$RUNNER_TEMP/cache-sequence/pressure/stress-results/stress-comparison.json" --output results/stress-summary.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: stress-cache-unique10k-own-ab-measurements
+          name: stress-writable-backoff100-own-ab-measurements
           path: |
             results/
             ${{ runner.temp }}/cache-sequence/

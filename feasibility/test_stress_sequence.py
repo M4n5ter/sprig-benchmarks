@@ -1,9 +1,13 @@
 import unittest
 from unittest.mock import patch
 from pathlib import Path
-from stress_sequence import phase_budget,validate_native_canary,validate_binary_identity
+from stress_sequence import phase_budget,validate_native_canary,validate_binary_identity,validate_canary,validate_backend
 
 class SequenceTests(unittest.TestCase):
+    def test_pressure_backend(self):
+        proof=dict(records=[dict(backend="writable")]*2)
+        validate_backend(proof,"writable")
+        with self.assertRaises(ValueError):validate_backend(proof,"native")
     def test_binary_identity(self):
         proof=dict(records=[dict(product="inventory",binarySha256="a"),dict(product="threshold",binarySha256="b")])
         validate_binary_identity(proof,{"inventory":"a","threshold":"b"})
@@ -18,6 +22,11 @@ class SequenceTests(unittest.TestCase):
         proof=dict(diagnostic=False,records=[dict(backend='native',fullTreeChecks=15,historicalReadbacks=4)]*2,sourcePins={p['label']:p['sha'] for p in products})
         with patch('stress_sequence.verify',return_value=proof):
             self.assertEqual(validate_native_canary(Path('/unused'),products),proof)
+            with self.assertRaises(ValueError):validate_canary(Path('/unused'),products,'writable')
+            for row in proof['records']:row['backend']='writable'
+            self.assertEqual(validate_canary(Path('/unused'),products,'writable'),proof)
+            with self.assertRaises(ValueError):validate_native_canary(Path('/unused'),products)
+            for row in proof['records']:row['backend']='native'
             wrong=[dict(label='inventory',sha='c'*40),products[1]]
             with self.assertRaises(ValueError):validate_native_canary(Path('/unused'),wrong)
         proof['records'][0]['historicalReadbacks']=3

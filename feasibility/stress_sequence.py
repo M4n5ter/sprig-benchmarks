@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run one native full-tree canary and one targeted cache cell under ONE budget.
+"""Run one exact-backend full-tree canary and one approved cell under ONE budget.
 No retries, process timeout/kill, pruning, or completion claim after a budget abort.
 """
 import argparse
@@ -21,15 +21,25 @@ def phase_budget(remaining, canary):
     return min(300 if canary else 1200,available)
 
 
-def validate_native_canary(root, products):
+def validate_backend(proof, backend):
+    if any(r['backend']!=backend for r in proof['records']):
+        raise ValueError('measured backend differs from requested backend')
+
+
+def validate_canary(root, products, backend):
     proof=verify(root)
+    validate_backend(proof,backend)
     if proof['diagnostic'] or len(proof['records'])!=len(products):
         raise ValueError('unexpected canary product/diagnostic count')
     if proof['sourcePins']!={p['label']:p['sha'] for p in products}:
         raise ValueError('canary source pins differ from pressure binaries')
-    if any(r['backend']!='native' or r['fullTreeChecks']!=15 or r['historicalReadbacks']!=4 for r in proof['records']):
+    if any(r['backend']!=backend or r['fullTreeChecks']!=15 or r['historicalReadbacks']!=4 for r in proof['records']):
         raise ValueError('canary full-tree or restore gate incomplete')
     return proof
+
+
+def validate_native_canary(root, products):
+    return validate_canary(root,products,'native')
 
 
 def binary_hashes(products):
@@ -45,7 +55,8 @@ def validate_binary_identity(proof, expected):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--products',type=Path,required=True)
-    p.add_argument('--cell',choices=['cache-history-repeated-300','files-10000'],required=True)
+    p.add_argument('--cell',choices=['cache-history-repeated-300','files-10000','history-hot-100'],required=True)
+    p.add_argument('--backend',choices=['native','writable'],default='native')
     p.add_argument('--pair-order',choices=['forward','reverse'],default='forward')
     p.add_argument('--budget-seconds',type=int,required=True)
     p.add_argument('--output',type=Path,required=True)
@@ -63,7 +74,7 @@ def main():
     frozen_config=a.products.read_bytes()
     start=time.monotonic();deadline=start+a.budget_seconds
     report=dict(schema='sprig-stress-sequence-v1',status='running',complete=False,
-                sharedBudgetSeconds=a.budget_seconds,cell=a.cell,pairOrder=a.pair_order,
+                sharedBudgetSeconds=a.budget_seconds,cell=a.cell,backend=a.backend,pairOrder=a.pair_order,
                 products=products,binarySha256=frozen_hashes,phases=[])
     def save():
         report['elapsedSeconds']=time.monotonic()-start
@@ -77,7 +88,7 @@ def main():
                 report.update(status='budget_aborted',error=str(error));break
             phase=a.output/label;phase.mkdir()
             args=[sys.executable,str(Path(__file__).with_name('stress_run.py')),'--products',str(a.products),
-                  '--cell',cell,'--backend','native','--rounds','1','--pair-order',a.pair_order,
+                  '--cell',cell,'--backend',a.backend,'--rounds','1','--pair-order',a.pair_order,
                   '--budget-seconds',str(budget),'--output',str(phase/'stress-results')]
             row=dict(phase=label,cell=cell,budgetSeconds=budget,startedAfterSeconds=time.monotonic()-start)
             report['phases'].append(row);save()
@@ -88,8 +99,9 @@ def main():
             if proc.returncode:
                 report.update(status='budget_aborted' if proc.returncode==2 else 'failed',error=f'{label} incomplete; no later phase started')
                 save();break
-            if label=='canary': proof=validate_native_canary(phase,products)
+            if label=='canary': proof=validate_canary(phase,products,a.backend)
             else: proof=verify(phase)
+            validate_backend(proof,a.backend)
             validate_binary_identity(proof,frozen_hashes)
             (phase/'verified.json').write_text(json.dumps(proof,indent=2)+'\n')
             row.update(verified=True,fullTreeChecks=proof['totalFullTreeChecks'],historicalReadbacks=proof['totalHistoricalReadbacks'])
