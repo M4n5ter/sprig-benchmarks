@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "checks": [
+    "same-engine stale merge updates live generation and retains both edits",
+    "SDK transaction, fork isolation, busy refusal and exact remount",
+    "conflict view, SDK resolution, head CAS and history",
+    "rename, whiteout, symlink safety, restore, trash recovery and inspection"
+  ],
+  "server_logs": {},
+  "error": null,
+  "remaining_mounts": [],
+  "retained_root": null
+}

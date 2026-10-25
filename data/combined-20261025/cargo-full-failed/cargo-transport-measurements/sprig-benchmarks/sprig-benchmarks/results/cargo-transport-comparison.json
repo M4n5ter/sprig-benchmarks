@@ -1,0 +1,103 @@
+{
+  "mode": "full",
+  "rounds": 3,
+  "expectedRecords": 12,
+  "complete": false,
+  "productionSha": "2a01fe445b8057ca49b4e8284fdd5583bbb4185c",
+  "comparatorSha": "9f97a7ec95b662e9cb288704afa165feff132cfa",
+  "sprigCompressionPolicy": "auto (default init)",
+  "records": [
+    {
+      "product": "sprig-writable",
+      "incremental": 0,
+      "round": 0,
+      "correct": false,
+      "filesystem": {
+        "dir": "/home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C",
+        "imagePath": "/home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/new.img",
+        "mount": "/home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/mount",
+        "runtimeState": "/home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/runtime-state.json",
+        "imageIdentity": {
+          "dev": "2049",
+          "ino": "9961481"
+        },
+        "mkfs": "btrfs-progs v6.6.3\nSee https://btrfs.readthedocs.io for more information.\n\nNOTE: several default settings have changed in version 5.15, please make sure\n      this does not affect your deployments:\n      - DUP for metadata (-m dup)\n      - enabled no-holes (-O no-holes)\n      - enabled free-space-tree (-R free-space-tree)\n\nLabel:              (null)\nUUID:               446b1ffd-59ff-4f35-b83d-0cbcdd49d346\nNode size:          16384\nSector size:        4096\nFilesystem size:    8.00GiB\nBlock group profiles:\n  Data:             single            8.00MiB\n  Metadata:         DUP             256.00MiB\n  System:           DUP               8.00MiB\nSSD detected:       no\nZoned device:       no\nIncompat features:  extref, skinny-metadata, no-holes, free-space-tree\nRuntime features:   free-space-tree\nChecksum:           crc32c\nNumber of devices:  1\nDevices:\n   ID        SIZE  PATH                                                                  \n    1     8.00GiB  /home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/new.img\n\n",
+        "empty": {
+          "filesystemUsedBytes": 294912,
+          "usageRaw": "Overall:\n    Device size:\t\t        8589934592\n    Device allocated:\t\t         562036736\n    Device unallocated:\t\t        8027897856\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            294912\n    Free (estimated):\t\t        8036286464\t(min: 4022337536)\n    Free (statfs, df):\t\t        8035237888\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:0 (0.00%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:268435456, Used:131072 (0.05%)\n   /dev/loop0\t 536870912\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t8027897856\n",
+          "groupsRaw": "Data, single: total=8388608, used=0\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=268435456, used=131072\nGlobalReserve, single: total=5767168, used=0\n"
+        }
+      },
+      "runtime": {
+        "dockerRoot": "/home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/mount/docker-data",
+        "driver": "overlay2",
+        "driverStatus": [
+          [
+            "Backing Filesystem",
+            "btrfs"
+          ],
+          [
+            "Supports d_type",
+            "true"
+          ],
+          [
+            "Using metacopy",
+            "false"
+          ],
+          [
+            "Native Overlay Diff",
+            "false"
+          ],
+          [
+            "userxattr",
+            "false"
+          ]
+        ],
+        "containerdRoot": "/home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/mount/containerd-data",
+        "image": "sha256:82873029079150d2414e4f10ceeb1e84e826dacc162de1d86bee11e30387a4ab"
+      },
+      "runtimeSetupSeconds": 18.850412891,
+      "runtimeReadySpace": {
+        "filesystemUsedBytes": 1036111872,
+        "usageRaw": "Overall:\n    Device size:\t\t        8589934592\n    Device allocated:\t\t        4051697664\n    Device unallocated:\t\t        4538236928\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t        1036111872\n    Free (estimated):\t\t        7022686208\t(min: 4753567744)\n    Free (statfs, df):\t\t        7021637632\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:3498049536, Used:1013600256 (28.98%)\n   /dev/loop0\t3498049536\n\nMetadata,DUP: Size:268435456, Used:11239424 (4.19%)\n   /dev/loop0\t 536870912\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t4538236928\n",
+        "groupsRaw": "Data, single: total=3498049536, used=1013600256\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=268435456, used=11239424\nGlobalReserve, single: total=5767168, used=0\n"
+      },
+      "failureStderr": "",
+      "error": {
+        "message": "Command failed: /usr/bin/python3 feasibility/cargo_transport_sample.py run --root /home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/mount/sample --source /home/runner/work/sprig-benchmarks/sprig-benchmarks/fixtures/cargo --oracle /home/runner/work/sprig-benchmarks/sprig-benchmarks/feasibility/cargo-fixture-oracle.json --binary /home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig/target/release/sprig --backend writable --production-sha 2a01fe445b8057ca49b4e8284fdd5583bbb4185c --incremental 0 --image sha256:82873029079150d2414e4f10ceeb1e84e826dacc162de1d86bee11e30387a4ab --records /home/runner/work/_temp/cargo-transport-records/sprig-writable-0-0.jsonl",
+        "stack": "Error: Command failed: /usr/bin/python3 feasibility/cargo_transport_sample.py run --root /home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/mount/sample --source /home/runner/work/sprig-benchmarks/sprig-benchmarks/fixtures/cargo --oracle /home/runner/work/sprig-benchmarks/sprig-benchmarks/feasibility/cargo-fixture-oracle.json --binary /home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig/target/release/sprig --backend writable --production-sha 2a01fe445b8057ca49b4e8284fdd5583bbb4185c --incremental 0 --image sha256:82873029079150d2414e4f10ceeb1e84e826dacc162de1d86bee11e30387a4ab --records /home/runner/work/_temp/cargo-transport-records/sprig-writable-0-0.jsonl\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at command (file:///home/runner/work/sprig-benchmarks/sprig-benchmarks/feasibility/cargo_transport_compare.mjs:14:22)\n    at file:///home/runner/work/sprig-benchmarks/sprig-benchmarks/feasibility/cargo_transport_compare.mjs:61:20\n    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)\n    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)"
+      },
+      "cleanup": [],
+      "cleanupErrors": [
+        "Command failed: /usr/bin/python3 feasibility/runtime_storage.py leave --state /home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/runtime-state.json\nTraceback (most recent call last):\n  File \"/home/runner/work/sprig-benchmarks/sprig-benchmarks/feasibility/runtime_storage.py\", line 124, in <module>\n    if a.action=='leave':restore(state);print('{\"restored\":true}')\n                         ^^^^^^^^^^^^^^\n  File \"/home/runner/work/sprig-benchmarks/sprig-benchmarks/feasibility/runtime_storage.py\", line 44, in restore\n    try:require_empty()\n        ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/sprig-benchmarks/sprig-benchmarks/feasibility/runtime_storage.py\", line 31, in require_empty\n    if cmd('docker','ps','-aq').strip():raise RuntimeError('Refusing runtime relocation with any existing container')\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: Refusing runtime relocation with any existing container\n"
+      ],
+      "failureFilesystem": {
+        "paths": {
+          "dir": "/home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C",
+          "imagePath": "/home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/new.img",
+          "mount": "/home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/mount",
+          "runtimeState": "/home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/runtime-state.json",
+          "imageIdentity": {
+            "dev": "2049",
+            "ino": "9961481"
+          },
+          "mkfs": "btrfs-progs v6.6.3\nSee https://btrfs.readthedocs.io for more information.\n\nNOTE: several default settings have changed in version 5.15, please make sure\n      this does not affect your deployments:\n      - DUP for metadata (-m dup)\n      - enabled no-holes (-O no-holes)\n      - enabled free-space-tree (-R free-space-tree)\n\nLabel:              (null)\nUUID:               446b1ffd-59ff-4f35-b83d-0cbcdd49d346\nNode size:          16384\nSector size:        4096\nFilesystem size:    8.00GiB\nBlock group profiles:\n  Data:             single            8.00MiB\n  Metadata:         DUP             256.00MiB\n  System:           DUP               8.00MiB\nSSD detected:       no\nZoned device:       no\nIncompat features:  extref, skinny-metadata, no-holes, free-space-tree\nRuntime features:   free-space-tree\nChecksum:           crc32c\nNumber of devices:  1\nDevices:\n   ID        SIZE  PATH                                                                  \n    1     8.00GiB  /home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/new.img\n\n",
+          "empty": {
+            "filesystemUsedBytes": 294912,
+            "usageRaw": "Overall:\n    Device size:\t\t        8589934592\n    Device allocated:\t\t         562036736\n    Device unallocated:\t\t        8027897856\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            294912\n    Free (estimated):\t\t        8036286464\t(min: 4022337536)\n    Free (statfs, df):\t\t        8035237888\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:0 (0.00%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:268435456, Used:131072 (0.05%)\n   /dev/loop0\t 536870912\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t8027897856\n",
+            "groupsRaw": "Data, single: total=8388608, used=0\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=268435456, used=131072\nGlobalReserve, single: total=5767168, used=0\n"
+          }
+        },
+        "mounts": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/mount\",\n         \"source\": \"/dev/loop0\",\n         \"fstype\": \"btrfs\",\n         \"options\": \"rw,noatime,discard=async,space_cache=v2,subvolid=5,subvol=/\"\n      }\n   ]\n}\n",
+        "loop": "/dev/loop0: [2049]:9961481 (/home/runner/work/_temp/cargo-paired-sprig-writable-0-0-3f2h8C/new.img)\n"
+      }
+    }
+  ],
+  "notes": [
+    "Separate dependency-free Cargo lifecycle, not seven-case history100.",
+    "Same immutable compiler/runtime image, root generation-scoped cooperative Docker sessions versus UID501 persistent SDK transport. Both retain live compiler runtime at space; all start/exec/exit/removal costs stay in whole wall. This is not directly comparable to the earlier per-command-container series.",
+    "Runtime setup and software baseline reported separately from full sample wall.",
+    "Both retain target/cache and three live views at final space.",
+    "Raw per-product stdout JSON preserves exact integer nanoseconds; parsed diagnostics may not."
+  ]
+}

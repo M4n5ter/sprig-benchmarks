@@ -1,0 +1,1454 @@
+{
+  "ok": true,
+  "prototype_only": false,
+  "production_sha": "9f97a7ec95b662e9cb288704afa165feff132cfa",
+  "product": "layerfs",
+  "backend": "fuse",
+  "workload": "cargo-clean-noop-edit-checkpoint-restore-rebuild-v1",
+  "complete_sprig_semantics": false,
+  "workload_only_verification": true,
+  "phase_seconds": {
+    "preflight": 0.08415769100000034,
+    "init": 0.03791929600000003,
+    "import": 0.2507658509999965,
+    "fork": 0.004957544999997481,
+    "fixture_verify": 0.061329283999999464,
+    "cargo_setup": 0.020463082000002034,
+    "clean_build": 0.1552395919999981,
+    "clean_execute": 0.017835517999999866,
+    "noop_build": 0.032124439999999595,
+    "noop_execute": 0.01849917799999821,
+    "edit": 0.017398848999997427,
+    "edit_build": 0.1267339920000013,
+    "edit_execute": 0.017999456999998074,
+    "pre_checkpoint_oracle": 0.06107483599999978,
+    "checkpoint_cli": 0.06471843499999523,
+    "checkpoint_readiness": 0.002319655999999668,
+    "checkpoint": 0.0670380909999949,
+    "restore": 0.004532552000004216,
+    "restore_verify": 0.09034941399999662,
+    "restored_execute": 0.01783028099999501,
+    "restored_rebuild": 0.03250189500000124,
+    "restored_rebuild_execute": 0.017844350999999734,
+    "retained_input_verify": 0.3578605400000015,
+    "space": 0.23132147200000328,
+    "cleanup": 0.17810838599999987
+  },
+  "commands": [
+    {
+      "purpose": "filesystem_type",
+      "argv": [
+        "stat",
+        "-f",
+        "-c",
+        "%T",
+        "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "btrfs\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0001-filesystem_type.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0001-filesystem_type.stderr",
+      "secondsIncludingCleanup": 0.006853757000004407
+    },
+    {
+      "purpose": "image_inspect",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "image",
+        "inspect",
+        "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "[\n    {\n        \"Id\": \"sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e\",\n        \"RepoTags\": [\n            \"sprig-cargo-fixture:40167253184\"\n        ],\n        \"RepoDigests\": [],\n        \"Comment\": \"buildkit.dockerfile.v0\",\n        \"Created\": \"2026-10-25T05:59:08.611633241Z\",\n        \"Config\": {\n            \"Env\": [\n                \"PATH=/opt/rust/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\"\n            ],\n            \"Cmd\": [\n                \"/bin/bash\"\n            ],\n            \"Labels\": {\n                \"org.opencontainers.image.version\": \"24.04\"\n            }\n        },\n        \"Architecture\": \"amd64\",\n        \"Os\": \"linux\",\n        \"Size\": 1005165334,\n        \"GraphDriver\": {\n            \"Data\": {\n                \"LowerDir\": \"/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/a5eae8daaafc374e3687ee49dfb5951aac8b2ad0ee3247d2fdf82c90b064bd17/diff:/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/0686e553acc07074d70d7c7ff0587dd27dfd89abe59c86c34e903231e38a3006/diff:/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/cc0ae4ba15cb1d4dd998da0c4393ff8c61e7a30db87672bd72209a5b94c3923a/diff:/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/ea2ac3162ba60725cf00415e082f34a64ed31d8a746d8fcf7babf76b3868203b/diff\",\n                \"MergedDir\": \"/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/5d123165d66628ad7d0397e78e29634f58dde1c80d4e73626122dbab6e805c04/merged\",\n                \"UpperDir\": \"/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/5d123165d66628ad7d0397e78e29634f58dde1c80d4e73626122dbab6e805c04/diff\",\n                \"WorkDir\": \"/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/5d123165d66628ad7d0397e78e29634f58dde1c80d4e73626122dbab6e805c04/work\"\n            },\n            \"Name\": \"overlay2\"\n        },\n        \"RootFS\": {\n            \"Type\": \"layers\",\n            \"Layers\": [\n                \"sha256:32ab39660fd51c6dc3aae486b42d42bbe8fe4c1db78eaf57bb9c21198de48a16\",\n                \"sha256:c16cdabeacba7b5025f895fb12c9e851d16e1632d3f9d7efdc8bc3507c3fe832\",\n                \"sha256:85fed1d22b0158ce887256ce37bac623a73b1cc1c015e5faf0c9309dd12763de\",\n                \"sha256:11537ea2d9fbfb330112e5c451c66b9f0b63d3ef6aa616a612f76d6b02a1303e\",\n                \"sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef\"\n            ]\n        },\n        \"Metadata\": {\n            \"LastTagTime\": \"0001-01-01T00:00:00Z\"\n        }\n    }\n]\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0002-image_inspect.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0002-image_inspect.stderr",
+      "secondsIncludingCleanup": 0.018310821999999463
+    },
+    {
+      "purpose": "docker_info",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "info",
+        "--format",
+        "{{json .}}"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "{\"ID\":\"b31e2b91-8d45-49b3-baf7-1cd0ec4b81b3\",\"Containers\":0,\"ContainersRunning\":0,\"ContainersPaused\":0,\"ContainersStopped\":0,\"Images\":1,\"Driver\":\"overlay2\",\"DriverStatus\":[[\"Backing Filesystem\",\"btrfs\"],[\"Supports d_type\",\"true\"],[\"Using metacopy\",\"false\"],[\"Native Overlay Diff\",\"false\"],[\"userxattr\",\"false\"]],\"Plugins\":{\"Volume\":[\"local\"],\"Network\":[\"bridge\",\"host\",\"ipvlan\",\"macvlan\",\"null\",\"overlay\"],\"Authorization\":null,\"Log\":[\"awslogs\",\"fluentd\",\"gcplogs\",\"gelf\",\"journald\",\"json-file\",\"local\",\"splunk\",\"syslog\"]},\"MemoryLimit\":true,\"SwapLimit\":true,\"CpuCfsPeriod\":true,\"CpuCfsQuota\":true,\"CPUShares\":true,\"CPUSet\":true,\"PidsLimit\":true,\"IPv4Forwarding\":true,\"Debug\":false,\"NFd\":24,\"OomKillDisable\":false,\"NGoroutines\":45,\"SystemTime\":\"2026-10-25T05:59:56.035999449Z\",\"LoggingDriver\":\"json-file\",\"CgroupDriver\":\"systemd\",\"CgroupVersion\":\"2\",\"NEventsListener\":0,\"KernelVersion\":\"6.17.0-1022-azure\",\"OperatingSystem\":\"Ubuntu 24.04.5 LTS\",\"OSVersion\":\"24.04\",\"OSType\":\"linux\",\"Architecture\":\"x86_64\",\"IndexServerAddress\":\"https://index.docker.io/v1/\",\"RegistryConfig\":{\"InsecureRegistryCIDRs\":[\"127.0.0.0/8\",\"::1/128\"],\"IndexConfigs\":{\"docker.io\":{\"Name\":\"docker.io\",\"Mirrors\":[],\"Secure\":true,\"Official\":true}},\"Mirrors\":[]},\"NCPU\":4,\"MemTotal\":16766414848,\"GenericResources\":null,\"DockerRootDir\":\"/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data\",\"HttpProxy\":\"\",\"HttpsProxy\":\"\",\"NoProxy\":\"\",\"Name\":\"runnervmtai0g\",\"Labels\":[],\"ExperimentalBuild\":false,\"ServerVersion\":\"29.8.2\",\"Runtimes\":{\"io.containerd.runc.v2\":{\"path\":\"runc\",\"status\":{\"org.opencontainers.runtime-spec.features\":\"{\\\"ociVersionMin\\\":\\\"1.0.0\\\",\\\"ociVersionMax\\\":\\\"1.3.0\\\",\\\"hooks\\\":[\\\"prestart\\\",\\\"createRuntime\\\",\\\"createContainer\\\",\\\"startContainer\\\",\\\"poststart\\\",\\\"poststop\\\"],\\\"mountOptions\\\":[\\\"async\\\",\\\"atime\\\",\\\"bind\\\",\\\"defaults\\\",\\\"dev\\\",\\\"diratime\\\",\\\"dirsync\\\",\\\"exec\\\",\\\"iversion\\\",\\\"lazytime\\\",\\\"loud\\\",\\\"mand\\\",\\\"noatime\\\",\\\"nodev\\\",\\\"nodiratime\\\",\\\"noexec\\\",\\\"noiversion\\\",\\\"nolazytime\\\",\\\"nomand\\\",\\\"norelatime\\\",\\\"nostrictatime\\\",\\\"nosuid\\\",\\\"nosymfollow\\\",\\\"private\\\",\\\"ratime\\\",\\\"rbind\\\",\\\"rdev\\\",\\\"rdiratime\\\",\\\"relatime\\\",\\\"remount\\\",\\\"rexec\\\",\\\"rnoatime\\\",\\\"rnodev\\\",\\\"rnodiratime\\\",\\\"rnoexec\\\",\\\"rnorelatime\\\",\\\"rnostrictatime\\\",\\\"rnosuid\\\",\\\"rnosymfollow\\\",\\\"ro\\\",\\\"rprivate\\\",\\\"rrelatime\\\",\\\"rro\\\",\\\"rrw\\\",\\\"rshared\\\",\\\"rslave\\\",\\\"rstrictatime\\\",\\\"rsuid\\\",\\\"rsymfollow\\\",\\\"runbindable\\\",\\\"rw\\\",\\\"shared\\\",\\\"silent\\\",\\\"slave\\\",\\\"strictatime\\\",\\\"suid\\\",\\\"symfollow\\\",\\\"sync\\\",\\\"tmpcopyup\\\",\\\"unbindable\\\"],\\\"linux\\\":{\\\"namespaces\\\":[\\\"cgroup\\\",\\\"ipc\\\",\\\"mount\\\",\\\"network\\\",\\\"pid\\\",\\\"time\\\",\\\"user\\\",\\\"uts\\\"],\\\"capabilities\\\":[\\\"CAP_CHOWN\\\",\\\"CAP_DAC_OVERRIDE\\\",\\\"CAP_DAC_READ_SEARCH\\\",\\\"CAP_FOWNER\\\",\\\"CAP_FSETID\\\",\\\"CAP_KILL\\\",\\\"CAP_SETGID\\\",\\\"CAP_SETUID\\\",\\\"CAP_SETPCAP\\\",\\\"CAP_LINUX_IMMUTABLE\\\",\\\"CAP_NET_BIND_SERVICE\\\",\\\"CAP_NET_BROADCAST\\\",\\\"CAP_NET_ADMIN\\\",\\\"CAP_NET_RAW\\\",\\\"CAP_IPC_LOCK\\\",\\\"CAP_IPC_OWNER\\\",\\\"CAP_SYS_MODULE\\\",\\\"CAP_SYS_RAWIO\\\",\\\"CAP_SYS_CHROOT\\\",\\\"CAP_SYS_PTRACE\\\",\\\"CAP_SYS_PACCT\\\",\\\"CAP_SYS_ADMIN\\\",\\\"CAP_SYS_BOOT\\\",\\\"CAP_SYS_NICE\\\",\\\"CAP_SYS_RESOURCE\\\",\\\"CAP_SYS_TIME\\\",\\\"CAP_SYS_TTY_CONFIG\\\",\\\"CAP_MKNOD\\\",\\\"CAP_LEASE\\\",\\\"CAP_AUDIT_WRITE\\\",\\\"CAP_AUDIT_CONTROL\\\",\\\"CAP_SETFCAP\\\",\\\"CAP_MAC_OVERRIDE\\\",\\\"CAP_MAC_ADMIN\\\",\\\"CAP_SYSLOG\\\",\\\"CAP_WAKE_ALARM\\\",\\\"CAP_BLOCK_SUSPEND\\\",\\\"CAP_AUDIT_READ\\\",\\\"CAP_PERFMON\\\",\\\"CAP_BPF\\\",\\\"CAP_CHECKPOINT_RESTORE\\\"],\\\"cgroup\\\":{\\\"v1\\\":true,\\\"v2\\\":true,\\\"systemd\\\":true,\\\"systemdUser\\\":true,\\\"rdma\\\":true},\\\"seccomp\\\":{\\\"enabled\\\":true,\\\"actions\\\":[\\\"SCMP_ACT_ALLOW\\\",\\\"SCMP_ACT_ERRNO\\\",\\\"SCMP_ACT_KILL\\\",\\\"SCMP_ACT_KILL_PROCESS\\\",\\\"SCMP_ACT_KILL_THREAD\\\",\\\"SCMP_ACT_LOG\\\",\\\"SCMP_ACT_NOTIFY\\\",\\\"SCMP_ACT_TRACE\\\",\\\"SCMP_ACT_TRAP\\\"],\\\"operators\\\":[\\\"SCMP_CMP_EQ\\\",\\\"SCMP_CMP_GE\\\",\\\"SCMP_CMP_GT\\\",\\\"SCMP_CMP_LE\\\",\\\"SCMP_CMP_LT\\\",\\\"SCMP_CMP_MASKED_EQ\\\",\\\"SCMP_CMP_NE\\\"],\\\"archs\\\":[\\\"SCMP_ARCH_AARCH64\\\",\\\"SCMP_ARCH_ARM\\\",\\\"SCMP_ARCH_LOONGARCH64\\\",\\\"SCMP_ARCH_MIPS\\\",\\\"SCMP_ARCH_MIPS64\\\",\\\"SCMP_ARCH_MIPS64N32\\\",\\\"SCMP_ARCH_MIPSEL\\\",\\\"SCMP_ARCH_MIPSEL64\\\",\\\"SCMP_ARCH_MIPSEL64N32\\\",\\\"SCMP_ARCH_PPC\\\",\\\"SCMP_ARCH_PPC64\\\",\\\"SCMP_ARCH_PPC64LE\\\",\\\"SCMP_ARCH_RISCV64\\\",\\\"SCMP_ARCH_S390\\\",\\\"SCMP_ARCH_S390X\\\",\\\"SCMP_ARCH_X32\\\",\\\"SCMP_ARCH_X86\\\",\\\"SCMP_ARCH_X86_64\\\"],\\\"knownFlags\\\":[\\\"SECCOMP_FILTER_FLAG_TSYNC\\\",\\\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\\\",\\\"SECCOMP_FILTER_FLAG_LOG\\\",\\\"SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV\\\"],\\\"supportedFlags\\\":[\\\"SECCOMP_FILTER_FLAG_TSYNC\\\",\\\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\\\",\\\"SECCOMP_FILTER_FLAG_LOG\\\"]},\\\"apparmor\\\":{\\\"enabled\\\":true},\\\"selinux\\\":{\\\"enabled\\\":true},\\\"intelRdt\\\":{\\\"enabled\\\":true,\\\"schemata\\\":true,\\\"monitoring\\\":true},\\\"memoryPolicy\\\":{\\\"modes\\\":[\\\"MPOL_BIND\\\",\\\"MPOL_DEFAULT\\\",\\\"MPOL_INTERLEAVE\\\",\\\"MPOL_LOCAL\\\",\\\"MPOL_PREFERRED\\\",\\\"MPOL_PREFERRED_MANY\\\",\\\"MPOL_WEIGHTED_INTERLEAVE\\\"],\\\"flags\\\":[\\\"MPOL_F_NUMA_BALANCING\\\",\\\"MPOL_F_RELATIVE_NODES\\\",\\\"MPOL_F_STATIC_NODES\\\"]},\\\"mountExtensions\\\":{\\\"idmap\\\":{\\\"enabled\\\":true}},\\\"netDevices\\\":{\\\"enabled\\\":true}},\\\"annotations\\\":{\\\"io.github.seccomp.libseccomp.version\\\":\\\"2.5.5\\\",\\\"org.opencontainers.runc.checkpoint.enabled\\\":\\\"true\\\",\\\"org.opencontainers.runc.commit\\\":\\\"v1.5.2-0-g29dd3dc2\\\",\\\"org.opencontainers.runc.version\\\":\\\"1.5.2\\\"},\\\"potentiallyUnsafeConfigAnnotations\\\":[\\\"bundle\\\",\\\"org.systemd.property.\\\",\\\"org.criu.config\\\"]}\"}},\"runc\":{\"path\":\"runc\",\"status\":{\"org.opencontainers.runtime-spec.features\":\"{\\\"ociVersionMin\\\":\\\"1.0.0\\\",\\\"ociVersionMax\\\":\\\"1.3.0\\\",\\\"hooks\\\":[\\\"prestart\\\",\\\"createRuntime\\\",\\\"createContainer\\\",\\\"startContainer\\\",\\\"poststart\\\",\\\"poststop\\\"],\\\"mountOptions\\\":[\\\"async\\\",\\\"atime\\\",\\\"bind\\\",\\\"defaults\\\",\\\"dev\\\",\\\"diratime\\\",\\\"dirsync\\\",\\\"exec\\\",\\\"iversion\\\",\\\"lazytime\\\",\\\"loud\\\",\\\"mand\\\",\\\"noatime\\\",\\\"nodev\\\",\\\"nodiratime\\\",\\\"noexec\\\",\\\"noiversion\\\",\\\"nolazytime\\\",\\\"nomand\\\",\\\"norelatime\\\",\\\"nostrictatime\\\",\\\"nosuid\\\",\\\"nosymfollow\\\",\\\"private\\\",\\\"ratime\\\",\\\"rbind\\\",\\\"rdev\\\",\\\"rdiratime\\\",\\\"relatime\\\",\\\"remount\\\",\\\"rexec\\\",\\\"rnoatime\\\",\\\"rnodev\\\",\\\"rnodiratime\\\",\\\"rnoexec\\\",\\\"rnorelatime\\\",\\\"rnostrictatime\\\",\\\"rnosuid\\\",\\\"rnosymfollow\\\",\\\"ro\\\",\\\"rprivate\\\",\\\"rrelatime\\\",\\\"rro\\\",\\\"rrw\\\",\\\"rshared\\\",\\\"rslave\\\",\\\"rstrictatime\\\",\\\"rsuid\\\",\\\"rsymfollow\\\",\\\"runbindable\\\",\\\"rw\\\",\\\"shared\\\",\\\"silent\\\",\\\"slave\\\",\\\"strictatime\\\",\\\"suid\\\",\\\"symfollow\\\",\\\"sync\\\",\\\"tmpcopyup\\\",\\\"unbindable\\\"],\\\"linux\\\":{\\\"namespaces\\\":[\\\"cgroup\\\",\\\"ipc\\\",\\\"mount\\\",\\\"network\\\",\\\"pid\\\",\\\"time\\\",\\\"user\\\",\\\"uts\\\"],\\\"capabilities\\\":[\\\"CAP_CHOWN\\\",\\\"CAP_DAC_OVERRIDE\\\",\\\"CAP_DAC_READ_SEARCH\\\",\\\"CAP_FOWNER\\\",\\\"CAP_FSETID\\\",\\\"CAP_KILL\\\",\\\"CAP_SETGID\\\",\\\"CAP_SETUID\\\",\\\"CAP_SETPCAP\\\",\\\"CAP_LINUX_IMMUTABLE\\\",\\\"CAP_NET_BIND_SERVICE\\\",\\\"CAP_NET_BROADCAST\\\",\\\"CAP_NET_ADMIN\\\",\\\"CAP_NET_RAW\\\",\\\"CAP_IPC_LOCK\\\",\\\"CAP_IPC_OWNER\\\",\\\"CAP_SYS_MODULE\\\",\\\"CAP_SYS_RAWIO\\\",\\\"CAP_SYS_CHROOT\\\",\\\"CAP_SYS_PTRACE\\\",\\\"CAP_SYS_PACCT\\\",\\\"CAP_SYS_ADMIN\\\",\\\"CAP_SYS_BOOT\\\",\\\"CAP_SYS_NICE\\\",\\\"CAP_SYS_RESOURCE\\\",\\\"CAP_SYS_TIME\\\",\\\"CAP_SYS_TTY_CONFIG\\\",\\\"CAP_MKNOD\\\",\\\"CAP_LEASE\\\",\\\"CAP_AUDIT_WRITE\\\",\\\"CAP_AUDIT_CONTROL\\\",\\\"CAP_SETFCAP\\\",\\\"CAP_MAC_OVERRIDE\\\",\\\"CAP_MAC_ADMIN\\\",\\\"CAP_SYSLOG\\\",\\\"CAP_WAKE_ALARM\\\",\\\"CAP_BLOCK_SUSPEND\\\",\\\"CAP_AUDIT_READ\\\",\\\"CAP_PERFMON\\\",\\\"CAP_BPF\\\",\\\"CAP_CHECKPOINT_RESTORE\\\"],\\\"cgroup\\\":{\\\"v1\\\":true,\\\"v2\\\":true,\\\"systemd\\\":true,\\\"systemdUser\\\":true,\\\"rdma\\\":true},\\\"seccomp\\\":{\\\"enabled\\\":true,\\\"actions\\\":[\\\"SCMP_ACT_ALLOW\\\",\\\"SCMP_ACT_ERRNO\\\",\\\"SCMP_ACT_KILL\\\",\\\"SCMP_ACT_KILL_PROCESS\\\",\\\"SCMP_ACT_KILL_THREAD\\\",\\\"SCMP_ACT_LOG\\\",\\\"SCMP_ACT_NOTIFY\\\",\\\"SCMP_ACT_TRACE\\\",\\\"SCMP_ACT_TRAP\\\"],\\\"operators\\\":[\\\"SCMP_CMP_EQ\\\",\\\"SCMP_CMP_GE\\\",\\\"SCMP_CMP_GT\\\",\\\"SCMP_CMP_LE\\\",\\\"SCMP_CMP_LT\\\",\\\"SCMP_CMP_MASKED_EQ\\\",\\\"SCMP_CMP_NE\\\"],\\\"archs\\\":[\\\"SCMP_ARCH_AARCH64\\\",\\\"SCMP_ARCH_ARM\\\",\\\"SCMP_ARCH_LOONGARCH64\\\",\\\"SCMP_ARCH_MIPS\\\",\\\"SCMP_ARCH_MIPS64\\\",\\\"SCMP_ARCH_MIPS64N32\\\",\\\"SCMP_ARCH_MIPSEL\\\",\\\"SCMP_ARCH_MIPSEL64\\\",\\\"SCMP_ARCH_MIPSEL64N32\\\",\\\"SCMP_ARCH_PPC\\\",\\\"SCMP_ARCH_PPC64\\\",\\\"SCMP_ARCH_PPC64LE\\\",\\\"SCMP_ARCH_RISCV64\\\",\\\"SCMP_ARCH_S390\\\",\\\"SCMP_ARCH_S390X\\\",\\\"SCMP_ARCH_X32\\\",\\\"SCMP_ARCH_X86\\\",\\\"SCMP_ARCH_X86_64\\\"],\\\"knownFlags\\\":[\\\"SECCOMP_FILTER_FLAG_TSYNC\\\",\\\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\\\",\\\"SECCOMP_FILTER_FLAG_LOG\\\",\\\"SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV\\\"],\\\"supportedFlags\\\":[\\\"SECCOMP_FILTER_FLAG_TSYNC\\\",\\\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\\\",\\\"SECCOMP_FILTER_FLAG_LOG\\\"]},\\\"apparmor\\\":{\\\"enabled\\\":true},\\\"selinux\\\":{\\\"enabled\\\":true},\\\"intelRdt\\\":{\\\"enabled\\\":true,\\\"schemata\\\":true,\\\"monitoring\\\":true},\\\"memoryPolicy\\\":{\\\"modes\\\":[\\\"MPOL_BIND\\\",\\\"MPOL_DEFAULT\\\",\\\"MPOL_INTERLEAVE\\\",\\\"MPOL_LOCAL\\\",\\\"MPOL_PREFERRED\\\",\\\"MPOL_PREFERRED_MANY\\\",\\\"MPOL_WEIGHTED_INTERLEAVE\\\"],\\\"flags\\\":[\\\"MPOL_F_NUMA_BALANCING\\\",\\\"MPOL_F_RELATIVE_NODES\\\",\\\"MPOL_F_STATIC_NODES\\\"]},\\\"mountExtensions\\\":{\\\"idmap\\\":{\\\"enabled\\\":true}},\\\"netDevices\\\":{\\\"enabled\\\":true}},\\\"annotations\\\":{\\\"io.github.seccomp.libseccomp.version\\\":\\\"2.5.5\\\",\\\"org.opencontainers.runc.checkpoint.enabled\\\":\\\"true\\\",\\\"org.opencontainers.runc.commit\\\":\\\"v1.5.2-0-g29dd3dc2\\\",\\\"org.opencontainers.runc.version\\\":\\\"1.5.2\\\"},\\\"potentiallyUnsafeConfigAnnotations\\\":[\\\"bundle\\\",\\\"org.systemd.property.\\\",\\\"org.criu.config\\\"]}\"}}},\"DefaultRuntime\":\"runc\",\"Swarm\":{\"NodeID\":\"\",\"NodeAddr\":\"\",\"LocalNodeState\":\"inactive\",\"ControlAvailable\":false,\"Error\":\"\",\"RemoteManagers\":null},\"LiveRestoreEnabled\":false,\"Isolation\":\"\",\"InitBinary\":\"docker-init\",\"ContainerdCommit\":{\"ID\":\"b7a25261e029d68978bbf290df0a62fc819b3c51\"},\"RuncCommit\":{\"ID\":\"v1.5.2-0-g29dd3dc2\"},\"InitCommit\":{\"ID\":\"de40ad0\"},\"SecurityOptions\":[\"name=apparmor,profile=default\",\"name=seccomp,profile=builtin\",\"name=cgroupns\"],\"FirewallBackend\":{\"Driver\":\"iptables\",\"Info\":[[\"EnableUserlandProxy\",\"true\"],[\"UserlandProxyPath\",\"/usr/bin/docker-proxy\"]]},\"CDISpecDirs\":[\"/etc/cdi\",\"/var/run/cdi\"],\"Containerd\":{\"Address\":\"/run/containerd/containerd.sock\",\"Namespaces\":{\"Containers\":\"moby\",\"Plugins\":\"plugins.moby\"}},\"Warnings\":null,\"ClientInfo\":{\"Debug\":false,\"Platform\":{\"Name\":\"Docker Engine - Community\"},\"Version\":\"29.8.2\",\"DefaultAPIVersion\":\"1.56\",\"GitCommit\":\"7fc2dff\",\"GoVersion\":\"go1.26.8\",\"Os\":\"linux\",\"Arch\":\"amd64\",\"BuildTime\":\"Wed Sep 30 19:32:28 2026\",\"Context\":\"default\",\"Plugins\":[{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v0.38.0\",\"ShortDescription\":\"Docker Buildx\",\"Name\":\"buildx\",\"Path\":\"/usr/libexec/docker/cli-plugins/docker-buildx\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v2.38.2\",\"ShortDescription\":\"Docker Compose\",\"Name\":\"compose\",\"Path\":\"/usr/libexec/docker/cli-plugins/docker-compose\"}],\"Warnings\":null}}\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0003-docker_info.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0003-docker_info.stderr",
+      "secondsIncludingCleanup": 0.05302498999999807
+    },
+    {
+      "purpose": "containing_filesystem",
+      "argv": [
+        "findmnt",
+        "-J",
+        "-T",
+        "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount\",\n         \"source\": \"/dev/loop0\",\n         \"fstype\": \"btrfs\",\n         \"options\": \"rw,noatime,discard=async,space_cache=v2,subvolid=5,subvol=/\"\n      }\n   ]\n}\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0004-containing_filesystem.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0004-containing_filesystem.stderr",
+      "secondsIncludingCleanup": 0.0031118839999980993
+    },
+    {
+      "purpose": "volume_create",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "volume",
+        "create",
+        "cargo-ab4b587c6581466d95b42ec797c1e418"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "cargo-ab4b587c6581466d95b42ec797c1e418\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0005-volume_create.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0005-volume_create.stderr",
+      "secondsIncludingCleanup": 0.02102474199999415
+    },
+    {
+      "purpose": "volume_path",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "volume",
+        "inspect",
+        "--format",
+        "{{.Mountpoint}}",
+        "cargo-ab4b587c6581466d95b42ec797c1e418"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/volumes/cargo-ab4b587c6581466d95b42ec797c1e418/_data\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0006-volume_path.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0006-volume_path.stderr",
+      "secondsIncludingCleanup": 0.016665407000000413
+    },
+    {
+      "purpose": "fixture_verify",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; export TMPDIR=/tmp; python3 -B /opt/bench/tree_oracle.py verify '/workspaces/2' <<'LAYERFS_ORACLE_bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36'\n{\"entries\":[{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\".\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.lock\",\"sha256\":\"48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be\",\"size\":161,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.toml\",\"sha256\":\"d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f\",\"size\":72,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\"src\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"src/main.rs\",\"sha256\":\"ca666a48385e535040e226e0d3b42ad5372fbb173f09731bff1051c4d0f012d3\",\"size\":34,\"type\":\"file\"}],\"hardlink_groups\":[[\"Cargo.lock\"],[\"Cargo.toml\"],[\"src/main.rs\"]],\"schema\":\"cargo-full-tree-v1\"}\nLAYERFS_ORACLE_bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 754,
+      "stdinSha256": "bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36",
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "{\"differences\":[],\"entries\":5,\"ok\":true}\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0007-fixture_verify.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0007-fixture_verify.stderr",
+      "secondsIncludingCleanup": 0.05417066399999749
+    },
+    {
+      "purpose": "cargo_setup",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; test ! -e target; test ! -e .cargo-home; test ! -e .tmp; mkdir \"$CARGO_HOME\" \"$TMPDIR\"",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0008-cargo_setup.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0008-cargo_setup.stderr",
+      "secondsIncludingCleanup": 0.020371601999999257
+    },
+    {
+      "purpose": "clean_build",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; cargo build --offline --locked --verbose --jobs 1",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "   Compiling owned-cargo-check v0.1.0 (/workspaces/2)\n     Running `rustc --crate-name owned_cargo_check --edition=2021 src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=42cc502f7c109a75 -C extra-filename=-73e176436f3dd36b --out-dir /workspaces/2/target/debug/deps -L dependency=/workspaces/2/target/debug/deps`\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.13s\n",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0009-clean_build.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0009-clean_build.stderr",
+      "secondsIncludingCleanup": 0.15494928099999378
+    },
+    {
+      "purpose": "clean_execute",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; ./target/debug/owned-cargo-check",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "before\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0010-clean_execute.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0010-clean_execute.stderr",
+      "secondsIncludingCleanup": 0.01777081800000451
+    },
+    {
+      "purpose": "noop_build",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; cargo build --offline --locked --verbose --jobs 1",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "       Fresh owned-cargo-check v0.1.0 (/workspaces/2)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s\n",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0011-noop_build.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0011-noop_build.stderr",
+      "secondsIncludingCleanup": 0.032009043999998536
+    },
+    {
+      "purpose": "noop_execute",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; ./target/debug/owned-cargo-check",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "before\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0012-noop_execute.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0012-noop_execute.stderr",
+      "secondsIncludingCleanup": 0.018365818999998736
+    },
+    {
+      "purpose": "edit",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; printf 'fn main() { println!(\"after\"); }\\n' > src/main.rs",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0013-edit.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0013-edit.stderr",
+      "secondsIncludingCleanup": 0.01730643699999928
+    },
+    {
+      "purpose": "edit_build",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; cargo build --offline --locked --verbose --jobs 1",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "       Dirty owned-cargo-check v0.1.0 (/workspaces/2): the file `src/main.rs` has changed (1792907996.699762570s, 174535444ns after last build at 1792907996.525227126s)\n   Compiling owned-cargo-check v0.1.0 (/workspaces/2)\n     Running `rustc --crate-name owned_cargo_check --edition=2021 src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=42cc502f7c109a75 -C extra-filename=-73e176436f3dd36b --out-dir /workspaces/2/target/debug/deps -L dependency=/workspaces/2/target/debug/deps`\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.10s\n",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0014-edit_build.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0014-edit_build.stderr",
+      "secondsIncludingCleanup": 0.12658961299999646
+    },
+    {
+      "purpose": "edit_execute",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; ./target/debug/owned-cargo-check",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "after\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0015-edit_execute.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0015-edit_execute.stderr",
+      "secondsIncludingCleanup": 0.017758166999999957
+    },
+    {
+      "purpose": "pre_checkpoint_oracle",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; export TMPDIR=/tmp; python3 -B /opt/bench/tree_oracle.py snapshot '/workspaces/2'",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "{\"entries\":[{\"mode\":493,\"mtime_ns\":1792907996522532641,\"path\":\".\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996521640961,\"path\":\".cargo-home\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996511438862,\"path\":\".cargo-home/.global-cache\",\"sha256\":\"b77132dcdf544192e75b8fc3cbae4687ee46a03b1c1cc1b1994ed50042aa4c1d\",\"size\":57344,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996507549809,\"path\":\".cargo-home/.package-cache\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996521640961,\"path\":\".cargo-home/.package-cache-mutate\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996810181170,\"path\":\".tmp\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.lock\",\"sha256\":\"48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be\",\"size\":161,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.toml\",\"sha256\":\"d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f\",\"size\":72,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\"src\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996699762570,\"path\":\"src/main.rs\",\"sha256\":\"49666da78df37cdf12a16c4086f22f648e613e273f597bd7a9802b4d941e5764\",\"size\":33,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996611900167,\"path\":\"target\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996612021799,\"path\":\"target/.rustc_info.json\",\"sha256\":\"9b0552753266c5d93cad2f8436d5a83f95680c250af36cc7454a2d7d31948462\",\"size\":986,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996522333974,\"path\":\"target/CACHEDIR.TAG\",\"sha256\":\"6d9d1d216e0f83abc5e5662ca62c92b4f23009466b54fa27321a69acdb778bb2\",\"size\":177,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996823614634,\"path\":\"target/debug\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996522998961,\"path\":\"target/debug/.cargo-lock\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996524220332,\"path\":\"target/debug/.fingerprint\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996610891461,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996823892552,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check\",\"sha256\":\"d612c19a86681db6e842bd458a11c029a479333d101f6b218eefcd98ad0ec2b3\",\"size\":16,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996824307305,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check.json\",\"sha256\":\"e6bad3a0ac656af3a5f08e1a19597143b034214ccc49297f48f38077e40d4f8c\",\"size\":368,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996734513977,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/dep-bin-owned-cargo-check\",\"sha256\":\"dd32b16937730a9a92a8070aa73e4dbbc632703f88e1395eb2196a4f6b11a95a\",\"size\":31,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996734513977,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/invoked.timestamp\",\"sha256\":\"5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3\",\"size\":48,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996523977288,\"path\":\"target/debug/build\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996810609139,\"path\":\"target/debug/deps\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996805511222,\"path\":\"target/debug/deps/owned_cargo_check-73e176436f3dd36b\",\"sha256\":\"49e4fcb81822a135fbb33dba6a71a1937be6935ca19c6028fe1f373850cce6eb\",\"size\":3879184,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996748145599,\"path\":\"target/debug/deps/owned_cargo_check-73e176436f3dd36b.d\",\"sha256\":\"3b8fd9ffc4728716531ee9cae152b9476db778e0a9165c62a0a29210c44790cf\",\"size\":177,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996523738583,\"path\":\"target/debug/examples\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996523396455,\"path\":\"target/debug/incremental\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996805511222,\"path\":\"target/debug/owned-cargo-check\",\"sha256\":\"49e4fcb81822a135fbb33dba6a71a1937be6935ca19c6028fe1f373850cce6eb\",\"size\":3879184,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996611627804,\"path\":\"target/debug/owned-cargo-check.d\",\"sha256\":\"8fbd3a382ca4231b9f37f3ddeca903c54702995fd4ec760842fdf4414d310971\",\"size\":72,\"type\":\"file\"}],\"hardlink_groups\":[[\".cargo-home/.global-cache\"],[\".cargo-home/.package-cache\"],[\".cargo-home/.package-cache-mutate\"],[\"Cargo.lock\"],[\"Cargo.toml\"],[\"src/main.rs\"],[\"target/.rustc_info.json\"],[\"target/CACHEDIR.TAG\"],[\"target/debug/.cargo-lock\"],[\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check\"],[\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check.json\"],[\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/dep-bin-owned-cargo-check\"],[\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/invoked.timestamp\"],[\"target/debug/deps/owned_cargo_check-73e176436f3dd36b\",\"target/debug/owned-cargo-check\"],[\"target/debug/deps/owned_cargo_check-73e176436f3dd36b.d\"],[\"target/debug/owned-cargo-check.d\"]],\"schema\":\"cargo-full-tree-v1\"}\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0016-pre_checkpoint_oracle.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0016-pre_checkpoint_oracle.stderr",
+      "secondsIncludingCleanup": 0.06087834999999905
+    },
+    {
+      "purpose": "restore_verify",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/3/.cargo-home' CARGO_TARGET_DIR='/workspaces/3/target' TMPDIR='/workspaces/3/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; export TMPDIR=/tmp; python3 -B /opt/bench/tree_oracle.py verify '/workspaces/3' <<'LAYERFS_ORACLE_bb92dc8f49d00cf2e4c0e1bee93319aa5311723106b2fcfdb0deae38fe26ebd6'\n{\"entries\":[{\"mode\":493,\"mtime_ns\":1792907996522532641,\"path\":\".\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996521640961,\"path\":\".cargo-home\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996511438862,\"path\":\".cargo-home/.global-cache\",\"sha256\":\"b77132dcdf544192e75b8fc3cbae4687ee46a03b1c1cc1b1994ed50042aa4c1d\",\"size\":57344,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996507549809,\"path\":\".cargo-home/.package-cache\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996521640961,\"path\":\".cargo-home/.package-cache-mutate\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996810181170,\"path\":\".tmp\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.lock\",\"sha256\":\"48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be\",\"size\":161,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.toml\",\"sha256\":\"d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f\",\"size\":72,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\"src\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996699762570,\"path\":\"src/main.rs\",\"sha256\":\"49666da78df37cdf12a16c4086f22f648e613e273f597bd7a9802b4d941e5764\",\"size\":33,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996611900167,\"path\":\"target\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996612021799,\"path\":\"target/.rustc_info.json\",\"sha256\":\"9b0552753266c5d93cad2f8436d5a83f95680c250af36cc7454a2d7d31948462\",\"size\":986,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996522333974,\"path\":\"target/CACHEDIR.TAG\",\"sha256\":\"6d9d1d216e0f83abc5e5662ca62c92b4f23009466b54fa27321a69acdb778bb2\",\"size\":177,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996823614634,\"path\":\"target/debug\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996522998961,\"path\":\"target/debug/.cargo-lock\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996524220332,\"path\":\"target/debug/.fingerprint\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996610891461,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996823892552,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check\",\"sha256\":\"d612c19a86681db6e842bd458a11c029a479333d101f6b218eefcd98ad0ec2b3\",\"size\":16,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996824307305,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check.json\",\"sha256\":\"e6bad3a0ac656af3a5f08e1a19597143b034214ccc49297f48f38077e40d4f8c\",\"size\":368,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996734513977,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/dep-bin-owned-cargo-check\",\"sha256\":\"dd32b16937730a9a92a8070aa73e4dbbc632703f88e1395eb2196a4f6b11a95a\",\"size\":31,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996734513977,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/invoked.timestamp\",\"sha256\":\"5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3\",\"size\":48,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996523977288,\"path\":\"target/debug/build\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996810609139,\"path\":\"target/debug/deps\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996805511222,\"path\":\"target/debug/deps/owned_cargo_check-73e176436f3dd36b\",\"sha256\":\"49e4fcb81822a135fbb33dba6a71a1937be6935ca19c6028fe1f373850cce6eb\",\"size\":3879184,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996748145599,\"path\":\"target/debug/deps/owned_cargo_check-73e176436f3dd36b.d\",\"sha256\":\"3b8fd9ffc4728716531ee9cae152b9476db778e0a9165c62a0a29210c44790cf\",\"size\":177,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996523738583,\"path\":\"target/debug/examples\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996523396455,\"path\":\"target/debug/incremental\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996805511222,\"path\":\"target/debug/owned-cargo-check\",\"sha256\":\"49e4fcb81822a135fbb33dba6a71a1937be6935ca19c6028fe1f373850cce6eb\",\"size\":3879184,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996611627804,\"path\":\"target/debug/owned-cargo-check.d\",\"sha256\":\"8fbd3a382ca4231b9f37f3ddeca903c54702995fd4ec760842fdf4414d310971\",\"size\":72,\"type\":\"file\"}],\"hardlink_groups\":[[\".cargo-home/.global-cache\"],[\".cargo-home/.package-cache\"],[\".cargo-home/.package-cache-mutate\"],[\"Cargo.lock\"],[\"Cargo.toml\"],[\"src/main.rs\"],[\"target/.rustc_info.json\"],[\"target/CACHEDIR.TAG\"],[\"target/debug/.cargo-lock\"],[\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check\"],[\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check.json\"],[\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/dep-bin-owned-cargo-check\"],[\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/invoked.timestamp\"],[\"target/debug/deps/owned_cargo_check-73e176436f3dd36b\",\"target/debug/owned-cargo-check\"],[\"target/debug/deps/owned_cargo_check-73e176436f3dd36b.d\"],[\"target/debug/owned-cargo-check.d\"]],\"schema\":\"cargo-full-tree-v1\"}\nLAYERFS_ORACLE_bb92dc8f49d00cf2e4c0e1bee93319aa5311723106b2fcfdb0deae38fe26ebd6",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/3",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 5222,
+      "stdinSha256": "bb92dc8f49d00cf2e4c0e1bee93319aa5311723106b2fcfdb0deae38fe26ebd6",
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "{\"differences\":[],\"entries\":29,\"ok\":true}\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0017-restore_verify.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0017-restore_verify.stderr",
+      "secondsIncludingCleanup": 0.0902155449999991
+    },
+    {
+      "purpose": "restored_execute",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/3/.cargo-home' CARGO_TARGET_DIR='/workspaces/3/target' TMPDIR='/workspaces/3/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; ./target/debug/owned-cargo-check",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/3",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "after\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0018-restored_execute.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0018-restored_execute.stderr",
+      "secondsIncludingCleanup": 0.017739621000000625
+    },
+    {
+      "purpose": "restored_rebuild",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/3/.cargo-home' CARGO_TARGET_DIR='/workspaces/3/target' TMPDIR='/workspaces/3/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; cargo build --offline --locked --verbose --jobs 1",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/3",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "       Fresh owned-cargo-check v0.1.0 (/workspaces/3)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s\n",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0019-restored_rebuild.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0019-restored_rebuild.stderr",
+      "secondsIncludingCleanup": 0.03234845800000039
+    },
+    {
+      "purpose": "restored_rebuild_execute",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/3/.cargo-home' CARGO_TARGET_DIR='/workspaces/3/target' TMPDIR='/workspaces/3/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; ./target/debug/owned-cargo-check",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/3",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "after\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0020-restored_rebuild_execute.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0020-restored_rebuild_execute.stderr",
+      "secondsIncludingCleanup": 0.01775399300000572
+    },
+    {
+      "purpose": "main_unchanged",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/1/.cargo-home' CARGO_TARGET_DIR='/workspaces/1/target' TMPDIR='/workspaces/1/.tmp' CARGO_INCREMENTAL=0 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; export TMPDIR=/tmp; python3 -B /opt/bench/tree_oracle.py verify '/workspaces/1' <<'LAYERFS_ORACLE_bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36'\n{\"entries\":[{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\".\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.lock\",\"sha256\":\"48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be\",\"size\":161,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.toml\",\"sha256\":\"d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f\",\"size\":72,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\"src\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"src/main.rs\",\"sha256\":\"ca666a48385e535040e226e0d3b42ad5372fbb173f09731bff1051c4d0f012d3\",\"size\":34,\"type\":\"file\"}],\"hardlink_groups\":[[\"Cargo.lock\"],[\"Cargo.toml\"],[\"src/main.rs\"]],\"schema\":\"cargo-full-tree-v1\"}\nLAYERFS_ORACLE_bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/1",
+        "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+      },
+      "stdinBytes": 754,
+      "stdinSha256": "bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36",
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "{\"differences\":[],\"entries\":5,\"ok\":true}\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0021-main_unchanged.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0021-main_unchanged.stderr",
+      "secondsIncludingCleanup": 0.04827224299999944
+    },
+    {
+      "purpose": "source_unchanged",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "run",
+        "--rm",
+        "--pull=never",
+        "-i",
+        "--name",
+        "cargo-ab4b587c6581466d95b42ec797c1e418-source-21",
+        "--label",
+        "layerfs.cargo.sample=cargo-ab4b587c6581466d95b42ec797c1e418",
+        "--mount",
+        "type=bind,source=/home/runner/work/sprig-benchmarks/sprig-benchmarks/fixtures/cargo,target=/work,readonly",
+        "--workdir",
+        "/work",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e",
+        "-c",
+        "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; python3 -B /opt/bench/tree_oracle.py verify /work"
+      ],
+      "stdinBytes": 754,
+      "stdinSha256": "bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36",
+      "returncode": 0,
+      "signal": null,
+      "stdout": "{\"differences\":[],\"entries\":5,\"ok\":true}\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0022-source_unchanged.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0022-source_unchanged.stderr",
+      "secondsIncludingCleanup": 0.29054146599999514
+    },
+    {
+      "purpose": "source_container_inventory",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=layerfs.cargo.sample=cargo-ab4b587c6581466d95b42ec797c1e418"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0023-source_container_inventory.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0023-source_container_inventory.stderr",
+      "secondsIncludingCleanup": 0.018547810999996726
+    },
+    {
+      "purpose": "space_sync",
+      "argv": [
+        "btrfs",
+        "filesystem",
+        "sync",
+        "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount"
+      ],
+      "secondsIncludingCleanup": 0.006609376000000338,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0024-space_sync.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0024-space_sync.stderr"
+    },
+    {
+      "purpose": "space_usage",
+      "argv": [
+        "btrfs",
+        "filesystem",
+        "usage",
+        "-b",
+        "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount"
+      ],
+      "secondsIncludingCleanup": 0.003187595000003057,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "Overall:\n    Device size:\t\t        8589934592\n    Device allocated:\t\t        4051697664\n    Device unallocated:\t\t        4538236928\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t        1058701312\n    Free (estimated):\t\t        7000457216\t(min: 4731338752)\n    Free (statfs, df):\t\t        6999408640\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:3498049536, Used:1035829248 (29.61%)\n   /dev/loop0\t3498049536\n\nMetadata,DUP: Size:268435456, Used:11419648 (4.25%)\n   /dev/loop0\t 536870912\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t4538236928\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0025-space_usage.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0025-space_usage.stderr"
+    },
+    {
+      "purpose": "space_groups",
+      "argv": [
+        "btrfs",
+        "filesystem",
+        "df",
+        "-b",
+        "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount"
+      ],
+      "secondsIncludingCleanup": 0.002997621000002255,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "Data, single: total=3498049536, used=1035829248\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=268435456, used=11419648\nGlobalReserve, single: total=5767168, used=0\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0026-space_groups.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0026-space_groups.stderr"
+    },
+    {
+      "purpose": "space_extents",
+      "argv": [
+        "btrfs",
+        "filesystem",
+        "du",
+        "-s",
+        "--raw",
+        "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount"
+      ],
+      "secondsIncludingCleanup": 0.21282249100000628,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "     Total   Exclusive  Set shared  Filename\n1035808768  1035603968       77824  /home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount\n",
+      "stderr": "WARNING: cannot access 'merged': Inappropriate ioctl for device\n\n",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0027-space_extents.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0027-space_extents.stderr"
+    },
+    {
+      "purpose": "cleanup_helper_inventory",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=layerfs.cargo.sample=cargo-ab4b587c6581466d95b42ec797c1e418"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0028-cleanup_helper_inventory.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0028-cleanup_helper_inventory.stderr",
+      "secondsIncludingCleanup": 0.018674245000001973
+    },
+    {
+      "purpose": "cleanup_project_inventory",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=layerfs.project=cargo-ab4b587c6581466d95b42ec797c1e418"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0029-cleanup_project_inventory.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0029-cleanup_project_inventory.stderr",
+      "secondsIncludingCleanup": 0.01704980500000238
+    }
+  ],
+  "checkpoint": {
+    "kind": "Committed",
+    "head": "12baa808960ee074c591b24ac7f528607d727367f4987557fc85387e48d8385f79",
+    "commit": {
+      "id": "12baa808960ee074c591b24ac7f528607d727367f4987557fc85387e48d8385f79",
+      "branch": null,
+      "parent": null,
+      "secondParent": null,
+      "base": "32d3b2633bde1e4a61ef9a7f8ba4cb5087b45949faf1584bd9496091213bf4bdc9",
+      "root": "afab6cda03861177f73305eb36ecec06038f29948907cd333257585370a0d0e6",
+      "via": "exec",
+      "message": "Cargo edit and complete build tree",
+      "mergedFrom": null,
+      "time": 1792907996961,
+      "logical": 7817853,
+      "newCanonical": 3954025,
+      "newStored": 1279013,
+      "newMetadata": 7886,
+      "displaced": null,
+      "lww": [],
+      "lwwTruncated": false
+    },
+    "displacedHead": null,
+    "merged": null,
+    "lww": [],
+    "lwwTruncated": false
+  },
+  "full_task_seconds": 1.942774458,
+  "activeSpace": {
+    "filesystemUsedBytes": 1058701312,
+    "usageRaw": "Overall:\n    Device size:\t\t        8589934592\n    Device allocated:\t\t        4051697664\n    Device unallocated:\t\t        4538236928\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t        1058701312\n    Free (estimated):\t\t        7000457216\t(min: 4731338752)\n    Free (statfs, df):\t\t        6999408640\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:3498049536, Used:1035829248 (29.61%)\n   /dev/loop0\t3498049536\n\nMetadata,DUP: Size:268435456, Used:11419648 (4.25%)\n   /dev/loop0\t 536870912\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t4538236928\n",
+    "groupsRaw": "Data, single: total=3498049536, used=1035829248\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=268435456, used=11419648\nGlobalReserve, single: total=5767168, used=0\n",
+    "extentSetRaw": "     Total   Exclusive  Set shared  Filename\n1035808768  1035603968       77824  /home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount\n"
+  },
+  "lifecycle": {
+    "fileTreesRetained": false,
+    "normalUnmountOnly": true,
+    "persistentControlDaemon": true,
+    "activeAtSpace": {
+      "views": [
+        {
+          "name": "import-main",
+          "sandbox": "1",
+          "path": "/workspaces/1",
+          "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+        },
+        {
+          "name": "work",
+          "sandbox": "1",
+          "path": "/workspaces/2",
+          "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+        },
+        {
+          "name": "second",
+          "sandbox": "1",
+          "path": "/workspaces/3",
+          "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+        }
+      ],
+      "workspaces": [
+        {
+          "sandbox": "1",
+          "path": "/workspaces/3",
+          "branch": "second",
+          "base": "12baa808960ee074c591b24ac7f528607d727367f4987557fc85387e48d8385f79",
+          "activity": "Idle",
+          "changed": true,
+          "workspace": "15b523989151201c9f6ef9cc2085cc1585eb42ccce047943a0f62bce437c6163",
+          "state": "idle",
+          "dirty": {
+            "inodes": 1,
+            "entries": 0
+          },
+          "headMovedSinceMount": false,
+          "pendingMerge": false
+        },
+        {
+          "sandbox": "1",
+          "path": "/workspaces/1",
+          "branch": "import-main",
+          "base": null,
+          "activity": "Idle",
+          "changed": false,
+          "workspace": "40a6d782773b312ca67a49befa4d705f6e14864e534fc86811268a7d64287b76",
+          "state": "idle",
+          "dirty": {
+            "inodes": 0,
+            "entries": 0
+          },
+          "headMovedSinceMount": false,
+          "pendingMerge": false
+        },
+        {
+          "sandbox": "1",
+          "path": "/workspaces/2",
+          "branch": "work",
+          "base": "12baa808960ee074c591b24ac7f528607d727367f4987557fc85387e48d8385f79",
+          "activity": "Idle",
+          "changed": false,
+          "workspace": "b72db0b1e71662f2c9def1e614e27411f5a86f4e382ed174bb318405deb30b67",
+          "state": "idle",
+          "dirty": {
+            "inodes": 0,
+            "entries": 0
+          },
+          "headMovedSinceMount": false,
+          "pendingMerge": false
+        }
+      ],
+      "sandboxes": [
+        {
+          "sandbox": "1",
+          "name": "cargo-lfs-cargo-ab4b587c6581466d95b42ec797c1e418-1",
+          "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e",
+          "workspaces": 3
+        }
+      ],
+      "controlProcessesRunning": 1,
+      "fileTreesRetained": true,
+      "cargoRestoreReadbackComplete": true,
+      "allRuntimeLogsAndJournalsInsideMeasuredStore": true,
+      "verifiedAfterSpace": true
+    },
+    "daemons": [],
+    "cleanup": {
+      "attempts": [
+        {
+          "action": "workspace.unmount",
+          "workspace": {
+            "name": "second",
+            "sandbox": "1",
+            "path": "/workspaces/3",
+            "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+          }
+        },
+        {
+          "action": "workspace.unmount",
+          "workspace": {
+            "name": "work",
+            "sandbox": "1",
+            "path": "/workspaces/2",
+            "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+          }
+        },
+        {
+          "action": "workspace.unmount",
+          "workspace": {
+            "name": "import-main",
+            "sandbox": "1",
+            "path": "/workspaces/1",
+            "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e"
+          }
+        },
+        {
+          "action": "sandbox.close",
+          "sandbox": "1"
+        }
+      ],
+      "complete": true
+    },
+    "fileTreesRetainedAtSpace": true,
+    "committedHistoryRetained": true,
+    "workspaceOverlaysDiscardedByNormalCleanup": true
+  },
+  "remainingMounts": [],
+  "remainingContainers": [],
+  "measurementNotes": [
+    "Separate dependency-free Cargo series; not frozen seven-case/history100 workload.",
+    "LayerFS UID501/GID20 SDK exec in persistent Sandbox differs from default-root per-command Sprig Docker containers; transport costs remain charged.",
+    "Actual Cargo paths /workspaces/N differ from Sprig /work; restored Fresh/recompile behavior is observed, not promised.",
+    "All target/cache/temp files and full metadata/hardlink oracle are retained without exclusions at accounting; normal teardown later discards workspace overlays but retains committed Store/history.",
+    "Raw command outputs/manifests are in measured root/logs; runtime baseline owned by parent.",
+    "Init phase provisions private home/volume; import includes public LayerFS.init, sandbox startup and imported-main branch/mount.",
+    "checkpoint_cli is SDK commit wall (name retained for paired schema); checkpoint_readiness verifies acknowledged head/history and live workspace.",
+    "Full task wall includes preflight, oracles, logs, accounting and normal cleanup; final report serialization occurs afterward.",
+    "Disposable/WAL/synchronous=OFF, no matched durability or performance claim.",
+    "No harness kill/force/lazy unmount or retry. After normal unmounts SDK sandbox.close uses its documented Docker stop/delete (5-second stop grace).",
+    "Oracle heredoc transport exports TMPDIR=/tmp in Sandbox root before redirection; Cargo TMPDIR remains inside captured workspace. Accounting writes are deferred until all space reads complete."
+  ],
+  "incremental": 0,
+  "image": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e",
+  "root": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample",
+  "source": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/fixtures/cargo",
+  "recordsFile": "/home/runner/work/_temp/cargo-transport-records/layerfs-0-0.jsonl",
+  "recordsIncludedInActiveSpace": false,
+  "fixtureOracle": {
+    "entries": [
+      {
+        "mode": 493,
+        "mtime_ns": "1700000000000000000",
+        "path": ".",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1700000000000000000",
+        "path": "Cargo.lock",
+        "sha256": "48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be",
+        "size": 161,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1700000000000000000",
+        "path": "Cargo.toml",
+        "sha256": "d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f",
+        "size": 72,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1700000000000000000",
+        "path": "src",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1700000000000000000",
+        "path": "src/main.rs",
+        "sha256": "ca666a48385e535040e226e0d3b42ad5372fbb173f09731bff1051c4d0f012d3",
+        "size": 34,
+        "type": "file"
+      }
+    ],
+    "hardlink_groups": [
+      [
+        "Cargo.lock"
+      ],
+      [
+        "Cargo.toml"
+      ],
+      [
+        "src/main.rs"
+      ]
+    ],
+    "schema": "cargo-full-tree-v1"
+  },
+  "fixtureOracleRaw": "{\"entries\":[{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\".\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.lock\",\"sha256\":\"48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be\",\"size\":161,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.toml\",\"sha256\":\"d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f\",\"size\":72,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\"src\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"src/main.rs\",\"sha256\":\"ca666a48385e535040e226e0d3b42ad5372fbb173f09731bff1051c4d0f012d3\",\"size\":34,\"type\":\"file\"}],\"hardlink_groups\":[[\"Cargo.lock\"],[\"Cargo.toml\"],[\"src/main.rs\"]],\"schema\":\"cargo-full-tree-v1\"}\n",
+  "oracleMtimeEncoding": "decimal strings in structured report; raw JSON text is authoritative and passed unchanged to verify",
+  "imageInspect": {
+    "Id": "sha256:7ceaebd31bfdedc715ed69085f740b33baffbe86b29d06055b982145bd2a2b1e",
+    "RepoTags": [
+      "sprig-cargo-fixture:40167253184"
+    ],
+    "RepoDigests": [],
+    "Comment": "buildkit.dockerfile.v0",
+    "Created": "2026-10-25T05:59:08.611633241Z",
+    "Config": {
+      "Env": [
+        "PATH=/opt/rust/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      ],
+      "Cmd": [
+        "/bin/bash"
+      ],
+      "Labels": {
+        "org.opencontainers.image.version": "24.04"
+      }
+    },
+    "Architecture": "amd64",
+    "Os": "linux",
+    "Size": 1005165334,
+    "GraphDriver": {
+      "Data": {
+        "LowerDir": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/a5eae8daaafc374e3687ee49dfb5951aac8b2ad0ee3247d2fdf82c90b064bd17/diff:/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/0686e553acc07074d70d7c7ff0587dd27dfd89abe59c86c34e903231e38a3006/diff:/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/cc0ae4ba15cb1d4dd998da0c4393ff8c61e7a30db87672bd72209a5b94c3923a/diff:/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/ea2ac3162ba60725cf00415e082f34a64ed31d8a746d8fcf7babf76b3868203b/diff",
+        "MergedDir": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/5d123165d66628ad7d0397e78e29634f58dde1c80d4e73626122dbab6e805c04/merged",
+        "UpperDir": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/5d123165d66628ad7d0397e78e29634f58dde1c80d4e73626122dbab6e805c04/diff",
+        "WorkDir": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/overlay2/5d123165d66628ad7d0397e78e29634f58dde1c80d4e73626122dbab6e805c04/work"
+      },
+      "Name": "overlay2"
+    },
+    "RootFS": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:32ab39660fd51c6dc3aae486b42d42bbe8fe4c1db78eaf57bb9c21198de48a16",
+        "sha256:c16cdabeacba7b5025f895fb12c9e851d16e1632d3f9d7efdc8bc3507c3fe832",
+        "sha256:85fed1d22b0158ce887256ce37bac623a73b1cc1c015e5faf0c9309dd12763de",
+        "sha256:11537ea2d9fbfb330112e5c451c66b9f0b63d3ef6aa616a612f76d6b02a1303e",
+        "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+      ]
+    },
+    "Metadata": {
+      "LastTagTime": "0001-01-01T00:00:00Z"
+    }
+  },
+  "dockerInfo": {
+    "ID": "b31e2b91-8d45-49b3-baf7-1cd0ec4b81b3",
+    "Containers": 0,
+    "ContainersRunning": 0,
+    "ContainersPaused": 0,
+    "ContainersStopped": 0,
+    "Images": 1,
+    "Driver": "overlay2",
+    "DriverStatus": [
+      [
+        "Backing Filesystem",
+        "btrfs"
+      ],
+      [
+        "Supports d_type",
+        "true"
+      ],
+      [
+        "Using metacopy",
+        "false"
+      ],
+      [
+        "Native Overlay Diff",
+        "false"
+      ],
+      [
+        "userxattr",
+        "false"
+      ]
+    ],
+    "Plugins": {
+      "Volume": [
+        "local"
+      ],
+      "Network": [
+        "bridge",
+        "host",
+        "ipvlan",
+        "macvlan",
+        "null",
+        "overlay"
+      ],
+      "Authorization": null,
+      "Log": [
+        "awslogs",
+        "fluentd",
+        "gcplogs",
+        "gelf",
+        "journald",
+        "json-file",
+        "local",
+        "splunk",
+        "syslog"
+      ]
+    },
+    "MemoryLimit": true,
+    "SwapLimit": true,
+    "CpuCfsPeriod": true,
+    "CpuCfsQuota": true,
+    "CPUShares": true,
+    "CPUSet": true,
+    "PidsLimit": true,
+    "IPv4Forwarding": true,
+    "Debug": false,
+    "NFd": 24,
+    "OomKillDisable": false,
+    "NGoroutines": 45,
+    "SystemTime": "2026-10-25T05:59:56.035999449Z",
+    "LoggingDriver": "json-file",
+    "CgroupDriver": "systemd",
+    "CgroupVersion": "2",
+    "NEventsListener": 0,
+    "KernelVersion": "6.17.0-1022-azure",
+    "OperatingSystem": "Ubuntu 24.04.5 LTS",
+    "OSVersion": "24.04",
+    "OSType": "linux",
+    "Architecture": "x86_64",
+    "IndexServerAddress": "https://index.docker.io/v1/",
+    "RegistryConfig": {
+      "InsecureRegistryCIDRs": [
+        "127.0.0.0/8",
+        "::1/128"
+      ],
+      "IndexConfigs": {
+        "docker.io": {
+          "Name": "docker.io",
+          "Mirrors": [],
+          "Secure": true,
+          "Official": true
+        }
+      },
+      "Mirrors": []
+    },
+    "NCPU": 4,
+    "MemTotal": 16766414848,
+    "GenericResources": null,
+    "DockerRootDir": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data",
+    "HttpProxy": "",
+    "HttpsProxy": "",
+    "NoProxy": "",
+    "Name": "runnervmtai0g",
+    "Labels": [],
+    "ExperimentalBuild": false,
+    "ServerVersion": "29.8.2",
+    "Runtimes": {
+      "io.containerd.runc.v2": {
+        "path": "runc",
+        "status": {
+          "org.opencontainers.runtime-spec.features": "{\"ociVersionMin\":\"1.0.0\",\"ociVersionMax\":\"1.3.0\",\"hooks\":[\"prestart\",\"createRuntime\",\"createContainer\",\"startContainer\",\"poststart\",\"poststop\"],\"mountOptions\":[\"async\",\"atime\",\"bind\",\"defaults\",\"dev\",\"diratime\",\"dirsync\",\"exec\",\"iversion\",\"lazytime\",\"loud\",\"mand\",\"noatime\",\"nodev\",\"nodiratime\",\"noexec\",\"noiversion\",\"nolazytime\",\"nomand\",\"norelatime\",\"nostrictatime\",\"nosuid\",\"nosymfollow\",\"private\",\"ratime\",\"rbind\",\"rdev\",\"rdiratime\",\"relatime\",\"remount\",\"rexec\",\"rnoatime\",\"rnodev\",\"rnodiratime\",\"rnoexec\",\"rnorelatime\",\"rnostrictatime\",\"rnosuid\",\"rnosymfollow\",\"ro\",\"rprivate\",\"rrelatime\",\"rro\",\"rrw\",\"rshared\",\"rslave\",\"rstrictatime\",\"rsuid\",\"rsymfollow\",\"runbindable\",\"rw\",\"shared\",\"silent\",\"slave\",\"strictatime\",\"suid\",\"symfollow\",\"sync\",\"tmpcopyup\",\"unbindable\"],\"linux\":{\"namespaces\":[\"cgroup\",\"ipc\",\"mount\",\"network\",\"pid\",\"time\",\"user\",\"uts\"],\"capabilities\":[\"CAP_CHOWN\",\"CAP_DAC_OVERRIDE\",\"CAP_DAC_READ_SEARCH\",\"CAP_FOWNER\",\"CAP_FSETID\",\"CAP_KILL\",\"CAP_SETGID\",\"CAP_SETUID\",\"CAP_SETPCAP\",\"CAP_LINUX_IMMUTABLE\",\"CAP_NET_BIND_SERVICE\",\"CAP_NET_BROADCAST\",\"CAP_NET_ADMIN\",\"CAP_NET_RAW\",\"CAP_IPC_LOCK\",\"CAP_IPC_OWNER\",\"CAP_SYS_MODULE\",\"CAP_SYS_RAWIO\",\"CAP_SYS_CHROOT\",\"CAP_SYS_PTRACE\",\"CAP_SYS_PACCT\",\"CAP_SYS_ADMIN\",\"CAP_SYS_BOOT\",\"CAP_SYS_NICE\",\"CAP_SYS_RESOURCE\",\"CAP_SYS_TIME\",\"CAP_SYS_TTY_CONFIG\",\"CAP_MKNOD\",\"CAP_LEASE\",\"CAP_AUDIT_WRITE\",\"CAP_AUDIT_CONTROL\",\"CAP_SETFCAP\",\"CAP_MAC_OVERRIDE\",\"CAP_MAC_ADMIN\",\"CAP_SYSLOG\",\"CAP_WAKE_ALARM\",\"CAP_BLOCK_SUSPEND\",\"CAP_AUDIT_READ\",\"CAP_PERFMON\",\"CAP_BPF\",\"CAP_CHECKPOINT_RESTORE\"],\"cgroup\":{\"v1\":true,\"v2\":true,\"systemd\":true,\"systemdUser\":true,\"rdma\":true},\"seccomp\":{\"enabled\":true,\"actions\":[\"SCMP_ACT_ALLOW\",\"SCMP_ACT_ERRNO\",\"SCMP_ACT_KILL\",\"SCMP_ACT_KILL_PROCESS\",\"SCMP_ACT_KILL_THREAD\",\"SCMP_ACT_LOG\",\"SCMP_ACT_NOTIFY\",\"SCMP_ACT_TRACE\",\"SCMP_ACT_TRAP\"],\"operators\":[\"SCMP_CMP_EQ\",\"SCMP_CMP_GE\",\"SCMP_CMP_GT\",\"SCMP_CMP_LE\",\"SCMP_CMP_LT\",\"SCMP_CMP_MASKED_EQ\",\"SCMP_CMP_NE\"],\"archs\":[\"SCMP_ARCH_AARCH64\",\"SCMP_ARCH_ARM\",\"SCMP_ARCH_LOONGARCH64\",\"SCMP_ARCH_MIPS\",\"SCMP_ARCH_MIPS64\",\"SCMP_ARCH_MIPS64N32\",\"SCMP_ARCH_MIPSEL\",\"SCMP_ARCH_MIPSEL64\",\"SCMP_ARCH_MIPSEL64N32\",\"SCMP_ARCH_PPC\",\"SCMP_ARCH_PPC64\",\"SCMP_ARCH_PPC64LE\",\"SCMP_ARCH_RISCV64\",\"SCMP_ARCH_S390\",\"SCMP_ARCH_S390X\",\"SCMP_ARCH_X32\",\"SCMP_ARCH_X86\",\"SCMP_ARCH_X86_64\"],\"knownFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\",\"SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV\"],\"supportedFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\"]},\"apparmor\":{\"enabled\":true},\"selinux\":{\"enabled\":true},\"intelRdt\":{\"enabled\":true,\"schemata\":true,\"monitoring\":true},\"memoryPolicy\":{\"modes\":[\"MPOL_BIND\",\"MPOL_DEFAULT\",\"MPOL_INTERLEAVE\",\"MPOL_LOCAL\",\"MPOL_PREFERRED\",\"MPOL_PREFERRED_MANY\",\"MPOL_WEIGHTED_INTERLEAVE\"],\"flags\":[\"MPOL_F_NUMA_BALANCING\",\"MPOL_F_RELATIVE_NODES\",\"MPOL_F_STATIC_NODES\"]},\"mountExtensions\":{\"idmap\":{\"enabled\":true}},\"netDevices\":{\"enabled\":true}},\"annotations\":{\"io.github.seccomp.libseccomp.version\":\"2.5.5\",\"org.opencontainers.runc.checkpoint.enabled\":\"true\",\"org.opencontainers.runc.commit\":\"v1.5.2-0-g29dd3dc2\",\"org.opencontainers.runc.version\":\"1.5.2\"},\"potentiallyUnsafeConfigAnnotations\":[\"bundle\",\"org.systemd.property.\",\"org.criu.config\"]}"
+        }
+      },
+      "runc": {
+        "path": "runc",
+        "status": {
+          "org.opencontainers.runtime-spec.features": "{\"ociVersionMin\":\"1.0.0\",\"ociVersionMax\":\"1.3.0\",\"hooks\":[\"prestart\",\"createRuntime\",\"createContainer\",\"startContainer\",\"poststart\",\"poststop\"],\"mountOptions\":[\"async\",\"atime\",\"bind\",\"defaults\",\"dev\",\"diratime\",\"dirsync\",\"exec\",\"iversion\",\"lazytime\",\"loud\",\"mand\",\"noatime\",\"nodev\",\"nodiratime\",\"noexec\",\"noiversion\",\"nolazytime\",\"nomand\",\"norelatime\",\"nostrictatime\",\"nosuid\",\"nosymfollow\",\"private\",\"ratime\",\"rbind\",\"rdev\",\"rdiratime\",\"relatime\",\"remount\",\"rexec\",\"rnoatime\",\"rnodev\",\"rnodiratime\",\"rnoexec\",\"rnorelatime\",\"rnostrictatime\",\"rnosuid\",\"rnosymfollow\",\"ro\",\"rprivate\",\"rrelatime\",\"rro\",\"rrw\",\"rshared\",\"rslave\",\"rstrictatime\",\"rsuid\",\"rsymfollow\",\"runbindable\",\"rw\",\"shared\",\"silent\",\"slave\",\"strictatime\",\"suid\",\"symfollow\",\"sync\",\"tmpcopyup\",\"unbindable\"],\"linux\":{\"namespaces\":[\"cgroup\",\"ipc\",\"mount\",\"network\",\"pid\",\"time\",\"user\",\"uts\"],\"capabilities\":[\"CAP_CHOWN\",\"CAP_DAC_OVERRIDE\",\"CAP_DAC_READ_SEARCH\",\"CAP_FOWNER\",\"CAP_FSETID\",\"CAP_KILL\",\"CAP_SETGID\",\"CAP_SETUID\",\"CAP_SETPCAP\",\"CAP_LINUX_IMMUTABLE\",\"CAP_NET_BIND_SERVICE\",\"CAP_NET_BROADCAST\",\"CAP_NET_ADMIN\",\"CAP_NET_RAW\",\"CAP_IPC_LOCK\",\"CAP_IPC_OWNER\",\"CAP_SYS_MODULE\",\"CAP_SYS_RAWIO\",\"CAP_SYS_CHROOT\",\"CAP_SYS_PTRACE\",\"CAP_SYS_PACCT\",\"CAP_SYS_ADMIN\",\"CAP_SYS_BOOT\",\"CAP_SYS_NICE\",\"CAP_SYS_RESOURCE\",\"CAP_SYS_TIME\",\"CAP_SYS_TTY_CONFIG\",\"CAP_MKNOD\",\"CAP_LEASE\",\"CAP_AUDIT_WRITE\",\"CAP_AUDIT_CONTROL\",\"CAP_SETFCAP\",\"CAP_MAC_OVERRIDE\",\"CAP_MAC_ADMIN\",\"CAP_SYSLOG\",\"CAP_WAKE_ALARM\",\"CAP_BLOCK_SUSPEND\",\"CAP_AUDIT_READ\",\"CAP_PERFMON\",\"CAP_BPF\",\"CAP_CHECKPOINT_RESTORE\"],\"cgroup\":{\"v1\":true,\"v2\":true,\"systemd\":true,\"systemdUser\":true,\"rdma\":true},\"seccomp\":{\"enabled\":true,\"actions\":[\"SCMP_ACT_ALLOW\",\"SCMP_ACT_ERRNO\",\"SCMP_ACT_KILL\",\"SCMP_ACT_KILL_PROCESS\",\"SCMP_ACT_KILL_THREAD\",\"SCMP_ACT_LOG\",\"SCMP_ACT_NOTIFY\",\"SCMP_ACT_TRACE\",\"SCMP_ACT_TRAP\"],\"operators\":[\"SCMP_CMP_EQ\",\"SCMP_CMP_GE\",\"SCMP_CMP_GT\",\"SCMP_CMP_LE\",\"SCMP_CMP_LT\",\"SCMP_CMP_MASKED_EQ\",\"SCMP_CMP_NE\"],\"archs\":[\"SCMP_ARCH_AARCH64\",\"SCMP_ARCH_ARM\",\"SCMP_ARCH_LOONGARCH64\",\"SCMP_ARCH_MIPS\",\"SCMP_ARCH_MIPS64\",\"SCMP_ARCH_MIPS64N32\",\"SCMP_ARCH_MIPSEL\",\"SCMP_ARCH_MIPSEL64\",\"SCMP_ARCH_MIPSEL64N32\",\"SCMP_ARCH_PPC\",\"SCMP_ARCH_PPC64\",\"SCMP_ARCH_PPC64LE\",\"SCMP_ARCH_RISCV64\",\"SCMP_ARCH_S390\",\"SCMP_ARCH_S390X\",\"SCMP_ARCH_X32\",\"SCMP_ARCH_X86\",\"SCMP_ARCH_X86_64\"],\"knownFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\",\"SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV\"],\"supportedFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\"]},\"apparmor\":{\"enabled\":true},\"selinux\":{\"enabled\":true},\"intelRdt\":{\"enabled\":true,\"schemata\":true,\"monitoring\":true},\"memoryPolicy\":{\"modes\":[\"MPOL_BIND\",\"MPOL_DEFAULT\",\"MPOL_INTERLEAVE\",\"MPOL_LOCAL\",\"MPOL_PREFERRED\",\"MPOL_PREFERRED_MANY\",\"MPOL_WEIGHTED_INTERLEAVE\"],\"flags\":[\"MPOL_F_NUMA_BALANCING\",\"MPOL_F_RELATIVE_NODES\",\"MPOL_F_STATIC_NODES\"]},\"mountExtensions\":{\"idmap\":{\"enabled\":true}},\"netDevices\":{\"enabled\":true}},\"annotations\":{\"io.github.seccomp.libseccomp.version\":\"2.5.5\",\"org.opencontainers.runc.checkpoint.enabled\":\"true\",\"org.opencontainers.runc.commit\":\"v1.5.2-0-g29dd3dc2\",\"org.opencontainers.runc.version\":\"1.5.2\"},\"potentiallyUnsafeConfigAnnotations\":[\"bundle\",\"org.systemd.property.\",\"org.criu.config\"]}"
+        }
+      }
+    },
+    "DefaultRuntime": "runc",
+    "Swarm": {
+      "NodeID": "",
+      "NodeAddr": "",
+      "LocalNodeState": "inactive",
+      "ControlAvailable": false,
+      "Error": "",
+      "RemoteManagers": null
+    },
+    "LiveRestoreEnabled": false,
+    "Isolation": "",
+    "InitBinary": "docker-init",
+    "ContainerdCommit": {
+      "ID": "b7a25261e029d68978bbf290df0a62fc819b3c51"
+    },
+    "RuncCommit": {
+      "ID": "v1.5.2-0-g29dd3dc2"
+    },
+    "InitCommit": {
+      "ID": "de40ad0"
+    },
+    "SecurityOptions": [
+      "name=apparmor,profile=default",
+      "name=seccomp,profile=builtin",
+      "name=cgroupns"
+    ],
+    "FirewallBackend": {
+      "Driver": "iptables",
+      "Info": [
+        [
+          "EnableUserlandProxy",
+          "true"
+        ],
+        [
+          "UserlandProxyPath",
+          "/usr/bin/docker-proxy"
+        ]
+      ]
+    },
+    "CDISpecDirs": [
+      "/etc/cdi",
+      "/var/run/cdi"
+    ],
+    "Containerd": {
+      "Address": "/run/containerd/containerd.sock",
+      "Namespaces": {
+        "Containers": "moby",
+        "Plugins": "plugins.moby"
+      }
+    },
+    "Warnings": null,
+    "ClientInfo": {
+      "Debug": false,
+      "Platform": {
+        "Name": "Docker Engine - Community"
+      },
+      "Version": "29.8.2",
+      "DefaultAPIVersion": "1.56",
+      "GitCommit": "7fc2dff",
+      "GoVersion": "go1.26.8",
+      "Os": "linux",
+      "Arch": "amd64",
+      "BuildTime": "Wed Sep 30 19:32:28 2026",
+      "Context": "default",
+      "Plugins": [
+        {
+          "SchemaVersion": "0.1.0",
+          "Vendor": "Docker Inc.",
+          "Version": "v0.38.0",
+          "ShortDescription": "Docker Buildx",
+          "Name": "buildx",
+          "Path": "/usr/libexec/docker/cli-plugins/docker-buildx"
+        },
+        {
+          "SchemaVersion": "0.1.0",
+          "Vendor": "Docker Inc.",
+          "Version": "v2.38.2",
+          "ShortDescription": "Docker Compose",
+          "Name": "compose",
+          "Path": "/usr/libexec/docker/cli-plugins/docker-compose"
+        }
+      ],
+      "Warnings": null
+    }
+  },
+  "containingFilesystem": {
+    "target": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount",
+    "source": "/dev/loop0",
+    "fstype": "btrfs",
+    "options": "rw,noatime,discard=async,space_cache=v2,subvolid=5,subvol=/"
+  },
+  "initialHead": "32d3b2633bde1e4a61ef9a7f8ba4cb5087b45949faf1584bd9496091213bf4bdc9",
+  "initialized": {
+    "kind": "Initialized",
+    "project": "cargo-ab4b587c6581466d95b42ec797c1e418",
+    "layer": "32d3b2633bde1e4a61ef9a7f8ba4cb5087b45949faf1584bd9496091213bf4bdc9",
+    "root": "2dd4d3ccd340eaf14e3729abc63f3189b8a067fe31a70030c3d4c3dfeccb8636",
+    "store": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/docker-data/volumes/cargo-ab4b587c6581466d95b42ec797c1e418/_data/global/store.sqlite"
+  },
+  "cargoBuildObservations": [
+    {
+      "phase": "clean_build",
+      "freshLines": [],
+      "compilingLines": [
+        "   Compiling owned-cargo-check v0.1.0 (/workspaces/2)"
+      ],
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0009-clean_build.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0009-clean_build.stderr",
+      "returncode": 0
+    },
+    {
+      "phase": "noop_build",
+      "freshLines": [
+        "       Fresh owned-cargo-check v0.1.0 (/workspaces/2)"
+      ],
+      "compilingLines": [],
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0011-noop_build.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0011-noop_build.stderr",
+      "returncode": 0
+    },
+    {
+      "phase": "edit_build",
+      "freshLines": [],
+      "compilingLines": [
+        "   Compiling owned-cargo-check v0.1.0 (/workspaces/2)"
+      ],
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0014-edit_build.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0014-edit_build.stderr",
+      "returncode": 0
+    },
+    {
+      "phase": "restored_rebuild",
+      "freshLines": [
+        "       Fresh owned-cargo-check v0.1.0 (/workspaces/3)"
+      ],
+      "compilingLines": [],
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0019-restored_rebuild.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-0-0-YGIJJP/mount/sample/logs/0019-restored_rebuild.stderr",
+      "returncode": 0
+    }
+  ],
+  "checkpointTreeOracle": {
+    "entries": [
+      {
+        "mode": 493,
+        "mtime_ns": "1792907996522532641",
+        "path": ".",
+        "type": "directory"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792907996521640961",
+        "path": ".cargo-home",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792907996511438862",
+        "path": ".cargo-home/.global-cache",
+        "sha256": "b77132dcdf544192e75b8fc3cbae4687ee46a03b1c1cc1b1994ed50042aa4c1d",
+        "size": 57344,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792907996507549809",
+        "path": ".cargo-home/.package-cache",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792907996521640961",
+        "path": ".cargo-home/.package-cache-mutate",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792907996810181170",
+        "path": ".tmp",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1700000000000000000",
+        "path": "Cargo.lock",
+        "sha256": "48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be",
+        "size": 161,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1700000000000000000",
+        "path": "Cargo.toml",
+        "sha256": "d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f",
+        "size": 72,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1700000000000000000",
+        "path": "src",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792907996699762570",
+        "path": "src/main.rs",
+        "sha256": "49666da78df37cdf12a16c4086f22f648e613e273f597bd7a9802b4d941e5764",
+        "size": 33,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792907996611900167",
+        "path": "target",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792907996612021799",
+        "path": "target/.rustc_info.json",
+        "sha256": "9b0552753266c5d93cad2f8436d5a83f95680c250af36cc7454a2d7d31948462",
+        "size": 986,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792907996522333974",
+        "path": "target/CACHEDIR.TAG",
+        "sha256": "6d9d1d216e0f83abc5e5662ca62c92b4f23009466b54fa27321a69acdb778bb2",
+        "size": 177,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792907996823614634",
+        "path": "target/debug",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792907996522998961",
+        "path": "target/debug/.cargo-lock",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792907996524220332",
+        "path": "target/debug/.fingerprint",
+        "type": "directory"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792907996610891461",
+        "path": "target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792907996823892552",
+        "path": "target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check",
+        "sha256": "d612c19a86681db6e842bd458a11c029a479333d101f6b218eefcd98ad0ec2b3",
+        "size": 16,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792907996824307305",
+        "path": "target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check.json",
+        "sha256": "e6bad3a0ac656af3a5f08e1a19597143b034214ccc49297f48f38077e40d4f8c",
+        "size": 368,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792907996734513977",
+        "path": "target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/dep-bin-owned-cargo-check",
+        "sha256": "dd32b16937730a9a92a8070aa73e4dbbc632703f88e1395eb2196a4f6b11a95a",
+        "size": 31,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792907996734513977",
+        "path": "target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/invoked.timestamp",
+        "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+        "size": 48,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792907996523977288",
+        "path": "target/debug/build",
+        "type": "directory"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792907996810609139",
+        "path": "target/debug/deps",
+        "type": "directory"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792907996805511222",
+        "path": "target/debug/deps/owned_cargo_check-73e176436f3dd36b",
+        "sha256": "49e4fcb81822a135fbb33dba6a71a1937be6935ca19c6028fe1f373850cce6eb",
+        "size": 3879184,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792907996748145599",
+        "path": "target/debug/deps/owned_cargo_check-73e176436f3dd36b.d",
+        "sha256": "3b8fd9ffc4728716531ee9cae152b9476db778e0a9165c62a0a29210c44790cf",
+        "size": 177,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792907996523738583",
+        "path": "target/debug/examples",
+        "type": "directory"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792907996523396455",
+        "path": "target/debug/incremental",
+        "type": "directory"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792907996805511222",
+        "path": "target/debug/owned-cargo-check",
+        "sha256": "49e4fcb81822a135fbb33dba6a71a1937be6935ca19c6028fe1f373850cce6eb",
+        "size": 3879184,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792907996611627804",
+        "path": "target/debug/owned-cargo-check.d",
+        "sha256": "8fbd3a382ca4231b9f37f3ddeca903c54702995fd4ec760842fdf4414d310971",
+        "size": 72,
+        "type": "file"
+      }
+    ],
+    "hardlink_groups": [
+      [
+        ".cargo-home/.global-cache"
+      ],
+      [
+        ".cargo-home/.package-cache"
+      ],
+      [
+        ".cargo-home/.package-cache-mutate"
+      ],
+      [
+        "Cargo.lock"
+      ],
+      [
+        "Cargo.toml"
+      ],
+      [
+        "src/main.rs"
+      ],
+      [
+        "target/.rustc_info.json"
+      ],
+      [
+        "target/CACHEDIR.TAG"
+      ],
+      [
+        "target/debug/.cargo-lock"
+      ],
+      [
+        "target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check"
+      ],
+      [
+        "target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check.json"
+      ],
+      [
+        "target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/dep-bin-owned-cargo-check"
+      ],
+      [
+        "target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/invoked.timestamp"
+      ],
+      [
+        "target/debug/deps/owned_cargo_check-73e176436f3dd36b",
+        "target/debug/owned-cargo-check"
+      ],
+      [
+        "target/debug/deps/owned_cargo_check-73e176436f3dd36b.d"
+      ],
+      [
+        "target/debug/owned-cargo-check.d"
+      ]
+    ],
+    "schema": "cargo-full-tree-v1"
+  },
+  "checkpointTreeOracleRaw": "{\"entries\":[{\"mode\":493,\"mtime_ns\":1792907996522532641,\"path\":\".\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996521640961,\"path\":\".cargo-home\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996511438862,\"path\":\".cargo-home/.global-cache\",\"sha256\":\"b77132dcdf544192e75b8fc3cbae4687ee46a03b1c1cc1b1994ed50042aa4c1d\",\"size\":57344,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996507549809,\"path\":\".cargo-home/.package-cache\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996521640961,\"path\":\".cargo-home/.package-cache-mutate\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996810181170,\"path\":\".tmp\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.lock\",\"sha256\":\"48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be\",\"size\":161,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.toml\",\"sha256\":\"d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f\",\"size\":72,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\"src\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996699762570,\"path\":\"src/main.rs\",\"sha256\":\"49666da78df37cdf12a16c4086f22f648e613e273f597bd7a9802b4d941e5764\",\"size\":33,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996611900167,\"path\":\"target\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996612021799,\"path\":\"target/.rustc_info.json\",\"sha256\":\"9b0552753266c5d93cad2f8436d5a83f95680c250af36cc7454a2d7d31948462\",\"size\":986,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996522333974,\"path\":\"target/CACHEDIR.TAG\",\"sha256\":\"6d9d1d216e0f83abc5e5662ca62c92b4f23009466b54fa27321a69acdb778bb2\",\"size\":177,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996823614634,\"path\":\"target/debug\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996522998961,\"path\":\"target/debug/.cargo-lock\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996524220332,\"path\":\"target/debug/.fingerprint\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996610891461,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792907996823892552,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check\",\"sha256\":\"d612c19a86681db6e842bd458a11c029a479333d101f6b218eefcd98ad0ec2b3\",\"size\":16,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996824307305,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check.json\",\"sha256\":\"e6bad3a0ac656af3a5f08e1a19597143b034214ccc49297f48f38077e40d4f8c\",\"size\":368,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996734513977,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/dep-bin-owned-cargo-check\",\"sha256\":\"dd32b16937730a9a92a8070aa73e4dbbc632703f88e1395eb2196a4f6b11a95a\",\"size\":31,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996734513977,\"path\":\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/invoked.timestamp\",\"sha256\":\"5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3\",\"size\":48,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996523977288,\"path\":\"target/debug/build\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996810609139,\"path\":\"target/debug/deps\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996805511222,\"path\":\"target/debug/deps/owned_cargo_check-73e176436f3dd36b\",\"sha256\":\"49e4fcb81822a135fbb33dba6a71a1937be6935ca19c6028fe1f373850cce6eb\",\"size\":3879184,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996748145599,\"path\":\"target/debug/deps/owned_cargo_check-73e176436f3dd36b.d\",\"sha256\":\"3b8fd9ffc4728716531ee9cae152b9476db778e0a9165c62a0a29210c44790cf\",\"size\":177,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792907996523738583,\"path\":\"target/debug/examples\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996523396455,\"path\":\"target/debug/incremental\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792907996805511222,\"path\":\"target/debug/owned-cargo-check\",\"sha256\":\"49e4fcb81822a135fbb33dba6a71a1937be6935ca19c6028fe1f373850cce6eb\",\"size\":3879184,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792907996611627804,\"path\":\"target/debug/owned-cargo-check.d\",\"sha256\":\"8fbd3a382ca4231b9f37f3ddeca903c54702995fd4ec760842fdf4414d310971\",\"size\":72,\"type\":\"file\"}],\"hardlink_groups\":[[\".cargo-home/.global-cache\"],[\".cargo-home/.package-cache\"],[\".cargo-home/.package-cache-mutate\"],[\"Cargo.lock\"],[\"Cargo.toml\"],[\"src/main.rs\"],[\"target/.rustc_info.json\"],[\"target/CACHEDIR.TAG\"],[\"target/debug/.cargo-lock\"],[\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check\"],[\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/bin-owned-cargo-check.json\"],[\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/dep-bin-owned-cargo-check\"],[\"target/debug/.fingerprint/owned-cargo-check-73e176436f3dd36b/invoked.timestamp\"],[\"target/debug/deps/owned_cargo_check-73e176436f3dd36b\",\"target/debug/owned-cargo-check\"],[\"target/debug/deps/owned_cargo_check-73e176436f3dd36b.d\"],[\"target/debug/owned-cargo-check.d\"]],\"schema\":\"cargo-full-tree-v1\"}\n",
+  "checkpointTreeOracleSha256": "bb92dc8f49d00cf2e4c0e1bee93319aa5311723106b2fcfdb0deae38fe26ebd6",
+  "fullRestoredTreeVerified": true,
+  "originalMainViewUnchanged": true,
+  "sourceUnchanged": true,
+  "restoredRevision": "12baa808960ee074c591b24ac7f528607d727367f4987557fc85387e48d8385f79",
+  "allAcknowledgedIdsPresent": true,
+  "remainingMountsKnown": true,
+  "remainingContainersKnown": true
+}

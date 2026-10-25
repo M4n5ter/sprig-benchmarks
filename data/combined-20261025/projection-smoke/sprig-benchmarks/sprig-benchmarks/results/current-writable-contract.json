@@ -1,0 +1,108 @@
+{
+  "ok": true,
+  "checks": [
+    "ordinary tools, positional/append I/O, truncate zero-fill, fsyncdir, inode pins, mmap policy and busy checkpoint",
+    "journal reopen, stale merge, managed apply, conflict resolution and exec automount",
+    "writable restore/fork isolation, retained journal integrity and normal cleanup",
+    "shared mappings synchronize through journal; failed mapped writes require explicit recovery"
+  ],
+  "measured_capabilities": {
+    "writable_shared_mmap": {
+      "supported": true,
+      "msync": true,
+      "closed_fd_mapping_busy": true,
+      "truncate_sigbus": true,
+      "alias_and_process_coherence": true
+    },
+    "read_only_private_mmap": {
+      "supported": true
+    },
+    "read_only_shared_mmap": {
+      "supported": true
+    },
+    "elf_execution": {
+      "supported": true,
+      "returncode": 0,
+      "stderr": ""
+    },
+    "compile_in_workspace": {
+      "supported": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute_compiled_output": {
+      "supported": true,
+      "returncode": 0,
+      "stdout": "sprig-owned-build\n",
+      "stderr": ""
+    },
+    "cargo_incremental_0": {
+      "supported": true,
+      "stages": [
+        {
+          "stage": "clean",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": "   Compiling owned-cargo-check v0.1.0 (/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560501838166-4354-0/tree)\n     Running `/home/runner/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name owned_cargo_check --edition=2021 src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=9dac7b61f9975a18 -C extra-filename=-a25646da458cd9cd --out-dir /home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560501838166-4354-0/tree/target/debug/deps -L dependency=/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560501838166-4354-0/tree/target/debug/deps`\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.13s\n"
+        },
+        {
+          "stage": "noop",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": "       Fresh owned-cargo-check v0.1.0 (/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560501838166-4354-0/tree)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s\n"
+        },
+        {
+          "stage": "edit",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": "       Dirty owned-cargo-check v0.1.0 (/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560501838166-4354-0/tree): the file `src/main.rs` has changed (1792905560.694457018s, 133295471ns after last build at 1792905560.561161547s)\n   Compiling owned-cargo-check v0.1.0 (/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560501838166-4354-0/tree)\n     Running `/home/runner/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name owned_cargo_check --edition=2021 src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=9dac7b61f9975a18 -C extra-filename=-a25646da458cd9cd --out-dir /home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560501838166-4354-0/tree/target/debug/deps -L dependency=/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560501838166-4354-0/tree/target/debug/deps`\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.12s\n"
+        },
+        {
+          "stage": "restored",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": "       Fresh owned-cargo-check v0.1.0 (/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560919943673-4421-0/tree)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s\n"
+        }
+      ]
+    },
+    "cargo_incremental_1": {
+      "supported": true,
+      "stages": [
+        {
+          "stage": "clean",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": "   Compiling owned-cargo-check v0.1.0 (/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560970961261-4433-0/tree)\n     Running `/home/runner/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name owned_cargo_check --edition=2021 src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=094e56527f03a870 -C extra-filename=-814c8e0813b62c82 --out-dir /home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560970961261-4433-0/tree/target/debug/deps -C incremental=/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560970961261-4433-0/tree/target/debug/incremental -L dependency=/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560970961261-4433-0/tree/target/debug/deps`\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.16s\n"
+        },
+        {
+          "stage": "noop",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": "       Fresh owned-cargo-check v0.1.0 (/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560970961261-4433-0/tree)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s\n"
+        },
+        {
+          "stage": "edit",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": "       Dirty owned-cargo-check v0.1.0 (/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560970961261-4433-0/tree): the file `src/main.rs` has changed (1792905561.194600917s, 165293679ns after last build at 1792905561.029307238s)\n   Compiling owned-cargo-check v0.1.0 (/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560970961261-4433-0/tree)\n     Running `/home/runner/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin/rustc --crate-name owned_cargo_check --edition=2021 src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=094e56527f03a870 -C extra-filename=-814c8e0813b62c82 --out-dir /home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560970961261-4433-0/tree/target/debug/deps -C incremental=/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560970961261-4433-0/tree/target/debug/incremental -L dependency=/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905560970961261-4433-0/tree/target/debug/deps`\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.14s\n"
+        },
+        {
+          "stage": "restored",
+          "returncode": 0,
+          "stdout": "",
+          "stderr": "       Fresh owned-cargo-check v0.1.0 (/home/runner/work/_temp/current-writable-gate/sprig-writable-workflow-2rtdclp4/store/native/1792905561425347884-4512-0/tree)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s\n"
+        }
+      ]
+    },
+    "mmap_failure_guard": {
+      "quota_error_observed": true,
+      "publication_blocked_after_unmount": true,
+      "journal_bytes_retained": 267451280
+    }
+  },
+  "server_logs": {},
+  "error": null,
+  "remaining_mounts": [],
+  "retained_root": null
+}

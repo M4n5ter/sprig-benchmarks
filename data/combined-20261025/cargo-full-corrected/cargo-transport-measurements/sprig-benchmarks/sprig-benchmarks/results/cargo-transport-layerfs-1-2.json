@@ -1,0 +1,1576 @@
+{
+  "ok": true,
+  "prototype_only": false,
+  "production_sha": "9f97a7ec95b662e9cb288704afa165feff132cfa",
+  "product": "layerfs",
+  "backend": "fuse",
+  "workload": "cargo-clean-noop-edit-checkpoint-restore-rebuild-v1",
+  "complete_sprig_semantics": false,
+  "workload_only_verification": true,
+  "phase_seconds": {
+    "preflight": 0.08483225499998662,
+    "init": 0.040619934999995166,
+    "import": 0.21458952999999747,
+    "fork": 0.004905936000024667,
+    "fixture_verify": 0.05212465099999099,
+    "cargo_setup": 0.01855134200002067,
+    "clean_build": 0.16826145599997835,
+    "clean_execute": 0.017744158999994396,
+    "noop_build": 0.03159885100001702,
+    "noop_execute": 0.016322309999988648,
+    "edit": 0.016894296000013128,
+    "edit_build": 0.13645471700001507,
+    "edit_execute": 0.018359564999991564,
+    "pre_checkpoint_oracle": 0.06312826600001427,
+    "checkpoint_cli": 0.07166674799998873,
+    "checkpoint_readiness": 0.0020006370000191964,
+    "checkpoint": 0.07366738500000793,
+    "restore": 0.00445334500001627,
+    "restore_verify": 0.09560379900000407,
+    "restored_execute": 0.017356698999996298,
+    "restored_rebuild": 0.032396016999991846,
+    "restored_rebuild_execute": 0.018770077000022867,
+    "retained_input_verify": 0.3803738730000041,
+    "space": 0.2303431180000189,
+    "cleanup": 0.17790464399999473
+  },
+  "commands": [
+    {
+      "purpose": "filesystem_type",
+      "argv": [
+        "stat",
+        "-f",
+        "-c",
+        "%T",
+        "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "btrfs\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0001-filesystem_type.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0001-filesystem_type.stderr",
+      "secondsIncludingCleanup": 0.0035696889999962877
+    },
+    {
+      "purpose": "image_inspect",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "image",
+        "inspect",
+        "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "[\n    {\n        \"Id\": \"sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b\",\n        \"RepoTags\": [\n            \"sprig-cargo-fixture:40167612813\"\n        ],\n        \"RepoDigests\": [],\n        \"Comment\": \"buildkit.dockerfile.v0\",\n        \"Created\": \"2026-10-25T06:05:08.097101827Z\",\n        \"Config\": {\n            \"Env\": [\n                \"PATH=/opt/rust/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin\"\n            ],\n            \"Cmd\": [\n                \"/bin/bash\"\n            ],\n            \"Labels\": {\n                \"org.opencontainers.image.version\": \"24.04\"\n            }\n        },\n        \"Architecture\": \"amd64\",\n        \"Os\": \"linux\",\n        \"Size\": 1005165334,\n        \"GraphDriver\": {\n            \"Data\": {\n                \"LowerDir\": \"/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/fe68e16964f2816a5be9fe5a8e0b00ae056c8478c7bf5a0c5d077461c808c5aa/diff:/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/cbe4920a5bad172f4e19f32126b885917bae5f94506bc80d49e924184d0d27c6/diff:/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/5eadef3646296ff4cf64509ed16835862ffaef8b41da372eb97858f29f7bf825/diff:/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/cf311d2943fe79d21054dfdaf5acee33e3aba4c63a65c7bd675f3cfecaf1b16c/diff\",\n                \"MergedDir\": \"/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/f8a189eeed659be33b99d41c8d916e758eaa1bff333b0a2af25aeb370b063828/merged\",\n                \"UpperDir\": \"/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/f8a189eeed659be33b99d41c8d916e758eaa1bff333b0a2af25aeb370b063828/diff\",\n                \"WorkDir\": \"/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/f8a189eeed659be33b99d41c8d916e758eaa1bff333b0a2af25aeb370b063828/work\"\n            },\n            \"Name\": \"overlay2\"\n        },\n        \"RootFS\": {\n            \"Type\": \"layers\",\n            \"Layers\": [\n                \"sha256:32ab39660fd51c6dc3aae486b42d42bbe8fe4c1db78eaf57bb9c21198de48a16\",\n                \"sha256:84f71376d90f20e531f2a1574d670e36b8ed061c116e4fa9abaaf3d3b83506a1\",\n                \"sha256:8c5daebabc25ddc264c6e3d757721d210ec1e0fc9415446c328079e6a6b1c636\",\n                \"sha256:d867cc0394a8b08178992eee84c6526bb948cb994cf578ffca3fc48c80c32db8\",\n                \"sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef\"\n            ]\n        },\n        \"Metadata\": {\n            \"LastTagTime\": \"0001-01-01T00:00:00Z\"\n        }\n    }\n]\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0002-image_inspect.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0002-image_inspect.stderr",
+      "secondsIncludingCleanup": 0.01891316100000404
+    },
+    {
+      "purpose": "docker_info",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "info",
+        "--format",
+        "{{json .}}"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "{\"ID\":\"8b1286f5-1d21-4729-abf3-7596d118047a\",\"Containers\":0,\"ContainersRunning\":0,\"ContainersPaused\":0,\"ContainersStopped\":0,\"Images\":1,\"Driver\":\"overlay2\",\"DriverStatus\":[[\"Backing Filesystem\",\"btrfs\"],[\"Supports d_type\",\"true\"],[\"Using metacopy\",\"false\"],[\"Native Overlay Diff\",\"false\"],[\"userxattr\",\"false\"]],\"Plugins\":{\"Volume\":[\"local\"],\"Network\":[\"bridge\",\"host\",\"ipvlan\",\"macvlan\",\"null\",\"overlay\"],\"Authorization\":null,\"Log\":[\"awslogs\",\"fluentd\",\"gcplogs\",\"gelf\",\"journald\",\"json-file\",\"local\",\"splunk\",\"syslog\"]},\"MemoryLimit\":true,\"SwapLimit\":true,\"CpuCfsPeriod\":true,\"CpuCfsQuota\":true,\"CPUShares\":true,\"CPUSet\":true,\"PidsLimit\":true,\"IPv4Forwarding\":true,\"Debug\":false,\"NFd\":24,\"OomKillDisable\":false,\"NGoroutines\":45,\"SystemTime\":\"2026-10-25T06:09:07.328211038Z\",\"LoggingDriver\":\"json-file\",\"CgroupDriver\":\"systemd\",\"CgroupVersion\":\"2\",\"NEventsListener\":0,\"KernelVersion\":\"6.17.0-1022-azure\",\"OperatingSystem\":\"Ubuntu 24.04.5 LTS\",\"OSVersion\":\"24.04\",\"OSType\":\"linux\",\"Architecture\":\"x86_64\",\"IndexServerAddress\":\"https://index.docker.io/v1/\",\"RegistryConfig\":{\"InsecureRegistryCIDRs\":[\"127.0.0.0/8\",\"::1/128\"],\"IndexConfigs\":{\"docker.io\":{\"Name\":\"docker.io\",\"Mirrors\":[],\"Secure\":true,\"Official\":true}},\"Mirrors\":[]},\"NCPU\":4,\"MemTotal\":16766414848,\"GenericResources\":null,\"DockerRootDir\":\"/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data\",\"HttpProxy\":\"\",\"HttpsProxy\":\"\",\"NoProxy\":\"\",\"Name\":\"runnervmtai0g\",\"Labels\":[],\"ExperimentalBuild\":false,\"ServerVersion\":\"29.8.2\",\"Runtimes\":{\"io.containerd.runc.v2\":{\"path\":\"runc\",\"status\":{\"org.opencontainers.runtime-spec.features\":\"{\\\"ociVersionMin\\\":\\\"1.0.0\\\",\\\"ociVersionMax\\\":\\\"1.3.0\\\",\\\"hooks\\\":[\\\"prestart\\\",\\\"createRuntime\\\",\\\"createContainer\\\",\\\"startContainer\\\",\\\"poststart\\\",\\\"poststop\\\"],\\\"mountOptions\\\":[\\\"async\\\",\\\"atime\\\",\\\"bind\\\",\\\"defaults\\\",\\\"dev\\\",\\\"diratime\\\",\\\"dirsync\\\",\\\"exec\\\",\\\"iversion\\\",\\\"lazytime\\\",\\\"loud\\\",\\\"mand\\\",\\\"noatime\\\",\\\"nodev\\\",\\\"nodiratime\\\",\\\"noexec\\\",\\\"noiversion\\\",\\\"nolazytime\\\",\\\"nomand\\\",\\\"norelatime\\\",\\\"nostrictatime\\\",\\\"nosuid\\\",\\\"nosymfollow\\\",\\\"private\\\",\\\"ratime\\\",\\\"rbind\\\",\\\"rdev\\\",\\\"rdiratime\\\",\\\"relatime\\\",\\\"remount\\\",\\\"rexec\\\",\\\"rnoatime\\\",\\\"rnodev\\\",\\\"rnodiratime\\\",\\\"rnoexec\\\",\\\"rnorelatime\\\",\\\"rnostrictatime\\\",\\\"rnosuid\\\",\\\"rnosymfollow\\\",\\\"ro\\\",\\\"rprivate\\\",\\\"rrelatime\\\",\\\"rro\\\",\\\"rrw\\\",\\\"rshared\\\",\\\"rslave\\\",\\\"rstrictatime\\\",\\\"rsuid\\\",\\\"rsymfollow\\\",\\\"runbindable\\\",\\\"rw\\\",\\\"shared\\\",\\\"silent\\\",\\\"slave\\\",\\\"strictatime\\\",\\\"suid\\\",\\\"symfollow\\\",\\\"sync\\\",\\\"tmpcopyup\\\",\\\"unbindable\\\"],\\\"linux\\\":{\\\"namespaces\\\":[\\\"cgroup\\\",\\\"ipc\\\",\\\"mount\\\",\\\"network\\\",\\\"pid\\\",\\\"time\\\",\\\"user\\\",\\\"uts\\\"],\\\"capabilities\\\":[\\\"CAP_CHOWN\\\",\\\"CAP_DAC_OVERRIDE\\\",\\\"CAP_DAC_READ_SEARCH\\\",\\\"CAP_FOWNER\\\",\\\"CAP_FSETID\\\",\\\"CAP_KILL\\\",\\\"CAP_SETGID\\\",\\\"CAP_SETUID\\\",\\\"CAP_SETPCAP\\\",\\\"CAP_LINUX_IMMUTABLE\\\",\\\"CAP_NET_BIND_SERVICE\\\",\\\"CAP_NET_BROADCAST\\\",\\\"CAP_NET_ADMIN\\\",\\\"CAP_NET_RAW\\\",\\\"CAP_IPC_LOCK\\\",\\\"CAP_IPC_OWNER\\\",\\\"CAP_SYS_MODULE\\\",\\\"CAP_SYS_RAWIO\\\",\\\"CAP_SYS_CHROOT\\\",\\\"CAP_SYS_PTRACE\\\",\\\"CAP_SYS_PACCT\\\",\\\"CAP_SYS_ADMIN\\\",\\\"CAP_SYS_BOOT\\\",\\\"CAP_SYS_NICE\\\",\\\"CAP_SYS_RESOURCE\\\",\\\"CAP_SYS_TIME\\\",\\\"CAP_SYS_TTY_CONFIG\\\",\\\"CAP_MKNOD\\\",\\\"CAP_LEASE\\\",\\\"CAP_AUDIT_WRITE\\\",\\\"CAP_AUDIT_CONTROL\\\",\\\"CAP_SETFCAP\\\",\\\"CAP_MAC_OVERRIDE\\\",\\\"CAP_MAC_ADMIN\\\",\\\"CAP_SYSLOG\\\",\\\"CAP_WAKE_ALARM\\\",\\\"CAP_BLOCK_SUSPEND\\\",\\\"CAP_AUDIT_READ\\\",\\\"CAP_PERFMON\\\",\\\"CAP_BPF\\\",\\\"CAP_CHECKPOINT_RESTORE\\\"],\\\"cgroup\\\":{\\\"v1\\\":true,\\\"v2\\\":true,\\\"systemd\\\":true,\\\"systemdUser\\\":true,\\\"rdma\\\":true},\\\"seccomp\\\":{\\\"enabled\\\":true,\\\"actions\\\":[\\\"SCMP_ACT_ALLOW\\\",\\\"SCMP_ACT_ERRNO\\\",\\\"SCMP_ACT_KILL\\\",\\\"SCMP_ACT_KILL_PROCESS\\\",\\\"SCMP_ACT_KILL_THREAD\\\",\\\"SCMP_ACT_LOG\\\",\\\"SCMP_ACT_NOTIFY\\\",\\\"SCMP_ACT_TRACE\\\",\\\"SCMP_ACT_TRAP\\\"],\\\"operators\\\":[\\\"SCMP_CMP_EQ\\\",\\\"SCMP_CMP_GE\\\",\\\"SCMP_CMP_GT\\\",\\\"SCMP_CMP_LE\\\",\\\"SCMP_CMP_LT\\\",\\\"SCMP_CMP_MASKED_EQ\\\",\\\"SCMP_CMP_NE\\\"],\\\"archs\\\":[\\\"SCMP_ARCH_AARCH64\\\",\\\"SCMP_ARCH_ARM\\\",\\\"SCMP_ARCH_LOONGARCH64\\\",\\\"SCMP_ARCH_MIPS\\\",\\\"SCMP_ARCH_MIPS64\\\",\\\"SCMP_ARCH_MIPS64N32\\\",\\\"SCMP_ARCH_MIPSEL\\\",\\\"SCMP_ARCH_MIPSEL64\\\",\\\"SCMP_ARCH_MIPSEL64N32\\\",\\\"SCMP_ARCH_PPC\\\",\\\"SCMP_ARCH_PPC64\\\",\\\"SCMP_ARCH_PPC64LE\\\",\\\"SCMP_ARCH_RISCV64\\\",\\\"SCMP_ARCH_S390\\\",\\\"SCMP_ARCH_S390X\\\",\\\"SCMP_ARCH_X32\\\",\\\"SCMP_ARCH_X86\\\",\\\"SCMP_ARCH_X86_64\\\"],\\\"knownFlags\\\":[\\\"SECCOMP_FILTER_FLAG_TSYNC\\\",\\\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\\\",\\\"SECCOMP_FILTER_FLAG_LOG\\\",\\\"SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV\\\"],\\\"supportedFlags\\\":[\\\"SECCOMP_FILTER_FLAG_TSYNC\\\",\\\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\\\",\\\"SECCOMP_FILTER_FLAG_LOG\\\"]},\\\"apparmor\\\":{\\\"enabled\\\":true},\\\"selinux\\\":{\\\"enabled\\\":true},\\\"intelRdt\\\":{\\\"enabled\\\":true,\\\"schemata\\\":true,\\\"monitoring\\\":true},\\\"memoryPolicy\\\":{\\\"modes\\\":[\\\"MPOL_BIND\\\",\\\"MPOL_DEFAULT\\\",\\\"MPOL_INTERLEAVE\\\",\\\"MPOL_LOCAL\\\",\\\"MPOL_PREFERRED\\\",\\\"MPOL_PREFERRED_MANY\\\",\\\"MPOL_WEIGHTED_INTERLEAVE\\\"],\\\"flags\\\":[\\\"MPOL_F_NUMA_BALANCING\\\",\\\"MPOL_F_RELATIVE_NODES\\\",\\\"MPOL_F_STATIC_NODES\\\"]},\\\"mountExtensions\\\":{\\\"idmap\\\":{\\\"enabled\\\":true}},\\\"netDevices\\\":{\\\"enabled\\\":true}},\\\"annotations\\\":{\\\"io.github.seccomp.libseccomp.version\\\":\\\"2.5.5\\\",\\\"org.opencontainers.runc.checkpoint.enabled\\\":\\\"true\\\",\\\"org.opencontainers.runc.commit\\\":\\\"v1.5.2-0-g29dd3dc2\\\",\\\"org.opencontainers.runc.version\\\":\\\"1.5.2\\\"},\\\"potentiallyUnsafeConfigAnnotations\\\":[\\\"bundle\\\",\\\"org.systemd.property.\\\",\\\"org.criu.config\\\"]}\"}},\"runc\":{\"path\":\"runc\",\"status\":{\"org.opencontainers.runtime-spec.features\":\"{\\\"ociVersionMin\\\":\\\"1.0.0\\\",\\\"ociVersionMax\\\":\\\"1.3.0\\\",\\\"hooks\\\":[\\\"prestart\\\",\\\"createRuntime\\\",\\\"createContainer\\\",\\\"startContainer\\\",\\\"poststart\\\",\\\"poststop\\\"],\\\"mountOptions\\\":[\\\"async\\\",\\\"atime\\\",\\\"bind\\\",\\\"defaults\\\",\\\"dev\\\",\\\"diratime\\\",\\\"dirsync\\\",\\\"exec\\\",\\\"iversion\\\",\\\"lazytime\\\",\\\"loud\\\",\\\"mand\\\",\\\"noatime\\\",\\\"nodev\\\",\\\"nodiratime\\\",\\\"noexec\\\",\\\"noiversion\\\",\\\"nolazytime\\\",\\\"nomand\\\",\\\"norelatime\\\",\\\"nostrictatime\\\",\\\"nosuid\\\",\\\"nosymfollow\\\",\\\"private\\\",\\\"ratime\\\",\\\"rbind\\\",\\\"rdev\\\",\\\"rdiratime\\\",\\\"relatime\\\",\\\"remount\\\",\\\"rexec\\\",\\\"rnoatime\\\",\\\"rnodev\\\",\\\"rnodiratime\\\",\\\"rnoexec\\\",\\\"rnorelatime\\\",\\\"rnostrictatime\\\",\\\"rnosuid\\\",\\\"rnosymfollow\\\",\\\"ro\\\",\\\"rprivate\\\",\\\"rrelatime\\\",\\\"rro\\\",\\\"rrw\\\",\\\"rshared\\\",\\\"rslave\\\",\\\"rstrictatime\\\",\\\"rsuid\\\",\\\"rsymfollow\\\",\\\"runbindable\\\",\\\"rw\\\",\\\"shared\\\",\\\"silent\\\",\\\"slave\\\",\\\"strictatime\\\",\\\"suid\\\",\\\"symfollow\\\",\\\"sync\\\",\\\"tmpcopyup\\\",\\\"unbindable\\\"],\\\"linux\\\":{\\\"namespaces\\\":[\\\"cgroup\\\",\\\"ipc\\\",\\\"mount\\\",\\\"network\\\",\\\"pid\\\",\\\"time\\\",\\\"user\\\",\\\"uts\\\"],\\\"capabilities\\\":[\\\"CAP_CHOWN\\\",\\\"CAP_DAC_OVERRIDE\\\",\\\"CAP_DAC_READ_SEARCH\\\",\\\"CAP_FOWNER\\\",\\\"CAP_FSETID\\\",\\\"CAP_KILL\\\",\\\"CAP_SETGID\\\",\\\"CAP_SETUID\\\",\\\"CAP_SETPCAP\\\",\\\"CAP_LINUX_IMMUTABLE\\\",\\\"CAP_NET_BIND_SERVICE\\\",\\\"CAP_NET_BROADCAST\\\",\\\"CAP_NET_ADMIN\\\",\\\"CAP_NET_RAW\\\",\\\"CAP_IPC_LOCK\\\",\\\"CAP_IPC_OWNER\\\",\\\"CAP_SYS_MODULE\\\",\\\"CAP_SYS_RAWIO\\\",\\\"CAP_SYS_CHROOT\\\",\\\"CAP_SYS_PTRACE\\\",\\\"CAP_SYS_PACCT\\\",\\\"CAP_SYS_ADMIN\\\",\\\"CAP_SYS_BOOT\\\",\\\"CAP_SYS_NICE\\\",\\\"CAP_SYS_RESOURCE\\\",\\\"CAP_SYS_TIME\\\",\\\"CAP_SYS_TTY_CONFIG\\\",\\\"CAP_MKNOD\\\",\\\"CAP_LEASE\\\",\\\"CAP_AUDIT_WRITE\\\",\\\"CAP_AUDIT_CONTROL\\\",\\\"CAP_SETFCAP\\\",\\\"CAP_MAC_OVERRIDE\\\",\\\"CAP_MAC_ADMIN\\\",\\\"CAP_SYSLOG\\\",\\\"CAP_WAKE_ALARM\\\",\\\"CAP_BLOCK_SUSPEND\\\",\\\"CAP_AUDIT_READ\\\",\\\"CAP_PERFMON\\\",\\\"CAP_BPF\\\",\\\"CAP_CHECKPOINT_RESTORE\\\"],\\\"cgroup\\\":{\\\"v1\\\":true,\\\"v2\\\":true,\\\"systemd\\\":true,\\\"systemdUser\\\":true,\\\"rdma\\\":true},\\\"seccomp\\\":{\\\"enabled\\\":true,\\\"actions\\\":[\\\"SCMP_ACT_ALLOW\\\",\\\"SCMP_ACT_ERRNO\\\",\\\"SCMP_ACT_KILL\\\",\\\"SCMP_ACT_KILL_PROCESS\\\",\\\"SCMP_ACT_KILL_THREAD\\\",\\\"SCMP_ACT_LOG\\\",\\\"SCMP_ACT_NOTIFY\\\",\\\"SCMP_ACT_TRACE\\\",\\\"SCMP_ACT_TRAP\\\"],\\\"operators\\\":[\\\"SCMP_CMP_EQ\\\",\\\"SCMP_CMP_GE\\\",\\\"SCMP_CMP_GT\\\",\\\"SCMP_CMP_LE\\\",\\\"SCMP_CMP_LT\\\",\\\"SCMP_CMP_MASKED_EQ\\\",\\\"SCMP_CMP_NE\\\"],\\\"archs\\\":[\\\"SCMP_ARCH_AARCH64\\\",\\\"SCMP_ARCH_ARM\\\",\\\"SCMP_ARCH_LOONGARCH64\\\",\\\"SCMP_ARCH_MIPS\\\",\\\"SCMP_ARCH_MIPS64\\\",\\\"SCMP_ARCH_MIPS64N32\\\",\\\"SCMP_ARCH_MIPSEL\\\",\\\"SCMP_ARCH_MIPSEL64\\\",\\\"SCMP_ARCH_MIPSEL64N32\\\",\\\"SCMP_ARCH_PPC\\\",\\\"SCMP_ARCH_PPC64\\\",\\\"SCMP_ARCH_PPC64LE\\\",\\\"SCMP_ARCH_RISCV64\\\",\\\"SCMP_ARCH_S390\\\",\\\"SCMP_ARCH_S390X\\\",\\\"SCMP_ARCH_X32\\\",\\\"SCMP_ARCH_X86\\\",\\\"SCMP_ARCH_X86_64\\\"],\\\"knownFlags\\\":[\\\"SECCOMP_FILTER_FLAG_TSYNC\\\",\\\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\\\",\\\"SECCOMP_FILTER_FLAG_LOG\\\",\\\"SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV\\\"],\\\"supportedFlags\\\":[\\\"SECCOMP_FILTER_FLAG_TSYNC\\\",\\\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\\\",\\\"SECCOMP_FILTER_FLAG_LOG\\\"]},\\\"apparmor\\\":{\\\"enabled\\\":true},\\\"selinux\\\":{\\\"enabled\\\":true},\\\"intelRdt\\\":{\\\"enabled\\\":true,\\\"schemata\\\":true,\\\"monitoring\\\":true},\\\"memoryPolicy\\\":{\\\"modes\\\":[\\\"MPOL_BIND\\\",\\\"MPOL_DEFAULT\\\",\\\"MPOL_INTERLEAVE\\\",\\\"MPOL_LOCAL\\\",\\\"MPOL_PREFERRED\\\",\\\"MPOL_PREFERRED_MANY\\\",\\\"MPOL_WEIGHTED_INTERLEAVE\\\"],\\\"flags\\\":[\\\"MPOL_F_NUMA_BALANCING\\\",\\\"MPOL_F_RELATIVE_NODES\\\",\\\"MPOL_F_STATIC_NODES\\\"]},\\\"mountExtensions\\\":{\\\"idmap\\\":{\\\"enabled\\\":true}},\\\"netDevices\\\":{\\\"enabled\\\":true}},\\\"annotations\\\":{\\\"io.github.seccomp.libseccomp.version\\\":\\\"2.5.5\\\",\\\"org.opencontainers.runc.checkpoint.enabled\\\":\\\"true\\\",\\\"org.opencontainers.runc.commit\\\":\\\"v1.5.2-0-g29dd3dc2\\\",\\\"org.opencontainers.runc.version\\\":\\\"1.5.2\\\"},\\\"potentiallyUnsafeConfigAnnotations\\\":[\\\"bundle\\\",\\\"org.systemd.property.\\\",\\\"org.criu.config\\\"]}\"}}},\"DefaultRuntime\":\"runc\",\"Swarm\":{\"NodeID\":\"\",\"NodeAddr\":\"\",\"LocalNodeState\":\"inactive\",\"ControlAvailable\":false,\"Error\":\"\",\"RemoteManagers\":null},\"LiveRestoreEnabled\":false,\"Isolation\":\"\",\"InitBinary\":\"docker-init\",\"ContainerdCommit\":{\"ID\":\"b7a25261e029d68978bbf290df0a62fc819b3c51\"},\"RuncCommit\":{\"ID\":\"v1.5.2-0-g29dd3dc2\"},\"InitCommit\":{\"ID\":\"de40ad0\"},\"SecurityOptions\":[\"name=apparmor,profile=default\",\"name=seccomp,profile=builtin\",\"name=cgroupns\"],\"FirewallBackend\":{\"Driver\":\"iptables\",\"Info\":[[\"EnableUserlandProxy\",\"true\"],[\"UserlandProxyPath\",\"/usr/bin/docker-proxy\"]]},\"CDISpecDirs\":[\"/etc/cdi\",\"/var/run/cdi\"],\"Containerd\":{\"Address\":\"/run/containerd/containerd.sock\",\"Namespaces\":{\"Containers\":\"moby\",\"Plugins\":\"plugins.moby\"}},\"Warnings\":null,\"ClientInfo\":{\"Debug\":false,\"Platform\":{\"Name\":\"Docker Engine - Community\"},\"Version\":\"29.8.2\",\"DefaultAPIVersion\":\"1.56\",\"GitCommit\":\"7fc2dff\",\"GoVersion\":\"go1.26.8\",\"Os\":\"linux\",\"Arch\":\"amd64\",\"BuildTime\":\"Wed Sep 30 19:32:28 2026\",\"Context\":\"default\",\"Plugins\":[{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v0.38.0\",\"ShortDescription\":\"Docker Buildx\",\"Name\":\"buildx\",\"Path\":\"/usr/libexec/docker/cli-plugins/docker-buildx\"},{\"SchemaVersion\":\"0.1.0\",\"Vendor\":\"Docker Inc.\",\"Version\":\"v2.38.2\",\"ShortDescription\":\"Docker Compose\",\"Name\":\"compose\",\"Path\":\"/usr/libexec/docker/cli-plugins/docker-compose\"}],\"Warnings\":null}}\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0003-docker_info.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0003-docker_info.stderr",
+      "secondsIncludingCleanup": 0.055928736999980175
+    },
+    {
+      "purpose": "containing_filesystem",
+      "argv": [
+        "findmnt",
+        "-J",
+        "-T",
+        "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount\",\n         \"source\": \"/dev/loop0\",\n         \"fstype\": \"btrfs\",\n         \"options\": \"rw,noatime,discard=async,space_cache=v2,subvolid=5,subvol=/\"\n      }\n   ]\n}\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0004-containing_filesystem.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0004-containing_filesystem.stderr",
+      "secondsIncludingCleanup": 0.00512407400002121
+    },
+    {
+      "purpose": "volume_create",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "volume",
+        "create",
+        "cargo-a798375c08814450b1cccdd15c224b53"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "cargo-a798375c08814450b1cccdd15c224b53\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0005-volume_create.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0005-volume_create.stderr",
+      "secondsIncludingCleanup": 0.020905765999981667
+    },
+    {
+      "purpose": "volume_path",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "volume",
+        "inspect",
+        "--format",
+        "{{.Mountpoint}}",
+        "cargo-a798375c08814450b1cccdd15c224b53"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/volumes/cargo-a798375c08814450b1cccdd15c224b53/_data\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0006-volume_path.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0006-volume_path.stderr",
+      "secondsIncludingCleanup": 0.01958786300002248
+    },
+    {
+      "purpose": "fixture_verify",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; export TMPDIR=/tmp; python3 -B /opt/bench/tree_oracle.py verify '/workspaces/2' <<'LAYERFS_ORACLE_bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36'\n{\"entries\":[{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\".\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.lock\",\"sha256\":\"48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be\",\"size\":161,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.toml\",\"sha256\":\"d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f\",\"size\":72,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\"src\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"src/main.rs\",\"sha256\":\"ca666a48385e535040e226e0d3b42ad5372fbb173f09731bff1051c4d0f012d3\",\"size\":34,\"type\":\"file\"}],\"hardlink_groups\":[[\"Cargo.lock\"],[\"Cargo.toml\"],[\"src/main.rs\"]],\"schema\":\"cargo-full-tree-v1\"}\nLAYERFS_ORACLE_bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 754,
+      "stdinSha256": "bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36",
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "{\"differences\":[],\"entries\":5,\"ok\":true}\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0007-fixture_verify.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0007-fixture_verify.stderr",
+      "secondsIncludingCleanup": 0.052005038000002966
+    },
+    {
+      "purpose": "cargo_setup",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; test ! -e target; test ! -e .cargo-home; test ! -e .tmp; mkdir \"$CARGO_HOME\" \"$TMPDIR\"",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0008-cargo_setup.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0008-cargo_setup.stderr",
+      "secondsIncludingCleanup": 0.018537997000006724
+    },
+    {
+      "purpose": "clean_build",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; cargo build --offline --locked --verbose --jobs 1",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "   Compiling owned-cargo-check v0.1.0 (/workspaces/2)\n     Running `rustc --crate-name owned_cargo_check --edition=2021 src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=5f43be8ae72d8e20 -C extra-filename=-67e19a1fae1f0b6b --out-dir /workspaces/2/target/debug/deps -C incremental=/workspaces/2/target/debug/incremental -L dependency=/workspaces/2/target/debug/deps`\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.14s\n",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0009-clean_build.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0009-clean_build.stderr",
+      "secondsIncludingCleanup": 0.16820282599999337
+    },
+    {
+      "purpose": "clean_execute",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; ./target/debug/owned-cargo-check",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "before\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0010-clean_execute.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0010-clean_execute.stderr",
+      "secondsIncludingCleanup": 0.0177291419999965
+    },
+    {
+      "purpose": "noop_build",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; cargo build --offline --locked --verbose --jobs 1",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "       Fresh owned-cargo-check v0.1.0 (/workspaces/2)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s\n",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0011-noop_build.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0011-noop_build.stderr",
+      "secondsIncludingCleanup": 0.03155856600002153
+    },
+    {
+      "purpose": "noop_execute",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; ./target/debug/owned-cargo-check",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "before\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0012-noop_execute.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0012-noop_execute.stderr",
+      "secondsIncludingCleanup": 0.016305798999994296
+    },
+    {
+      "purpose": "edit",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; printf 'fn main() { println!(\"after\"); }\\n' > src/main.rs",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0013-edit.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0013-edit.stderr",
+      "secondsIncludingCleanup": 0.016880941000010353
+    },
+    {
+      "purpose": "edit_build",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; cargo build --offline --locked --verbose --jobs 1",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "       Dirty owned-cargo-check v0.1.0 (/workspaces/2): the file `src/main.rs` has changed (1792908547.922948560s, 184542423ns after last build at 1792908547.738406137s)\n   Compiling owned-cargo-check v0.1.0 (/workspaces/2)\n     Running `rustc --crate-name owned_cargo_check --edition=2021 src/main.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=5f43be8ae72d8e20 -C extra-filename=-67e19a1fae1f0b6b --out-dir /workspaces/2/target/debug/deps -C incremental=/workspaces/2/target/debug/incremental -L dependency=/workspaces/2/target/debug/deps`\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.11s\n",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0014-edit_build.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0014-edit_build.stderr",
+      "secondsIncludingCleanup": 0.1364235500000068
+    },
+    {
+      "purpose": "edit_execute",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; ./target/debug/owned-cargo-check",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "after\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0015-edit_execute.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0015-edit_execute.stderr",
+      "secondsIncludingCleanup": 0.01834198099997593
+    },
+    {
+      "purpose": "pre_checkpoint_oracle",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/2/.cargo-home' CARGO_TARGET_DIR='/workspaces/2/target' TMPDIR='/workspaces/2/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; export TMPDIR=/tmp; python3 -B /opt/bench/tree_oracle.py snapshot '/workspaces/2'",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/2",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "{\"entries\":[{\"mode\":493,\"mtime_ns\":1792908547735844681,\"path\":\".\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547735014736,\"path\":\".cargo-home\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547724822132,\"path\":\".cargo-home/.global-cache\",\"sha256\":\"dd5c36b6129b82f46444c8b4f0a05679b3ffc72c2efaf4c5e3bcea018c655d49\",\"size\":57344,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547720970789,\"path\":\".cargo-home/.package-cache\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547735014736,\"path\":\".cargo-home/.package-cache-mutate\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908548040478505,\"path\":\".tmp\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.lock\",\"sha256\":\"48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be\",\"size\":161,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.toml\",\"sha256\":\"d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f\",\"size\":72,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\"src\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547922948560,\"path\":\"src/main.rs\",\"sha256\":\"49666da78df37cdf12a16c4086f22f648e613e273f597bd7a9802b4d941e5764\",\"size\":33,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908547838466068,\"path\":\"target\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547838584443,\"path\":\"target/.rustc_info.json\",\"sha256\":\"b6f1b74f940dd4bef532f5654ec5f7f562e42eeb31708b47b99a3c0c9d727ca0\",\"size\":987,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547735639920,\"path\":\"target/CACHEDIR.TAG\",\"sha256\":\"6d9d1d216e0f83abc5e5662ca62c92b4f23009466b54fa27321a69acdb778bb2\",\"size\":177,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908548056422792,\"path\":\"target/debug\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547736298877,\"path\":\"target/debug/.cargo-lock\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908547737561725,\"path\":\"target/debug/.fingerprint\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547837349759,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908548056656597,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check\",\"sha256\":\"ebfeaeb098570f5fb361287549341d1cdc97aac1ac4f377e984beac98738871d\",\"size\":16,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908548057041794,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check.json\",\"sha256\":\"bd86460661462ca8a1f7d9622d9e0839b0f384ad7f7e94aaffc1157521245d8b\",\"size\":367,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547953526377,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/dep-bin-owned-cargo-check\",\"sha256\":\"dd32b16937730a9a92a8070aa73e4dbbc632703f88e1395eb2196a4f6b11a95a\",\"size\":31,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547953526377,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/invoked.timestamp\",\"sha256\":\"5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3\",\"size\":48,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908547737322610,\"path\":\"target/debug/build\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908548041553200,\"path\":\"target/debug/deps\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908548035790334,\"path\":\"target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b\",\"sha256\":\"5cd9e445fa847ccab732034394b166078ce6ec2731d6f7b519bdde46ffeda0ba\",\"size\":3880880,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547971207107,\"path\":\"target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b.d\",\"sha256\":\"efbdb2cbf16652d94cfc6827f4ad83870ca46f655dc4b195840a3ba3711b012a\",\"size\":177,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908547737054080,\"path\":\"target/debug/examples\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547749271158,\"path\":\"target/debug/incremental\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547989840602,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547986975726,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547774770547,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/0m9rpqj0cx1rjkyghn2ebikem.o\",\"sha256\":\"90cf1c7135d35d3690e22db9c4d457d4232ba48b79cc96a88486b1dd8d99ff38\",\"size\":6120,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547983330508,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/86qt5lsyisv8jfzeskkyd6n1w.o\",\"sha256\":\"74aeadaa852a93f533f1d5db674ca7e08d236e675df0280291d2a63b709c7717\",\"size\":3776,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547770993463,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/8wdsm05irolatvnjhj93jqa8m.o\",\"sha256\":\"9c1d27a738a73f9604676c42f492b983950ed5cdda3d564d34a5b6f98fbb8dce\",\"size\":3824,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547769401518,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/a42r6w91gk05a6sz9gz87pjz3.o\",\"sha256\":\"95248ef0ff98dada3b6e464deb07f4ed0cc67a16a583ecc7e94724a333be0078\",\"size\":7528,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547766455749,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/c54qyobh5hjxbw8w3tafgpnvb.o\",\"sha256\":\"3e2182bd4120441097b716f5113b13c5db94a0e051d57ad7182445edaa3ce247\",\"size\":3240,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547985269309,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/dep-graph.bin\",\"sha256\":\"71d3b241ad23deb0035a3f8e9fa3d64996174cdf47baeacb4649adfa9044387a\",\"size\":76432,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547764970876,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/evcbo1ka0j79voxoormu1hg3y.o\",\"sha256\":\"bc319d1a0e2e17e9cc08d2e45e15aafb871f79fdbba5542b99bb4eaa81c261fa\",\"size\":7168,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547984917092,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/query-cache.bin\",\"sha256\":\"796f2bb3c86b0eedea152a58070d21365873789096f4c84b9ae8566cd9785d7f\",\"size\":20897,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547987098636,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/work-products.bin\",\"sha256\":\"aa93cfa030cfaf4e4a436b121b9fdaefb494e6a72ea573453901ce38af179918\",\"size\":506,\"type\":\"file\"},{\"mode\":384,\"mtime_ns\":1792908547964034878,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6.lock\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908548035790334,\"path\":\"target/debug/owned-cargo-check\",\"sha256\":\"5cd9e445fa847ccab732034394b166078ce6ec2731d6f7b519bdde46ffeda0ba\",\"size\":3880880,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547838189638,\"path\":\"target/debug/owned-cargo-check.d\",\"sha256\":\"8fbd3a382ca4231b9f37f3ddeca903c54702995fd4ec760842fdf4414d310971\",\"size\":72,\"type\":\"file\"}],\"hardlink_groups\":[[\".cargo-home/.global-cache\"],[\".cargo-home/.package-cache\"],[\".cargo-home/.package-cache-mutate\"],[\"Cargo.lock\"],[\"Cargo.toml\"],[\"src/main.rs\"],[\"target/.rustc_info.json\"],[\"target/CACHEDIR.TAG\"],[\"target/debug/.cargo-lock\"],[\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check\"],[\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check.json\"],[\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/dep-bin-owned-cargo-check\"],[\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/invoked.timestamp\"],[\"target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b\",\"target/debug/owned-cargo-check\"],[\"target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b.d\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/0m9rpqj0cx1rjkyghn2ebikem.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/86qt5lsyisv8jfzeskkyd6n1w.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/8wdsm05irolatvnjhj93jqa8m.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/a42r6w91gk05a6sz9gz87pjz3.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/c54qyobh5hjxbw8w3tafgpnvb.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/dep-graph.bin\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/evcbo1ka0j79voxoormu1hg3y.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/query-cache.bin\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/work-products.bin\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6.lock\"],[\"target/debug/owned-cargo-check.d\"]],\"schema\":\"cargo-full-tree-v1\"}\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0016-pre_checkpoint_oracle.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0016-pre_checkpoint_oracle.stderr",
+      "secondsIncludingCleanup": 0.06303869899999699
+    },
+    {
+      "purpose": "restore_verify",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/3/.cargo-home' CARGO_TARGET_DIR='/workspaces/3/target' TMPDIR='/workspaces/3/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; export TMPDIR=/tmp; python3 -B /opt/bench/tree_oracle.py verify '/workspaces/3' <<'LAYERFS_ORACLE_e185ccf77353baa107a3d42187ceb036ace0f96a1bdcc489fc276d86addad7b0'\n{\"entries\":[{\"mode\":493,\"mtime_ns\":1792908547735844681,\"path\":\".\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547735014736,\"path\":\".cargo-home\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547724822132,\"path\":\".cargo-home/.global-cache\",\"sha256\":\"dd5c36b6129b82f46444c8b4f0a05679b3ffc72c2efaf4c5e3bcea018c655d49\",\"size\":57344,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547720970789,\"path\":\".cargo-home/.package-cache\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547735014736,\"path\":\".cargo-home/.package-cache-mutate\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908548040478505,\"path\":\".tmp\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.lock\",\"sha256\":\"48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be\",\"size\":161,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.toml\",\"sha256\":\"d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f\",\"size\":72,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\"src\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547922948560,\"path\":\"src/main.rs\",\"sha256\":\"49666da78df37cdf12a16c4086f22f648e613e273f597bd7a9802b4d941e5764\",\"size\":33,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908547838466068,\"path\":\"target\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547838584443,\"path\":\"target/.rustc_info.json\",\"sha256\":\"b6f1b74f940dd4bef532f5654ec5f7f562e42eeb31708b47b99a3c0c9d727ca0\",\"size\":987,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547735639920,\"path\":\"target/CACHEDIR.TAG\",\"sha256\":\"6d9d1d216e0f83abc5e5662ca62c92b4f23009466b54fa27321a69acdb778bb2\",\"size\":177,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908548056422792,\"path\":\"target/debug\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547736298877,\"path\":\"target/debug/.cargo-lock\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908547737561725,\"path\":\"target/debug/.fingerprint\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547837349759,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908548056656597,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check\",\"sha256\":\"ebfeaeb098570f5fb361287549341d1cdc97aac1ac4f377e984beac98738871d\",\"size\":16,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908548057041794,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check.json\",\"sha256\":\"bd86460661462ca8a1f7d9622d9e0839b0f384ad7f7e94aaffc1157521245d8b\",\"size\":367,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547953526377,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/dep-bin-owned-cargo-check\",\"sha256\":\"dd32b16937730a9a92a8070aa73e4dbbc632703f88e1395eb2196a4f6b11a95a\",\"size\":31,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547953526377,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/invoked.timestamp\",\"sha256\":\"5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3\",\"size\":48,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908547737322610,\"path\":\"target/debug/build\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908548041553200,\"path\":\"target/debug/deps\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908548035790334,\"path\":\"target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b\",\"sha256\":\"5cd9e445fa847ccab732034394b166078ce6ec2731d6f7b519bdde46ffeda0ba\",\"size\":3880880,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547971207107,\"path\":\"target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b.d\",\"sha256\":\"efbdb2cbf16652d94cfc6827f4ad83870ca46f655dc4b195840a3ba3711b012a\",\"size\":177,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908547737054080,\"path\":\"target/debug/examples\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547749271158,\"path\":\"target/debug/incremental\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547989840602,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547986975726,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547774770547,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/0m9rpqj0cx1rjkyghn2ebikem.o\",\"sha256\":\"90cf1c7135d35d3690e22db9c4d457d4232ba48b79cc96a88486b1dd8d99ff38\",\"size\":6120,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547983330508,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/86qt5lsyisv8jfzeskkyd6n1w.o\",\"sha256\":\"74aeadaa852a93f533f1d5db674ca7e08d236e675df0280291d2a63b709c7717\",\"size\":3776,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547770993463,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/8wdsm05irolatvnjhj93jqa8m.o\",\"sha256\":\"9c1d27a738a73f9604676c42f492b983950ed5cdda3d564d34a5b6f98fbb8dce\",\"size\":3824,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547769401518,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/a42r6w91gk05a6sz9gz87pjz3.o\",\"sha256\":\"95248ef0ff98dada3b6e464deb07f4ed0cc67a16a583ecc7e94724a333be0078\",\"size\":7528,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547766455749,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/c54qyobh5hjxbw8w3tafgpnvb.o\",\"sha256\":\"3e2182bd4120441097b716f5113b13c5db94a0e051d57ad7182445edaa3ce247\",\"size\":3240,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547985269309,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/dep-graph.bin\",\"sha256\":\"71d3b241ad23deb0035a3f8e9fa3d64996174cdf47baeacb4649adfa9044387a\",\"size\":76432,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547764970876,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/evcbo1ka0j79voxoormu1hg3y.o\",\"sha256\":\"bc319d1a0e2e17e9cc08d2e45e15aafb871f79fdbba5542b99bb4eaa81c261fa\",\"size\":7168,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547984917092,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/query-cache.bin\",\"sha256\":\"796f2bb3c86b0eedea152a58070d21365873789096f4c84b9ae8566cd9785d7f\",\"size\":20897,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547987098636,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/work-products.bin\",\"sha256\":\"aa93cfa030cfaf4e4a436b121b9fdaefb494e6a72ea573453901ce38af179918\",\"size\":506,\"type\":\"file\"},{\"mode\":384,\"mtime_ns\":1792908547964034878,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6.lock\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908548035790334,\"path\":\"target/debug/owned-cargo-check\",\"sha256\":\"5cd9e445fa847ccab732034394b166078ce6ec2731d6f7b519bdde46ffeda0ba\",\"size\":3880880,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547838189638,\"path\":\"target/debug/owned-cargo-check.d\",\"sha256\":\"8fbd3a382ca4231b9f37f3ddeca903c54702995fd4ec760842fdf4414d310971\",\"size\":72,\"type\":\"file\"}],\"hardlink_groups\":[[\".cargo-home/.global-cache\"],[\".cargo-home/.package-cache\"],[\".cargo-home/.package-cache-mutate\"],[\"Cargo.lock\"],[\"Cargo.toml\"],[\"src/main.rs\"],[\"target/.rustc_info.json\"],[\"target/CACHEDIR.TAG\"],[\"target/debug/.cargo-lock\"],[\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check\"],[\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check.json\"],[\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/dep-bin-owned-cargo-check\"],[\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/invoked.timestamp\"],[\"target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b\",\"target/debug/owned-cargo-check\"],[\"target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b.d\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/0m9rpqj0cx1rjkyghn2ebikem.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/86qt5lsyisv8jfzeskkyd6n1w.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/8wdsm05irolatvnjhj93jqa8m.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/a42r6w91gk05a6sz9gz87pjz3.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/c54qyobh5hjxbw8w3tafgpnvb.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/dep-graph.bin\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/evcbo1ka0j79voxoormu1hg3y.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/query-cache.bin\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/work-products.bin\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6.lock\"],[\"target/debug/owned-cargo-check.d\"]],\"schema\":\"cargo-full-tree-v1\"}\nLAYERFS_ORACLE_e185ccf77353baa107a3d42187ceb036ace0f96a1bdcc489fc276d86addad7b0",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/3",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 9585,
+      "stdinSha256": "e185ccf77353baa107a3d42187ceb036ace0f96a1bdcc489fc276d86addad7b0",
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "{\"differences\":[],\"entries\":41,\"ok\":true}\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0017-restore_verify.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0017-restore_verify.stderr",
+      "secondsIncludingCleanup": 0.09548943600000348
+    },
+    {
+      "purpose": "restored_execute",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/3/.cargo-home' CARGO_TARGET_DIR='/workspaces/3/target' TMPDIR='/workspaces/3/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; ./target/debug/owned-cargo-check",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/3",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "after\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0018-restored_execute.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0018-restored_execute.stderr",
+      "secondsIncludingCleanup": 0.01733621999999741
+    },
+    {
+      "purpose": "restored_rebuild",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/3/.cargo-home' CARGO_TARGET_DIR='/workspaces/3/target' TMPDIR='/workspaces/3/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; cargo build --offline --locked --verbose --jobs 1",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/3",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "       Fresh owned-cargo-check v0.1.0 (/workspaces/3)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.01s\n",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0019-restored_rebuild.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0019-restored_rebuild.stderr",
+      "secondsIncludingCleanup": 0.03235234599999967
+    },
+    {
+      "purpose": "restored_rebuild_execute",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/3/.cargo-home' CARGO_TARGET_DIR='/workspaces/3/target' TMPDIR='/workspaces/3/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; ./target/debug/owned-cargo-check",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/3",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "after\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0020-restored_rebuild_execute.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0020-restored_rebuild_execute.stderr",
+      "secondsIncludingCleanup": 0.018751571999979205
+    },
+    {
+      "purpose": "main_unchanged",
+      "command": "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; export CARGO_HOME='/workspaces/1/.cargo-home' CARGO_TARGET_DIR='/workspaces/1/target' TMPDIR='/workspaces/1/.tmp' CARGO_INCREMENTAL=1 CARGO_NET_OFFLINE=true LC_ALL=C TZ=UTC; export TMPDIR=/tmp; python3 -B /opt/bench/tree_oracle.py verify '/workspaces/1' <<'LAYERFS_ORACLE_bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36'\n{\"entries\":[{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\".\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.lock\",\"sha256\":\"48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be\",\"size\":161,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.toml\",\"sha256\":\"d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f\",\"size\":72,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\"src\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"src/main.rs\",\"sha256\":\"ca666a48385e535040e226e0d3b42ad5372fbb173f09731bff1051c4d0f012d3\",\"size\":34,\"type\":\"file\"}],\"hardlink_groups\":[[\"Cargo.lock\"],[\"Cargo.toml\"],[\"src/main.rs\"]],\"schema\":\"cargo-full-tree-v1\"}\nLAYERFS_ORACLE_bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36",
+      "workspace": {
+        "sandbox": "1",
+        "path": "/workspaces/1",
+        "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+      },
+      "stdinBytes": 754,
+      "stdinSha256": "bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36",
+      "kind": "exit:0",
+      "exitCode": 0,
+      "stdout": "{\"differences\":[],\"entries\":5,\"ok\":true}\n",
+      "stderr": "",
+      "message": null,
+      "truncated": false,
+      "returncode": 0,
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0021-main_unchanged.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0021-main_unchanged.stderr",
+      "secondsIncludingCleanup": 0.05138102899998193
+    },
+    {
+      "purpose": "source_unchanged",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "run",
+        "--rm",
+        "--pull=never",
+        "-i",
+        "--name",
+        "cargo-a798375c08814450b1cccdd15c224b53-source-21",
+        "--label",
+        "layerfs.cargo.sample=cargo-a798375c08814450b1cccdd15c224b53",
+        "--mount",
+        "type=bind,source=/home/runner/work/sprig-benchmarks/sprig-benchmarks/fixtures/cargo,target=/work,readonly",
+        "--workdir",
+        "/work",
+        "--entrypoint",
+        "/bin/bash",
+        "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b",
+        "-c",
+        "unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; python3 -B /opt/bench/tree_oracle.py verify /work"
+      ],
+      "stdinBytes": 754,
+      "stdinSha256": "bd1e448647a7819d26c14e38c46d81f4f97d9465c0c44321878df3bc67a9de36",
+      "returncode": 0,
+      "signal": null,
+      "stdout": "{\"differences\":[],\"entries\":5,\"ok\":true}\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0022-source_unchanged.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0022-source_unchanged.stderr",
+      "secondsIncludingCleanup": 0.30807365299999945
+    },
+    {
+      "purpose": "source_container_inventory",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=layerfs.cargo.sample=cargo-a798375c08814450b1cccdd15c224b53"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0023-source_container_inventory.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0023-source_container_inventory.stderr",
+      "secondsIncludingCleanup": 0.020763452000013786
+    },
+    {
+      "purpose": "space_sync",
+      "argv": [
+        "btrfs",
+        "filesystem",
+        "sync",
+        "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount"
+      ],
+      "secondsIncludingCleanup": 0.007954856000025757,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0024-space_sync.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0024-space_sync.stderr"
+    },
+    {
+      "purpose": "space_usage",
+      "argv": [
+        "btrfs",
+        "filesystem",
+        "usage",
+        "-b",
+        "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount"
+      ],
+      "secondsIncludingCleanup": 0.003961979000014253,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "Overall:\n    Device size:\t\t        8589934592\n    Device allocated:\t\t        4051697664\n    Device unallocated:\t\t        4538236928\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t        1058754560\n    Free (estimated):\t\t        7000240128\t(min: 4731121664)\n    Free (statfs, df):\t\t        6999191552\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:3498049536, Used:1036046336 (29.62%)\n   /dev/loop0\t3498049536\n\nMetadata,DUP: Size:268435456, Used:11337728 (4.22%)\n   /dev/loop0\t 536870912\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t4538236928\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0025-space_usage.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0025-space_usage.stderr"
+    },
+    {
+      "purpose": "space_groups",
+      "argv": [
+        "btrfs",
+        "filesystem",
+        "df",
+        "-b",
+        "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount"
+      ],
+      "secondsIncludingCleanup": 0.0037171830000006594,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "Data, single: total=3498049536, used=1036046336\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=268435456, used=11337728\nGlobalReserve, single: total=5767168, used=0\n",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0026-space_groups.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0026-space_groups.stderr"
+    },
+    {
+      "purpose": "space_extents",
+      "argv": [
+        "btrfs",
+        "filesystem",
+        "du",
+        "-s",
+        "--raw",
+        "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount"
+      ],
+      "secondsIncludingCleanup": 0.20956616499999656,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "     Total   Exclusive  Set shared  Filename\n1036021760  1035821056       77824  /home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount\n",
+      "stderr": "WARNING: cannot access 'merged': Inappropriate ioctl for device\n\n",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0027-space_extents.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0027-space_extents.stderr"
+    },
+    {
+      "purpose": "cleanup_helper_inventory",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=layerfs.cargo.sample=cargo-a798375c08814450b1cccdd15c224b53"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0028-cleanup_helper_inventory.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0028-cleanup_helper_inventory.stderr",
+      "secondsIncludingCleanup": 0.02115110300001106
+    },
+    {
+      "purpose": "cleanup_project_inventory",
+      "argv": [
+        "docker",
+        "--host",
+        "unix:///var/run/docker.sock",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=layerfs.project=cargo-a798375c08814450b1cccdd15c224b53"
+      ],
+      "stdinBytes": 0,
+      "stdinSha256": null,
+      "returncode": 0,
+      "signal": null,
+      "stdout": "",
+      "stderr": "",
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0029-cleanup_project_inventory.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0029-cleanup_project_inventory.stderr",
+      "secondsIncludingCleanup": 0.019192886000004364
+    }
+  ],
+  "checkpoint": {
+    "kind": "Committed",
+    "head": "1275e2eb2eb04b534621602f1d670f9bcf9e2489ee37097ca124f13e7f1e97c4ef",
+    "commit": {
+      "id": "1275e2eb2eb04b534621602f1d670f9bcf9e2489ee37097ca124f13e7f1e97c4ef",
+      "branch": null,
+      "parent": null,
+      "secondParent": null,
+      "base": "32980bbfe7690bf40053ba47eb91fd567d04a7c2fb624f8207147f934b2e354bbd",
+      "root": "a24403cd5bbe7085b6ac1ca4d7a1aaa0943282aee10b51a47170629bf51fcc32",
+      "via": "exec",
+      "message": "Cargo edit and complete build tree",
+      "mergedFrom": null,
+      "time": 1792908548203,
+      "logical": 7950736,
+      "newCanonical": 4087074,
+      "newStored": 1345025,
+      "newMetadata": 8424,
+      "displaced": null,
+      "lww": [],
+      "lwwTruncated": false
+    },
+    "displacedHead": null,
+    "merged": null,
+    "lww": [],
+    "lwwTruncated": false
+  },
+  "full_task_seconds": 1.917105672000005,
+  "activeSpace": {
+    "filesystemUsedBytes": 1058754560,
+    "usageRaw": "Overall:\n    Device size:\t\t        8589934592\n    Device allocated:\t\t        4051697664\n    Device unallocated:\t\t        4538236928\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t        1058754560\n    Free (estimated):\t\t        7000240128\t(min: 4731121664)\n    Free (statfs, df):\t\t        6999191552\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:3498049536, Used:1036046336 (29.62%)\n   /dev/loop0\t3498049536\n\nMetadata,DUP: Size:268435456, Used:11337728 (4.22%)\n   /dev/loop0\t 536870912\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t4538236928\n",
+    "groupsRaw": "Data, single: total=3498049536, used=1036046336\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=268435456, used=11337728\nGlobalReserve, single: total=5767168, used=0\n",
+    "extentSetRaw": "     Total   Exclusive  Set shared  Filename\n1036021760  1035821056       77824  /home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount\n"
+  },
+  "lifecycle": {
+    "fileTreesRetained": false,
+    "normalUnmountOnly": true,
+    "persistentControlDaemon": true,
+    "activeAtSpace": {
+      "views": [
+        {
+          "name": "import-main",
+          "sandbox": "1",
+          "path": "/workspaces/1",
+          "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+        },
+        {
+          "name": "work",
+          "sandbox": "1",
+          "path": "/workspaces/2",
+          "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+        },
+        {
+          "name": "second",
+          "sandbox": "1",
+          "path": "/workspaces/3",
+          "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+        }
+      ],
+      "workspaces": [
+        {
+          "sandbox": "1",
+          "path": "/workspaces/2",
+          "branch": "work",
+          "base": "1275e2eb2eb04b534621602f1d670f9bcf9e2489ee37097ca124f13e7f1e97c4ef",
+          "activity": "Idle",
+          "changed": false,
+          "workspace": "20b4544b86867916b3aab2e9a5250a948fcb08f598790f3b5f575a401c8f994e",
+          "state": "idle",
+          "dirty": {
+            "inodes": 0,
+            "entries": 0
+          },
+          "headMovedSinceMount": false,
+          "pendingMerge": false
+        },
+        {
+          "sandbox": "1",
+          "path": "/workspaces/1",
+          "branch": "import-main",
+          "base": null,
+          "activity": "Idle",
+          "changed": false,
+          "workspace": "4b59cdae220f497d67b5be701924e26115c76c9eb2f414d19a7f2b9ca267fd77",
+          "state": "idle",
+          "dirty": {
+            "inodes": 0,
+            "entries": 0
+          },
+          "headMovedSinceMount": false,
+          "pendingMerge": false
+        },
+        {
+          "sandbox": "1",
+          "path": "/workspaces/3",
+          "branch": "second",
+          "base": "1275e2eb2eb04b534621602f1d670f9bcf9e2489ee37097ca124f13e7f1e97c4ef",
+          "activity": "Idle",
+          "changed": true,
+          "workspace": "5412ec776a4fc126f186d378c237d6e1ed1f499b9f31ea904f7dc859daa42c38",
+          "state": "idle",
+          "dirty": {
+            "inodes": 1,
+            "entries": 0
+          },
+          "headMovedSinceMount": false,
+          "pendingMerge": false
+        }
+      ],
+      "sandboxes": [
+        {
+          "sandbox": "1",
+          "name": "cargo-lfs-cargo-a798375c08814450b1cccdd15c224b53-1",
+          "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b",
+          "workspaces": 3
+        }
+      ],
+      "controlProcessesRunning": 1,
+      "fileTreesRetained": true,
+      "cargoRestoreReadbackComplete": true,
+      "allRuntimeLogsAndJournalsInsideMeasuredStore": true,
+      "verifiedAfterSpace": true
+    },
+    "daemons": [],
+    "cleanup": {
+      "attempts": [
+        {
+          "action": "workspace.unmount",
+          "workspace": {
+            "name": "second",
+            "sandbox": "1",
+            "path": "/workspaces/3",
+            "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+          }
+        },
+        {
+          "action": "workspace.unmount",
+          "workspace": {
+            "name": "work",
+            "sandbox": "1",
+            "path": "/workspaces/2",
+            "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+          }
+        },
+        {
+          "action": "workspace.unmount",
+          "workspace": {
+            "name": "import-main",
+            "sandbox": "1",
+            "path": "/workspaces/1",
+            "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b"
+          }
+        },
+        {
+          "action": "sandbox.close",
+          "sandbox": "1"
+        }
+      ],
+      "complete": true
+    },
+    "fileTreesRetainedAtSpace": true,
+    "committedHistoryRetained": true,
+    "workspaceOverlaysDiscardedByNormalCleanup": true
+  },
+  "remainingMounts": [],
+  "remainingContainers": [],
+  "measurementNotes": [
+    "Separate dependency-free Cargo series; not frozen seven-case/history100 workload.",
+    "LayerFS UID501/GID20 SDK exec in persistent Sandbox differs from default-root per-command Sprig Docker containers; transport costs remain charged.",
+    "Actual Cargo paths /workspaces/N differ from Sprig /work; restored Fresh/recompile behavior is observed, not promised.",
+    "All target/cache/temp files and full metadata/hardlink oracle are retained without exclusions at accounting; normal teardown later discards workspace overlays but retains committed Store/history.",
+    "Raw command outputs/manifests are in measured root/logs; runtime baseline owned by parent.",
+    "Init phase provisions private home/volume; import includes public LayerFS.init, sandbox startup and imported-main branch/mount.",
+    "checkpoint_cli is SDK commit wall (name retained for paired schema); checkpoint_readiness verifies acknowledged head/history and live workspace.",
+    "Full task wall includes preflight, oracles, logs, accounting and normal cleanup; final report serialization occurs afterward.",
+    "Disposable/WAL/synchronous=OFF, no matched durability or performance claim.",
+    "No harness kill/force/lazy unmount or retry. After normal unmounts SDK sandbox.close uses its documented Docker stop/delete (5-second stop grace).",
+    "Oracle heredoc transport exports TMPDIR=/tmp in Sandbox root before redirection; Cargo TMPDIR remains inside captured workspace. Accounting writes are deferred until all space reads complete."
+  ],
+  "incremental": 1,
+  "image": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b",
+  "root": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample",
+  "source": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/fixtures/cargo",
+  "recordsFile": "/home/runner/work/_temp/cargo-transport-records/layerfs-1-2.jsonl",
+  "recordsIncludedInActiveSpace": false,
+  "fixtureOracle": {
+    "entries": [
+      {
+        "mode": 493,
+        "mtime_ns": "1700000000000000000",
+        "path": ".",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1700000000000000000",
+        "path": "Cargo.lock",
+        "sha256": "48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be",
+        "size": 161,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1700000000000000000",
+        "path": "Cargo.toml",
+        "sha256": "d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f",
+        "size": 72,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1700000000000000000",
+        "path": "src",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1700000000000000000",
+        "path": "src/main.rs",
+        "sha256": "ca666a48385e535040e226e0d3b42ad5372fbb173f09731bff1051c4d0f012d3",
+        "size": 34,
+        "type": "file"
+      }
+    ],
+    "hardlink_groups": [
+      [
+        "Cargo.lock"
+      ],
+      [
+        "Cargo.toml"
+      ],
+      [
+        "src/main.rs"
+      ]
+    ],
+    "schema": "cargo-full-tree-v1"
+  },
+  "fixtureOracleRaw": "{\"entries\":[{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\".\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.lock\",\"sha256\":\"48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be\",\"size\":161,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.toml\",\"sha256\":\"d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f\",\"size\":72,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\"src\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"src/main.rs\",\"sha256\":\"ca666a48385e535040e226e0d3b42ad5372fbb173f09731bff1051c4d0f012d3\",\"size\":34,\"type\":\"file\"}],\"hardlink_groups\":[[\"Cargo.lock\"],[\"Cargo.toml\"],[\"src/main.rs\"]],\"schema\":\"cargo-full-tree-v1\"}\n",
+  "oracleMtimeEncoding": "decimal strings in structured report; raw JSON text is authoritative and passed unchanged to verify",
+  "imageInspect": {
+    "Id": "sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b",
+    "RepoTags": [
+      "sprig-cargo-fixture:40167612813"
+    ],
+    "RepoDigests": [],
+    "Comment": "buildkit.dockerfile.v0",
+    "Created": "2026-10-25T06:05:08.097101827Z",
+    "Config": {
+      "Env": [
+        "PATH=/opt/rust/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+      ],
+      "Cmd": [
+        "/bin/bash"
+      ],
+      "Labels": {
+        "org.opencontainers.image.version": "24.04"
+      }
+    },
+    "Architecture": "amd64",
+    "Os": "linux",
+    "Size": 1005165334,
+    "GraphDriver": {
+      "Data": {
+        "LowerDir": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/fe68e16964f2816a5be9fe5a8e0b00ae056c8478c7bf5a0c5d077461c808c5aa/diff:/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/cbe4920a5bad172f4e19f32126b885917bae5f94506bc80d49e924184d0d27c6/diff:/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/5eadef3646296ff4cf64509ed16835862ffaef8b41da372eb97858f29f7bf825/diff:/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/cf311d2943fe79d21054dfdaf5acee33e3aba4c63a65c7bd675f3cfecaf1b16c/diff",
+        "MergedDir": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/f8a189eeed659be33b99d41c8d916e758eaa1bff333b0a2af25aeb370b063828/merged",
+        "UpperDir": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/f8a189eeed659be33b99d41c8d916e758eaa1bff333b0a2af25aeb370b063828/diff",
+        "WorkDir": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/overlay2/f8a189eeed659be33b99d41c8d916e758eaa1bff333b0a2af25aeb370b063828/work"
+      },
+      "Name": "overlay2"
+    },
+    "RootFS": {
+      "Type": "layers",
+      "Layers": [
+        "sha256:32ab39660fd51c6dc3aae486b42d42bbe8fe4c1db78eaf57bb9c21198de48a16",
+        "sha256:84f71376d90f20e531f2a1574d670e36b8ed061c116e4fa9abaaf3d3b83506a1",
+        "sha256:8c5daebabc25ddc264c6e3d757721d210ec1e0fc9415446c328079e6a6b1c636",
+        "sha256:d867cc0394a8b08178992eee84c6526bb948cb994cf578ffca3fc48c80c32db8",
+        "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+      ]
+    },
+    "Metadata": {
+      "LastTagTime": "0001-01-01T00:00:00Z"
+    }
+  },
+  "dockerInfo": {
+    "ID": "8b1286f5-1d21-4729-abf3-7596d118047a",
+    "Containers": 0,
+    "ContainersRunning": 0,
+    "ContainersPaused": 0,
+    "ContainersStopped": 0,
+    "Images": 1,
+    "Driver": "overlay2",
+    "DriverStatus": [
+      [
+        "Backing Filesystem",
+        "btrfs"
+      ],
+      [
+        "Supports d_type",
+        "true"
+      ],
+      [
+        "Using metacopy",
+        "false"
+      ],
+      [
+        "Native Overlay Diff",
+        "false"
+      ],
+      [
+        "userxattr",
+        "false"
+      ]
+    ],
+    "Plugins": {
+      "Volume": [
+        "local"
+      ],
+      "Network": [
+        "bridge",
+        "host",
+        "ipvlan",
+        "macvlan",
+        "null",
+        "overlay"
+      ],
+      "Authorization": null,
+      "Log": [
+        "awslogs",
+        "fluentd",
+        "gcplogs",
+        "gelf",
+        "journald",
+        "json-file",
+        "local",
+        "splunk",
+        "syslog"
+      ]
+    },
+    "MemoryLimit": true,
+    "SwapLimit": true,
+    "CpuCfsPeriod": true,
+    "CpuCfsQuota": true,
+    "CPUShares": true,
+    "CPUSet": true,
+    "PidsLimit": true,
+    "IPv4Forwarding": true,
+    "Debug": false,
+    "NFd": 24,
+    "OomKillDisable": false,
+    "NGoroutines": 45,
+    "SystemTime": "2026-10-25T06:09:07.328211038Z",
+    "LoggingDriver": "json-file",
+    "CgroupDriver": "systemd",
+    "CgroupVersion": "2",
+    "NEventsListener": 0,
+    "KernelVersion": "6.17.0-1022-azure",
+    "OperatingSystem": "Ubuntu 24.04.5 LTS",
+    "OSVersion": "24.04",
+    "OSType": "linux",
+    "Architecture": "x86_64",
+    "IndexServerAddress": "https://index.docker.io/v1/",
+    "RegistryConfig": {
+      "InsecureRegistryCIDRs": [
+        "127.0.0.0/8",
+        "::1/128"
+      ],
+      "IndexConfigs": {
+        "docker.io": {
+          "Name": "docker.io",
+          "Mirrors": [],
+          "Secure": true,
+          "Official": true
+        }
+      },
+      "Mirrors": []
+    },
+    "NCPU": 4,
+    "MemTotal": 16766414848,
+    "GenericResources": null,
+    "DockerRootDir": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data",
+    "HttpProxy": "",
+    "HttpsProxy": "",
+    "NoProxy": "",
+    "Name": "runnervmtai0g",
+    "Labels": [],
+    "ExperimentalBuild": false,
+    "ServerVersion": "29.8.2",
+    "Runtimes": {
+      "io.containerd.runc.v2": {
+        "path": "runc",
+        "status": {
+          "org.opencontainers.runtime-spec.features": "{\"ociVersionMin\":\"1.0.0\",\"ociVersionMax\":\"1.3.0\",\"hooks\":[\"prestart\",\"createRuntime\",\"createContainer\",\"startContainer\",\"poststart\",\"poststop\"],\"mountOptions\":[\"async\",\"atime\",\"bind\",\"defaults\",\"dev\",\"diratime\",\"dirsync\",\"exec\",\"iversion\",\"lazytime\",\"loud\",\"mand\",\"noatime\",\"nodev\",\"nodiratime\",\"noexec\",\"noiversion\",\"nolazytime\",\"nomand\",\"norelatime\",\"nostrictatime\",\"nosuid\",\"nosymfollow\",\"private\",\"ratime\",\"rbind\",\"rdev\",\"rdiratime\",\"relatime\",\"remount\",\"rexec\",\"rnoatime\",\"rnodev\",\"rnodiratime\",\"rnoexec\",\"rnorelatime\",\"rnostrictatime\",\"rnosuid\",\"rnosymfollow\",\"ro\",\"rprivate\",\"rrelatime\",\"rro\",\"rrw\",\"rshared\",\"rslave\",\"rstrictatime\",\"rsuid\",\"rsymfollow\",\"runbindable\",\"rw\",\"shared\",\"silent\",\"slave\",\"strictatime\",\"suid\",\"symfollow\",\"sync\",\"tmpcopyup\",\"unbindable\"],\"linux\":{\"namespaces\":[\"cgroup\",\"ipc\",\"mount\",\"network\",\"pid\",\"time\",\"user\",\"uts\"],\"capabilities\":[\"CAP_CHOWN\",\"CAP_DAC_OVERRIDE\",\"CAP_DAC_READ_SEARCH\",\"CAP_FOWNER\",\"CAP_FSETID\",\"CAP_KILL\",\"CAP_SETGID\",\"CAP_SETUID\",\"CAP_SETPCAP\",\"CAP_LINUX_IMMUTABLE\",\"CAP_NET_BIND_SERVICE\",\"CAP_NET_BROADCAST\",\"CAP_NET_ADMIN\",\"CAP_NET_RAW\",\"CAP_IPC_LOCK\",\"CAP_IPC_OWNER\",\"CAP_SYS_MODULE\",\"CAP_SYS_RAWIO\",\"CAP_SYS_CHROOT\",\"CAP_SYS_PTRACE\",\"CAP_SYS_PACCT\",\"CAP_SYS_ADMIN\",\"CAP_SYS_BOOT\",\"CAP_SYS_NICE\",\"CAP_SYS_RESOURCE\",\"CAP_SYS_TIME\",\"CAP_SYS_TTY_CONFIG\",\"CAP_MKNOD\",\"CAP_LEASE\",\"CAP_AUDIT_WRITE\",\"CAP_AUDIT_CONTROL\",\"CAP_SETFCAP\",\"CAP_MAC_OVERRIDE\",\"CAP_MAC_ADMIN\",\"CAP_SYSLOG\",\"CAP_WAKE_ALARM\",\"CAP_BLOCK_SUSPEND\",\"CAP_AUDIT_READ\",\"CAP_PERFMON\",\"CAP_BPF\",\"CAP_CHECKPOINT_RESTORE\"],\"cgroup\":{\"v1\":true,\"v2\":true,\"systemd\":true,\"systemdUser\":true,\"rdma\":true},\"seccomp\":{\"enabled\":true,\"actions\":[\"SCMP_ACT_ALLOW\",\"SCMP_ACT_ERRNO\",\"SCMP_ACT_KILL\",\"SCMP_ACT_KILL_PROCESS\",\"SCMP_ACT_KILL_THREAD\",\"SCMP_ACT_LOG\",\"SCMP_ACT_NOTIFY\",\"SCMP_ACT_TRACE\",\"SCMP_ACT_TRAP\"],\"operators\":[\"SCMP_CMP_EQ\",\"SCMP_CMP_GE\",\"SCMP_CMP_GT\",\"SCMP_CMP_LE\",\"SCMP_CMP_LT\",\"SCMP_CMP_MASKED_EQ\",\"SCMP_CMP_NE\"],\"archs\":[\"SCMP_ARCH_AARCH64\",\"SCMP_ARCH_ARM\",\"SCMP_ARCH_LOONGARCH64\",\"SCMP_ARCH_MIPS\",\"SCMP_ARCH_MIPS64\",\"SCMP_ARCH_MIPS64N32\",\"SCMP_ARCH_MIPSEL\",\"SCMP_ARCH_MIPSEL64\",\"SCMP_ARCH_MIPSEL64N32\",\"SCMP_ARCH_PPC\",\"SCMP_ARCH_PPC64\",\"SCMP_ARCH_PPC64LE\",\"SCMP_ARCH_RISCV64\",\"SCMP_ARCH_S390\",\"SCMP_ARCH_S390X\",\"SCMP_ARCH_X32\",\"SCMP_ARCH_X86\",\"SCMP_ARCH_X86_64\"],\"knownFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\",\"SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV\"],\"supportedFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\"]},\"apparmor\":{\"enabled\":true},\"selinux\":{\"enabled\":true},\"intelRdt\":{\"enabled\":true,\"schemata\":true,\"monitoring\":true},\"memoryPolicy\":{\"modes\":[\"MPOL_BIND\",\"MPOL_DEFAULT\",\"MPOL_INTERLEAVE\",\"MPOL_LOCAL\",\"MPOL_PREFERRED\",\"MPOL_PREFERRED_MANY\",\"MPOL_WEIGHTED_INTERLEAVE\"],\"flags\":[\"MPOL_F_NUMA_BALANCING\",\"MPOL_F_RELATIVE_NODES\",\"MPOL_F_STATIC_NODES\"]},\"mountExtensions\":{\"idmap\":{\"enabled\":true}},\"netDevices\":{\"enabled\":true}},\"annotations\":{\"io.github.seccomp.libseccomp.version\":\"2.5.5\",\"org.opencontainers.runc.checkpoint.enabled\":\"true\",\"org.opencontainers.runc.commit\":\"v1.5.2-0-g29dd3dc2\",\"org.opencontainers.runc.version\":\"1.5.2\"},\"potentiallyUnsafeConfigAnnotations\":[\"bundle\",\"org.systemd.property.\",\"org.criu.config\"]}"
+        }
+      },
+      "runc": {
+        "path": "runc",
+        "status": {
+          "org.opencontainers.runtime-spec.features": "{\"ociVersionMin\":\"1.0.0\",\"ociVersionMax\":\"1.3.0\",\"hooks\":[\"prestart\",\"createRuntime\",\"createContainer\",\"startContainer\",\"poststart\",\"poststop\"],\"mountOptions\":[\"async\",\"atime\",\"bind\",\"defaults\",\"dev\",\"diratime\",\"dirsync\",\"exec\",\"iversion\",\"lazytime\",\"loud\",\"mand\",\"noatime\",\"nodev\",\"nodiratime\",\"noexec\",\"noiversion\",\"nolazytime\",\"nomand\",\"norelatime\",\"nostrictatime\",\"nosuid\",\"nosymfollow\",\"private\",\"ratime\",\"rbind\",\"rdev\",\"rdiratime\",\"relatime\",\"remount\",\"rexec\",\"rnoatime\",\"rnodev\",\"rnodiratime\",\"rnoexec\",\"rnorelatime\",\"rnostrictatime\",\"rnosuid\",\"rnosymfollow\",\"ro\",\"rprivate\",\"rrelatime\",\"rro\",\"rrw\",\"rshared\",\"rslave\",\"rstrictatime\",\"rsuid\",\"rsymfollow\",\"runbindable\",\"rw\",\"shared\",\"silent\",\"slave\",\"strictatime\",\"suid\",\"symfollow\",\"sync\",\"tmpcopyup\",\"unbindable\"],\"linux\":{\"namespaces\":[\"cgroup\",\"ipc\",\"mount\",\"network\",\"pid\",\"time\",\"user\",\"uts\"],\"capabilities\":[\"CAP_CHOWN\",\"CAP_DAC_OVERRIDE\",\"CAP_DAC_READ_SEARCH\",\"CAP_FOWNER\",\"CAP_FSETID\",\"CAP_KILL\",\"CAP_SETGID\",\"CAP_SETUID\",\"CAP_SETPCAP\",\"CAP_LINUX_IMMUTABLE\",\"CAP_NET_BIND_SERVICE\",\"CAP_NET_BROADCAST\",\"CAP_NET_ADMIN\",\"CAP_NET_RAW\",\"CAP_IPC_LOCK\",\"CAP_IPC_OWNER\",\"CAP_SYS_MODULE\",\"CAP_SYS_RAWIO\",\"CAP_SYS_CHROOT\",\"CAP_SYS_PTRACE\",\"CAP_SYS_PACCT\",\"CAP_SYS_ADMIN\",\"CAP_SYS_BOOT\",\"CAP_SYS_NICE\",\"CAP_SYS_RESOURCE\",\"CAP_SYS_TIME\",\"CAP_SYS_TTY_CONFIG\",\"CAP_MKNOD\",\"CAP_LEASE\",\"CAP_AUDIT_WRITE\",\"CAP_AUDIT_CONTROL\",\"CAP_SETFCAP\",\"CAP_MAC_OVERRIDE\",\"CAP_MAC_ADMIN\",\"CAP_SYSLOG\",\"CAP_WAKE_ALARM\",\"CAP_BLOCK_SUSPEND\",\"CAP_AUDIT_READ\",\"CAP_PERFMON\",\"CAP_BPF\",\"CAP_CHECKPOINT_RESTORE\"],\"cgroup\":{\"v1\":true,\"v2\":true,\"systemd\":true,\"systemdUser\":true,\"rdma\":true},\"seccomp\":{\"enabled\":true,\"actions\":[\"SCMP_ACT_ALLOW\",\"SCMP_ACT_ERRNO\",\"SCMP_ACT_KILL\",\"SCMP_ACT_KILL_PROCESS\",\"SCMP_ACT_KILL_THREAD\",\"SCMP_ACT_LOG\",\"SCMP_ACT_NOTIFY\",\"SCMP_ACT_TRACE\",\"SCMP_ACT_TRAP\"],\"operators\":[\"SCMP_CMP_EQ\",\"SCMP_CMP_GE\",\"SCMP_CMP_GT\",\"SCMP_CMP_LE\",\"SCMP_CMP_LT\",\"SCMP_CMP_MASKED_EQ\",\"SCMP_CMP_NE\"],\"archs\":[\"SCMP_ARCH_AARCH64\",\"SCMP_ARCH_ARM\",\"SCMP_ARCH_LOONGARCH64\",\"SCMP_ARCH_MIPS\",\"SCMP_ARCH_MIPS64\",\"SCMP_ARCH_MIPS64N32\",\"SCMP_ARCH_MIPSEL\",\"SCMP_ARCH_MIPSEL64\",\"SCMP_ARCH_MIPSEL64N32\",\"SCMP_ARCH_PPC\",\"SCMP_ARCH_PPC64\",\"SCMP_ARCH_PPC64LE\",\"SCMP_ARCH_RISCV64\",\"SCMP_ARCH_S390\",\"SCMP_ARCH_S390X\",\"SCMP_ARCH_X32\",\"SCMP_ARCH_X86\",\"SCMP_ARCH_X86_64\"],\"knownFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\",\"SECCOMP_FILTER_FLAG_WAIT_KILLABLE_RECV\"],\"supportedFlags\":[\"SECCOMP_FILTER_FLAG_TSYNC\",\"SECCOMP_FILTER_FLAG_SPEC_ALLOW\",\"SECCOMP_FILTER_FLAG_LOG\"]},\"apparmor\":{\"enabled\":true},\"selinux\":{\"enabled\":true},\"intelRdt\":{\"enabled\":true,\"schemata\":true,\"monitoring\":true},\"memoryPolicy\":{\"modes\":[\"MPOL_BIND\",\"MPOL_DEFAULT\",\"MPOL_INTERLEAVE\",\"MPOL_LOCAL\",\"MPOL_PREFERRED\",\"MPOL_PREFERRED_MANY\",\"MPOL_WEIGHTED_INTERLEAVE\"],\"flags\":[\"MPOL_F_NUMA_BALANCING\",\"MPOL_F_RELATIVE_NODES\",\"MPOL_F_STATIC_NODES\"]},\"mountExtensions\":{\"idmap\":{\"enabled\":true}},\"netDevices\":{\"enabled\":true}},\"annotations\":{\"io.github.seccomp.libseccomp.version\":\"2.5.5\",\"org.opencontainers.runc.checkpoint.enabled\":\"true\",\"org.opencontainers.runc.commit\":\"v1.5.2-0-g29dd3dc2\",\"org.opencontainers.runc.version\":\"1.5.2\"},\"potentiallyUnsafeConfigAnnotations\":[\"bundle\",\"org.systemd.property.\",\"org.criu.config\"]}"
+        }
+      }
+    },
+    "DefaultRuntime": "runc",
+    "Swarm": {
+      "NodeID": "",
+      "NodeAddr": "",
+      "LocalNodeState": "inactive",
+      "ControlAvailable": false,
+      "Error": "",
+      "RemoteManagers": null
+    },
+    "LiveRestoreEnabled": false,
+    "Isolation": "",
+    "InitBinary": "docker-init",
+    "ContainerdCommit": {
+      "ID": "b7a25261e029d68978bbf290df0a62fc819b3c51"
+    },
+    "RuncCommit": {
+      "ID": "v1.5.2-0-g29dd3dc2"
+    },
+    "InitCommit": {
+      "ID": "de40ad0"
+    },
+    "SecurityOptions": [
+      "name=apparmor,profile=default",
+      "name=seccomp,profile=builtin",
+      "name=cgroupns"
+    ],
+    "FirewallBackend": {
+      "Driver": "iptables",
+      "Info": [
+        [
+          "EnableUserlandProxy",
+          "true"
+        ],
+        [
+          "UserlandProxyPath",
+          "/usr/bin/docker-proxy"
+        ]
+      ]
+    },
+    "CDISpecDirs": [
+      "/etc/cdi",
+      "/var/run/cdi"
+    ],
+    "Containerd": {
+      "Address": "/run/containerd/containerd.sock",
+      "Namespaces": {
+        "Containers": "moby",
+        "Plugins": "plugins.moby"
+      }
+    },
+    "Warnings": null,
+    "ClientInfo": {
+      "Debug": false,
+      "Platform": {
+        "Name": "Docker Engine - Community"
+      },
+      "Version": "29.8.2",
+      "DefaultAPIVersion": "1.56",
+      "GitCommit": "7fc2dff",
+      "GoVersion": "go1.26.8",
+      "Os": "linux",
+      "Arch": "amd64",
+      "BuildTime": "Wed Sep 30 19:32:28 2026",
+      "Context": "default",
+      "Plugins": [
+        {
+          "SchemaVersion": "0.1.0",
+          "Vendor": "Docker Inc.",
+          "Version": "v0.38.0",
+          "ShortDescription": "Docker Buildx",
+          "Name": "buildx",
+          "Path": "/usr/libexec/docker/cli-plugins/docker-buildx"
+        },
+        {
+          "SchemaVersion": "0.1.0",
+          "Vendor": "Docker Inc.",
+          "Version": "v2.38.2",
+          "ShortDescription": "Docker Compose",
+          "Name": "compose",
+          "Path": "/usr/libexec/docker/cli-plugins/docker-compose"
+        }
+      ],
+      "Warnings": null
+    }
+  },
+  "containingFilesystem": {
+    "target": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount",
+    "source": "/dev/loop0",
+    "fstype": "btrfs",
+    "options": "rw,noatime,discard=async,space_cache=v2,subvolid=5,subvol=/"
+  },
+  "initialHead": "32980bbfe7690bf40053ba47eb91fd567d04a7c2fb624f8207147f934b2e354bbd",
+  "initialized": {
+    "kind": "Initialized",
+    "project": "cargo-a798375c08814450b1cccdd15c224b53",
+    "layer": "32980bbfe7690bf40053ba47eb91fd567d04a7c2fb624f8207147f934b2e354bbd",
+    "root": "589deb5becd2b1b54363dbbe43d4a02217fbe0d126bf8a6f2b7095b80cb8c2ab",
+    "store": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/docker-data/volumes/cargo-a798375c08814450b1cccdd15c224b53/_data/global/store.sqlite"
+  },
+  "cargoBuildObservations": [
+    {
+      "phase": "clean_build",
+      "freshLines": [],
+      "compilingLines": [
+        "   Compiling owned-cargo-check v0.1.0 (/workspaces/2)"
+      ],
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0009-clean_build.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0009-clean_build.stderr",
+      "returncode": 0
+    },
+    {
+      "phase": "noop_build",
+      "freshLines": [
+        "       Fresh owned-cargo-check v0.1.0 (/workspaces/2)"
+      ],
+      "compilingLines": [],
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0011-noop_build.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0011-noop_build.stderr",
+      "returncode": 0
+    },
+    {
+      "phase": "edit_build",
+      "freshLines": [],
+      "compilingLines": [
+        "   Compiling owned-cargo-check v0.1.0 (/workspaces/2)"
+      ],
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0014-edit_build.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0014-edit_build.stderr",
+      "returncode": 0
+    },
+    {
+      "phase": "restored_rebuild",
+      "freshLines": [
+        "       Fresh owned-cargo-check v0.1.0 (/workspaces/3)"
+      ],
+      "compilingLines": [],
+      "stdoutPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0019-restored_rebuild.stdout",
+      "stderrPath": "/home/runner/work/_temp/cargo-paired-layerfs-1-2-YK2T21/mount/sample/logs/0019-restored_rebuild.stderr",
+      "returncode": 0
+    }
+  ],
+  "checkpointTreeOracle": {
+    "entries": [
+      {
+        "mode": 493,
+        "mtime_ns": "1792908547735844681",
+        "path": ".",
+        "type": "directory"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908547735014736",
+        "path": ".cargo-home",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547724822132",
+        "path": ".cargo-home/.global-cache",
+        "sha256": "dd5c36b6129b82f46444c8b4f0a05679b3ffc72c2efaf4c5e3bcea018c655d49",
+        "size": 57344,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547720970789",
+        "path": ".cargo-home/.package-cache",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547735014736",
+        "path": ".cargo-home/.package-cache-mutate",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908548040478505",
+        "path": ".tmp",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1700000000000000000",
+        "path": "Cargo.lock",
+        "sha256": "48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be",
+        "size": 161,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1700000000000000000",
+        "path": "Cargo.toml",
+        "sha256": "d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f",
+        "size": 72,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1700000000000000000",
+        "path": "src",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547922948560",
+        "path": "src/main.rs",
+        "sha256": "49666da78df37cdf12a16c4086f22f648e613e273f597bd7a9802b4d941e5764",
+        "size": 33,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908547838466068",
+        "path": "target",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547838584443",
+        "path": "target/.rustc_info.json",
+        "sha256": "b6f1b74f940dd4bef532f5654ec5f7f562e42eeb31708b47b99a3c0c9d727ca0",
+        "size": 987,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547735639920",
+        "path": "target/CACHEDIR.TAG",
+        "sha256": "6d9d1d216e0f83abc5e5662ca62c92b4f23009466b54fa27321a69acdb778bb2",
+        "size": 177,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908548056422792",
+        "path": "target/debug",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547736298877",
+        "path": "target/debug/.cargo-lock",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908547737561725",
+        "path": "target/debug/.fingerprint",
+        "type": "directory"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908547837349759",
+        "path": "target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908548056656597",
+        "path": "target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check",
+        "sha256": "ebfeaeb098570f5fb361287549341d1cdc97aac1ac4f377e984beac98738871d",
+        "size": 16,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908548057041794",
+        "path": "target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check.json",
+        "sha256": "bd86460661462ca8a1f7d9622d9e0839b0f384ad7f7e94aaffc1157521245d8b",
+        "size": 367,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547953526377",
+        "path": "target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/dep-bin-owned-cargo-check",
+        "sha256": "dd32b16937730a9a92a8070aa73e4dbbc632703f88e1395eb2196a4f6b11a95a",
+        "size": 31,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547953526377",
+        "path": "target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/invoked.timestamp",
+        "sha256": "5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3",
+        "size": 48,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908547737322610",
+        "path": "target/debug/build",
+        "type": "directory"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908548041553200",
+        "path": "target/debug/deps",
+        "type": "directory"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908548035790334",
+        "path": "target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b",
+        "sha256": "5cd9e445fa847ccab732034394b166078ce6ec2731d6f7b519bdde46ffeda0ba",
+        "size": 3880880,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547971207107",
+        "path": "target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b.d",
+        "sha256": "efbdb2cbf16652d94cfc6827f4ad83870ca46f655dc4b195840a3ba3711b012a",
+        "size": 177,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908547737054080",
+        "path": "target/debug/examples",
+        "type": "directory"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908547749271158",
+        "path": "target/debug/incremental",
+        "type": "directory"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908547989840602",
+        "path": "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz",
+        "type": "directory"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908547986975726",
+        "path": "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u",
+        "type": "directory"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547774770547",
+        "path": "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/0m9rpqj0cx1rjkyghn2ebikem.o",
+        "sha256": "90cf1c7135d35d3690e22db9c4d457d4232ba48b79cc96a88486b1dd8d99ff38",
+        "size": 6120,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547983330508",
+        "path": "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/86qt5lsyisv8jfzeskkyd6n1w.o",
+        "sha256": "74aeadaa852a93f533f1d5db674ca7e08d236e675df0280291d2a63b709c7717",
+        "size": 3776,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547770993463",
+        "path": "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/8wdsm05irolatvnjhj93jqa8m.o",
+        "sha256": "9c1d27a738a73f9604676c42f492b983950ed5cdda3d564d34a5b6f98fbb8dce",
+        "size": 3824,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547769401518",
+        "path": "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/a42r6w91gk05a6sz9gz87pjz3.o",
+        "sha256": "95248ef0ff98dada3b6e464deb07f4ed0cc67a16a583ecc7e94724a333be0078",
+        "size": 7528,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547766455749",
+        "path": "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/c54qyobh5hjxbw8w3tafgpnvb.o",
+        "sha256": "3e2182bd4120441097b716f5113b13c5db94a0e051d57ad7182445edaa3ce247",
+        "size": 3240,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547985269309",
+        "path": "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/dep-graph.bin",
+        "sha256": "71d3b241ad23deb0035a3f8e9fa3d64996174cdf47baeacb4649adfa9044387a",
+        "size": 76432,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547764970876",
+        "path": "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/evcbo1ka0j79voxoormu1hg3y.o",
+        "sha256": "bc319d1a0e2e17e9cc08d2e45e15aafb871f79fdbba5542b99bb4eaa81c261fa",
+        "size": 7168,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547984917092",
+        "path": "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/query-cache.bin",
+        "sha256": "796f2bb3c86b0eedea152a58070d21365873789096f4c84b9ae8566cd9785d7f",
+        "size": 20897,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547987098636",
+        "path": "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/work-products.bin",
+        "sha256": "aa93cfa030cfaf4e4a436b121b9fdaefb494e6a72ea573453901ce38af179918",
+        "size": 506,
+        "type": "file"
+      },
+      {
+        "mode": 384,
+        "mtime_ns": "1792908547964034878",
+        "path": "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6.lock",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "size": 0,
+        "type": "file"
+      },
+      {
+        "mode": 493,
+        "mtime_ns": "1792908548035790334",
+        "path": "target/debug/owned-cargo-check",
+        "sha256": "5cd9e445fa847ccab732034394b166078ce6ec2731d6f7b519bdde46ffeda0ba",
+        "size": 3880880,
+        "type": "file"
+      },
+      {
+        "mode": 420,
+        "mtime_ns": "1792908547838189638",
+        "path": "target/debug/owned-cargo-check.d",
+        "sha256": "8fbd3a382ca4231b9f37f3ddeca903c54702995fd4ec760842fdf4414d310971",
+        "size": 72,
+        "type": "file"
+      }
+    ],
+    "hardlink_groups": [
+      [
+        ".cargo-home/.global-cache"
+      ],
+      [
+        ".cargo-home/.package-cache"
+      ],
+      [
+        ".cargo-home/.package-cache-mutate"
+      ],
+      [
+        "Cargo.lock"
+      ],
+      [
+        "Cargo.toml"
+      ],
+      [
+        "src/main.rs"
+      ],
+      [
+        "target/.rustc_info.json"
+      ],
+      [
+        "target/CACHEDIR.TAG"
+      ],
+      [
+        "target/debug/.cargo-lock"
+      ],
+      [
+        "target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check"
+      ],
+      [
+        "target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check.json"
+      ],
+      [
+        "target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/dep-bin-owned-cargo-check"
+      ],
+      [
+        "target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/invoked.timestamp"
+      ],
+      [
+        "target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b",
+        "target/debug/owned-cargo-check"
+      ],
+      [
+        "target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b.d"
+      ],
+      [
+        "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/0m9rpqj0cx1rjkyghn2ebikem.o"
+      ],
+      [
+        "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/86qt5lsyisv8jfzeskkyd6n1w.o"
+      ],
+      [
+        "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/8wdsm05irolatvnjhj93jqa8m.o"
+      ],
+      [
+        "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/a42r6w91gk05a6sz9gz87pjz3.o"
+      ],
+      [
+        "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/c54qyobh5hjxbw8w3tafgpnvb.o"
+      ],
+      [
+        "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/dep-graph.bin"
+      ],
+      [
+        "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/evcbo1ka0j79voxoormu1hg3y.o"
+      ],
+      [
+        "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/query-cache.bin"
+      ],
+      [
+        "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/work-products.bin"
+      ],
+      [
+        "target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6.lock"
+      ],
+      [
+        "target/debug/owned-cargo-check.d"
+      ]
+    ],
+    "schema": "cargo-full-tree-v1"
+  },
+  "checkpointTreeOracleRaw": "{\"entries\":[{\"mode\":493,\"mtime_ns\":1792908547735844681,\"path\":\".\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547735014736,\"path\":\".cargo-home\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547724822132,\"path\":\".cargo-home/.global-cache\",\"sha256\":\"dd5c36b6129b82f46444c8b4f0a05679b3ffc72c2efaf4c5e3bcea018c655d49\",\"size\":57344,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547720970789,\"path\":\".cargo-home/.package-cache\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547735014736,\"path\":\".cargo-home/.package-cache-mutate\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908548040478505,\"path\":\".tmp\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.lock\",\"sha256\":\"48c9057d7a5186cd5b8eac7bdbded2045e151ce8d237a9c73153c9c9584b67be\",\"size\":161,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1700000000000000000,\"path\":\"Cargo.toml\",\"sha256\":\"d7eac549b4a0f92ed99d37211400f3987e80509b6ea4cb5a1751fc89b627583f\",\"size\":72,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1700000000000000000,\"path\":\"src\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547922948560,\"path\":\"src/main.rs\",\"sha256\":\"49666da78df37cdf12a16c4086f22f648e613e273f597bd7a9802b4d941e5764\",\"size\":33,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908547838466068,\"path\":\"target\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547838584443,\"path\":\"target/.rustc_info.json\",\"sha256\":\"b6f1b74f940dd4bef532f5654ec5f7f562e42eeb31708b47b99a3c0c9d727ca0\",\"size\":987,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547735639920,\"path\":\"target/CACHEDIR.TAG\",\"sha256\":\"6d9d1d216e0f83abc5e5662ca62c92b4f23009466b54fa27321a69acdb778bb2\",\"size\":177,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908548056422792,\"path\":\"target/debug\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547736298877,\"path\":\"target/debug/.cargo-lock\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908547737561725,\"path\":\"target/debug/.fingerprint\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547837349759,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908548056656597,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check\",\"sha256\":\"ebfeaeb098570f5fb361287549341d1cdc97aac1ac4f377e984beac98738871d\",\"size\":16,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908548057041794,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check.json\",\"sha256\":\"bd86460661462ca8a1f7d9622d9e0839b0f384ad7f7e94aaffc1157521245d8b\",\"size\":367,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547953526377,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/dep-bin-owned-cargo-check\",\"sha256\":\"dd32b16937730a9a92a8070aa73e4dbbc632703f88e1395eb2196a4f6b11a95a\",\"size\":31,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547953526377,\"path\":\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/invoked.timestamp\",\"sha256\":\"5a109e6643e8d3e88642e3f35e85d2a83e639d07523aa6e99166c48178e965c3\",\"size\":48,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908547737322610,\"path\":\"target/debug/build\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908548041553200,\"path\":\"target/debug/deps\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908548035790334,\"path\":\"target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b\",\"sha256\":\"5cd9e445fa847ccab732034394b166078ce6ec2731d6f7b519bdde46ffeda0ba\",\"size\":3880880,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547971207107,\"path\":\"target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b.d\",\"sha256\":\"efbdb2cbf16652d94cfc6827f4ad83870ca46f655dc4b195840a3ba3711b012a\",\"size\":177,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908547737054080,\"path\":\"target/debug/examples\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547749271158,\"path\":\"target/debug/incremental\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547989840602,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz\",\"type\":\"directory\"},{\"mode\":493,\"mtime_ns\":1792908547986975726,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u\",\"type\":\"directory\"},{\"mode\":420,\"mtime_ns\":1792908547774770547,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/0m9rpqj0cx1rjkyghn2ebikem.o\",\"sha256\":\"90cf1c7135d35d3690e22db9c4d457d4232ba48b79cc96a88486b1dd8d99ff38\",\"size\":6120,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547983330508,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/86qt5lsyisv8jfzeskkyd6n1w.o\",\"sha256\":\"74aeadaa852a93f533f1d5db674ca7e08d236e675df0280291d2a63b709c7717\",\"size\":3776,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547770993463,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/8wdsm05irolatvnjhj93jqa8m.o\",\"sha256\":\"9c1d27a738a73f9604676c42f492b983950ed5cdda3d564d34a5b6f98fbb8dce\",\"size\":3824,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547769401518,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/a42r6w91gk05a6sz9gz87pjz3.o\",\"sha256\":\"95248ef0ff98dada3b6e464deb07f4ed0cc67a16a583ecc7e94724a333be0078\",\"size\":7528,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547766455749,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/c54qyobh5hjxbw8w3tafgpnvb.o\",\"sha256\":\"3e2182bd4120441097b716f5113b13c5db94a0e051d57ad7182445edaa3ce247\",\"size\":3240,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547985269309,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/dep-graph.bin\",\"sha256\":\"71d3b241ad23deb0035a3f8e9fa3d64996174cdf47baeacb4649adfa9044387a\",\"size\":76432,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547764970876,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/evcbo1ka0j79voxoormu1hg3y.o\",\"sha256\":\"bc319d1a0e2e17e9cc08d2e45e15aafb871f79fdbba5542b99bb4eaa81c261fa\",\"size\":7168,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547984917092,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/query-cache.bin\",\"sha256\":\"796f2bb3c86b0eedea152a58070d21365873789096f4c84b9ae8566cd9785d7f\",\"size\":20897,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547987098636,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/work-products.bin\",\"sha256\":\"aa93cfa030cfaf4e4a436b121b9fdaefb494e6a72ea573453901ce38af179918\",\"size\":506,\"type\":\"file\"},{\"mode\":384,\"mtime_ns\":1792908547964034878,\"path\":\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6.lock\",\"sha256\":\"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\"size\":0,\"type\":\"file\"},{\"mode\":493,\"mtime_ns\":1792908548035790334,\"path\":\"target/debug/owned-cargo-check\",\"sha256\":\"5cd9e445fa847ccab732034394b166078ce6ec2731d6f7b519bdde46ffeda0ba\",\"size\":3880880,\"type\":\"file\"},{\"mode\":420,\"mtime_ns\":1792908547838189638,\"path\":\"target/debug/owned-cargo-check.d\",\"sha256\":\"8fbd3a382ca4231b9f37f3ddeca903c54702995fd4ec760842fdf4414d310971\",\"size\":72,\"type\":\"file\"}],\"hardlink_groups\":[[\".cargo-home/.global-cache\"],[\".cargo-home/.package-cache\"],[\".cargo-home/.package-cache-mutate\"],[\"Cargo.lock\"],[\"Cargo.toml\"],[\"src/main.rs\"],[\"target/.rustc_info.json\"],[\"target/CACHEDIR.TAG\"],[\"target/debug/.cargo-lock\"],[\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check\"],[\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/bin-owned-cargo-check.json\"],[\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/dep-bin-owned-cargo-check\"],[\"target/debug/.fingerprint/owned-cargo-check-67e19a1fae1f0b6b/invoked.timestamp\"],[\"target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b\",\"target/debug/owned-cargo-check\"],[\"target/debug/deps/owned_cargo_check-67e19a1fae1f0b6b.d\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/0m9rpqj0cx1rjkyghn2ebikem.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/86qt5lsyisv8jfzeskkyd6n1w.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/8wdsm05irolatvnjhj93jqa8m.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/a42r6w91gk05a6sz9gz87pjz3.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/c54qyobh5hjxbw8w3tafgpnvb.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/dep-graph.bin\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/evcbo1ka0j79voxoormu1hg3y.o\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/query-cache.bin\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6-9iws4sbyy358fcnjmy8zpgq7u/work-products.bin\"],[\"target/debug/incremental/owned_cargo_check-3c0mgwef32ouz/s-hnj6tdxicy-0ze88j6.lock\"],[\"target/debug/owned-cargo-check.d\"]],\"schema\":\"cargo-full-tree-v1\"}\n",
+  "checkpointTreeOracleSha256": "e185ccf77353baa107a3d42187ceb036ace0f96a1bdcc489fc276d86addad7b0",
+  "fullRestoredTreeVerified": true,
+  "originalMainViewUnchanged": true,
+  "sourceUnchanged": true,
+  "restoredRevision": "1275e2eb2eb04b534621602f1d670f9bcf9e2489ee37097ca124f13e7f1e97c4ef",
+  "allAcknowledgedIdsPresent": true,
+  "remainingMountsKnown": true,
+  "remainingContainersKnown": true
+}

@@ -1,0 +1,47 @@
+[
+    {
+        "Id": "sha256:82873029079150d2414e4f10ceeb1e84e826dacc162de1d86bee11e30387a4ab",
+        "RepoTags": [
+            "sprig-cargo-fixture:40166665918"
+        ],
+        "RepoDigests": [],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-10-25T05:49:32.893467869Z",
+        "Config": {
+            "Env": [
+                "PATH=/opt/rust/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/bash"
+            ],
+            "Labels": {
+                "org.opencontainers.image.version": "24.04"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 1005165334,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/qa2uu75ga8xb264ovctbz37j4/diff:/var/lib/docker/overlay2/jo3v57xwhzebak6fe7vseqvrg/diff:/var/lib/docker/overlay2/42xkfugjuo8dk74cjzjryt3w8/diff:/var/lib/docker/overlay2/9db9ef12ba491ee1d0e01f949ef2cc4f261d286f063512c47dc6351cf30a234f/diff",
+                "MergedDir": "/var/lib/docker/overlay2/k7k14k5hj78d9dtlw2ga3fa5s/merged",
+                "UpperDir": "/var/lib/docker/overlay2/k7k14k5hj78d9dtlw2ga3fa5s/diff",
+                "WorkDir": "/var/lib/docker/overlay2/k7k14k5hj78d9dtlw2ga3fa5s/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:32ab39660fd51c6dc3aae486b42d42bbe8fe4c1db78eaf57bb9c21198de48a16",
+                "sha256:f05f601d225d4d7f2b1fb3fde5be2234a07c97d6ee3e0999a28dc13c8a58bde1",
+                "sha256:a80cee2e48cb3855918c4feef05c7fd167c315e393417faaa8b34bdc6d3d7bf3",
+                "sha256:6352b5e95cd8a0f1e21eaea137cefd377ef9c89c86b405e7fc52b18fa7155dde",
+                "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "2026-10-25T05:49:34.306627428Z"
+        }
+    }
+]
