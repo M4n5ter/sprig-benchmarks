@@ -1,6 +1,6 @@
 import hashlib,json,os,stat,tempfile,unittest
 from pathlib import Path
-from stress_cargo_collect import collect
+from stress_cargo_collect import collect, allowed
 
 class Tests(unittest.TestCase):
     def test_failed_setup_copies_only_named_evidence_and_preserves_private_sources(self):
@@ -64,5 +64,71 @@ class Tests(unittest.TestCase):
             if failure is None:
                 self.assertEqual(coverage['verifiedUniqueFiles'],1)
                 self.assertEqual((out/'records/inc0/sprig-writable-0.jsonl.logs/000055-lifecycle.jsonl').read_bytes(),data)
+
+class OwnABTests(unittest.TestCase):
+    def test_exact_new_names_only(self):
+        for product in ('sprig-baseline','sprig-candidate'):
+            self.assertTrue(allowed('results',(f'stress-cargo-{product}-inc1-2.json',)))
+            self.assertTrue(allowed('records',('inc1',f'{product}-2.jsonl')))
+            self.assertTrue(allowed('records',('inc0',f'{product}-0-options.json')))
+        for name in ('stress-cargo-own-ab-2.json','stress-cargo-own-ab-0.json.extra','stress-cargo-sprig-other-inc0-0.json'):
+            self.assertFalse(allowed('results',(name,)))
+
+    def test_exact_additional_evidence_names(self):
+        names='stress-cargo-ab-products.json baseline-source-hashes.txt candidate-source-hashes.txt baseline-binary-hash.txt candidate-binary-hash.txt baseline-release-build.log candidate-release-build.log baseline-tests.txt candidate-tests.txt baseline-projection-gate.json candidate-projection-gate.json baseline-writable-gate.json candidate-writable-gate.json'.split()
+        for name in names:
+            self.assertTrue(allowed('results',(name,)))
+            self.assertFalse(allowed('results',(name+'.extra',)))
+        self.assertFalse(allowed('results',('other-release-build.log',)))
+
+    def test_own_ab_both_products_and_individual_reports(self):
+        self.case(None)
+
+    def test_malformed_archive_and_cross_family_identity_rejected(self):
+        for failure in ('wrong_product','old_report_new_product','new_report_old_product',
+                        'wrong_archive_product','wrong_incremental_path','duplicate',
+                        'bad_entry','bad_size','bad_hash','bad_round_bool','bad_round_string',
+                        'wrong_schema','wrong_incremental','bool_incremental','missing_incremental','own_round_one'):
+            with self.subTest(failure=failure):self.case(failure)
+
+    def case(self,failure):
+        with tempfile.TemporaryDirectory() as tmp:
+            b=Path(tmp);t=b/'temp';t.mkdir();r=b/'results';r.mkdir();records=[]
+            for product in ('sprig-baseline','sprig-candidate'):
+                directory=t/f'stress-cargo-records/inc1/{product}-0.jsonl.logs'
+                directory.mkdir(parents=True);source=directory/'000001-lifecycle.jsonl'
+                data=b'{}\n';source.write_bytes(data)
+                item={'archived':str(source),'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}
+                if product=='sprig-baseline':
+                    if failure=='wrong_archive_product':item['archived']=str(source).replace('sprig-baseline','sprig-candidate')
+                    if failure=='wrong_incremental_path':item['archived']=str(source).replace('/inc1/','/inc0/')
+                    if failure=='bad_size':item['bytes']=str(len(data))
+                    if failure=='bad_hash':item['sha256']=None
+                sample={'ok':True,'completeLogArchive':[item]}
+                if product=='sprig-baseline' and failure=='duplicate':sample['completeLogArchive'].append(item)
+                if product=='sprig-baseline' and failure=='bad_entry':sample['completeLogArchive']=[None]
+                records.append({'product':product,'round':0,'sample':sample})
+                (r/f'stress-cargo-{product}-inc1-0.json').write_text(json.dumps(sample))
+            report='stress-cargo-own-ab-1.json'
+            if failure=='wrong_product':records[0]['product']='sprig-other'
+            if failure=='old_report_new_product':report='stress-cargo-comparison-1.json'
+            if failure=='new_report_old_product':records[0]['product']='sprig-writable'
+            if failure=='bad_round_bool':records[0]['round']=False
+            if failure=='bad_round_string':records[0]['round']='0'
+            value={'schema':'sprig-stress-cargo-own-ab-v1','incremental':1,'records':records}
+            if failure=='wrong_schema':value['schema']='sprig-stress-cargo-comparison-v2'
+            if failure=='wrong_incremental':value['incremental']=0
+            if failure=='bool_incremental':value['incremental']=True
+            if failure=='missing_incremental':del value['incremental']
+            if failure=='own_round_one':records[0]['round']=1
+            (r/report).write_text(json.dumps(value))
+            out=b/'out'
+            if failure:
+                with self.assertRaisesRegex(ValueError,'completeness failed'):collect(r,t,out,os.getuid(),os.getgid())
+            else:
+                collect(r,t,out,os.getuid(),os.getgid())
+                coverage=json.loads((out/'collection.json').read_text())['declaredArchiveVerification']
+                self.assertEqual(coverage,{'ok':True,'sampleDeclarations':4,'verifiedUniqueFiles':2,'errors':[]})
+                with self.assertRaisesRegex(ValueError,'new artifact destination'):collect(r,t,out,os.getuid(),os.getgid())
 
 if __name__=='__main__':unittest.main()

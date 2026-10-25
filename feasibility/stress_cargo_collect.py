@@ -9,11 +9,14 @@ import re
 import stat
 
 RESULTS = set('cargo-toolchain-capacity.txt cargo-image-capacity.txt cargo-image-build.txt cargo-image.json cargo-software-identity.txt current-writable-contract.json docker-updated.txt environment.txt production-binary-hash.txt production-kernel-contract.json production-source-hashes.txt projection-rust-version.txt runtime-image.json script-hashes.txt stress-cargo-capacity-status.json stress-cargo-capacity.json stress-cargo-generated.json stress-cargo-lock-generation.txt stress-cargo-manifest.json stress-cargo-oracle.json'.split())
-PRODUCT = r'(?:sprig-writable|layerfs)'
+RESULTS.update('stress-cargo-ab-products.json baseline-source-hashes.txt candidate-source-hashes.txt baseline-binary-hash.txt candidate-binary-hash.txt baseline-release-build.log candidate-release-build.log baseline-tests.txt candidate-tests.txt baseline-projection-gate.json candidate-projection-gate.json baseline-writable-gate.json candidate-writable-gate.json'.split())
+COMPARATOR_PRODUCTS = ('sprig-writable', 'layerfs')
+OWN_AB_PRODUCTS = ('sprig-baseline', 'sprig-candidate')
+PRODUCT = r'(?:' + '|'.join(COMPARATOR_PRODUCTS + OWN_AB_PRODUCTS) + ')'
 
 def allowed(group, parts):
     if group == 'results':
-        return len(parts)==1 and (parts[0] in RESULTS or re.fullmatch(r'stress-cargo-(?:comparison-[01]|'+PRODUCT+r'-inc[01]-[0-2])\.json', parts[0]))
+        return len(parts)==1 and (parts[0] in RESULTS or re.fullmatch(r'stress-cargo-(?:(?:comparison|own-ab)-[01]|'+PRODUCT+r'-inc[01]-[0-2])\.json', parts[0]))
     if group == 'capacity':
         return len(parts)==1 and re.fullmatch(r'inc[01]\.(?:stdout|stderr)', parts[0])
     if group == 'records' and len(parts) in (2,3) and re.fullmatch(r'inc[01]',parts[0]):
@@ -40,6 +43,8 @@ def verify_declared_archives(destination, temporary, copied):
         for item in archive:
             if not isinstance(item,dict):errors.append('invalid archive entry');continue
             if not isinstance(item.get('archived'),str):errors.append('invalid archive path');continue
+            if type(item.get('bytes')) is not int or item['bytes'] < 0 or not isinstance(item.get('sha256'), str) or not re.fullmatch(r'[0-9a-f]{64}', item['sha256']):
+                errors.append('invalid archive size/hash');continue
             path=Path(item['archived'])
             parts=(f'inc{incremental}',f'{product}-{round_}.jsonl.logs',path.name)
             if path.parent!=expected or not allowed('records',parts):
@@ -54,21 +59,25 @@ def verify_declared_archives(destination, temporary, copied):
         name=Path(row['path']).name
         if not row['path'].startswith('results/'):continue
         match=re.fullmatch(r'stress-cargo-('+PRODUCT+r')-inc([01])-([0-2])\.json',name)
-        comparison=re.fullmatch(r'stress-cargo-comparison-([01])\.json',name)
+        comparison=re.fullmatch(r'stress-cargo-(comparison|own-ab)-([01])\.json',name)
         if not match and not comparison:continue
         try:report=json.loads((destination/row['path']).read_text())
         except (ValueError,UnicodeError):errors.append('invalid report JSON: '+row['path']);continue
         if not isinstance(report,dict):errors.append('invalid report object');continue
         if match:verify(report,match[1],match[2],match[3])
         else:
+            own_ab = comparison[1]=='own-ab'
+            if own_ab and (report.get('schema')!='sprig-stress-cargo-own-ab-v1' or type(report.get('incremental')) is not int or report['incremental']!=int(comparison[2])):
+                errors.append('invalid own-AB report schema/incremental identity');continue
             records=report.get('records',[])
             if not isinstance(records,list):errors.append('invalid comparison records');continue
             for record in records:
                 if not isinstance(record,dict):errors.append('invalid comparison record');continue
                 if 'sample' not in record:continue # runtime setup can fail before sampler
-                if record.get('product') not in ('sprig-writable','layerfs') or record.get('round') not in range(3):
+                products = OWN_AB_PRODUCTS if comparison[1]=='own-ab' else COMPARATOR_PRODUCTS
+                if record.get('product') not in products or type(record.get('round')) is not int or record['round'] not in (range(1) if own_ab else range(3)):
                     errors.append('invalid comparison sample identity');continue
-                verify(record['sample'],record['product'],comparison[1],record['round'])
+                verify(record['sample'],record['product'],comparison[2],record['round'])
     return {'ok':not errors,'sampleDeclarations':samples,'verifiedUniqueFiles':len(verified),'errors':errors}
 
 
