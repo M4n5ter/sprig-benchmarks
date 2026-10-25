@@ -1,0 +1,17 @@
+{
+  "run": 40158411448,
+  "benchmarkSha": "f0dcedfde47f301dc138c20e855a2e790489d748",
+  "pins": {
+    "baseline": "bc4165f5f55ceac63e18716ac96b19d9e4675afd",
+    "candidate": "a2b76e4c3ecdccdeeca24a669df4a82d1a4792f3"
+  },
+  "binaryHashes": {
+    "baseline": "6c529f1d99c3c4de4a5f4d15d94aa41499f79342262c6c36bf5f3526479dd65e",
+    "candidate": "7b14cc45d30292b366db5d2b7ad74917f5c79772234431b462a7a2e528bf3bc4"
+  },
+  "archive": "writable-40158411448-full-artifact.tar.gz",
+  "archiveSha256": "d160ab67fd852c8b2e177ee86e18f08c12a393e5cf123d37b14e14e135ac863b",
+  "originalRawSha256": "85a1c20d846b1250ec8efc1a18297154e825a015402f487e591261949af58313",
+  "records": 70,
+  "historicalReadbacks": 3000
+}

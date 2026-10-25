@@ -1,3 +1,5 @@
+**25 October owned lifecycle A/B:** [five-pair full results](LIFECYCLE-WRITABLE-RESULTS.md) passed 70 samples and 3,000 historical readbacks. Checkpoints are consistently about 6.2–6.7% lower in the three history cases; warm forks, total restore time and storage do not show a universal improvement. This is within-Sprig evidence, not a new comparator victory.
+
 **25 October lifecycle candidate smoke:** [same-runner baseline/candidate results](LIFECYCLE-SMOKE-RESULTS.md) retain all 12 samples and 600 historical readbacks. Single-pair improvements are mixed, not a universal performance or storage win; the earlier complete comparator results remain below.
 
 **Latest complete production comparison (24 October):** [e382/default-auto versus LayerFS v1.1.0](LATEST-V11-RESULTS.md) passed 126 records and 5,400 history readbacks across native, projection and owned writable. Full timing/storage/durability boundaries and original raw evidence are preserved; the overall speed-plus-storage target is not met.
