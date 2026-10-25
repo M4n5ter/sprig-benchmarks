@@ -1,0 +1,84 @@
+name: Same-runner native fork A-B
+run-name: Native fork ${{ inputs.mode }}
+on:
+  workflow_dispatch:
+    inputs:
+      backend:
+        type: choice
+        options: [native]
+        default: native
+        required: true
+      mode:
+        type: choice
+        options: [smoke, full]
+        default: smoke
+        required: true
+permissions:
+  contents: read
+jobs:
+  paired:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      CARGO_BUILD_JOBS: '2'
+      SPRIG_BACKEND: ${{ inputs.backend }}
+      LIFECYCLE_MODE: ${{ inputs.mode }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Record environment and install official tools
+        run: |
+          mkdir results
+          sudo apt-get update
+          sudo apt-get install -y btrfs-progs python3-btrfsutil
+          { uname -a; lscpu; free -h; df -h; findmnt -T "$PWD"; btrfs version; python3 --version; } > results/environment.txt
+          sha256sum feasibility/native_fork_ab.py feasibility/summarize_native_fork_ab.py feasibility/lifecycle_ab.py feasibility/lifecycle_sample.py feasibility/latest_sample.py feasibility/cas_sample.py feasibility/summarize_lifecycle_ab.py fixtures.py history_recipe.py > results/script-hashes.txt
+      - name: Fetch two immutable production revisions
+        run: |
+          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig-baseline
+          git -C sprig-baseline checkout a2b76e4c3ecdccdeeca24a669df4a82d1a4792f3
+          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig-candidate
+          git -C sprig-candidate checkout e2a86dc2b7942e0adf4273cd608857447d403335
+          rustup toolchain install stable --profile minimal
+          rustc +stable --version > results/rust-version.txt
+          for label in baseline candidate; do
+            find "sprig-$label/src" "sprig-$label/tests" -type f -print0 | sort -z | xargs -0 sha256sum > "results/$label-source-hashes.txt"
+          done
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: native-fork-registry-a2b76e4-e2a86dc-v1
+      - name: Build test and gate both revisions
+        run: |
+          for label in baseline candidate; do
+            export CARGO_TARGET_DIR="$PWD/sprig-$label/target"
+            cargo +stable test --locked --features projection --manifest-path "sprig-$label/Cargo.toml"
+            cargo +stable build --release --locked --features projection --manifest-path "sprig-$label/Cargo.toml"
+            mkdir "$RUNNER_TEMP/production-ab-gate-$label"
+            sudo env TMPDIR="$RUNNER_TEMP/production-ab-gate-$label" /usr/bin/python3 "sprig-$label/tests/projection_workflow.py" --binary "$PWD/sprig-$label/target/release/sprig" > "results/$label-kernel-contract.json"
+            mkdir "$RUNNER_TEMP/lifecycle-owned-gate-$label"
+            sudo env PATH="$PATH" RUSTUP_HOME="$HOME/.rustup" CARGO_HOME="$HOME/.cargo" TMPDIR="$RUNNER_TEMP/lifecycle-owned-gate-$label" /usr/bin/python3 "sprig-$label/tests/writable_workflow.py" --binary "$PWD/sprig-$label/target/release/sprig" > "results/$label-writable-contract.json"
+          done
+          python3 - <<'PY'
+          import hashlib,json,pathlib,subprocess
+          builds={'profile':'release', 'features':['projection'], 'compiler':subprocess.check_output(['rustc','+stable','--version','--verbose'],text=True)}
+          for label in ['baseline','candidate']:
+              root=pathlib.Path('sprig-'+label)
+              builds[label]={'sha':subprocess.check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip(),'targetDirectory':str((root/'target').resolve()),'binarySha256':hashlib.sha256((root/'target/release/sprig').read_bytes()).hexdigest()}
+          pathlib.Path('results/ab-builds.json').write_text(json.dumps(builds,indent=2)+'\n')
+          PY
+      - name: Generate frozen recipes
+        run: |
+          python3 fixtures.py fixtures 100 > results/fixture-generation.txt
+      - name: Run fixed same-runner pairs
+        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_TEMP,SPRIG_BACKEND,LIFECYCLE_MODE /usr/bin/python3 feasibility/native_fork_ab.py
+      - name: Validate completeness and summarize paired ratios
+        run: python3 feasibility/summarize_native_fork_ab.py results/lifecycle-ab.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: native-fork-ab-${{ inputs.mode }}
+          path: |
+            results/
+            ${{ runner.temp }}/lifecycle-ab-records/
