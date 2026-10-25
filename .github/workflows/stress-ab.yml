@@ -1,5 +1,5 @@
 name: Same-runner native pressure A/B
-run-name: Native10k baseline versus integrated, one pair
+run-name: Native10k baseline versus integrated, one reverse-order pair
 on:
   push:
     branches: [stress/canary-validation]
@@ -8,7 +8,7 @@ on:
       pair_order:
         type: choice
         options: [forward, reverse]
-        default: forward
+        default: reverse
         required: true
 permissions:
   contents: read
@@ -23,7 +23,7 @@ jobs:
       CARGO_BUILD_JOBS: '2'
       BASELINE_SHA: '071036f83691b89bd9e35bb162d34e305e1874b7'
       CANDIDATE_SHA: '1bd8793eda1be01dfe35b22abe00c14e5fff4fc9'
-      PAIR_ORDER: ${{ inputs.pair_order || 'forward' }}
+      PAIR_ORDER: ${{ inputs.pair_order || 'reverse' }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Verify exact real canary gates before building pressure candidates
@@ -73,6 +73,7 @@ jobs:
           test "$(realpath build-target-baseline)" != "$(realpath build-target-candidate)"
           if cmp -s bin/baseline-sprig bin/candidate-sprig; then echo "Unexpected identical variant binaries"; exit 1; fi
           sha256sum bin/*-sprig > results/both-binary-hashes-after-build.txt
+          printf '%s  %s\n' '086801ac765401f9fcd3116bbdf48c72118fd9f7682affd0057121756d2c7b12' 'bin/baseline-sprig' 'd904aa3c114af19d9719183c8100eb690281aad3165f2bfed4787ae2e71a00bd' 'bin/candidate-sprig' | sha256sum -c -
           python3 -m unittest discover -s feasibility -p 'test_stress*.py' -v
       - name: One exact same-runner native10k pair, tracing off
         run: |

@@ -1,0 +1,128 @@
+{
+  "schema": "sprig-stress-summary-v1",
+  "cell": "files-10000",
+  "diagnostic": false,
+  "units": "seconds and bytes",
+  "rows": [
+    {
+      "product": "baseline",
+      "backend": "native",
+      "round": 0,
+      "wholeSampleSeconds": 52.386080015999994,
+      "activeWholeFilesystemBytes": 127991808,
+      "postHistoryWholeFilesystemBytes": 242397184,
+      "activeMinusEmptyBytes": 127696896,
+      "postHistoryMinusEmptyBytes": 242102272,
+      "changedCheckpoints": 1,
+      "historicalReadbacks": 2,
+      "checkpointTails": {
+        "n": 1,
+        "median": 0.6197515850000173,
+        "maximum": 0.6197515850000173,
+        "total": 0.6197515850000173,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "restoreTails": {
+        "n": 2,
+        "median": 9.599189831499984,
+        "maximum": 9.963965992999988,
+        "total": 19.19837966299997,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historyWindows": [
+        {
+          "window": "late",
+          "firstChangedOrdinal": 1,
+          "lastChangedOrdinal": 1,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.6197515850000173,
+            "maximum": 0.6197515850000173,
+            "total": 0.6197515850000173,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        }
+      ]
+    },
+    {
+      "product": "candidate",
+      "backend": "native",
+      "round": 0,
+      "wholeSampleSeconds": 52.312915078999936,
+      "activeWholeFilesystemBytes": 127954944,
+      "postHistoryWholeFilesystemBytes": 242331648,
+      "activeMinusEmptyBytes": 127660032,
+      "postHistoryMinusEmptyBytes": 242036736,
+      "changedCheckpoints": 1,
+      "historicalReadbacks": 2,
+      "checkpointTails": {
+        "n": 1,
+        "median": 0.6652103060000627,
+        "maximum": 0.6652103060000627,
+        "total": 0.6652103060000627,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "restoreTails": {
+        "n": 2,
+        "median": 9.508752360499955,
+        "maximum": 9.929496127999982,
+        "total": 19.01750472099991,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historyWindows": [
+        {
+          "window": "late",
+          "firstChangedOrdinal": 1,
+          "lastChangedOrdinal": 1,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.6652103060000627,
+            "maximum": 0.6652103060000627,
+            "total": 0.6652103060000627,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        }
+      ]
+    }
+  ],
+  "withinPairRatios": [
+    {
+      "backend": "native",
+      "round": 0,
+      "numerator": "baseline",
+      "denominator": "candidate",
+      "ratios": {
+        "wholeSampleSeconds": 1.0013986017963168,
+        "activeWholeFilesystemBytes": 1.0002881014116969,
+        "postHistoryWholeFilesystemBytes": 1.0002704392948296,
+        "activeMinusEmptyBytes": 1.0002887669650593,
+        "postHistoryMinusEmptyBytes": 1.0002707688142018
+      }
+    }
+  ],
+  "caveats": [
+    "Descriptive correlated-operation tails; no independent-sample statistical claim.",
+    "Whole sample subprocess wall is authoritative; nested phase totals are not added to it.",
+    "Whole filesystem includes runtime and all retained generations; runtime differences disclosed.",
+    "Different durability and CLI versus SDK/container transport; no CPU/RAM-equivalence claim.",
+    "New full-metadata stress protocol, not interchangeable with frozen listed-file results."
+  ]
+}

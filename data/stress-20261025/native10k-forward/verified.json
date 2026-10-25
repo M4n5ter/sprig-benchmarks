@@ -1,0 +1,31 @@
+{
+  "verified": true,
+  "comparisonProtocol": "within-sprig-ab",
+  "diagnostic": false,
+  "records": [
+    {
+      "product": "baseline",
+      "backend": "native",
+      "round": 0,
+      "fullTreeChecks": 11,
+      "historicalReadbacks": 2,
+      "cleanup": true,
+      "archivedFilesVerified": 12
+    },
+    {
+      "product": "candidate",
+      "backend": "native",
+      "round": 0,
+      "fullTreeChecks": 11,
+      "historicalReadbacks": 2,
+      "cleanup": true,
+      "archivedFilesVerified": 12
+    }
+  ],
+  "totalFullTreeChecks": 22,
+  "totalHistoricalReadbacks": 4,
+  "sourcePins": {
+    "baseline": "071036f83691b89bd9e35bb162d34e305e1874b7",
+    "candidate": "1bd8793eda1be01dfe35b22abe00c14e5fff4fc9"
+  }
+}
