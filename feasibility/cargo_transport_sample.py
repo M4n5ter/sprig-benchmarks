@@ -59,6 +59,7 @@ def transport_report():
                    "binarySourcePinVerifiedBySampler": False,
                    "transport": "cooperative-generation-container-plus-docker-exec-v1",
                    "transport_seconds": {}, "transportCommands": [], "compilerSessions": [],
+                   "transportObservationRevision": "post-marker-missing-pid-resample-v2",
                    "convenience_seconds": {"checkpointCompilerQuiescePlusProduct": None, "restoreToCompilerReady": None},
                    "convenienceBoundaries": {
                        "checkpointCompilerQuiescePlusProduct": "wall time from compiler shutdown start through product checkpoint/readiness completion, including intervening inventory and acknowledgment bookkeeping",
@@ -159,11 +160,29 @@ class CargoTransportSample(CargoSample):
             require(state.get("Running") is False and state.get("Status") == "exited"
                     and state.get("Pid") == 0 and state.get("ExitCode") == 0,
                     "cooperative container did not naturally exit successfully", inspect=value)
-        if "pidIdentity" in session and state.get("Running"):
-            require(state["Pid"] == session["pidIdentity"]["pid"]
-                    and self.pid_identity(state["Pid"]) == session["pidIdentity"]
-                    and state.get("StartedAt") == session["startedAt"],
-                    "cooperative PID1 identity changed", inspect=value)
+        if "pidIdentity" in session:
+            observed = self.pid_identity(session["pidIdentity"]["pid"])
+            observation = {"purpose": purpose, "dockerState": dict(state),
+                           "expected": dict(session["pidIdentity"]), "observed": observed}
+            session.setdefault("pidObservations", []).append(observation)
+            require(state.get("StartedAt") == session["startedAt"],
+                    "cooperative PID1 start identity changed", inspect=value, pidObservation=observation)
+            if state.get("Running"):
+                require(state.get("Pid") == session["pidIdentity"]["pid"],
+                        "cooperative PID1 Docker PID changed", inspect=value, pidObservation=observation)
+                # Docker's running snapshot and /proc are not atomic. Only an
+                # acknowledged cooperative shutdown may observe a missing PID
+                # while waiting for the next exact-container exited snapshot.
+                # A present but different identity is never accepted here.
+                if observed is None:
+                    require(running is None and purpose == "observe_natural_exit"
+                            and session.get("cooperativeMarkerAcknowledged") is True,
+                            "cooperative PID1 missing outside acknowledged exit observation",
+                            inspect=value, pidObservation=observation)
+                    observation["pendingDockerExitObservation"] = True
+                else:
+                    require(observed == session["pidIdentity"],
+                            "cooperative PID1 identity changed", inspect=value, pidObservation=observation)
         log_path = value.get("LogPath", "")
         measured = self.report.get("containingFilesystem", {}).get("mountpoint")
         require(not log_path or (measured and inside(Path(log_path), Path(measured))),
@@ -250,6 +269,7 @@ class CargoTransportSample(CargoSample):
             # One cooperative marker request, outside the product's working tree.
             self.docker("cooperative_marker", ["exec", "--workdir", "/", session["id"],
                                                "python3", "-B", "-c", MARKER_WRITER, session["marker"]], purpose=purpose)
+            session["cooperativeMarkerAcknowledged"] = True
             deadline = time.monotonic() + 15
             while True:
                 state = self.inspect_session(session, running=None, purpose="observe_natural_exit")

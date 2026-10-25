@@ -173,6 +173,43 @@ class MockSample(t.CargoTransportSample):
         self.space_taken=True
 
 
+class ExitObservationSample(MockSample):
+    """Model separate Docker state and /proc observations during natural exit."""
+    def __init__(self, root, observation="stale_once"):
+        super().__init__(root)
+        self.observation = observation
+        self.exit_inspections = {}
+
+    def pid_identity(self, pid):
+        value = next((v for v in self.engine.values() if v["pid"] == pid), None)
+        if value and value["marker"] and self.observation == "pid_reused":
+            return {"pid": pid, "startTimeTicks": value["ticks"] + 1}
+        if value and not value["marker"] and self.observation == "missing_before_marker":
+            # Session startup captures identity, then the required-running
+            # pre-marker check sees a missing process.
+            if any(s.get("pidIdentity") for s in self.sessions.values()):
+                return None
+        return super().pid_identity(pid)
+
+    def docker(self, operation, arguments, *, purpose, input_data=None):
+        output, row = super().docker(operation, arguments, purpose=purpose, input_data=input_data)
+        if operation == "inspect" and purpose in ("observe_natural_exit", "verify_natural_exit"):
+            value = self.engine[arguments[1]]
+            self.exit_inspections[value["id"]] = self.exit_inspections.get(value["id"], 0) + 1
+            result = json.loads(output)
+            state = result[0]["State"]
+            if (self.observation == "stale_once" and self.exit_inspections[value["id"]] == 1
+                    or self.observation in ("stale_timeout", "pid_reused", "docker_pid_changed", "started_changed")):
+                state.update(Running=True, Status="running", Pid=value["pid"])
+            if self.observation == "docker_pid_changed":state["Pid"] += 1
+            if self.observation == "started_changed":state["StartedAt"] = "other-start"
+            if self.observation == "failed_exit":state["ExitCode"] = 1
+            output = json.dumps(result);row["stdout"] = output
+        if operation == "wait_exit" and self.observation == "failed_wait":
+            output = "1\n";row["stdout"] = output
+        return output, row
+
+
 class TransportTests(unittest.TestCase):
     def patches(self,sample):
         stack=ExitStack()
@@ -226,6 +263,71 @@ class TransportTests(unittest.TestCase):
                     self.assertEqual(len([call for call in sample.cli_calls if call[0]=='unmount-generation']),before_unmounts)
                     self.assertEqual(len([call for call in sample.engine_calls if call[0]=='remove']),1 if failure=='remove_uncertain' else 0)
                     self.assertFalse(any(call[0]=='checkpoint' for call in sample.cli_calls))
+
+    def test_stale_docker_running_missing_proc_resamples_after_marker_only(self):
+        with tempfile.TemporaryDirectory() as directory:
+            sample = ExitObservationSample(Path(directory))
+            with self.patches(sample), patch.object(t.time, "sleep", lambda _: None):
+                sample.execute()
+                sample.cleanup()
+            self.assertTrue(sample.report["lifecycle"]["cleanup"]["complete"])
+            self.assertEqual(len([c for c in sample.engine_calls if c[0] == "cooperative_marker"]), 4)
+            self.assertEqual(len([c for c in sample.engine_calls if c[0] == "remove"]), 4)
+            for session in sample.sessions.values():
+                self.assertTrue(session["cooperativeMarkerAcknowledged"])
+                self.assertTrue(session["naturalExitAndPidGoneVerified"])
+                pending = [o for o in session["pidObservations"] if o.get("pendingDockerExitObservation")]
+                self.assertEqual(len(pending), 1)
+                self.assertIsNone(pending[0]["observed"])
+                self.assertEqual(pending[0]["purpose"], "observe_natural_exit")
+                self.assertTrue(any(o["dockerState"]["Status"] == "exited" for o in session["pidObservations"]))
+
+    def test_missing_pid_observation_without_marker_acknowledgment_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            sample = ExitObservationSample(Path(directory))
+            session = sample.start_session(sample.source, readonly=True, purpose="source_unchanged")
+            sample.engine[session["id"]]["running"] = False
+            with self.assertRaisesRegex(t.SampleError, "missing outside acknowledged exit"):
+                sample.inspect_session(session, running=None, purpose="observe_natural_exit")
+            self.assertFalse(session.get("cooperativeMarkerAcknowledged", False))
+            self.assertIsNone(session["pidObservations"][-1]["observed"])
+            self.assertFalse(any(c[0] in ("cooperative_marker", "remove") for c in sample.engine_calls))
+
+    def test_exit_observation_identity_failure_timeout_and_bad_exit_block_cleanup(self):
+        for observation in ("pid_reused", "docker_pid_changed", "started_changed", "stale_timeout",
+                            "failed_exit", "failed_wait", "missing_before_marker"):
+            with self.subTest(observation=observation), tempfile.TemporaryDirectory() as directory:
+                sample = ExitObservationSample(Path(directory), observation)
+                with self.patches(sample):
+                    clock = itertools.count()
+                    expected_error = {
+                        "pid_reused": "cooperative PID1 identity changed",
+                        "docker_pid_changed": "cooperative PID1 Docker PID changed",
+                        "started_changed": "cooperative PID1 start identity changed",
+                        "stale_timeout": "cooperative exit not observed",
+                        "failed_exit": "cooperative container did not naturally exit successfully",
+                        "failed_wait": "docker wait did not confirm successful natural exit",
+                        "missing_before_marker": "cooperative PID1 missing outside acknowledged exit observation",
+                    }[observation]
+                    with patch.object(t.time, "monotonic", lambda: next(clock)), patch.object(t.time, "sleep", lambda _: None):
+                        with self.assertRaisesRegex(t.SampleError, expected_error):sample.execute()
+                    mutations_before = [c for c in sample.engine_calls if c[0] in ("cooperative_marker", "remove")]
+                    sample.processes = lambda: []
+                    sample.cleanup()
+                    self.assertTrue(sample.cleanup_blocked)
+                    self.assertFalse(sample.report["lifecycle"]["cleanup"]["complete"])
+                    self.assertEqual(mutations_before, [c for c in sample.engine_calls if c[0] in ("cooperative_marker", "remove")])
+                    self.assertFalse(any(c[0] in ("unmount-generation", "checkpoint") for c in sample.cli_calls))
+                    self.assertFalse(any(c[0] == "remove" for c in sample.engine_calls))
+                    self.assertEqual(len([c for c in sample.engine_calls if c[0] == "cooperative_marker"]),
+                                     0 if observation == "missing_before_marker" else 1)
+                    observations = [o for session in sample.sessions.values() for o in session.get("pidObservations", [])]
+                    self.assertTrue(observations)
+                    if observation == "pid_reused":
+                        self.assertNotEqual(observations[-1]["expected"], observations[-1]["observed"])
+                        self.assertIsNotNone(observations[-1]["observed"])
+                    if observation == "stale_timeout":
+                        self.assertTrue(any(o.get("pendingDockerExitObservation") for o in observations))
 
     def test_waiter_waits_for_exact_marker_writer_identity_to_disappear(self):
         for reused in (False,True):
