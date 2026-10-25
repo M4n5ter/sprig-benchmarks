@@ -1,0 +1,188 @@
+{
+  "schema": "sprig-stress-summary-v1",
+  "cell": "history-hot-100",
+  "diagnostic": false,
+  "units": "seconds and bytes",
+  "rows": [
+    {
+      "product": "backoff",
+      "backend": "writable",
+      "round": 0,
+      "wholeSampleSeconds": 49.94733132900001,
+      "activeWholeFilesystemBytes": 11210752,
+      "postHistoryWholeFilesystemBytes": 19017728,
+      "activeMinusEmptyBytes": 10915840,
+      "postHistoryMinusEmptyBytes": 18722816,
+      "changedCheckpoints": 100,
+      "historicalReadbacks": 100,
+      "checkpointTails": {
+        "n": 100,
+        "median": 0.03875857450000808,
+        "maximum": 0.19655230800003665,
+        "total": 4.3940117210000835,
+        "quantileMethod": "nearest-rank",
+        "p95": 0.06994192199999816,
+        "p99": 0.13861096199997291,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "restoreTails": {
+        "n": 100,
+        "median": 0.022240229000004774,
+        "maximum": 0.04094917999998415,
+        "total": 2.2964398740003276,
+        "quantileMethod": "nearest-rank",
+        "p95": 0.027929372000016883,
+        "p99": 0.03327590200001396,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historyWindows": [
+        {
+          "window": "early",
+          "firstChangedOrdinal": 1,
+          "lastChangedOrdinal": 33,
+          "checkpoint": {
+            "n": 33,
+            "median": 0.04011468900006321,
+            "maximum": 0.12096581700001252,
+            "total": 1.5581807919999164,
+            "quantileMethod": "nearest-rank",
+            "p95": 0.11530495799996743,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "middle",
+          "firstChangedOrdinal": 34,
+          "lastChangedOrdinal": 66,
+          "checkpoint": {
+            "n": 33,
+            "median": 0.03958949000002576,
+            "maximum": 0.19655230800003665,
+            "total": 1.5598425610002664,
+            "quantileMethod": "nearest-rank",
+            "p95": 0.13861096199997291,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "late",
+          "firstChangedOrdinal": 67,
+          "lastChangedOrdinal": 100,
+          "checkpoint": {
+            "n": 34,
+            "median": 0.034364318499967794,
+            "maximum": 0.10282968799998571,
+            "total": 1.2759883679999007,
+            "quantileMethod": "nearest-rank",
+            "p95": 0.055019166999954905,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        }
+      ]
+    },
+    {
+      "product": "baseline",
+      "backend": "writable",
+      "round": 0,
+      "wholeSampleSeconds": 54.119717681,
+      "activeWholeFilesystemBytes": 11350016,
+      "postHistoryWholeFilesystemBytes": 19152896,
+      "activeMinusEmptyBytes": 11055104,
+      "postHistoryMinusEmptyBytes": 18857984,
+      "changedCheckpoints": 100,
+      "historicalReadbacks": 100,
+      "checkpointTails": {
+        "n": 100,
+        "median": 0.060731908500002874,
+        "maximum": 0.27065571699995417,
+        "total": 6.481964262000076,
+        "quantileMethod": "nearest-rank",
+        "p95": 0.06560882999997375,
+        "p99": 0.26970123200004537,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "restoreTails": {
+        "n": 100,
+        "median": 0.0218351489999975,
+        "maximum": 0.1267043330000206,
+        "total": 2.3876391240000885,
+        "quantileMethod": "nearest-rank",
+        "p95": 0.02877260299999307,
+        "p99": 0.056004975999996987,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historyWindows": [
+        {
+          "window": "early",
+          "firstChangedOrdinal": 1,
+          "lastChangedOrdinal": 33,
+          "checkpoint": {
+            "n": 33,
+            "median": 0.0614999079999734,
+            "maximum": 0.27065571699995417,
+            "total": 2.4528208320001568,
+            "quantileMethod": "nearest-rank",
+            "p95": 0.26970123200004537,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "middle",
+          "firstChangedOrdinal": 34,
+          "lastChangedOrdinal": 66,
+          "checkpoint": {
+            "n": 33,
+            "median": 0.061321126999985154,
+            "maximum": 0.0695038499999896,
+            "total": 2.0186365639999053,
+            "quantileMethod": "nearest-rank",
+            "p95": 0.06560882999997375,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "late",
+          "firstChangedOrdinal": 67,
+          "lastChangedOrdinal": 100,
+          "checkpoint": {
+            "n": 34,
+            "median": 0.05784028850001732,
+            "maximum": 0.07815917900001068,
+            "total": 2.0105068660000143,
+            "quantileMethod": "nearest-rank",
+            "p95": 0.06380357599999797,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        }
+      ]
+    }
+  ],
+  "withinPairRatios": [
+    {
+      "backend": "writable",
+      "round": 0,
+      "numerator": "baseline",
+      "denominator": "backoff",
+      "ratios": {
+        "wholeSampleSeconds": 1.0835357213484889,
+        "activeWholeFilesystemBytes": 1.0124223602484472,
+        "postHistoryWholeFilesystemBytes": 1.0071074736161965,
+        "activeMinusEmptyBytes": 1.0127579737335834,
+        "postHistoryMinusEmptyBytes": 1.0072194268212644
+      }
+    }
+  ],
+  "caveats": [
+    "Descriptive correlated-operation tails; no independent-sample statistical claim.",
+    "Whole sample subprocess wall is authoritative; nested phase totals are not added to it.",
+    "Whole filesystem includes runtime and all retained generations; runtime differences disclosed.",
+    "Same Sprig public CLI and durability protocol; only pinned implementation differs; no CPU/RAM savings measured.",
+    "New full-metadata stress protocol, not interchangeable with frozen listed-file results."
+  ]
+}

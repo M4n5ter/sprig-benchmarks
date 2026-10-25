@@ -1,0 +1,51 @@
+{
+  "schema": "sprig-stress-sequence-v1",
+  "status": "passed",
+  "complete": true,
+  "sharedBudgetSeconds": 1200,
+  "cell": "history-hot-100",
+  "suite": null,
+  "backend": "writable",
+  "pairOrder": "reverse",
+  "products": [
+    {
+      "label": "baseline",
+      "type": "sprig",
+      "sha": "071036f83691b89bd9e35bb162d34e305e1874b7",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig"
+    },
+    {
+      "label": "backoff",
+      "type": "sprig",
+      "sha": "2c3a7910fe98bf3a8df61f7142cbef740e4ccb2a",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig"
+    }
+  ],
+  "binarySha256": {
+    "baseline": "086801ac765401f9fcd3116bbdf48c72118fd9f7682affd0057121756d2c7b12",
+    "backoff": "e9393f24b30f5afaf75aa3e417e165aca20b97bbc3fe842fbcf0f40e8feb28ee"
+  },
+  "phases": [
+    {
+      "phase": "canary",
+      "cell": "canary",
+      "budgetSeconds": 300,
+      "startedAfterSeconds": 0.009052056000030007,
+      "returncode": 0,
+      "verified": true,
+      "fullTreeChecks": 30,
+      "historicalReadbacks": 8
+    },
+    {
+      "phase": "pressure",
+      "cell": "history-hot-100",
+      "budgetSeconds": 1166,
+      "startedAfterSeconds": 3.9338234240000247,
+      "returncode": 0,
+      "verified": true,
+      "fullTreeChecks": 414,
+      "historicalReadbacks": 200
+    }
+  ],
+  "elapsedSeconds": 108.35236416800001
+}

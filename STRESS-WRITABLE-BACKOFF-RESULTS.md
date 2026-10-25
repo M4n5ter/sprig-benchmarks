@@ -75,3 +75,10 @@ Whole wall is18.63%lower, checkpoint total32.56%lower and normal restore cleanup
 Checkpoint p99 is worse625.732→694.170ms despite lower median74.721→52.672ms. Other tail directions differ from the first runner; neither pair supports a universal tail-latency guarantee. Two matched runner groups remain limited evidence, not200independent replications per variant.
 
 Again444full-tree checks/208historical restores and884archived log hashes pass;103primary/203post-history generations retained per product, normal cleanup complete, trace disabled. Sequence152.776seconds; full job6m45s. Raw reverse evidence and provenance are retained in `data/stress-20261025/writable-backoff-reverse`. This confirms the aggregate fixed-wait hypothesis in both tested orders while preserving the adverse tails and unrelated phase variation.
+
+## Unplanned staging duplicate — disclosed, not pooled
+
+[Run40188441092](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40188441092), head `6de63cfb2cefd620a92aa4b22489e52e7c03c475`, unexpectedly ran the unchanged reverse backoff workflow during helper/report staging. Skip-marked ancestor commits did not suppress this push; future staging must use an explicit inactive route or verified HEAD skip behavior. The run finished naturally in5m26s; it is **unplanned and excluded from the two planned-pair summaries**, not silently selected or discarded. Full raw/provenance remain in `data/stress-20261025/writable-backoff-unplanned`. All444treechecks/208restores/884loghashes and exactbinary/fixture gates pass.
+
+- baseline: whole54.1197s; checkpoint6.4820s; normal restore cleanup4.1690s; primary/post wholeFSUsed11,350,016/19,152,896bytes.
+- backoff: whole49.9473s; checkpoint4.3940s; normal restore cleanup1.8837s; primary/post wholeFSUsed11,210,752/19,017,728bytes.

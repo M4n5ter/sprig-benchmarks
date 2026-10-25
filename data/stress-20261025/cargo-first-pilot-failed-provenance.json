@@ -1,0 +1,26 @@
+{
+  "runId": 40188875391,
+  "runUrl": "https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40188875391",
+  "benchmarkSha": "d0095a97b40d805abc486d2fea1c74493751504a",
+  "sprigSha": "70307d3480239e96a24552d8595ec537927d9301",
+  "status": "failed-before-product-sampler",
+  "artifactsAvailable": 0,
+  "underlyingDockerLoadCause": "unknown-output-not-retained",
+  "files": [
+    {
+      "path": "artifacts.json",
+      "bytes": 32,
+      "sha256": "244563f989470892c537c9a4622920af0d228ee4528f7d00c64a06d6cd95856c"
+    },
+    {
+      "path": "failed-steps.log",
+      "bytes": 15522,
+      "sha256": "0ba50cccbfbeb751ef9ce447573df5654de391f2d948534136b089e8e2bb7b1c"
+    },
+    {
+      "path": "full-ci.log",
+      "bytes": 149267,
+      "sha256": "77ec9060938dc745dd2d7b62ae2da32ce5d8697cd41b3306215184e8ecb69600"
+    }
+  ]
+}
