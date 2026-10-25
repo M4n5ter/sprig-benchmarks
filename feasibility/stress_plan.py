@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Emit a bounded staged plan. This does not launch any benchmark/job."""
 import json
+from stress_fixture import file_sizes
 
 MiB = 1024**2
 
@@ -11,7 +12,7 @@ def matrix():
         p.update(params)
         # Deliberately no reflink/dedup credit: native retained restore trees,
         # plus writable checkpoint generations, plus three initial views.
-        logical = p['files'] * p['size']
+        logical = sum(file_sizes(p['files'],p['size'],p.get('size_profile','uniform')))
         operations = p['steps'] if p['steps'] else 2  # no-op + one changed checkpoint
         generations = 3 + 2*operations
         rows.append(dict(name=name, stage=stage, fixture=p,
@@ -34,6 +35,7 @@ def matrix():
             add(f'history-{pattern}-{n}', stage=1 if n == 100 else 2, steps=n, pattern=pattern)
     add('history-bytes-8MiB-100', stage=2, files=256, size=32768, steps=100)
     add('hardlinks-256', links=256, steps=100, pattern='hot')
+    add('cache-history-repeated-300', stage=2, files=200, size=4096, size_profile='cache-1-8-48k', steps=300, pattern='cache-repeated-hot')
     return rows
 
 if __name__ == '__main__':

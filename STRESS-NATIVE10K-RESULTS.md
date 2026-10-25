@@ -1,8 +1,8 @@
-# Native10k own-version A/B — first forward pilot
+# Native10k own-version A/B — forward and reverse pilots
 
 25October2026. [Run40182320969](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40182320969), benchmark `0a625c3bf3e0ecf685f20f0983d95abb0e67a33b`. Same runner, baseline `071036f83691b89bd9e35bb162d34e305e1874b7` followed by narrowed integrated candidate `1bd8793eda1be01dfe35b22abe00c14e5fff4fc9`. Candidate contains query/checkpoint work, not the unproven backup-byte tweak. Trace disabled; default auto compression and production synchronization unchanged.
 
-**No meaningful whole-task gain in this single pilot; checkpoint time was higher.** This is descriptive evidence, not proof of a general regression or a statistically significant result. A reverse-order pair is required before deciding about the parallel default.
+**No meaningful whole-task gain in this single pilot; checkpoint time was higher.** This is descriptive evidence, not proof of a general regression or a statistically significant result. The reverse-order confirmation below also fails to support promoting the parallel default.
 
 | Metric | Baseline | Candidate |
 |---|---:|---:|
@@ -35,3 +35,27 @@ Candidate whole wall is0.14%lower, while checkpoint sum is9.87%higher (changed7.
 - One order/pair cannot establish stable tails or confidence. No p95/p99 is claimed from two checkpoints, and no main promotion follows from this result.
 
 [Complete unchanged forward artifact](data/stress-20261025/native10k-forward/) · [Independent verification](data/stress-20261025/native10k-forward/verified.json) · [Every-file provenance](data/stress-20261025/native10k-forward-provenance.json).
+
+## Reverse-order confirmation
+
+[Run40183751619](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40183751619), benchmark `5030a4170bb73266858711b67c724655e0ad8fe1`, ran candidate then baseline on a new runner. Source pins, fixture hash and both compiled binary hashes are identical to the forward pair; the workflow explicitly rejected any binary-hash mismatch. All22full-tree checks,4restores and24archive hashes pass with normal cleanup and tracing off.
+
+| Metric | Baseline | Candidate |
+|---|---:|---:|
+| Whole sampler wall, s | 40.9231 | 40.3537 |
+| Init, s | 0.0098 | 0.0100 |
+| Import, s | 8.6572 | 8.4226 |
+| First Fork, s | 5.3895 | 5.5729 |
+| First Read, s | 0.5908 | 0.6398 |
+| Warm Fork, s | 6.0304 | 5.6273 |
+| Warm Read, s | 0.5603 | 0.5775 |
+| Write, s | 0.0044 | 0.0047 |
+| Checkpoint, s | 0.8935 | 1.0644 |
+| Restore, s | 15.6074 | 15.1840 |
+| Restore Read, s | 0.5682 | 0.5750 |
+| Unchanged checkpoint, s | 0.4370 | 0.5221 |
+| Changed checkpoint, s | 0.4565 | 0.5423 |
+| activeSpace wholeFSUsed, bytes | 127,922,176 | 127,823,872 |
+| postHistorySpace wholeFSUsed, bytes | 242,364,416 | 242,167,808 |
+
+The candidate checkpoint sum is19.13%higher (changed18.79%, no-op19.49%); whole wall is1.39%lower. Both orders therefore show slower checkpoint work without a compelling complete-task win. Absolute times differ substantially between runners; compare only matched ratios within each runner, not cross-run raw values. These are two runner groups, not independent per-file/checkpoint replicates; there is no statistical-significance or tail claim. The result does not support promoting the parallel checkpoint default. Raw evidence: `data/stress-20261025/native10k-reverse` plus its provenance manifest.

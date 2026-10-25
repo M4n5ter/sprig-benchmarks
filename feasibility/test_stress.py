@@ -71,3 +71,26 @@ class StressTests(unittest.TestCase):
             self.assertTrue((Path(t)/'a/node000/build.rs').exists())
 
 if __name__ == '__main__': unittest.main()
+
+class CacheFixtureTests(unittest.TestCase):
+    def test_targeted_mix_repeated_hot_replay(self):
+        with tempfile.TemporaryDirectory() as t:
+            root=Path(t)/'source'
+            fixture=generate(root,files=200,size_profile='cache-1-8-48k',pattern='cache-repeated-hot',steps=24)
+            files=[x for x in fixture['initial']['entries'] if x['type']=='file']
+            self.assertEqual(sum(x['size'] for x in files),1024**2)
+            from collections import Counter
+            self.assertEqual(Counter(x['size'] for x in files),{1024:128,8192:64,49152:8})
+            hashes={x['path']:x['sha256'] for x in files}
+            for i,e in enumerate(fixture['edits'],1):
+                self.assertNotEqual(hashes[e['path']],e['sha256'])
+                hashes[e['path']]=e['sha256'];apply_edit(root,e)
+                self.assertEqual(differences(expected_after(fixture,i),snapshot(root)),[])
+            for i in range(6):
+                self.assertEqual(fixture['edits'][i]['sha256'],fixture['edits'][i+12]['sha256'])
+                self.assertNotEqual(fixture['edits'][i]['sha256'],fixture['edits'][i+6]['sha256'])
+    def test_targeted_plan_bytes(self):
+        case=next(r for r in matrix() if r['name']=='cache-history-repeated-300')
+        self.assertEqual(case['logicalBytes'],1024**2)
+        self.assertEqual(case['conservativeRetainedLogicalBytes'],603*1024**2)
+        self.assertFalse(case['capacityReviewRequired'])

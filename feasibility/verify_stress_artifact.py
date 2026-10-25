@@ -7,7 +7,7 @@ from pathlib import Path
 
 
 def verify(root):
-    roots=list(root.rglob('stress-results/stress-comparison.json'))
+    roots=[p for p in root.rglob('stress-comparison.json') if p.parent.name=='stress-results']
     if len(roots)!=1: raise ValueError('expected exactly one stress-comparison artifact')
     results=roots[0].parent;r=json.loads(roots[0].read_text())
     assert r['complete'] and r['status']=='passed'
@@ -37,7 +37,8 @@ def verify(root):
             assert len(data)==size and hashlib.sha256(data).hexdigest()==digest
         out.append(dict(product=row['product'],backend=row['backend'],round=row['round'],
                         fullTreeChecks=len(s['fullTreeChecks']),historicalReadbacks=operations,
-                        cleanup=True,archivedFilesVerified=len(logs)))
+                        cleanup=True,archivedFilesVerified=len(logs),
+                        binarySha256=s.get('binarySha256')))
     return dict(verified=True,comparisonProtocol=r['comparisonProtocol'],diagnostic=r['diagnostic'],
                 records=out,totalFullTreeChecks=sum(x['fullTreeChecks'] for x in out),
                 totalHistoricalReadbacks=sum(x['historicalReadbacks'] for x in out),

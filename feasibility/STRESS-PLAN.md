@@ -247,3 +247,27 @@ as an invented same-runner repeated measurement. One pilot pair is descriptive;
 no confidence or p99 claim is made from its two checkpoint operations. Confirmatory
 pairs require fresh review of observed budget. Remaining-time admission is checked
 after setup and again immediately before each sampler; normal cleanup reserve stays.
+
+### Targeted cache-threshold experiment (new recipe, not prior protocol)
+
+`cache-history-repeated-300` freezes a 1MiB source mix:128×1KiB,
+64×8KiB and8×48KiB files. Six hot files (two per size) receive300
+deterministic64-byte toggles. Repeated full-file states recur after12edits;
+each individual edit still changes bytes. This targets the known small-file
+cache-admission gap, not representative histories. Existing recipes are unchanged.
+
+The first causal pair is inventory-only8558b13 versus threshold9f83c4:
+runtime admission threshold only, with test-only portability fixes in the latter.
+Each binary must pass tests, real kernel gates and a native full-tree canary
+before pressure in the same job. `stress_sequence.py` shares one maximum20minute
+remaining measurement budget across BOTH canary and pressure; it reserves30seconds
+for sequence evidence, and each child retains its operation/cleanup admission
+limits. Setup consumes the existing45minute job budget with5minutes reserved.
+Planning estimate is8–12minutes for the pair plus canaries, not a completion
+promise; insufficient budget records an incomplete budget abort, never fewer
+edits, pruned generations or weakened oracles. Conservative native retention is
+603MiB plus measured runtime and reserve in each fresh2GiB image.
+
+A separate fresh-store unique10k4KiB negative pair is mandatory before any
+cache-threshold promotion. “Cold” refers to empty product file cache, not OS
+page-cache eviction. A favorable repeated-history result alone is insufficient.

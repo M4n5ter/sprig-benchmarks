@@ -1,0 +1,265 @@
+{
+  "runId": 40183751619,
+  "runUrl": "https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40183751619",
+  "benchmarkSha": "5030a4170bb73266858711b67c724655e0ad8fe1",
+  "baselineSha": "071036f83691b89bd9e35bb162d34e305e1874b7",
+  "candidateSha": "1bd8793eda1be01dfe35b22abe00c14e5fff4fc9",
+  "pairOrder": "reverse",
+  "files": [
+    {
+      "path": "_temp/stress-results/fixture.json",
+      "bytes": 2920951,
+      "sha256": "df47d6c647a954f17e58a09a17bd77810386362e7bc5a6cc7f45ee2ad6918150"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-stdout.json",
+      "bytes": 22912,
+      "sha256": "4c45f7e2cd472f2bc20152d87df14028589d66d5718c82db42a73cd3bfe9573f"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-steps.jsonl",
+      "bytes": 5147,
+      "sha256": "03305bafacae6feba29d88c3ec7edc31d268b1699c7b23a5b57dc07e1676b72f"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-steps.jsonl.logs/000000-lifecycle.jsonl",
+      "bytes": 12601,
+      "sha256": "1f8e5603a889a2f547687ead0885ae0a5e60166aa099d987d516d46e855a5fc3"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-steps.jsonl.logs/000001-oracle-000000.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-steps.jsonl.logs/000002-oracle-000001.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-steps.jsonl.logs/000003-oracle-000002.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-steps.jsonl.logs/000004-oracle-000003.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-steps.jsonl.logs/000005-oracle-000004.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-steps.jsonl.logs/000006-oracle-000005.json",
+      "bytes": 1950216,
+      "sha256": "da0c4845798ece07fa27d7f6abff679166ee0532421fbaf7047cd106bb461fcf"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-steps.jsonl.logs/000007-oracle-000006.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-steps.jsonl.logs/000008-oracle-000007.json",
+      "bytes": 1950216,
+      "sha256": "da0c4845798ece07fa27d7f6abff679166ee0532421fbaf7047cd106bb461fcf"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-steps.jsonl.logs/000009-oracle-000008.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-steps.jsonl.logs/000010-oracle-000009.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-baseline-0-steps.jsonl.logs/000011-oracle-000010.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-stdout.json",
+      "bytes": 22899,
+      "sha256": "edd61cc12df2b95d1173e64118b923c288224c76ae98825b29c9c398029afa93"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-steps.jsonl",
+      "bytes": 5130,
+      "sha256": "0bde4d0f1edddba870483c9d60d6921cc0ca60aa8466315a0155100915ad8041"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-steps.jsonl.logs/000000-lifecycle.jsonl",
+      "bytes": 12639,
+      "sha256": "87493787c9377ae404112e7bb6eb179f4ada4cc1d8e7eb54bffb60b492490943"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-steps.jsonl.logs/000001-oracle-000000.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-steps.jsonl.logs/000002-oracle-000001.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-steps.jsonl.logs/000003-oracle-000002.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-steps.jsonl.logs/000004-oracle-000003.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-steps.jsonl.logs/000005-oracle-000004.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-steps.jsonl.logs/000006-oracle-000005.json",
+      "bytes": 1950216,
+      "sha256": "da0c4845798ece07fa27d7f6abff679166ee0532421fbaf7047cd106bb461fcf"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-steps.jsonl.logs/000007-oracle-000006.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-steps.jsonl.logs/000008-oracle-000007.json",
+      "bytes": 1950216,
+      "sha256": "da0c4845798ece07fa27d7f6abff679166ee0532421fbaf7047cd106bb461fcf"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-steps.jsonl.logs/000009-oracle-000008.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-steps.jsonl.logs/000010-oracle-000009.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/native-candidate-0-steps.jsonl.logs/000011-oracle-000010.json",
+      "bytes": 1950216,
+      "sha256": "39152b0ac78c7c518461ecd363ebecd1f24fe7e49d043ab12d9ea08d0c25872f"
+    },
+    {
+      "path": "_temp/stress-results/stress-comparison.json",
+      "bytes": 72786,
+      "sha256": "770c1642725b3bb7f5033a512feb772ab974df02e8724011a615a89648c87602"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/baseline-binary-hash.txt",
+      "bytes": 85,
+      "sha256": "5cbdf9d414ee38cf1f8e12b32ff7c9a497ba9454925928042a262b7714d8c6fe"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/baseline-gate.json",
+      "bytes": 2002,
+      "sha256": "f38e84a3a245c5bf47170a02c3ec285c82ea63a566ab48507926f3872489aeaa"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/baseline-projection-gate.json",
+      "bytes": 412,
+      "sha256": "da85d5f1af7b7df7d3881fe32c9423baa6e37edca9c4e6fd9fe6444f52add4d9"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/baseline-release-build.log",
+      "bytes": 290508,
+      "sha256": "d3babcc5c1b984c64cbd67ee5fff3673f24e07c9dfc42463d1923e994d73b3f5"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/baseline-source-hashes.txt",
+      "bytes": 3873,
+      "sha256": "46280c7dfcc1b7413247af4feafb7d3715ff390f351c1dc0a623a722b10f72b9"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/baseline-writable-gate.json",
+      "bytes": 8321,
+      "sha256": "ab5c5b5c1b8004922462c4ba047ce2f98e4821dd219b79635081ca61b9e8fb43"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/both-binary-hashes-after-build.txt",
+      "bytes": 171,
+      "sha256": "4a04c2f91b416c6366158ad584171193cfd0242dd7717e387854f10360ea5d1e"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/candidate-binary-hash.txt",
+      "bytes": 86,
+      "sha256": "055fa00164e7caf721c2d22e46de5497f7cc2e1639ac92419ef112892d15698e"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/candidate-gate.json",
+      "bytes": 2006,
+      "sha256": "78dd424e41b98ab55e59b9b59a5b4a5483fe547a8d680ef130f74f5b929d5961"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/candidate-projection-gate.json",
+      "bytes": 412,
+      "sha256": "da85d5f1af7b7df7d3881fe32c9423baa6e37edca9c4e6fd9fe6444f52add4d9"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/candidate-release-build.log",
+      "bytes": 290969,
+      "sha256": "4a149bf6ea334b3b425f9b2524ff69e7d0e2604465cdf4dcc7dcdb45f863d19d"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/candidate-source-hashes.txt",
+      "bytes": 4018,
+      "sha256": "f692b67f5a9ec93107586213b39678c87fb5bd587def771e63eb02fcb5caffe3"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/candidate-writable-gate.json",
+      "bytes": 8350,
+      "sha256": "a5fe919226442082b45f6ac46822e42e7e6b2d8b75078d147d162d172b12b2fe"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/environment.txt",
+      "bytes": 4255,
+      "sha256": "fdf5ce2962032a5c1958fa51bf8e915ac67c0aa7e4e20e10415c85d9bdf478f0"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/rust-version.txt",
+      "bytes": 232,
+      "sha256": "db19261270b0428d1cffd44795917261238eab88402716d4f372b5b1c1350a6d"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/script-hashes.txt",
+      "bytes": 1059,
+      "sha256": "6751ec034fbc1530390b484c67f370febcd4b9ec4b349c828bf15f979077531d"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/stress-products.json",
+      "bytes": 398,
+      "sha256": "04fd1eb9a92eefadf5902c56c493dcf61ccb324efc487631d99572adb2946146"
+    },
+    {
+      "path": "sprig-benchmarks/sprig-benchmarks/results/stress-summary.json",
+      "bytes": 4236,
+      "sha256": "487aa2fa854cf21e1e154edf65866e53622a084fb44c46b23cd3c7a98b923e6e"
+    },
+    {
+      "path": "verified.json",
+      "bytes": 722,
+      "sha256": "f5a73ff7df810a6bced0457e52ff9d515e2ccd32da77fd82b0893f7c1444dfef"
+    }
+  ]
+}
