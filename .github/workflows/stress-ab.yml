@@ -1,5 +1,5 @@
-name: Cargo DAG16 incremental0 acceptance
-run-name: Cargo DAG16 incremental0, fresh symmetric4GiB images
+name: Cargo DAG16 same-image incremental0 then1 acceptance
+run-name: Cargo DAG16 same-image inc0 then1, fresh symmetric4GiB images
 on:
   push:
     branches: [stress/canary-validation]
@@ -127,6 +127,12 @@ jobs:
           STRESS_CARGO_INCREMENTAL: '0'
           SPRIG_STRESS_SHA: '70307d3480239e96a24552d8595ec537927d9301'
         run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,LAYERFS_DAEMON,STRESS_CARGO_INCREMENTAL,SPRIG_STRESS_SHA,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
+      - name: Actual incremental1 only after same-job same-image complete incremental0 gate
+        env:
+          STRESS_CARGO_INCREMENTAL: '1'
+          SPRIG_STRESS_SHA: '70307d3480239e96a24552d8595ec537927d9301'
+          STRESS_CARGO_PREVIOUS_GATE: '${{ github.workspace }}/results/stress-cargo-comparison-0.json'
+        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,LAYERFS_DAEMON,STRESS_CARGO_INCREMENTAL,SPRIG_STRESS_SHA,STRESS_CARGO_PREVIOUS_GATE,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
       - name: Copy allowlisted evidence on success or failure without changing source permissions
         if: always()
         run: sudo env GITHUB_ACTIONS=true python3 feasibility/stress_cargo_collect.py --results "$PWD/results" --temporary "$RUNNER_TEMP" --destination "$PWD/cargo-artifacts" --uid "$(id -u)" --gid "$(id -g)"
