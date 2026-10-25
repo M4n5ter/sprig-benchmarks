@@ -278,3 +278,14 @@ limit per snapshot. The changed revision introduces one additional content key
 across the retained-history union while each snapshot still has4096files.
 It tests cold-fit admission and the next revision's capacity-bound transition,
 not just the favorable reused-history case. Existing cells unchanged.
+
+The admission redesign suite compares inventory-only8558b13 with admissioncd46df7
+in a single runner job: native canaries, targeted history300, unique10k, cold-fit4096.
+All four phases consume one shared1,200second measurement deadline; setup remains
+inside the45minute job ceiling. Each cell uses fresh2GiB images sequentially;
+previous images remain retained, with host free-space guard before each allocation.
+Every phase revalidates frozen binary/config identities and measured source/backend
+proofs. Any failed/uncertain/budget-aborted phase prevents later phases and a complete
+suite claim. This is three fixed controls, not a cross-product matrix. The label `cold4096` means an initially empty product file cache, not OS-cache
+eviction; the source was read during setup. A cold-fit
+regression is relevant even if the over-capacity bypass succeeds.

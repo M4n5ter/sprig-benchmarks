@@ -46,7 +46,9 @@ def summarize(report):
                 caveats=['Descriptive correlated-operation tails; no independent-sample statistical claim.',
                          'Whole sample subprocess wall is authoritative; nested phase totals are not added to it.',
                          'Whole filesystem includes runtime and all retained generations; runtime differences disclosed.',
-                         'Different durability and CLI versus SDK/container transport; no CPU/RAM-equivalence claim.',
+                         ('Same Sprig public CLI and durability protocol; only pinned implementation differs; no CPU/RAM savings measured.'
+                          if report.get('comparisonProtocol')=='within-sprig-ab' else
+                          'Different durability and CLI versus SDK/container transport; no CPU/RAM-equivalence claim.'),
                          'New full-metadata stress protocol, not interchangeable with frozen listed-file results.'])
 
 if __name__=='__main__':

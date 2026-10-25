@@ -1,9 +1,14 @@
 import unittest
 from unittest.mock import patch
 from pathlib import Path
-from stress_sequence import phase_budget,validate_native_canary,validate_binary_identity,validate_canary,validate_backend
+from stress_sequence import phase_budget,validate_native_canary,validate_binary_identity,validate_canary,validate_backend,sequence_phases
 
 class SequenceTests(unittest.TestCase):
+    def test_bounded_suite_order(self):
+        self.assertEqual(sequence_phases(suite="cache-admission-controls"),[("canary","canary"),("history300","cache-history-repeated-300"),("unique10k","files-10000"),("cold4096","files-4096")])
+        self.assertEqual(sequence_phases(cell="files-10000"),[("canary","canary"),("pressure","files-10000")])
+        with self.assertRaises(ValueError):sequence_phases(suite="unbounded")
+        with self.assertRaises(ValueError):sequence_phases(cell="files-10000",suite="cache-admission-controls")
     def test_under_capacity_control_recipe(self):
         from stress_run import cell_parameters
         p,noop=cell_parameters("files-4096")

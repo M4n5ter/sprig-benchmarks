@@ -52,10 +52,23 @@ def validate_binary_identity(proof, expected):
         raise ValueError('measured binary hashes differ from frozen sequence identities')
 
 
+def sequence_phases(cell=None, suite=None):
+    if cell is not None and suite is not None:
+        raise ValueError('cell and suite are mutually exclusive')
+    if suite == 'cache-admission-controls':
+        return [('canary','canary'),('history300','cache-history-repeated-300'),
+                ('unique10k','files-10000'),('cold4096','files-4096')]
+    if suite is not None or cell is None:
+        raise ValueError('exact one approved cell or suite required')
+    return [('canary','canary'),('pressure',cell)]
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--products',type=Path,required=True)
-    p.add_argument('--cell',choices=['cache-history-repeated-300','files-10000','files-4096','history-hot-100'],required=True)
+    selection=p.add_mutually_exclusive_group(required=True)
+    selection.add_argument('--cell',choices=['cache-history-repeated-300','files-10000','files-4096','history-hot-100'])
+    selection.add_argument('--suite',choices=['cache-admission-controls'])
     p.add_argument('--backend',choices=['native','writable'],default='native')
     p.add_argument('--pair-order',choices=['forward','reverse'],default='forward')
     p.add_argument('--budget-seconds',type=int,required=True)
@@ -63,6 +76,8 @@ def main():
     a=p.parse_args()
     if not 60<=a.budget_seconds<=1200: p.error('shared budget must be60..1200seconds')
     if os.geteuid()!=0 or os.environ.get('GITHUB_ACTIONS')!='true': p.error('authorized root GitHub runner only')
+    if a.suite and a.backend!='native': p.error('admission control suite is native only')
+    phases=sequence_phases(a.cell,a.suite)
     temp=Path(os.environ.get('RUNNER_TEMP',''))
     if not temp.is_absolute() or not a.output.is_absolute() or not a.output.is_relative_to(temp) or a.output==temp:
         p.error('output strictly belowRUNNER_TEMP required')
@@ -74,13 +89,13 @@ def main():
     frozen_config=a.products.read_bytes()
     start=time.monotonic();deadline=start+a.budget_seconds
     report=dict(schema='sprig-stress-sequence-v1',status='running',complete=False,
-                sharedBudgetSeconds=a.budget_seconds,cell=a.cell,backend=a.backend,pairOrder=a.pair_order,
+                sharedBudgetSeconds=a.budget_seconds,cell=a.cell,suite=a.suite,backend=a.backend,pairOrder=a.pair_order,
                 products=products,binarySha256=frozen_hashes,phases=[])
     def save():
         report['elapsedSeconds']=time.monotonic()-start
         (a.output/'sequence.json').write_text(json.dumps(report,indent=2)+'\n')
     try:
-        for label,cell in [('canary','canary'),('pressure',a.cell)]:
+        for label,cell in phases:
             if a.products.read_bytes()!=frozen_config or binary_hashes(products)!=frozen_hashes:
                 raise ValueError('configured product binaries changed between sequence phases')
             try: budget=phase_budget(deadline-time.monotonic(),label=='canary')
@@ -101,6 +116,8 @@ def main():
                 save();break
             if label=='canary': proof=validate_canary(phase,products,a.backend)
             else: proof=verify(phase)
+            if proof['sourcePins']!={p['label']:p['sha'] for p in products}:
+                raise ValueError('measured source pins differ from frozen sequence config')
             validate_backend(proof,a.backend)
             validate_binary_identity(proof,frozen_hashes)
             (phase/'verified.json').write_text(json.dumps(proof,indent=2)+'\n')
