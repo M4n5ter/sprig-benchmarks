@@ -1,7 +1,9 @@
 # Canary-only release gate. Pressure cells require a separate reviewed change.
 name: Bounded full-tree stress canary
-run-name: Stress auto ${{ inputs.backend }} ${{ inputs.cell }}
+run-name: Stress auto ${{ inputs.backend || 'all' }} ${{ inputs.cell || 'canary' }}
 on:
+  push:
+    branches: [stress/canary-validation]
   workflow_dispatch:
     inputs:
       sprig_sha:
@@ -34,14 +36,14 @@ jobs:
     timeout-minutes: 45
     env:
       CARGO_BUILD_JOBS: '2'
-      SPRIG_SOURCE_SHA: ${{ inputs.sprig_sha }}
-      STRESS_DIAGNOSTIC: ${{ inputs.diagnostic }}
+      SPRIG_SOURCE_SHA: ${{ inputs.sprig_sha || '071036f83691b89bd9e35bb162d34e305e1874b7' }}
+      STRESS_DIAGNOSTIC: ${{ inputs.diagnostic && 'true' || 'false' }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Validate bounded selection before setup
         env:
-          CELL: ${{ inputs.cell }}
-          BACKEND: ${{ inputs.backend }}
+          CELL: ${{ inputs.cell || 'canary' }}
+          BACKEND: ${{ inputs.backend || 'all' }}
         run: |
           [[ "$SPRIG_SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
           if [ "$BACKEND" = all ] && [ "$CELL" != canary ]; then exit 2; fi
@@ -129,8 +131,8 @@ jobs:
           node --test feasibility/test_stress_layerfs.mjs
       - name: One bounded paired cell (canary required before pressure)
         env:
-          STRESS_CELL: ${{ inputs.cell }}
-          SPRIG_BACKEND: ${{ inputs.backend }}
+          STRESS_CELL: ${{ inputs.cell || 'canary' }}
+          SPRIG_BACKEND: ${{ inputs.backend || 'all' }}
         run: |
           export STRESS_MEASURE_BUDGET=$((2700 - ($(date +%s) - STRESS_JOB_START) - 300))
           if [ "$STRESS_MEASURE_BUDGET" -gt 1200 ]; then export STRESS_MEASURE_BUDGET=1200; fi
@@ -154,7 +156,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: stress-${{ inputs.cell }}-${{ inputs.backend }}-measurements
+          name: stress-${{ inputs.cell || 'canary' }}-${{ inputs.backend || 'all' }}-measurements
           path: |
             results/
             ${{ runner.temp }}/stress-results/
