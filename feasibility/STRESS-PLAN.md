@@ -222,3 +222,8 @@ Python/Node orchestration and CLI/SDK transports: matched subprocess **window**
 does not mean identical harness implementation or product-only CPU cost. Full
 wall charges that work rather than subtracting a guessed overhead. Diagnostic
 trace parsing and excerpts remain separately labeled and never pooled with primary.
+
+
+Publication update: user authorized public benchmark scripts/workflow and
+existing-limit CI on25October2026. `.github/workflows/stress-canary.yml` stages the
+reviewed canary-only gate; pressure remains disabled pending real acceptance.
