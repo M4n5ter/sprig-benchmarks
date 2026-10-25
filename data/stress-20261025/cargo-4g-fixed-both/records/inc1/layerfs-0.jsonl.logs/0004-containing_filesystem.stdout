@@ -1,0 +1,10 @@
+{
+   "filesystems": [
+      {
+         "target": "/home/runner/work/_temp/stress-cargo-layerfs-1-0-v9r0YL/mount",
+         "source": "/dev/loop0",
+         "fstype": "btrfs",
+         "options": "rw,noatime,ssd,discard=async,space_cache=v2,subvolid=5,subvol=/"
+      }
+   ]
+}

@@ -1,8 +1,6 @@
 name: Cargo DAG16 same-image incremental0 then1 acceptance
 run-name: Cargo DAG16 normal inc0 then1, fixed hardlink generation,4GiB
 on:
-  push:
-    branches: [stress/canary-validation]
   workflow_dispatch:
 permissions:
   contents: read

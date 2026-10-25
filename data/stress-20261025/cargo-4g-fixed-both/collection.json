@@ -1,0 +1,3641 @@
+{
+  "schema": "sprig-cargo-artifact-copy-v1",
+  "files": [
+    {
+      "path": "results/cargo-image-build.txt",
+      "bytes": 43153,
+      "sha256": "f27c3d2110dded3f846a16a4c7e30832058702e9b2ed06cf54bdb9ab79b11c8c"
+    },
+    {
+      "path": "results/cargo-image-capacity.txt",
+      "bytes": 104,
+      "sha256": "d6b2890de2156145cd0bb39f4f3086dd373a48568c513ef3944f735783cb5a3d"
+    },
+    {
+      "path": "results/cargo-image.json",
+      "bytes": 2025,
+      "sha256": "e48303487cce7e0eacf2abbd33dfc670f094a09699f4a02d8db4840340f8032c"
+    },
+    {
+      "path": "results/cargo-software-identity.txt",
+      "bytes": 21117,
+      "sha256": "66b72a036ede09c5cd598bf048cafe033e226f8f7e0966dd758002ceb0c22176"
+    },
+    {
+      "path": "results/cargo-toolchain-capacity.txt",
+      "bytes": 253,
+      "sha256": "9a717e16287903c502d6a4aed126e1cfe861368cb2219c50db128ca733345a9b"
+    },
+    {
+      "path": "results/current-writable-contract.json",
+      "bytes": 8310,
+      "sha256": "867294f668cebd162341b139826296230deba0044f3794dae3303b301b284173"
+    },
+    {
+      "path": "results/docker-updated.txt",
+      "bytes": 769,
+      "sha256": "f4920363d6463240eaf4be2038cb9afd539b60ea1ee9139926372db35a80b049"
+    },
+    {
+      "path": "results/environment.txt",
+      "bytes": 4365,
+      "sha256": "c3047278b8a38c61ab805e7ba280fc61be29c8a371a065e6d5c406f69e56fa9f"
+    },
+    {
+      "path": "results/production-binary-hash.txt",
+      "bytes": 93,
+      "sha256": "e37bae1df13a52770d4b6fa7eabfd75d86f67aaf5d4953f3b205b4b84ae40156"
+    },
+    {
+      "path": "results/production-kernel-contract.json",
+      "bytes": 412,
+      "sha256": "da85d5f1af7b7df7d3881fe32c9423baa6e37edca9c4e6fd9fe6444f52add4d9"
+    },
+    {
+      "path": "results/production-source-hashes.txt",
+      "bytes": 3732,
+      "sha256": "66e4347b7df34a4c5124d83581d3d8fae77a4a68a3a847c9849690e4d8f89f67"
+    },
+    {
+      "path": "results/projection-rust-version.txt",
+      "bytes": 36,
+      "sha256": "55cd0529c005d3f62869ea6e2271bfa9d5196f56dc65a8be00a371af114a4a98"
+    },
+    {
+      "path": "results/runtime-image.json",
+      "bytes": 1531,
+      "sha256": "140ef39cb81f1c91d1cecceb264a68dce30a220790c6328a5d114361ff0dc217"
+    },
+    {
+      "path": "results/script-hashes.txt",
+      "bytes": 1596,
+      "sha256": "7c0c0d28d0c049c7a77531dfab8236a475f3bc1de9965f2e2740bdfed18647b6"
+    },
+    {
+      "path": "results/stress-cargo-capacity-status.json",
+      "bytes": 301,
+      "sha256": "b660129c4894f1a64c8784c75b781d447b7590a706eedcf206824c3f7b81947d"
+    },
+    {
+      "path": "results/stress-cargo-capacity.json",
+      "bytes": 63438,
+      "sha256": "c9796ac59762e161f89ee0d6aafd512222e7b085897c340eeff8ca3338c66502"
+    },
+    {
+      "path": "results/stress-cargo-comparison-0.json",
+      "bytes": 2854914,
+      "sha256": "bc8c3558748666c06232c254cb7b2beb093a6a4bb752826a8839c03fe4ae7da4"
+    },
+    {
+      "path": "results/stress-cargo-comparison-1.json",
+      "bytes": 3764362,
+      "sha256": "124f6cb9796c907d0ff3590fea1c1e546457a24031a97f04bea31cac6354be5b"
+    },
+    {
+      "path": "results/stress-cargo-generated.json",
+      "bytes": 163,
+      "sha256": "0e11e6ecb2fed512ed5ac2899c8cb3b3f2fa0cd63e58ec833d8d261c0526e1d4"
+    },
+    {
+      "path": "results/stress-cargo-layerfs-inc0-0.json",
+      "bytes": 472937,
+      "sha256": "d79f59fe00a73c713f98444d141b6b9091d977bcb868bfa6ec76f8a786a42209"
+    },
+    {
+      "path": "results/stress-cargo-layerfs-inc1-0.json",
+      "bytes": 752066,
+      "sha256": "c08e5897fa6633a3a4377329254604ca433073cd463cb849b62dec4c9d44c16f"
+    },
+    {
+      "path": "results/stress-cargo-lock-generation.txt",
+      "bytes": 36,
+      "sha256": "5f9bdc5e0a6960db4a3cc66e9b3ae15bad5b9b506e8b7c49739c88dc5355c3f1"
+    },
+    {
+      "path": "results/stress-cargo-manifest.json",
+      "bytes": 12002,
+      "sha256": "70310e765d81880f2e888ce914e508ded52b22f2dec6519d4f837d38e7616194"
+    },
+    {
+      "path": "results/stress-cargo-oracle.json",
+      "bytes": 11116,
+      "sha256": "e32cdf4f337cb6ecb88a1be8611cff3d4900736a7ee588ab981b5690eec0791f"
+    },
+    {
+      "path": "results/stress-cargo-sprig-writable-inc0-0.json",
+      "bytes": 2091104,
+      "sha256": "8f54bb73ec8eba01fe337634f06ad0927baeb8f77059ba5fdabfadb07c2c8331"
+    },
+    {
+      "path": "results/stress-cargo-sprig-writable-inc1-0.json",
+      "bytes": 2662089,
+      "sha256": "9c881338206b9cf5db0f3664ac06b8c3b057b0417fa1f69cc9e13b3143fef05e"
+    },
+    {
+      "path": "capacity/inc0.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "capacity/inc0.stdout",
+      "bytes": 27580,
+      "sha256": "b651bed6da3ee0fe2b22133e7f35cbb294b9f7cdeb2d5f4c109b06c0fce8e788"
+    },
+    {
+      "path": "capacity/inc1.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "capacity/inc1.stdout",
+      "bytes": 29192,
+      "sha256": "50fdb3044f52fbfd5ae06459a8b0d2e6020d0365eb0cc3a205acc059471fbf46"
+    },
+    {
+      "path": "records/inc0/layerfs-0-options.json",
+      "bytes": 886,
+      "sha256": "ffde1809d1232e5cf98fa050e8f30da43023fc0643a7c8bda28e1d763ef840af"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl",
+      "bytes": 769,
+      "sha256": "acb1eb848fb3b7a07a15eda6ce1752effe3307f908d9e8c7f175c88ca95315bb"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0001-filesystem_type.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0001-filesystem_type.stdout",
+      "bytes": 6,
+      "sha256": "7e2b88c929164974f3746d0fe13a6b8e8a3d962744836ec39bda818d12809f01"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0002-image_inspect.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0002-image_inspect.stdout",
+      "bytes": 2655,
+      "sha256": "bb26ac5a8f7f1623e797fbb47f8980f3495b543be2477d48e5e9bfb7be27d0bc"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0003-docker_info.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0003-docker_info.stdout",
+      "bytes": 10487,
+      "sha256": "b2712a82a90d3df78df28c761079384bfcc8ebe416b89078d6094ee5df5fd1e2"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0004-containing_filesystem.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0004-containing_filesystem.stdout",
+      "bytes": 276,
+      "sha256": "00a5b131f37f9e630c2932ff8c84bf7b2e2f835a5fbc9dac839aa79ec92cc1e5"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0005-volume_create.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0005-volume_create.stdout",
+      "bytes": 39,
+      "sha256": "c0442c6c56bea4f793c9db3b47bc07975403d92b4ab3319038b745bc7a2d85af"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0006-volume_path.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0006-volume_path.stdout",
+      "bytes": 127,
+      "sha256": "2ec6bca8808d010b6f086489938cc66ffd032a852e8035dd881e0a7182c01967"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0007-compiler_container_inventory.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0007-compiler_container_inventory.stdout",
+      "bytes": 65,
+      "sha256": "a2f9296b6ae75eb269d5fa7a6c94ac7c33da4216e6de0f3272479f883463ac3e"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0008-compiler_container_inspect.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0008-compiler_container_inspect.stdout",
+      "bytes": 10639,
+      "sha256": "1c6ea4e465bcdf3b007533387fe5f2117df309a66c49602c19fc91ff9689f2ec"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0009-fixture_verify.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0009-fixture_verify.stdout",
+      "bytes": 10339,
+      "sha256": "f6ba71ee2e42ec9728555f98763f2a4adb88fdd4afa0b4fce6d23caef905fc86"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0010-cargo_setup.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0010-cargo_setup.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0011-toolchain_verify.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0011-toolchain_verify.stdout",
+      "bytes": 232,
+      "sha256": "49e18b59b2011cac4236f0e084e29e5d3ccf1fb80382b116f8635a74071199fd"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0012-clean_build.stderr",
+      "bytes": 12428,
+      "sha256": "ebc69fd22bb125f28f0b5571abfd3a72195a789b975014f5f488b9790a0b072d"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0012-clean_build.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0013-target_probe.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0013-target_probe.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0014-clean_artifacts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0014-clean_artifacts.stdout",
+      "bytes": 157,
+      "sha256": "5fd2e3b92fc5fa74f1b6b23bf0eb9e640f6c385eda46fd9ee080a732522ac16c"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0015-clean_execute.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0015-clean_execute.stdout",
+      "bytes": 4,
+      "sha256": "317b2e63b36554d194c11f0818b200272317d419836b6ffed13ca48c612cb0b1"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0016-noop_build.stderr",
+      "bytes": 955,
+      "sha256": "360bb95446f43c1b3ef6b35f6f94e8578d5edaae51230e405873067e8ce61f4d"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0016-noop_build.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0017-noop_artifacts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0017-noop_artifacts.stdout",
+      "bytes": 157,
+      "sha256": "5fd2e3b92fc5fa74f1b6b23bf0eb9e640f6c385eda46fd9ee080a732522ac16c"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0018-noop_execute.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0018-noop_execute.stdout",
+      "bytes": 4,
+      "sha256": "317b2e63b36554d194c11f0818b200272317d419836b6ffed13ca48c612cb0b1"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0019-edit.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0019-edit.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0020-edit_build.stderr",
+      "bytes": 13537,
+      "sha256": "5abadc5edce6a2511cca045b8dd2fccd1776493e66cd1f3f2fe21d4387219d73"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0020-edit_build.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0021-edit_artifacts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0021-edit_artifacts.stdout",
+      "bytes": 157,
+      "sha256": "ef660954a75f48ea6014795fe6ebb0a1b31a6190245e0e75ea3c58b8c1b9c507"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0022-edit_execute.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0022-edit_execute.stdout",
+      "bytes": 5,
+      "sha256": "f87d62748ff3f2c1ff8cd6210ff6be4b113e7025b7ac8b0a3a4f2889527f68cd"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0023-pre_checkpoint_oracle.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0023-pre_checkpoint_oracle.stdout",
+      "bytes": 59897,
+      "sha256": "be687f26a6689c2853fc0be5d6733180b21caf9d3c49e02d56631da27f2f1fba"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0024-restore_verify.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0024-restore_verify.stdout",
+      "bytes": 59897,
+      "sha256": "be687f26a6689c2853fc0be5d6733180b21caf9d3c49e02d56631da27f2f1fba"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0025-restored_artifacts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0025-restored_artifacts.stdout",
+      "bytes": 157,
+      "sha256": "ef660954a75f48ea6014795fe6ebb0a1b31a6190245e0e75ea3c58b8c1b9c507"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0026-restored_execute.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0026-restored_execute.stdout",
+      "bytes": 5,
+      "sha256": "f87d62748ff3f2c1ff8cd6210ff6be4b113e7025b7ac8b0a3a4f2889527f68cd"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0027-restored_rebuild.stderr",
+      "bytes": 955,
+      "sha256": "d68d052c11df4b6f85faccc07cc99256e1e1b7f8530e848cf9c1352ac4018b75"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0027-restored_rebuild.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0028-restored_rebuild_artifacts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0028-restored_rebuild_artifacts.stdout",
+      "bytes": 157,
+      "sha256": "ef660954a75f48ea6014795fe6ebb0a1b31a6190245e0e75ea3c58b8c1b9c507"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0029-restored_rebuild_execute.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0029-restored_rebuild_execute.stdout",
+      "bytes": 5,
+      "sha256": "f87d62748ff3f2c1ff8cd6210ff6be4b113e7025b7ac8b0a3a4f2889527f68cd"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0030-main_unchanged.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0030-main_unchanged.stdout",
+      "bytes": 10339,
+      "sha256": "f6ba71ee2e42ec9728555f98763f2a4adb88fdd4afa0b4fce6d23caef905fc86"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0031-source_unchanged.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0031-source_unchanged.stdout",
+      "bytes": 10339,
+      "sha256": "f6ba71ee2e42ec9728555f98763f2a4adb88fdd4afa0b4fce6d23caef905fc86"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0032-source_container_inventory.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0032-source_container_inventory.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0033-space_sync.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0033-space_sync.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0034-space_usage.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0034-space_usage.stdout",
+      "bytes": 783,
+      "sha256": "ce982bba13a8f2c00546e7d4e43380bf00298f7f0d51785b815593f10cd801ac"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0035-space_groups.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0035-space_groups.stdout",
+      "bytes": 178,
+      "sha256": "e8e17f3b6ebb4a45d3c47f437ff9c84342a919f907ddab1aeeb1f616e47b3c64"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0036-cleanup_helper_inventory.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0036-cleanup_helper_inventory.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0037-compiler_daemon_logs_before_close.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0037-compiler_daemon_logs_before_close.stdout",
+      "bytes": 36,
+      "sha256": "ed15a93fefde77b97678c71fd9b18f2daee328432e4601361bd73de88737cab2"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0038-cleanup_project_inventory.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/layerfs-0.jsonl.logs/0038-cleanup_project_inventory.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl",
+      "bytes": 304,
+      "sha256": "fd0422c941ed12f45690fd53a11dc53867e7e6a72f1b23a4c90fde59f1687b7f"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000000-writable-14965-1792935661475093386.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000001-writable-14967-1792935661502778506.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000002-writable-14970-1792935661513674555.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000003-writable-16118-1792935666294010745.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000004-writable-16122-1792935666322833684.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000005-command-000001.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000006-command-000001.stdout",
+      "bytes": 6,
+      "sha256": "7e2b88c929164974f3746d0fe13a6b8e8a3d962744836ec39bda818d12809f01"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000007-command-000002.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000008-command-000002.stdout",
+      "bytes": 2704,
+      "sha256": "df3da15b18b485f8c1797a0154ab41680a697bf3c8a5295b71fdb20549fd7a34"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000009-command-000003.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000010-command-000003.stdout",
+      "bytes": 10494,
+      "sha256": "050de5ce6a9043c4822325f7c317bed4d7ca8bf21cd6eb68310e5c2dd03249bc"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000011-command-000004.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000012-command-000004.stdout",
+      "bytes": 169,
+      "sha256": "387c1627403afdf582c04101f86bfa59f7386f7c26f39ce8bfc17791cbca543d"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000013-command-000005.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000014-command-000005.stdout",
+      "bytes": 534,
+      "sha256": "d76bd317260a35c5a3a4b34a1242a718ccbace805fea8644e10613d39ec0ef2f"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000015-command-000006.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000016-command-000006.stdout",
+      "bytes": 532,
+      "sha256": "b19ce40891cd46b5320aba775c8e21810ac7c540cea8fd878edeba8ceab34515"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000017-command-000007.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000018-command-000007.stdout",
+      "bytes": 534,
+      "sha256": "184eb19f8be822638783611a1ab434281aaf62abd8528fff7039138fe450ac11"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000019-command-000008.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000020-command-000008.stdout",
+      "bytes": 532,
+      "sha256": "74b0aac0b66aeb983ca9ff145a56487456bbda83118aa3c85ba79989c623bb14"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000021-command-000009.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000022-command-000009.stdout",
+      "bytes": 262,
+      "sha256": "c3cb2496c4df1a7bf4cec6592fd3482419db2acee589503881f9e5a0e6f937dd"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000023-command-000010.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000024-command-000010.stdout",
+      "bytes": 532,
+      "sha256": "744707e5f7f2ae26f6dd7dd4d9a19fa65ecce53f90ad2a52a545855412de28d2"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000025-command-000011.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000026-command-000011.stdout",
+      "bytes": 538,
+      "sha256": "836fc5019c7dfba55028bf8aebbb2e74dc3228cd112988787b2ce6f5bc69e2ed"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000027-command-000012.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000028-command-000012.stdout",
+      "bytes": 536,
+      "sha256": "0589124b5872ef44be82d22e75858962cc105b350ed7d9c470098a627f0c2697"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000029-command-000013.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000030-command-000013.stdout",
+      "bytes": 2914,
+      "sha256": "db4091bae970863be3897755cf4f8c7670a9b33028c1b0c7a086f8962d37e4f6"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000031-command-000014.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000032-command-000014.stdout",
+      "bytes": 532,
+      "sha256": "b19ce40891cd46b5320aba775c8e21810ac7c540cea8fd878edeba8ceab34515"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000033-command-000015.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000034-command-000015.stdout",
+      "bytes": 532,
+      "sha256": "744707e5f7f2ae26f6dd7dd4d9a19fa65ecce53f90ad2a52a545855412de28d2"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000035-command-000016.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000036-command-000016.stdout",
+      "bytes": 536,
+      "sha256": "0589124b5872ef44be82d22e75858962cc105b350ed7d9c470098a627f0c2697"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000037-command-000017.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000038-command-000017.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000039-command-000018.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000040-command-000018.stdout",
+      "bytes": 783,
+      "sha256": "81b728446faaaa8cae1cea1a1688d27244ac3f2c7d16ef8141cebc688f03cffd"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000041-command-000019.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000042-command-000019.stdout",
+      "bytes": 178,
+      "sha256": "1668d3c1c9f8c66a3e746a6d8ae6f38d9906958fa10d58833d08e2c5357a0e48"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000043-command-000020.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000044-command-000020.stdout",
+      "bytes": 532,
+      "sha256": "b19ce40891cd46b5320aba775c8e21810ac7c540cea8fd878edeba8ceab34515"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000045-command-000021.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000046-command-000021.stdout",
+      "bytes": 532,
+      "sha256": "744707e5f7f2ae26f6dd7dd4d9a19fa65ecce53f90ad2a52a545855412de28d2"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000047-command-000022.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000048-command-000022.stdout",
+      "bytes": 536,
+      "sha256": "0589124b5872ef44be82d22e75858962cc105b350ed7d9c470098a627f0c2697"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000049-command-000023.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000050-command-000023.stdout",
+      "bytes": 115,
+      "sha256": "968a4fafcd8f162831b526a5ce37facb79b01bc277ff5c85ebc5098eef6025b3"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000051-command-000024.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000052-command-000024.stdout",
+      "bytes": 115,
+      "sha256": "a31ae1d03bf9ae01ba570bf4373c41d93b56cdaa11bc09bcb63ff7a846e3fed3"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000053-command-000025.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000054-command-000025.stdout",
+      "bytes": 115,
+      "sha256": "d08a8ac16b6c6838cfd38a2f499945241794e549e0ac695bf0927340f43a8f77"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000055-lifecycle.jsonl",
+      "bytes": 15822,
+      "sha256": "e0c6602902e7ac777e83eb9e710f00abd82a45bdde1f92009d08e88a47fb21f7"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000056-transport-00001.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000057-transport-00001.stdout",
+      "bytes": 65,
+      "sha256": "8747d8f4fec96588f2fbdc4dd3d055899d0070af712f0082efad5bf303cdf175"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000058-transport-00002.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000059-transport-00002.stdout",
+      "bytes": 65,
+      "sha256": "8747d8f4fec96588f2fbdc4dd3d055899d0070af712f0082efad5bf303cdf175"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000060-transport-00003.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000061-transport-00003.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000062-transport-00004.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000063-transport-00004.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000064-transport-00005.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000065-transport-00005.stdout",
+      "bytes": 10339,
+      "sha256": "f6ba71ee2e42ec9728555f98763f2a4adb88fdd4afa0b4fce6d23caef905fc86"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000066-transport-00006.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000067-transport-00006.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000068-transport-00007.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000069-transport-00007.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000070-transport-00008.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000071-transport-00008.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000072-transport-00009.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000073-transport-00009.stdout",
+      "bytes": 232,
+      "sha256": "49e18b59b2011cac4236f0e084e29e5d3ccf1fb80382b116f8635a74071199fd"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000074-transport-00010.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000075-transport-00010.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000076-transport-00011.stderr",
+      "bytes": 11692,
+      "sha256": "912f1db3236ab1be6280dc1151358083164394d7ef70adee4e206bca0aadd7b9"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000077-transport-00011.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000078-transport-00012.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000079-transport-00012.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000080-transport-00013.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000081-transport-00013.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000082-transport-00014.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000083-transport-00014.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000084-transport-00015.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000085-transport-00015.stdout",
+      "bytes": 157,
+      "sha256": "5fd2e3b92fc5fa74f1b6b23bf0eb9e640f6c385eda46fd9ee080a732522ac16c"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000086-transport-00016.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000087-transport-00016.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000088-transport-00017.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000089-transport-00017.stdout",
+      "bytes": 4,
+      "sha256": "317b2e63b36554d194c11f0818b200272317d419836b6ffed13ca48c612cb0b1"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000090-transport-00018.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000091-transport-00018.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000092-transport-00019.stderr",
+      "bytes": 819,
+      "sha256": "2c00cd8d267fb28a672b31b0691cad0d885c40c9121ef3c854aee61d7718188d"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000093-transport-00019.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000094-transport-00020.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000095-transport-00020.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000096-transport-00021.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000097-transport-00021.stdout",
+      "bytes": 157,
+      "sha256": "5fd2e3b92fc5fa74f1b6b23bf0eb9e640f6c385eda46fd9ee080a732522ac16c"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000098-transport-00022.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000099-transport-00022.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000100-transport-00023.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000101-transport-00023.stdout",
+      "bytes": 4,
+      "sha256": "317b2e63b36554d194c11f0818b200272317d419836b6ffed13ca48c612cb0b1"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000102-transport-00024.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000103-transport-00024.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000104-transport-00025.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000105-transport-00025.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000106-transport-00026.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000107-transport-00026.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000108-transport-00027.stderr",
+      "bytes": 12681,
+      "sha256": "853a73ff9295f06a10de2c1edc52e998989142c2172c31db39cd452b38114910"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000109-transport-00027.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000110-transport-00028.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000111-transport-00028.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000112-transport-00029.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000113-transport-00029.stdout",
+      "bytes": 157,
+      "sha256": "ef660954a75f48ea6014795fe6ebb0a1b31a6190245e0e75ea3c58b8c1b9c507"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000114-transport-00030.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000115-transport-00030.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000116-transport-00031.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000117-transport-00031.stdout",
+      "bytes": 5,
+      "sha256": "f87d62748ff3f2c1ff8cd6210ff6be4b113e7025b7ac8b0a3a4f2889527f68cd"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000118-transport-00032.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000119-transport-00032.stdout",
+      "bytes": 65,
+      "sha256": "8747d8f4fec96588f2fbdc4dd3d055899d0070af712f0082efad5bf303cdf175"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000120-transport-00033.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000121-transport-00033.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000122-transport-00034.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000123-transport-00034.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000124-transport-00035.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000125-transport-00035.stdout",
+      "bytes": 59897,
+      "sha256": "803e23d4e6082f190ff7fddb83c84a5cfe320eedcede69a534b0d143453fe52a"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000126-transport-00036.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000127-transport-00036.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000128-transport-00037.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000129-transport-00037.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000130-transport-00038.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000131-transport-00038.stdout",
+      "bytes": 11066,
+      "sha256": "4f140a17bf43b39f97cb00d96869260df8dfc13aaae4ce4ce8cba92e10f45b70"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000132-transport-00039.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000133-transport-00039.stdout",
+      "bytes": 10872,
+      "sha256": "2d355087e4fd7835fecdae342b9dd605206d29e3ee4efe20d21ad56d927ad64e"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000134-transport-00040.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000135-transport-00040.stdout",
+      "bytes": 10872,
+      "sha256": "2d355087e4fd7835fecdae342b9dd605206d29e3ee4efe20d21ad56d927ad64e"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000136-transport-00041.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000137-transport-00041.stdout",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000138-transport-00042.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000139-transport-00042.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000140-transport-00043.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000141-transport-00043.stdout",
+      "bytes": 65,
+      "sha256": "8747d8f4fec96588f2fbdc4dd3d055899d0070af712f0082efad5bf303cdf175"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000142-transport-00044.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000143-transport-00044.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000144-transport-00045.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000145-transport-00045.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000146-transport-00046.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000147-transport-00046.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000148-transport-00047.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000149-transport-00047.stdout",
+      "bytes": 65,
+      "sha256": "d346c5a914aa720731cb45c1c4b215ee3bbbe9fe82fff4b1c544bb730a285cf0"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000150-transport-00048.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000151-transport-00048.stdout",
+      "bytes": 65,
+      "sha256": "d346c5a914aa720731cb45c1c4b215ee3bbbe9fe82fff4b1c544bb730a285cf0"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000152-transport-00049.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000153-transport-00049.stdout",
+      "bytes": 11066,
+      "sha256": "da05dd0f999d6d8d76e660b22430f41270bc6a483b4c18d1dad94f8aec86fb38"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000154-transport-00050.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000155-transport-00050.stdout",
+      "bytes": 11066,
+      "sha256": "da05dd0f999d6d8d76e660b22430f41270bc6a483b4c18d1dad94f8aec86fb38"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000156-transport-00051.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000157-transport-00051.stdout",
+      "bytes": 59897,
+      "sha256": "803e23d4e6082f190ff7fddb83c84a5cfe320eedcede69a534b0d143453fe52a"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000158-transport-00052.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000159-transport-00052.stdout",
+      "bytes": 11066,
+      "sha256": "da05dd0f999d6d8d76e660b22430f41270bc6a483b4c18d1dad94f8aec86fb38"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000160-transport-00053.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000161-transport-00053.stdout",
+      "bytes": 157,
+      "sha256": "ef660954a75f48ea6014795fe6ebb0a1b31a6190245e0e75ea3c58b8c1b9c507"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000162-transport-00054.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000163-transport-00054.stdout",
+      "bytes": 11066,
+      "sha256": "da05dd0f999d6d8d76e660b22430f41270bc6a483b4c18d1dad94f8aec86fb38"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000164-transport-00055.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000165-transport-00055.stdout",
+      "bytes": 5,
+      "sha256": "f87d62748ff3f2c1ff8cd6210ff6be4b113e7025b7ac8b0a3a4f2889527f68cd"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000166-transport-00056.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000167-transport-00056.stdout",
+      "bytes": 11066,
+      "sha256": "da05dd0f999d6d8d76e660b22430f41270bc6a483b4c18d1dad94f8aec86fb38"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000168-transport-00057.stderr",
+      "bytes": 819,
+      "sha256": "cd5997593a0291c1fefbf97547830ca53372e155c96c2929bcca48175b5aeec8"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000169-transport-00057.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000170-transport-00058.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000171-transport-00058.stdout",
+      "bytes": 11066,
+      "sha256": "da05dd0f999d6d8d76e660b22430f41270bc6a483b4c18d1dad94f8aec86fb38"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000172-transport-00059.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000173-transport-00059.stdout",
+      "bytes": 157,
+      "sha256": "ef660954a75f48ea6014795fe6ebb0a1b31a6190245e0e75ea3c58b8c1b9c507"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000174-transport-00060.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000175-transport-00060.stdout",
+      "bytes": 11066,
+      "sha256": "da05dd0f999d6d8d76e660b22430f41270bc6a483b4c18d1dad94f8aec86fb38"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000176-transport-00061.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000177-transport-00061.stdout",
+      "bytes": 5,
+      "sha256": "f87d62748ff3f2c1ff8cd6210ff6be4b113e7025b7ac8b0a3a4f2889527f68cd"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000178-transport-00062.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000179-transport-00062.stdout",
+      "bytes": 65,
+      "sha256": "f0df2bc8c1eb57c2db0c72814ddef726126f640904c313f255d9502f2165307d"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000180-transport-00063.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000181-transport-00063.stdout",
+      "bytes": 65,
+      "sha256": "f0df2bc8c1eb57c2db0c72814ddef726126f640904c313f255d9502f2165307d"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000182-transport-00064.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000183-transport-00064.stdout",
+      "bytes": 11064,
+      "sha256": "35b74d8b4b59276114dd1283dad167d02753534004e69fde3cfe50d96269666f"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000184-transport-00065.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000185-transport-00065.stdout",
+      "bytes": 11064,
+      "sha256": "35b74d8b4b59276114dd1283dad167d02753534004e69fde3cfe50d96269666f"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000186-transport-00066.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000187-transport-00066.stdout",
+      "bytes": 10339,
+      "sha256": "f6ba71ee2e42ec9728555f98763f2a4adb88fdd4afa0b4fce6d23caef905fc86"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000188-transport-00067.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000189-transport-00067.stdout",
+      "bytes": 11064,
+      "sha256": "35b74d8b4b59276114dd1283dad167d02753534004e69fde3cfe50d96269666f"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000190-transport-00068.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000191-transport-00068.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000192-transport-00069.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000193-transport-00069.stdout",
+      "bytes": 10869,
+      "sha256": "d168d4c506ff7049b91a37dcf10841eb7eede22464e93d339c9b6a2461b3416f"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000194-transport-00070.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000195-transport-00070.stdout",
+      "bytes": 10869,
+      "sha256": "d168d4c506ff7049b91a37dcf10841eb7eede22464e93d339c9b6a2461b3416f"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000196-transport-00071.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000197-transport-00071.stdout",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000198-transport-00072.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000199-transport-00072.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000200-transport-00073.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000201-transport-00073.stdout",
+      "bytes": 65,
+      "sha256": "f0df2bc8c1eb57c2db0c72814ddef726126f640904c313f255d9502f2165307d"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000202-transport-00074.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000203-transport-00074.stdout",
+      "bytes": 65,
+      "sha256": "d346c5a914aa720731cb45c1c4b215ee3bbbe9fe82fff4b1c544bb730a285cf0"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000204-transport-00075.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000205-transport-00075.stdout",
+      "bytes": 65,
+      "sha256": "d8462335441b6a5d351c33ebaf2ca617e69ac6940eb1f30d52400e14371cf544"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000206-transport-00076.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000207-transport-00076.stdout",
+      "bytes": 65,
+      "sha256": "d8462335441b6a5d351c33ebaf2ca617e69ac6940eb1f30d52400e14371cf544"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000208-transport-00077.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000209-transport-00077.stdout",
+      "bytes": 10992,
+      "sha256": "a52817150f1cdd5e1585e9f11a68e0b74a8b061712b63b369a51b9cffdb497eb"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000210-transport-00078.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000211-transport-00078.stdout",
+      "bytes": 10992,
+      "sha256": "a52817150f1cdd5e1585e9f11a68e0b74a8b061712b63b369a51b9cffdb497eb"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000212-transport-00079.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000213-transport-00079.stdout",
+      "bytes": 10339,
+      "sha256": "f6ba71ee2e42ec9728555f98763f2a4adb88fdd4afa0b4fce6d23caef905fc86"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000214-transport-00080.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000215-transport-00080.stdout",
+      "bytes": 10992,
+      "sha256": "a52817150f1cdd5e1585e9f11a68e0b74a8b061712b63b369a51b9cffdb497eb"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000216-transport-00081.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000217-transport-00081.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000218-transport-00082.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000219-transport-00082.stdout",
+      "bytes": 10992,
+      "sha256": "a52817150f1cdd5e1585e9f11a68e0b74a8b061712b63b369a51b9cffdb497eb"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000220-transport-00083.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000221-transport-00083.stdout",
+      "bytes": 10798,
+      "sha256": "a03728e32bd5fd83df0d3fd504b5721b0ac4a74cfd514b588b3fd6ab40a4557a"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000222-transport-00084.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000223-transport-00084.stdout",
+      "bytes": 10798,
+      "sha256": "a03728e32bd5fd83df0d3fd504b5721b0ac4a74cfd514b588b3fd6ab40a4557a"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000224-transport-00085.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000225-transport-00085.stdout",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000226-transport-00086.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000227-transport-00086.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000228-transport-00087.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000229-transport-00087.stdout",
+      "bytes": 65,
+      "sha256": "d8462335441b6a5d351c33ebaf2ca617e69ac6940eb1f30d52400e14371cf544"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000230-transport-00088.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000231-transport-00088.stdout",
+      "bytes": 65,
+      "sha256": "d346c5a914aa720731cb45c1c4b215ee3bbbe9fe82fff4b1c544bb730a285cf0"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000232-transport-00089.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000233-transport-00089.stdout",
+      "bytes": 65,
+      "sha256": "d346c5a914aa720731cb45c1c4b215ee3bbbe9fe82fff4b1c544bb730a285cf0"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000234-transport-00090.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000235-transport-00090.stdout",
+      "bytes": 11066,
+      "sha256": "da05dd0f999d6d8d76e660b22430f41270bc6a483b4c18d1dad94f8aec86fb38"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000236-transport-00091.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000237-transport-00091.stdout",
+      "bytes": 65,
+      "sha256": "d346c5a914aa720731cb45c1c4b215ee3bbbe9fe82fff4b1c544bb730a285cf0"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000238-transport-00092.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000239-transport-00092.stdout",
+      "bytes": 11066,
+      "sha256": "da05dd0f999d6d8d76e660b22430f41270bc6a483b4c18d1dad94f8aec86fb38"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000240-transport-00093.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000241-transport-00093.stdout",
+      "bytes": 65,
+      "sha256": "d346c5a914aa720731cb45c1c4b215ee3bbbe9fe82fff4b1c544bb730a285cf0"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000242-transport-00094.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000243-transport-00094.stdout",
+      "bytes": 11066,
+      "sha256": "da05dd0f999d6d8d76e660b22430f41270bc6a483b4c18d1dad94f8aec86fb38"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000244-transport-00095.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000245-transport-00095.stdout",
+      "bytes": 11066,
+      "sha256": "da05dd0f999d6d8d76e660b22430f41270bc6a483b4c18d1dad94f8aec86fb38"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000246-transport-00096.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000247-transport-00096.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000248-transport-00097.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000249-transport-00097.stdout",
+      "bytes": 11066,
+      "sha256": "da05dd0f999d6d8d76e660b22430f41270bc6a483b4c18d1dad94f8aec86fb38"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000250-transport-00098.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000251-transport-00098.stdout",
+      "bytes": 10872,
+      "sha256": "0b1210133482fa38f437e58d556919057090e822fe4891e67733e44a5ae48e62"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000252-transport-00099.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000253-transport-00099.stdout",
+      "bytes": 10872,
+      "sha256": "0b1210133482fa38f437e58d556919057090e822fe4891e67733e44a5ae48e62"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000254-transport-00100.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000255-transport-00100.stdout",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000256-transport-00101.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000257-transport-00101.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000258-transport-00102.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000259-transport-00102.stdout",
+      "bytes": 65,
+      "sha256": "d346c5a914aa720731cb45c1c4b215ee3bbbe9fe82fff4b1c544bb730a285cf0"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000260-transport-00103.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000261-transport-00103.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000262-transport-00104.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000263-transport-00104.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000264-transport-00105.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc0/sprig-writable-0.jsonl.logs/000265-transport-00105.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0-options.json",
+      "bytes": 886,
+      "sha256": "3900dfde03c8147765ec07f6b20b5951f607e86d16351ad32e11ef300a22cc63"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl",
+      "bytes": 770,
+      "sha256": "b53c48d5a3e53e3ed3d25d170b03bfb0b79256c06f0233f5256ed9e4db0e0c26"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0001-filesystem_type.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0001-filesystem_type.stdout",
+      "bytes": 6,
+      "sha256": "7e2b88c929164974f3746d0fe13a6b8e8a3d962744836ec39bda818d12809f01"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0002-image_inspect.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0002-image_inspect.stdout",
+      "bytes": 2655,
+      "sha256": "398a1cf1fa8ee5cd0a56e0087700d15d3c7f2d506743f88b9ff3bb46156da4c0"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0003-docker_info.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0003-docker_info.stdout",
+      "bytes": 10487,
+      "sha256": "a7c7e03a6c120975bc812796280bc8751db06417339fdc5f94ba38b0a56bb782"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0004-containing_filesystem.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0004-containing_filesystem.stdout",
+      "bytes": 276,
+      "sha256": "ecef6c16248f27823de9bafe7d8684796be908a4bb2a1cffc76db873c7fe5f1c"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0005-volume_create.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0005-volume_create.stdout",
+      "bytes": 39,
+      "sha256": "1dfe0e07545dd5e5a375413601181eabd2841db63e8508939d7565842b67dd46"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0006-volume_path.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0006-volume_path.stdout",
+      "bytes": 127,
+      "sha256": "9e26533e27b09604cdf420b3d2d2cf31d454c8deb4ca36e0e179b1d5c5f2b96b"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0007-compiler_container_inventory.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0007-compiler_container_inventory.stdout",
+      "bytes": 65,
+      "sha256": "05a549de918c7fa77c4600f4832612e938a0de0493986bc93fc942270ef1b9be"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0008-compiler_container_inspect.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0008-compiler_container_inspect.stdout",
+      "bytes": 10638,
+      "sha256": "07896a07e9007c1c83a82796c6e004c47938733be13fe24de152ed3fef88ee33"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0009-fixture_verify.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0009-fixture_verify.stdout",
+      "bytes": 10339,
+      "sha256": "f6ba71ee2e42ec9728555f98763f2a4adb88fdd4afa0b4fce6d23caef905fc86"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0010-cargo_setup.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0010-cargo_setup.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0011-toolchain_verify.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0011-toolchain_verify.stdout",
+      "bytes": 232,
+      "sha256": "49e18b59b2011cac4236f0e084e29e5d3ccf1fb80382b116f8635a74071199fd"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0012-clean_build.stderr",
+      "bytes": 13400,
+      "sha256": "a9558f77f5a0306a0bf35a6d348a69f42669554eee5900cd3aeeabe8704db47b"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0012-clean_build.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0013-target_probe.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0013-target_probe.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0014-clean_artifacts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0014-clean_artifacts.stdout",
+      "bytes": 157,
+      "sha256": "4fb80ddf855eee9fd4ad6facc59f260d370942f43de2860d95edf00603aa7b66"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0015-clean_execute.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0015-clean_execute.stdout",
+      "bytes": 4,
+      "sha256": "317b2e63b36554d194c11f0818b200272317d419836b6ffed13ca48c612cb0b1"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0016-noop_build.stderr",
+      "bytes": 955,
+      "sha256": "3bfac257c28427a8c2fcf96f208188814d2351a6099894f56c588a7e4789941f"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0016-noop_build.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0017-noop_artifacts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0017-noop_artifacts.stdout",
+      "bytes": 157,
+      "sha256": "4fb80ddf855eee9fd4ad6facc59f260d370942f43de2860d95edf00603aa7b66"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0018-noop_execute.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0018-noop_execute.stdout",
+      "bytes": 4,
+      "sha256": "317b2e63b36554d194c11f0818b200272317d419836b6ffed13ca48c612cb0b1"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0019-edit.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0019-edit.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0020-edit_build.stderr",
+      "bytes": 14464,
+      "sha256": "4f11fa50c0ef2f9183b8bc94912450f45e872edb50682652fe6683e560d5c567"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0020-edit_build.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0021-edit_artifacts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0021-edit_artifacts.stdout",
+      "bytes": 157,
+      "sha256": "2c855ee9c9fb0a6548b8f3f3c2af8ed0a3c0c400dda50f9249b2dab556bccc95"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0022-edit_execute.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0022-edit_execute.stdout",
+      "bytes": 5,
+      "sha256": "f87d62748ff3f2c1ff8cd6210ff6be4b113e7025b7ac8b0a3a4f2889527f68cd"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0023-pre_checkpoint_oracle.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0023-pre_checkpoint_oracle.stdout",
+      "bytes": 126411,
+      "sha256": "509db2d42a73be1ec5127b0bc5cde359b54d8b18576bd518b416bc256f9cb1f8"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0024-restore_verify.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0024-restore_verify.stdout",
+      "bytes": 126411,
+      "sha256": "509db2d42a73be1ec5127b0bc5cde359b54d8b18576bd518b416bc256f9cb1f8"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0025-restored_artifacts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0025-restored_artifacts.stdout",
+      "bytes": 157,
+      "sha256": "2c855ee9c9fb0a6548b8f3f3c2af8ed0a3c0c400dda50f9249b2dab556bccc95"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0026-restored_execute.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0026-restored_execute.stdout",
+      "bytes": 5,
+      "sha256": "f87d62748ff3f2c1ff8cd6210ff6be4b113e7025b7ac8b0a3a4f2889527f68cd"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0027-restored_rebuild.stderr",
+      "bytes": 955,
+      "sha256": "4fbc4ddda56650051c1a29e69b85de150c98f8fd1cc3899338dc110fd032e43a"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0027-restored_rebuild.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0028-restored_rebuild_artifacts.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0028-restored_rebuild_artifacts.stdout",
+      "bytes": 157,
+      "sha256": "2c855ee9c9fb0a6548b8f3f3c2af8ed0a3c0c400dda50f9249b2dab556bccc95"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0029-restored_rebuild_execute.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0029-restored_rebuild_execute.stdout",
+      "bytes": 5,
+      "sha256": "f87d62748ff3f2c1ff8cd6210ff6be4b113e7025b7ac8b0a3a4f2889527f68cd"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0030-main_unchanged.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0030-main_unchanged.stdout",
+      "bytes": 10339,
+      "sha256": "f6ba71ee2e42ec9728555f98763f2a4adb88fdd4afa0b4fce6d23caef905fc86"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0031-source_unchanged.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0031-source_unchanged.stdout",
+      "bytes": 10339,
+      "sha256": "f6ba71ee2e42ec9728555f98763f2a4adb88fdd4afa0b4fce6d23caef905fc86"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0032-source_container_inventory.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0032-source_container_inventory.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0033-space_sync.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0033-space_sync.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0034-space_usage.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0034-space_usage.stdout",
+      "bytes": 783,
+      "sha256": "50a5161c95824c77f502d452292e2f0f3c0c3bf534de0e882246b86dfb8313f8"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0035-space_groups.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0035-space_groups.stdout",
+      "bytes": 178,
+      "sha256": "001ce129ab9e5bb14fc677a164a467aa394ac9f28cbbfa69c5e8472fb941b621"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0036-cleanup_helper_inventory.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0036-cleanup_helper_inventory.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0037-compiler_daemon_logs_before_close.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0037-compiler_daemon_logs_before_close.stdout",
+      "bytes": 36,
+      "sha256": "ed15a93fefde77b97678c71fd9b18f2daee328432e4601361bd73de88737cab2"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0038-cleanup_project_inventory.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/layerfs-0.jsonl.logs/0038-cleanup_project_inventory.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl",
+      "bytes": 304,
+      "sha256": "4a1fd8c8dc49c68b442d0857bd8b3aec61265b581f13336c07b2744820f08ffe"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000000-writable-19664-1792935714687161758.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000001-writable-19666-1792935714799246197.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000002-writable-19669-1792935714807658503.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000003-writable-20865-1792935722180620602.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000004-writable-20869-1792935722216687252.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000005-command-000001.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000006-command-000001.stdout",
+      "bytes": 6,
+      "sha256": "7e2b88c929164974f3746d0fe13a6b8e8a3d962744836ec39bda818d12809f01"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000007-command-000002.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000008-command-000002.stdout",
+      "bytes": 2704,
+      "sha256": "78c56025d770821c33618b8294bc21e358b320701ff3dbb7c072ca85b6b1bc13"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000009-command-000003.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000010-command-000003.stdout",
+      "bytes": 10494,
+      "sha256": "76fe25b895902d5996fb69edf49feb6813c5321cca86d47fbb6fb12046280a7b"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000011-command-000004.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000012-command-000004.stdout",
+      "bytes": 169,
+      "sha256": "bfa58e048dfe50501ea92101c9ada8cc285e67d98f497fda58898cb15bd30c44"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000013-command-000005.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000014-command-000005.stdout",
+      "bytes": 534,
+      "sha256": "0d9930f3e567d1e57e9c272d267c8df9fa264696f3ad259b8e5ba09ff5d91c59"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000015-command-000006.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000016-command-000006.stdout",
+      "bytes": 532,
+      "sha256": "c02e9a47c58d5fade993c8647443b55b47df5405038f430924d37429a154b312"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000017-command-000007.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000018-command-000007.stdout",
+      "bytes": 534,
+      "sha256": "254bbb841b4a180506c55fdd189eeafadba7be1e188cc5bab26c77626da9cde4"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000019-command-000008.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000020-command-000008.stdout",
+      "bytes": 532,
+      "sha256": "9d60a53c5a2e824a0259cf9ca43ea91abaa5cbf4e394ce3516059bce48a93431"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000021-command-000009.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000022-command-000009.stdout",
+      "bytes": 262,
+      "sha256": "7f85dbc908c7423926abe34801d9b32b5a86dc228d5862ce3140f2a3791b40f7"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000023-command-000010.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000024-command-000010.stdout",
+      "bytes": 532,
+      "sha256": "6425d88eaf25b7a58c92852a84835e842c8ee11cbbbb943c9bb8d965b0ecdd9e"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000025-command-000011.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000026-command-000011.stdout",
+      "bytes": 538,
+      "sha256": "9bf9225638f58ecc436458b605a8fef6c73af55274dc08ae0557cb5a83d12df6"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000027-command-000012.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000028-command-000012.stdout",
+      "bytes": 536,
+      "sha256": "1bb0c8176fd444447b2e68dedea74d626d721c19f3f72611b4bc76ee2346e33c"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000029-command-000013.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000030-command-000013.stdout",
+      "bytes": 2914,
+      "sha256": "f78171c9e8eea1cb2230baa273c654a76fc017453ab6f9c12e5ceed670a9a2a3"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000031-command-000014.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000032-command-000014.stdout",
+      "bytes": 532,
+      "sha256": "c02e9a47c58d5fade993c8647443b55b47df5405038f430924d37429a154b312"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000033-command-000015.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000034-command-000015.stdout",
+      "bytes": 532,
+      "sha256": "6425d88eaf25b7a58c92852a84835e842c8ee11cbbbb943c9bb8d965b0ecdd9e"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000035-command-000016.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000036-command-000016.stdout",
+      "bytes": 536,
+      "sha256": "1bb0c8176fd444447b2e68dedea74d626d721c19f3f72611b4bc76ee2346e33c"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000037-command-000017.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000038-command-000017.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000039-command-000018.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000040-command-000018.stdout",
+      "bytes": 783,
+      "sha256": "9d99d08757b27ca582d4d20c5c5955e0a3887c375624112b8e73a25669cd1111"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000041-command-000019.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000042-command-000019.stdout",
+      "bytes": 178,
+      "sha256": "64c58c2555003389ee6154dce5f331fb30fe71a1597d4e6bbc548b0fd2fffbd4"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000043-command-000020.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000044-command-000020.stdout",
+      "bytes": 532,
+      "sha256": "c02e9a47c58d5fade993c8647443b55b47df5405038f430924d37429a154b312"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000045-command-000021.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000046-command-000021.stdout",
+      "bytes": 532,
+      "sha256": "6425d88eaf25b7a58c92852a84835e842c8ee11cbbbb943c9bb8d965b0ecdd9e"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000047-command-000022.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000048-command-000022.stdout",
+      "bytes": 536,
+      "sha256": "1bb0c8176fd444447b2e68dedea74d626d721c19f3f72611b4bc76ee2346e33c"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000049-command-000023.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000050-command-000023.stdout",
+      "bytes": 115,
+      "sha256": "572a90f8be3cd298aeda9a3f78e7b64a952d49ee88229068ab43c7978b194746"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000051-command-000024.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000052-command-000024.stdout",
+      "bytes": 115,
+      "sha256": "e67fb5fa28b08f6c53af452dbb5c06ead72569e2f65f0562caad0eed0368a5c7"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000053-command-000025.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000054-command-000025.stdout",
+      "bytes": 115,
+      "sha256": "4b783748ff011a1e85262fabe03034aff380dd36536bcf12d4da1374af8e20b6"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000055-lifecycle.jsonl",
+      "bytes": 15823,
+      "sha256": "e42d3629841c2bb3785ccbd2d175b4ebf02b8831218e05f4286ed994d0ace2d6"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000056-transport-00001.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000057-transport-00001.stdout",
+      "bytes": 65,
+      "sha256": "9f127ce357e35313bcdf73bdd15f95e917f225b9b3c68c981bf51c42cc534a24"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000058-transport-00002.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000059-transport-00002.stdout",
+      "bytes": 65,
+      "sha256": "9f127ce357e35313bcdf73bdd15f95e917f225b9b3c68c981bf51c42cc534a24"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000060-transport-00003.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000061-transport-00003.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000062-transport-00004.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000063-transport-00004.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000064-transport-00005.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000065-transport-00005.stdout",
+      "bytes": 10339,
+      "sha256": "f6ba71ee2e42ec9728555f98763f2a4adb88fdd4afa0b4fce6d23caef905fc86"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000066-transport-00006.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000067-transport-00006.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000068-transport-00007.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000069-transport-00007.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000070-transport-00008.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000071-transport-00008.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000072-transport-00009.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000073-transport-00009.stdout",
+      "bytes": 232,
+      "sha256": "49e18b59b2011cac4236f0e084e29e5d3ccf1fb80382b116f8635a74071199fd"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000074-transport-00010.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000075-transport-00010.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000076-transport-00011.stderr",
+      "bytes": 12520,
+      "sha256": "7ecc51d06306034b7a8a34bf7a88772f63138fc2f503c907744d1d833dbc1b0e"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000077-transport-00011.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000078-transport-00012.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000079-transport-00012.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000080-transport-00013.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000081-transport-00013.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000082-transport-00014.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000083-transport-00014.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000084-transport-00015.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000085-transport-00015.stdout",
+      "bytes": 157,
+      "sha256": "4fb80ddf855eee9fd4ad6facc59f260d370942f43de2860d95edf00603aa7b66"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000086-transport-00016.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000087-transport-00016.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000088-transport-00017.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000089-transport-00017.stdout",
+      "bytes": 4,
+      "sha256": "317b2e63b36554d194c11f0818b200272317d419836b6ffed13ca48c612cb0b1"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000090-transport-00018.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000091-transport-00018.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000092-transport-00019.stderr",
+      "bytes": 819,
+      "sha256": "f8d45cf2d65e02e80d5385db9704ff999834465deac00e0f27756211e0cf5b4d"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000093-transport-00019.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000094-transport-00020.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000095-transport-00020.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000096-transport-00021.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000097-transport-00021.stdout",
+      "bytes": 157,
+      "sha256": "4fb80ddf855eee9fd4ad6facc59f260d370942f43de2860d95edf00603aa7b66"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000098-transport-00022.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000099-transport-00022.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000100-transport-00023.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000101-transport-00023.stdout",
+      "bytes": 4,
+      "sha256": "317b2e63b36554d194c11f0818b200272317d419836b6ffed13ca48c612cb0b1"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000102-transport-00024.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000103-transport-00024.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000104-transport-00025.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000105-transport-00025.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000106-transport-00026.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000107-transport-00026.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000108-transport-00027.stderr",
+      "bytes": 13463,
+      "sha256": "61a4d67d6dd7edce151592fb9326e7d5b1872b712968526b7e4374181c1cd8f8"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000109-transport-00027.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000110-transport-00028.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000111-transport-00028.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000112-transport-00029.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000113-transport-00029.stdout",
+      "bytes": 157,
+      "sha256": "2c855ee9c9fb0a6548b8f3f3c2af8ed0a3c0c400dda50f9249b2dab556bccc95"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000114-transport-00030.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000115-transport-00030.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000116-transport-00031.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000117-transport-00031.stdout",
+      "bytes": 5,
+      "sha256": "f87d62748ff3f2c1ff8cd6210ff6be4b113e7025b7ac8b0a3a4f2889527f68cd"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000118-transport-00032.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000119-transport-00032.stdout",
+      "bytes": 65,
+      "sha256": "9f127ce357e35313bcdf73bdd15f95e917f225b9b3c68c981bf51c42cc534a24"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000120-transport-00033.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000121-transport-00033.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000122-transport-00034.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000123-transport-00034.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000124-transport-00035.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000125-transport-00035.stdout",
+      "bytes": 126411,
+      "sha256": "f40b97d4b9938abe6fe1a51e0cd1e4b46c24f3a14280c7a26d297dd2a667e342"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000126-transport-00036.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000127-transport-00036.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000128-transport-00037.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000129-transport-00037.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000130-transport-00038.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000131-transport-00038.stdout",
+      "bytes": 11066,
+      "sha256": "4b04eb8628c54159383e80680bbba98a07796e4586e74eaa6012cbfd92bac9db"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000132-transport-00039.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000133-transport-00039.stdout",
+      "bytes": 10872,
+      "sha256": "40bb68af52b6bd633844757fe08c83058d1f9468fa1572ce5c60b143e06d30f4"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000134-transport-00040.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000135-transport-00040.stdout",
+      "bytes": 10872,
+      "sha256": "40bb68af52b6bd633844757fe08c83058d1f9468fa1572ce5c60b143e06d30f4"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000136-transport-00041.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000137-transport-00041.stdout",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000138-transport-00042.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000139-transport-00042.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000140-transport-00043.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000141-transport-00043.stdout",
+      "bytes": 65,
+      "sha256": "9f127ce357e35313bcdf73bdd15f95e917f225b9b3c68c981bf51c42cc534a24"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000142-transport-00044.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000143-transport-00044.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000144-transport-00045.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000145-transport-00045.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000146-transport-00046.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000147-transport-00046.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000148-transport-00047.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000149-transport-00047.stdout",
+      "bytes": 65,
+      "sha256": "14d4acf5049122d9d30fb3870cc7f19384ed7b638da4b56366a20a7670493678"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000150-transport-00048.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000151-transport-00048.stdout",
+      "bytes": 65,
+      "sha256": "14d4acf5049122d9d30fb3870cc7f19384ed7b638da4b56366a20a7670493678"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000152-transport-00049.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000153-transport-00049.stdout",
+      "bytes": 11066,
+      "sha256": "d1efbe8d4971e0217ceb35ba52d7c24bae0c96f245f689b0ffe16b67a5d62d5a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000154-transport-00050.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000155-transport-00050.stdout",
+      "bytes": 11066,
+      "sha256": "d1efbe8d4971e0217ceb35ba52d7c24bae0c96f245f689b0ffe16b67a5d62d5a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000156-transport-00051.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000157-transport-00051.stdout",
+      "bytes": 126411,
+      "sha256": "f40b97d4b9938abe6fe1a51e0cd1e4b46c24f3a14280c7a26d297dd2a667e342"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000158-transport-00052.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000159-transport-00052.stdout",
+      "bytes": 11066,
+      "sha256": "d1efbe8d4971e0217ceb35ba52d7c24bae0c96f245f689b0ffe16b67a5d62d5a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000160-transport-00053.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000161-transport-00053.stdout",
+      "bytes": 157,
+      "sha256": "2c855ee9c9fb0a6548b8f3f3c2af8ed0a3c0c400dda50f9249b2dab556bccc95"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000162-transport-00054.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000163-transport-00054.stdout",
+      "bytes": 11066,
+      "sha256": "d1efbe8d4971e0217ceb35ba52d7c24bae0c96f245f689b0ffe16b67a5d62d5a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000164-transport-00055.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000165-transport-00055.stdout",
+      "bytes": 5,
+      "sha256": "f87d62748ff3f2c1ff8cd6210ff6be4b113e7025b7ac8b0a3a4f2889527f68cd"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000166-transport-00056.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000167-transport-00056.stdout",
+      "bytes": 11066,
+      "sha256": "d1efbe8d4971e0217ceb35ba52d7c24bae0c96f245f689b0ffe16b67a5d62d5a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000168-transport-00057.stderr",
+      "bytes": 819,
+      "sha256": "07d80633ea9c5b882b35ab39d7d4788ba3ae7d5cf1d76b170b2d81e679bdb93e"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000169-transport-00057.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000170-transport-00058.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000171-transport-00058.stdout",
+      "bytes": 11066,
+      "sha256": "d1efbe8d4971e0217ceb35ba52d7c24bae0c96f245f689b0ffe16b67a5d62d5a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000172-transport-00059.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000173-transport-00059.stdout",
+      "bytes": 157,
+      "sha256": "2c855ee9c9fb0a6548b8f3f3c2af8ed0a3c0c400dda50f9249b2dab556bccc95"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000174-transport-00060.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000175-transport-00060.stdout",
+      "bytes": 11066,
+      "sha256": "d1efbe8d4971e0217ceb35ba52d7c24bae0c96f245f689b0ffe16b67a5d62d5a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000176-transport-00061.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000177-transport-00061.stdout",
+      "bytes": 5,
+      "sha256": "f87d62748ff3f2c1ff8cd6210ff6be4b113e7025b7ac8b0a3a4f2889527f68cd"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000178-transport-00062.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000179-transport-00062.stdout",
+      "bytes": 65,
+      "sha256": "77583e934bbfb2f5b1bc6823f604f890587fef849958c598ca3e6ebcfa86115a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000180-transport-00063.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000181-transport-00063.stdout",
+      "bytes": 65,
+      "sha256": "77583e934bbfb2f5b1bc6823f604f890587fef849958c598ca3e6ebcfa86115a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000182-transport-00064.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000183-transport-00064.stdout",
+      "bytes": 11066,
+      "sha256": "66189c024527112f40aa5a74ef1c37dfd7131b2b8e1782c74632db4343891b54"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000184-transport-00065.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000185-transport-00065.stdout",
+      "bytes": 11066,
+      "sha256": "66189c024527112f40aa5a74ef1c37dfd7131b2b8e1782c74632db4343891b54"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000186-transport-00066.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000187-transport-00066.stdout",
+      "bytes": 10339,
+      "sha256": "f6ba71ee2e42ec9728555f98763f2a4adb88fdd4afa0b4fce6d23caef905fc86"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000188-transport-00067.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000189-transport-00067.stdout",
+      "bytes": 11066,
+      "sha256": "66189c024527112f40aa5a74ef1c37dfd7131b2b8e1782c74632db4343891b54"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000190-transport-00068.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000191-transport-00068.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000192-transport-00069.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000193-transport-00069.stdout",
+      "bytes": 11066,
+      "sha256": "66189c024527112f40aa5a74ef1c37dfd7131b2b8e1782c74632db4343891b54"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000194-transport-00070.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000195-transport-00070.stdout",
+      "bytes": 10872,
+      "sha256": "af7df440b964ad446568cd5adfb5e67f6eb35d4b2404b2ec422bc2741bd10cd6"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000196-transport-00071.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000197-transport-00071.stdout",
+      "bytes": 10872,
+      "sha256": "af7df440b964ad446568cd5adfb5e67f6eb35d4b2404b2ec422bc2741bd10cd6"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000198-transport-00072.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000199-transport-00072.stdout",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000200-transport-00073.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000201-transport-00073.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000202-transport-00074.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000203-transport-00074.stdout",
+      "bytes": 65,
+      "sha256": "77583e934bbfb2f5b1bc6823f604f890587fef849958c598ca3e6ebcfa86115a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000204-transport-00075.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000205-transport-00075.stdout",
+      "bytes": 65,
+      "sha256": "14d4acf5049122d9d30fb3870cc7f19384ed7b638da4b56366a20a7670493678"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000206-transport-00076.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000207-transport-00076.stdout",
+      "bytes": 65,
+      "sha256": "f35b6a99b4d750a39330735d72a7bbad44152ae05f8f8c3825d9c093d33590f0"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000208-transport-00077.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000209-transport-00077.stdout",
+      "bytes": 65,
+      "sha256": "f35b6a99b4d750a39330735d72a7bbad44152ae05f8f8c3825d9c093d33590f0"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000210-transport-00078.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000211-transport-00078.stdout",
+      "bytes": 10992,
+      "sha256": "fdb26b91678338e52710ecf276264c025273d63b24d63bb33a7218d65b119a4e"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000212-transport-00079.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000213-transport-00079.stdout",
+      "bytes": 10992,
+      "sha256": "fdb26b91678338e52710ecf276264c025273d63b24d63bb33a7218d65b119a4e"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000214-transport-00080.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000215-transport-00080.stdout",
+      "bytes": 10339,
+      "sha256": "f6ba71ee2e42ec9728555f98763f2a4adb88fdd4afa0b4fce6d23caef905fc86"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000216-transport-00081.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000217-transport-00081.stdout",
+      "bytes": 10992,
+      "sha256": "fdb26b91678338e52710ecf276264c025273d63b24d63bb33a7218d65b119a4e"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000218-transport-00082.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000219-transport-00082.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000220-transport-00083.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000221-transport-00083.stdout",
+      "bytes": 10992,
+      "sha256": "fdb26b91678338e52710ecf276264c025273d63b24d63bb33a7218d65b119a4e"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000222-transport-00084.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000223-transport-00084.stdout",
+      "bytes": 10992,
+      "sha256": "fdb26b91678338e52710ecf276264c025273d63b24d63bb33a7218d65b119a4e"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000224-transport-00085.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000225-transport-00085.stdout",
+      "bytes": 10798,
+      "sha256": "0830ad63e07a400aae0f7ec2f9d26015d82b9e91d7d528805b3b936dc64691dc"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000226-transport-00086.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000227-transport-00086.stdout",
+      "bytes": 10798,
+      "sha256": "0830ad63e07a400aae0f7ec2f9d26015d82b9e91d7d528805b3b936dc64691dc"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000228-transport-00087.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000229-transport-00087.stdout",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000230-transport-00088.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000231-transport-00088.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000232-transport-00089.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000233-transport-00089.stdout",
+      "bytes": 65,
+      "sha256": "f35b6a99b4d750a39330735d72a7bbad44152ae05f8f8c3825d9c093d33590f0"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000234-transport-00090.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000235-transport-00090.stdout",
+      "bytes": 65,
+      "sha256": "14d4acf5049122d9d30fb3870cc7f19384ed7b638da4b56366a20a7670493678"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000236-transport-00091.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000237-transport-00091.stdout",
+      "bytes": 65,
+      "sha256": "14d4acf5049122d9d30fb3870cc7f19384ed7b638da4b56366a20a7670493678"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000238-transport-00092.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000239-transport-00092.stdout",
+      "bytes": 11066,
+      "sha256": "d1efbe8d4971e0217ceb35ba52d7c24bae0c96f245f689b0ffe16b67a5d62d5a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000240-transport-00093.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000241-transport-00093.stdout",
+      "bytes": 65,
+      "sha256": "14d4acf5049122d9d30fb3870cc7f19384ed7b638da4b56366a20a7670493678"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000242-transport-00094.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000243-transport-00094.stdout",
+      "bytes": 11066,
+      "sha256": "d1efbe8d4971e0217ceb35ba52d7c24bae0c96f245f689b0ffe16b67a5d62d5a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000244-transport-00095.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000245-transport-00095.stdout",
+      "bytes": 65,
+      "sha256": "14d4acf5049122d9d30fb3870cc7f19384ed7b638da4b56366a20a7670493678"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000246-transport-00096.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000247-transport-00096.stdout",
+      "bytes": 11066,
+      "sha256": "d1efbe8d4971e0217ceb35ba52d7c24bae0c96f245f689b0ffe16b67a5d62d5a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000248-transport-00097.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000249-transport-00097.stdout",
+      "bytes": 11066,
+      "sha256": "d1efbe8d4971e0217ceb35ba52d7c24bae0c96f245f689b0ffe16b67a5d62d5a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000250-transport-00098.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000251-transport-00098.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000252-transport-00099.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000253-transport-00099.stdout",
+      "bytes": 11066,
+      "sha256": "d1efbe8d4971e0217ceb35ba52d7c24bae0c96f245f689b0ffe16b67a5d62d5a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000254-transport-00100.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000255-transport-00100.stdout",
+      "bytes": 11066,
+      "sha256": "d1efbe8d4971e0217ceb35ba52d7c24bae0c96f245f689b0ffe16b67a5d62d5a"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000256-transport-00101.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000257-transport-00101.stdout",
+      "bytes": 10872,
+      "sha256": "7cfe938f3c309c9c9b8930d3188b3fdb51ada259affa2cebd1a32d5fba71a4d1"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000258-transport-00102.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000259-transport-00102.stdout",
+      "bytes": 10872,
+      "sha256": "7cfe938f3c309c9c9b8930d3188b3fdb51ada259affa2cebd1a32d5fba71a4d1"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000260-transport-00103.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000261-transport-00103.stdout",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000262-transport-00104.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000263-transport-00104.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000264-transport-00105.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000265-transport-00105.stdout",
+      "bytes": 65,
+      "sha256": "14d4acf5049122d9d30fb3870cc7f19384ed7b638da4b56366a20a7670493678"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000266-transport-00106.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000267-transport-00106.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000268-transport-00107.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000269-transport-00107.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000270-transport-00108.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "records/inc1/sprig-writable-0.jsonl.logs/000271-transport-00108.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "declaredArchiveVerification": {
+    "ok": true,
+    "sampleDeclarations": 8,
+    "verifiedUniqueFiles": 690,
+    "errors": []
+  }
+}

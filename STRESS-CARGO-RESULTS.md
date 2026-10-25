@@ -56,3 +56,27 @@ Incremental0 passed again for both products. Only then did incremental1 start, b
 The conservative harness classified the failed Docker exec as potentially uncertain and blocked normal cleanup rather than retrying, killing processes or forcing unmounts. Runtime/image recovery metadata and all logs were retained; sample cleanup reports `complete:false`, no cleanup attempts. No final active-space result exists for that failed sample. The ephemeral CI runner later terminates, so retaining the image during the job is not a claim that its entire filesystem was exported or remains remotely recoverable.
 
 The independently valid incremental0 samples report whole subprocess8.594441s Sprig /3.418752s LayerFS and whole active Used1,055,641,600 /1,065,095,168bytes. These are separate single-pair observations with the same transport/durability caveats, not pooled with the earlier image/run. Complete raw failure and provenance: `data/stress-20261025/cargo-4g-inc1-sigbus`.
+
+## Fixed hardlink generation: both normal Cargo modes pass
+
+[Run40198236812](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40198236812), benchmark `bf235882b5803b612e35ffb058f4f328b0e9ae7c`, passed in7m55s with Sprig `4ef4a90d7ccf5f305416c5374bfc81038f5ca46e`. The workflow changed only its title and exact product pin. Workload, positive correctness gates, compiler, jobs2,4GiB geometry and absolute deadline were unchanged. Same-job incremental0 passed before incremental1; all four samples used immutable image `sha256:d618a53b2bfb63384f9702b382e22afb77f0ff79fac46f83f23d7ba9eaca3065` and fresh symmetric filesystems. All726collector files and690unique declared raw files pass byte/hash verification; no missing archive remains in this run.
+
+Independent audit confirms exact280-entry inc0 and474-entry inc1 restored trees, forty source hashes matching4ef4a90, and both sampled Sprig binaries matching the build hash. All four samples pass17-package clean/edit compilation,17Fresh with zero compilation for no-op/restored rebuild, executable269→3400, generated build-script values, complete restored-tree metadata/content/hardlink checks before execution, source/main/history preservation, normal owned cleanup and empty remaining mounts/containers. The candidate's separate [product CI40197292575](https://github.com/M4n5ter/sprig/actions/runs/40197292575) also passes the ordinary held-FD/hardlink positive regression. No old-version expected-failure probe was executed; no deliberate mapping-fault workload was introduced. The original Cargo SIGBUS is preserved, and the same normal workload passes with consistent hardlink inode generation. This supports the scoped repair; it is not a universal mmap guarantee or same-runner old/fixed causation proof.
+
+Seconds, except bytes; each column is one sample, not a latency distribution:
+
+| Boundary | Sprig inc0 | LayerFS inc0 | Sprig inc1 | LayerFS inc1 |
+|---|---:|---:|---:|---:|
+| Whole sampler subprocess |7.764431|5.164255|11.132805|3.494750|
+| Clean build |1.439154|0.514800|2.566394|0.654939|
+| No-op build |0.244945|0.045925|0.212785|0.045443|
+| Edited build |1.096612|0.417556|2.405261|0.474341|
+| Product checkpoint + acknowledgment |0.141370|0.123110|0.199738|0.203875|
+| Sprig quiesce + checkpoint composite |0.667753|not matched|0.504114|not matched|
+| Product restore |0.025582|0.004041|0.051209|0.003733|
+| Sprig restore to compiler-ready |0.207547|not matched|0.241564|not matched|
+| Restored build |0.225505|0.045936|0.220551|0.047589|
+| Normal sample cleanup |0.364098|0.556365|0.455230|0.263504|
+| Whole active filesystem Used, bytes |1,055,891,456|1,065,533,440|1,066,364,928|1,075,519,488|
+
+Sprig's whole task and build transport remain slower in these observations; the repair is a correctness result, not a performance victory. Do not pool modes/runners/images or derive statistical gains/tails. Persistent LayerFS SDK versus generation-scoped Sprig Docker CLI and unequal durability remain explicit; nested/composite phases are not additive, and whole space retains runtime/compiler/target/cache/history/logs without baseline subtraction. Earlier failures and the343/344first-pilot archive gap remain unchanged. Complete evidence: `data/stress-20261025/cargo-4g-fixed-both`.
