@@ -1,0 +1,14 @@
+[
+  {
+    "label": "inventory",
+    "type": "sprig",
+    "sha": "8558b130323d904ae8eaec822d502f52459c5b79",
+    "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig"
+  },
+  {
+    "label": "threshold",
+    "type": "sprig",
+    "sha": "9f83c4aec3205b4eb067ca2a367dd7a0b52f49c9",
+    "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig"
+  }
+]
