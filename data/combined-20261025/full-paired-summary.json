@@ -1,0 +1,2552 @@
+[
+  {
+    "backend": "native",
+    "case": "identical",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 735.4404769999974,
+    "layerfsMedian": 550.9605439999996,
+    "pairedRatioMedian": 1.3052189069277795,
+    "pairedRatioMin": 1.2643789010268538,
+    "pairedRatioMax": 1.360230969007086,
+    "sprigValues": [
+      719.1241190000142,
+      735.4404769999974,
+      740.2624279999372
+    ],
+    "layerfsValues": [
+      550.9605439999996,
+      540.6732339999871,
+      585.4751510000206
+    ],
+    "pairedRatios": [
+      1.3052189069277795,
+      1.360230969007086,
+      1.2643789010268538
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "identical",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 226.17683599992233,
+    "layerfsMedian": 189.01852599999984,
+    "pairedRatioMedian": 1.1535104077665161,
+    "pairedRatioMin": 1.056316626126006,
+    "pairedRatioMax": 1.2220544191526221,
+    "sprigValues": [
+      198.92226399997526,
+      230.9909250000146,
+      226.17683599992233
+    ],
+    "layerfsValues": [
+      188.31689199999983,
+      189.01852599999984,
+      196.07697900000494
+    ],
+    "pairedRatios": [
+      1.056316626126006,
+      1.2220544191526221,
+      1.1535104077665161
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "identical",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 106487808,
+    "layerfsMedian": 99594240,
+    "pairedRatioMedian": 1.0692165330043184,
+    "pairedRatioMin": 1.0681622088006903,
+    "pairedRatioMax": 1.0699205728630807,
+    "sprigValues": [
+      106487808,
+      106487808,
+      106487808
+    ],
+    "layerfsValues": [
+      99692544,
+      99594240,
+      99528704
+    ],
+    "pairedRatios": [
+      1.0681622088006903,
+      1.0692165330043184,
+      1.0699205728630807
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "identical",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 106491904,
+    "layerfsMedian": 99594240,
+    "pairedRatioMedian": 1.069257659880732,
+    "pairedRatioMin": 1.0682032951230536,
+    "pairedRatioMax": 1.0699617268200337,
+    "sprigValues": [
+      106491904,
+      106491904,
+      106491904
+    ],
+    "layerfsValues": [
+      99692544,
+      99594240,
+      99528704
+    ],
+    "pairedRatios": [
+      1.0682032951230536,
+      1.069257659880732,
+      1.0699617268200337
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "unique",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 923.1008480001037,
+    "layerfsMedian": 2031.1294290000224,
+    "pairedRatioMedian": 0.4617182484255595,
+    "pairedRatioMin": 0.44211481078911147,
+    "pairedRatioMax": 0.4641436254823368,
+    "sprigValues": [
+      906.8743770000083,
+      923.1008480001037,
+      942.7357769999389
+    ],
+    "layerfsValues": [
+      2051.2191740000017,
+      1999.2730439999723,
+      2031.1294290000224
+    ],
+    "pairedRatios": [
+      0.44211481078911147,
+      0.4617182484255595,
+      0.4641436254823368
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "unique",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 225.6557470000189,
+    "layerfsMedian": 700.150569999998,
+    "pairedRatioMedian": 0.322296026981767,
+    "pairedRatioMin": 0.30006911660836055,
+    "pairedRatioMax": 0.34119453071153244,
+    "sprigValues": [
+      213.47500799998897,
+      233.4533889999193,
+      225.6557470000189
+    ],
+    "layerfsValues": [
+      711.4194569999981,
+      684.2237139999634,
+      700.150569999998
+    ],
+    "pairedRatios": [
+      0.30006911660836055,
+      0.34119453071153244,
+      0.322296026981767
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "unique",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 210776064,
+    "layerfsMedian": 204808192,
+    "pairedRatioMedian": 1.0291388344466221,
+    "pairedRatioMin": 1.028747925871134,
+    "pairedRatioMax": 1.0293446951512242,
+    "sprigValues": [
+      210776064,
+      210776064,
+      210776064
+    ],
+    "layerfsValues": [
+      204767232,
+      204886016,
+      204808192
+    ],
+    "pairedRatios": [
+      1.0293446951512242,
+      1.028747925871134,
+      1.0291388344466221
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "unique",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 210780160,
+    "layerfsMedian": 204808192,
+    "pairedRatioMedian": 1.0291588336466542,
+    "pairedRatioMin": 1.0287679174746607,
+    "pairedRatioMax": 1.0293646983517364,
+    "sprigValues": [
+      210780160,
+      210780160,
+      210780160
+    ],
+    "layerfsValues": [
+      204767232,
+      204886016,
+      204808192
+    ],
+    "pairedRatios": [
+      1.0293646983517364,
+      1.0287679174746607,
+      1.0291588336466542
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "mixed",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 883.7596170000666,
+    "layerfsMedian": 1618.9664540000012,
+    "pairedRatioMedian": 0.5535449364683463,
+    "pairedRatioMin": 0.5458788937945874,
+    "pairedRatioMax": 0.5630141844051224,
+    "sprigValues": [
+      883.7596170000666,
+      883.6636030000591,
+      925.5997270000762
+    ],
+    "layerfsValues": [
+      1618.9664540000012,
+      1596.3719379999966,
+      1644.0078290000092
+    ],
+    "pairedRatios": [
+      0.5458788937945874,
+      0.5535449364683463,
+      0.5630141844051224
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "mixed",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 219.1064239999605,
+    "layerfsMedian": 566.7595800000017,
+    "pairedRatioMedian": 0.37937418536767226,
+    "pairedRatioMin": 0.3721693195980978,
+    "pairedRatioMax": 0.3865950073573698,
+    "sprigValues": [
+      219.1064239999605,
+      214.3404209999744,
+      219.27267799992478
+    ],
+    "layerfsValues": [
+      566.7595800000017,
+      564.9842009999848,
+      589.174514000013
+    ],
+    "pairedRatios": [
+      0.3865950073573698,
+      0.37937418536767226,
+      0.3721693195980978
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "mixed",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 184463360,
+    "layerfsMedian": 178335744,
+    "pairedRatioMedian": 1.0343362425355995,
+    "pairedRatioMin": 1.0342237636952478,
+    "pairedRatioMax": 1.0343599990812835,
+    "sprigValues": [
+      184430592,
+      184463360,
+      184463360
+    ],
+    "layerfsValues": [
+      178327552,
+      178339840,
+      178335744
+    ],
+    "pairedRatios": [
+      1.0342237636952478,
+      1.0343362425355995,
+      1.0343599990812835
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "mixed",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 184467456,
+    "layerfsMedian": 178335744,
+    "pairedRatioMedian": 1.034359209921911,
+    "pairedRatioMin": 1.0342467326641707,
+    "pairedRatioMax": 1.034382966995108,
+    "sprigValues": [
+      184434688,
+      184467456,
+      184467456
+    ],
+    "layerfsValues": [
+      178327552,
+      178339840,
+      178335744
+    ],
+    "pairedRatios": [
+      1.0342467326641707,
+      1.034359209921911,
+      1.034382966995108
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "insert",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 783.6103670000512,
+    "layerfsMedian": 621.6133809999992,
+    "pairedRatioMedian": 1.2480451189000807,
+    "pairedRatioMin": 1.2430657537009397,
+    "pairedRatioMax": 1.2907699698618407,
+    "sprigValues": [
+      775.8015460000252,
+      783.6103670000512,
+      794.3871129999707
+    ],
+    "layerfsValues": [
+      621.6133809999992,
+      607.0875409999862,
+      639.0547810000135
+    ],
+    "pairedRatios": [
+      1.2480451189000807,
+      1.2907699698618407,
+      1.2430657537009397
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "insert",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 223.18725100001302,
+    "layerfsMedian": 192.51786199999697,
+    "pairedRatioMedian": 1.1593067192903719,
+    "pairedRatioMin": 1.150905836661756,
+    "pairedRatioMax": 1.1872629865575803,
+    "sprigValues": [
+      223.18725100001302,
+      223.12390499996582,
+      227.97355499994865
+    ],
+    "layerfsValues": [
+      192.51786199999697,
+      187.93132400000468,
+      198.08184800000163
+    ],
+    "pairedRatios": [
+      1.1593067192903719,
+      1.1872629865575803,
+      1.150905836661756
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "insert",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 116867072,
+    "layerfsMedian": 103272448,
+    "pairedRatioMedian": 1.1316384404870503,
+    "pairedRatioMin": 1.1312346364285149,
+    "pairedRatioMax": 1.131683325400603,
+    "sprigValues": [
+      116867072,
+      116867072,
+      116867072
+    ],
+    "layerfsValues": [
+      103268352,
+      103272448,
+      103309312
+    ],
+    "pairedRatios": [
+      1.131683325400603,
+      1.1316384404870503,
+      1.1312346364285149
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "insert",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 116871168,
+    "layerfsMedian": 103272448,
+    "pairedRatioMedian": 1.1316781025661364,
+    "pairedRatioMin": 1.1312742843549282,
+    "pairedRatioMax": 1.131722989052832,
+    "sprigValues": [
+      116871168,
+      116871168,
+      116871168
+    ],
+    "layerfsValues": [
+      103268352,
+      103272448,
+      103309312
+    ],
+    "pairedRatios": [
+      1.131722989052832,
+      1.1316781025661364,
+      1.1312742843549282
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-distributed",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 794.0734850000126,
+    "layerfsMedian": 467.20736199995736,
+    "pairedRatioMedian": 1.720633817838218,
+    "pairedRatioMin": 1.6489373628005475,
+    "pairedRatioMax": 1.7480178854814885,
+    "sprigValues": [
+      770.7712389999983,
+      794.0734850000126,
+      803.8927870001089
+    ],
+    "layerfsValues": [
+      467.4351230000175,
+      454.27080100000603,
+      467.20736199995736
+    ],
+    "pairedRatios": [
+      1.6489373628005475,
+      1.7480178854814885,
+      1.720633817838218
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-distributed",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 338.64486200002375,
+    "layerfsMedian": 83.65738699999929,
+    "pairedRatioMedian": 4.025354495698853,
+    "pairedRatioMin": 3.9569865599555167,
+    "pairedRatioMax": 4.283590551776371,
+    "sprigValues": [
+      331.03115599999455,
+      338.64486200002375,
+      349.73985900012394
+    ],
+    "layerfsValues": [
+      83.65738699999929,
+      84.12796000001254,
+      81.64642600005027
+    ],
+    "pairedRatios": [
+      3.9569865599555167,
+      4.025354495698853,
+      4.283590551776371
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-distributed",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 6578176,
+    "layerfsMedian": 104075264,
+    "pairedRatioMedian": 0.0632059506474084,
+    "pairedRatioMin": 0.06291586282924524,
+    "pairedRatioMax": 0.06381555651729158,
+    "sprigValues": [
+      6643712,
+      6578176,
+      6545408
+    ],
+    "layerfsValues": [
+      104108032,
+      104075264,
+      104034304
+    ],
+    "pairedRatios": [
+      0.06381555651729158,
+      0.0632059506474084,
+      0.06291586282924524
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-distributed",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 160788480,
+    "layerfsMedian": 106115072,
+    "pairedRatioMedian": 1.5152696807073085,
+    "pairedRatioMin": 1.5152275446790442,
+    "pairedRatioMax": 1.5156822653447013,
+    "sprigValues": [
+      160923648,
+      160788480,
+      160755712
+    ],
+    "layerfsValues": [
+      106172416,
+      106115072,
+      106090496
+    ],
+    "pairedRatios": [
+      1.5156822653447013,
+      1.5152275446790442,
+      1.5152696807073085
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-distributed",
+    "metric": "writeCommitMs",
+    "sprigMedian": 4611.03809399981,
+    "layerfsMedian": 2549.399842000392,
+    "pairedRatioMedian": 1.8097251752819006,
+    "pairedRatioMin": 1.7963290271396635,
+    "pairedRatioMax": 1.8196008309782625,
+    "sprigValues": [
+      4611.03809399981,
+      4582.08206599943,
+      4638.890070999764
+    ],
+    "layerfsValues": [
+      2547.9217270000954,
+      2550.80333099977,
+      2549.399842000392
+    ],
+    "pairedRatios": [
+      1.8097251752819006,
+      1.7963290271396635,
+      1.8196008309782625
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-distributed",
+    "metric": "restoreTotalMs",
+    "sprigMedian": 27050.36268899971,
+    "layerfsMedian": 8389.389651999954,
+    "pairedRatioMedian": 3.212862380452711,
+    "pairedRatioMin": 3.201258416528224,
+    "pairedRatioMax": 3.25233537120123,
+    "sprigValues": [
+      27211.303236999644,
+      26856.60423299964,
+      27050.36268899971
+    ],
+    "layerfsValues": [
+      8366.696583000085,
+      8389.389651999954,
+      8419.3966270003
+    ],
+    "pairedRatios": [
+      3.25233537120123,
+      3.201258416528224,
+      3.212862380452711
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-hotset",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 806.8068649999987,
+    "layerfsMedian": 476.7461899999762,
+    "pairedRatioMedian": 1.692319481357657,
+    "pairedRatioMin": 1.6108489199684684,
+    "pairedRatioMax": 1.7170028750993815,
+    "sprigValues": [
+      821.50994299991,
+      806.8068649999987,
+      755.13329599994
+    ],
+    "layerfsValues": [
+      478.4557760000025,
+      476.7461899999762,
+      468.77971399994567
+    ],
+    "pairedRatios": [
+      1.7170028750993815,
+      1.692319481357657,
+      1.6108489199684684
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-hotset",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 357.14502499990886,
+    "layerfsMedian": 81.36931799998274,
+    "pairedRatioMedian": 4.38918542981993,
+    "pairedRatioMin": 4.046334799342445,
+    "pairedRatioMax": 4.585579839109141,
+    "sprigValues": [
+      365.68382799998744,
+      357.14502499990886,
+      329.7141829999646
+    ],
+    "layerfsValues": [
+      79.74647499999264,
+      81.36931799998274,
+      81.48465200001374
+    ],
+    "pairedRatios": [
+      4.585579839109141,
+      4.38918542981993,
+      4.046334799342445
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-hotset",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 10444800,
+    "layerfsMedian": 104017920,
+    "pairedRatioMedian": 0.10041346721795628,
+    "pairedRatioMin": 0.10038974843510098,
+    "pairedRatioMax": 0.10077610999487846,
+    "sprigValues": [
+      10444800,
+      10477568,
+      10444800
+    ],
+    "layerfsValues": [
+      104042496,
+      103968768,
+      104017920
+    ],
+    "pairedRatios": [
+      0.10038974843510098,
+      0.10077610999487846,
+      0.10041346721795628
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-hotset",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 164990976,
+    "layerfsMedian": 106475520,
+    "pairedRatioMedian": 1.5490309183202584,
+    "pairedRatioMin": 1.5464901477832513,
+    "pairedRatioMax": 1.5495672244662435,
+    "sprigValues": [
+      164990976,
+      164593664,
+      164990976
+    ],
+    "layerfsValues": [
+      106512384,
+      106430464,
+      106475520
+    ],
+    "pairedRatios": [
+      1.5490309183202584,
+      1.5464901477832513,
+      1.5495672244662435
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-hotset",
+    "metric": "writeCommitMs",
+    "sprigMedian": 4709.307326001408,
+    "layerfsMedian": 2587.3105569999316,
+    "pairedRatioMedian": 1.820155417083753,
+    "pairedRatioMin": 1.770258444006249,
+    "pairedRatioMax": 1.841835626957385,
+    "sprigValues": [
+      4763.336356999616,
+      4709.307326001408,
+      4687.114139000073
+    ],
+    "layerfsValues": [
+      2586.189716000008,
+      2587.3105569999316,
+      2647.700483999797
+    ],
+    "pairedRatios": [
+      1.841835626957385,
+      1.820155417083753,
+      1.770258444006249
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-hotset",
+    "metric": "restoreTotalMs",
+    "sprigMedian": 27779.65417999974,
+    "layerfsMedian": 8336.131931000113,
+    "pairedRatioMedian": 3.3347153391614532,
+    "pairedRatioMin": 3.2363927475411853,
+    "pairedRatioMax": 3.445563140883893,
+    "sprigValues": [
+      28722.66891899926,
+      27779.65417999974,
+      27386.48682400003
+    ],
+    "layerfsValues": [
+      8336.131931000113,
+      8330.442437999882,
+      8462.040598999185
+    ],
+    "pairedRatios": [
+      3.445563140883893,
+      3.3347153391614532,
+      3.2363927475411853
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-recurring",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 785.8695349999607,
+    "layerfsMedian": 482.56841199999326,
+    "pairedRatioMedian": 1.6202848602530329,
+    "pairedRatioMin": 1.5772347172505206,
+    "pairedRatioMax": 1.703705923729045,
+    "sprigValues": [
+      781.8982919999371,
+      802.5574440000582,
+      785.8695349999607
+    ],
+    "layerfsValues": [
+      482.56841199999326,
+      471.06571200001054,
+      498.2578219999559
+    ],
+    "pairedRatios": [
+      1.6202848602530329,
+      1.703705923729045,
+      1.5772347172505206
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-recurring",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 330.4759710000553,
+    "layerfsMedian": 83.2367549999617,
+    "pairedRatioMedian": 3.9653458018652867,
+    "pairedRatioMin": 3.849753390489174,
+    "pairedRatioMax": 3.97650702555549,
+    "sprigValues": [
+      330.4759710000553,
+      330.06251699998757,
+      351.35840700002063
+    ],
+    "layerfsValues": [
+      83.10710100000142,
+      83.2367549999617,
+      91.26777000003494
+    ],
+    "pairedRatios": [
+      3.97650702555549,
+      3.9653458018652867,
+      3.849753390489174
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-recurring",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 4427776,
+    "layerfsMedian": 103481344,
+    "pairedRatioMedian": 0.042788157061431284,
+    "pairedRatioMin": 0.04275600205671795,
+    "pairedRatioMax": 0.04281527249683143,
+    "sprigValues": [
+      4427776,
+      4427776,
+      4427776
+    ],
+    "layerfsValues": [
+      103481344,
+      103559168,
+      103415808
+    ],
+    "pairedRatios": [
+      0.042788157061431284,
+      0.04275600205671795,
+      0.04281527249683143
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-recurring",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 158707712,
+    "layerfsMedian": 105623552,
+    "pairedRatioMedian": 1.500425960346964,
+    "pairedRatioMin": 1.4994764803970992,
+    "pairedRatioMax": 1.5029285132461891,
+    "sprigValues": [
+      158380032,
+      158707712,
+      158707712
+    ],
+    "layerfsValues": [
+      105623552,
+      105775104,
+      105598976
+    ],
+    "pairedRatios": [
+      1.4994764803970992,
+      1.500425960346964,
+      1.5029285132461891
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-recurring",
+    "metric": "writeCommitMs",
+    "sprigMedian": 4529.637789000731,
+    "layerfsMedian": 2942.90725299975,
+    "pairedRatioMedian": 1.5391710983700224,
+    "pairedRatioMin": 1.492228908796834,
+    "pairedRatioMax": 1.5519725389057675,
+    "sprigValues": [
+      4529.637789000731,
+      4527.179162000721,
+      4608.59696399973
+    ],
+    "layerfsValues": [
+      2942.90725299975,
+      2917.0484970002435,
+      3088.398125000531
+    ],
+    "pairedRatios": [
+      1.5391710983700224,
+      1.5519725389057675,
+      1.492228908796834
+    ]
+  },
+  {
+    "backend": "native",
+    "case": "history-recurring",
+    "metric": "restoreTotalMs",
+    "sprigMedian": 27224.10011199986,
+    "layerfsMedian": 8270.70337999973,
+    "pairedRatioMedian": 3.268753949495072,
+    "pairedRatioMin": 3.256333628422388,
+    "pairedRatioMax": 3.325648052725891,
+    "sprigValues": [
+      27224.10011199986,
+      26932.16954699983,
+      27820.321612000498
+    ],
+    "layerfsValues": [
+      8186.103785000771,
+      8270.70337999973,
+      8510.98676800006
+    ],
+    "pairedRatios": [
+      3.325648052725891,
+      3.256333628422388,
+      3.268753949495072
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "identical",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 332.4110150000479,
+    "layerfsMedian": 478.93465600002673,
+    "pairedRatioMedian": 0.7044264651976421,
+    "pairedRatioMin": 0.6661460723359365,
+    "pairedRatioMax": 0.7059477279909007,
+    "sprigValues": [
+      332.4110150000479,
+      346.69304000004786,
+      319.04043999998066
+    ],
+    "layerfsValues": [
+      471.8888790000001,
+      491.10299000001396,
+      478.93465600002673
+    ],
+    "pairedRatios": [
+      0.7044264651976421,
+      0.7059477279909007,
+      0.6661460723359365
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "identical",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 140.91427300002124,
+    "layerfsMedian": 158.80486900001415,
+    "pairedRatioMedian": 0.9034427181599721,
+    "pairedRatioMin": 0.869679537344431,
+    "pairedRatioMax": 0.9181079093631999,
+    "sprigValues": [
+      140.91427300002124,
+      144.4121700000096,
+      138.1093449999753
+    ],
+    "layerfsValues": [
+      153.48334500000055,
+      159.846515000012,
+      158.80486900001415
+    ],
+    "pairedRatios": [
+      0.9181079093631999,
+      0.9034427181599721,
+      0.869679537344431
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "identical",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 1146880,
+    "layerfsMedian": 99758080,
+    "pairedRatioMedian": 0.011496612605214535,
+    "pairedRatioMin": 0.011492837499486926,
+    "pairedRatioMax": 0.011518841533651472,
+    "sprigValues": [
+      1146880,
+      1146880,
+      1146880
+    ],
+    "layerfsValues": [
+      99565568,
+      99758080,
+      99790848
+    ],
+    "pairedRatios": [
+      0.011518841533651472,
+      0.011496612605214535,
+      0.011492837499486926
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "identical",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 1159168,
+    "layerfsMedian": 99758080,
+    "pairedRatioMedian": 0.011619790597413263,
+    "pairedRatioMin": 0.011615975044124286,
+    "pairedRatioMax": 0.011642257692940595,
+    "sprigValues": [
+      1159168,
+      1159168,
+      1159168
+    ],
+    "layerfsValues": [
+      99565568,
+      99758080,
+      99790848
+    ],
+    "pairedRatios": [
+      0.011642257692940595,
+      0.011619790597413263,
+      0.011615975044124286
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "unique",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 961.0320109999861,
+    "layerfsMedian": 1789.3014589999984,
+    "pairedRatioMedian": 0.5370989925515882,
+    "pairedRatioMin": 0.5145268447127064,
+    "pairedRatioMax": 0.567435541007139,
+    "sprigValues": [
+      961.0320109999861,
+      939.6224310000889,
+      1012.6218640000388
+    ],
+    "layerfsValues": [
+      1789.3014589999984,
+      1826.187380999996,
+      1784.558405000047
+    ],
+    "pairedRatios": [
+      0.5370989925515882,
+      0.5145268447127064,
+      0.567435541007139
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "unique",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 164.96741200000997,
+    "layerfsMedian": 573.026865999971,
+    "pairedRatioMedian": 0.28788774451635973,
+    "pairedRatioMin": 0.27725007917440303,
+    "pairedRatioMax": 0.29400088091514986,
+    "sprigValues": [
+      168.10926299996254,
+      160.03775300004008,
+      164.96741200000997
+    ],
+    "layerfsValues": [
+      571.7985010000011,
+      577.2324880000087,
+      573.026865999971
+    ],
+    "pairedRatios": [
+      0.29400088091514986,
+      0.27725007917440303,
+      0.28788774451635973
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "unique",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 105336832,
+    "layerfsMedian": 204783616,
+    "pairedRatioMedian": 0.5143811504920394,
+    "pairedRatioMin": 0.5138569744440227,
+    "pairedRatioMax": 0.5144531796995339,
+    "sprigValues": [
+      105336832,
+      105336832,
+      105336832
+    ],
+    "layerfsValues": [
+      204992512,
+      204783616,
+      204754944
+    ],
+    "pairedRatios": [
+      0.5138569744440227,
+      0.5143811504920394,
+      0.5144531796995339
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "unique",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 105349120,
+    "layerfsMedian": 204783616,
+    "pairedRatioMedian": 0.5144411552924234,
+    "pairedRatioMin": 0.5139169180969888,
+    "pairedRatioMax": 0.5145131929024386,
+    "sprigValues": [
+      105349120,
+      105349120,
+      105349120
+    ],
+    "layerfsValues": [
+      204992512,
+      204783616,
+      204754944
+    ],
+    "pairedRatios": [
+      0.5139169180969888,
+      0.5144411552924234,
+      0.5145131929024386
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "mixed",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 792.9395759999807,
+    "layerfsMedian": 1420.8055009999953,
+    "pairedRatioMedian": 0.558091572310138,
+    "pairedRatioMin": 0.5493046769417365,
+    "pairedRatioMax": 0.5686338669837879,
+    "sprigValues": [
+      790.1509440000609,
+      801.7202149999321,
+      792.9395759999807
+    ],
+    "layerfsValues": [
+      1438.4566110000014,
+      1409.9058490000025,
+      1420.8055009999953
+    ],
+    "pairedRatios": [
+      0.5493046769417365,
+      0.5686338669837879,
+      0.558091572310138
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "mixed",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 163.4982460000174,
+    "layerfsMedian": 480.9501889999956,
+    "pairedRatioMedian": 0.34574698948896476,
+    "pairedRatioMin": 0.33539805927801836,
+    "pairedRatioMax": 0.3492304955437909,
+    "sprigValues": [
+      163.4982460000174,
+      169.8620290000008,
+      161.30975999999464
+    ],
+    "layerfsValues": [
+      472.8840769999988,
+      486.38945099999546,
+      480.9501889999956
+    ],
+    "pairedRatios": [
+      0.34574698948896476,
+      0.3492304955437909,
+      0.33539805927801836
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "mixed",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 79024128,
+    "layerfsMedian": 178233344,
+    "pairedRatioMedian": 0.4433745461230868,
+    "pairedRatioMin": 0.4432319426575997,
+    "pairedRatioMax": 0.4434560750241346,
+    "sprigValues": [
+      79024128,
+      79024128,
+      79024128
+    ],
+    "layerfsValues": [
+      178290688,
+      178233344,
+      178200576
+    ],
+    "pairedRatios": [
+      0.4432319426575997,
+      0.4433745461230868,
+      0.4434560750241346
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "mixed",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 79036416,
+    "layerfsMedian": 178233344,
+    "pairedRatioMedian": 0.4434434894516707,
+    "pairedRatioMin": 0.4433008638117993,
+    "pairedRatioMax": 0.44352503103020274,
+    "sprigValues": [
+      79036416,
+      79036416,
+      79036416
+    ],
+    "layerfsValues": [
+      178290688,
+      178233344,
+      178200576
+    ],
+    "pairedRatios": [
+      0.4433008638117993,
+      0.4434434894516707,
+      0.44352503103020274
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "insert",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 385.939373000042,
+    "layerfsMedian": 518.7259599999525,
+    "pairedRatioMedian": 0.7329176346284646,
+    "pairedRatioMin": 0.7228836187593842,
+    "pairedRatioMax": 0.753266736448059,
+    "sprigValues": [
+      373.6690069999895,
+      385.939373000042,
+      390.7390110000506
+    ],
+    "layerfsValues": [
+      516.9144759999981,
+      526.5794609999866,
+      518.7259599999525
+    ],
+    "pairedRatios": [
+      0.7228836187593842,
+      0.7329176346284646,
+      0.753266736448059
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "insert",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 147.61842299992622,
+    "layerfsMedian": 157.67233900004067,
+    "pairedRatioMedian": 0.9362353849516253,
+    "pairedRatioMin": 0.871431095524612,
+    "pairedRatioMax": 0.9720363430816862,
+    "sprigValues": [
+      150.34698799996704,
+      147.547806000091,
+      147.61842299992622
+    ],
+    "layerfsValues": [
+      154.6721880000041,
+      169.31666399999813,
+      157.67233900004067
+    ],
+    "pairedRatios": [
+      0.9720363430816862,
+      0.871431095524612,
+      0.9362353849516253
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "insert",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 10002432,
+    "layerfsMedian": 103309312,
+    "pairedRatioMedian": 0.09682023630164142,
+    "pairedRatioMin": 0.09679720944981766,
+    "pairedRatioMax": 0.09685479712846548,
+    "sprigValues": [
+      10002432,
+      10002432,
+      10002432
+    ],
+    "layerfsValues": [
+      103309312,
+      103272448,
+      103333888
+    ],
+    "pairedRatios": [
+      0.09682023630164142,
+      0.09685479712846548,
+      0.09679720944981766
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "insert",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 10014720,
+    "layerfsMedian": 103309312,
+    "pairedRatioMedian": 0.09693918008088177,
+    "pairedRatioMin": 0.09691612494054226,
+    "pairedRatioMax": 0.09697378336572403,
+    "sprigValues": [
+      10014720,
+      10014720,
+      10014720
+    ],
+    "layerfsValues": [
+      103309312,
+      103272448,
+      103333888
+    ],
+    "pairedRatios": [
+      0.09693918008088177,
+      0.09697378336572403,
+      0.09691612494054226
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-distributed",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 185.31183899983716,
+    "layerfsMedian": 359.4612790000101,
+    "pairedRatioMedian": 0.5110687354726733,
+    "pairedRatioMin": 0.4945381780607084,
+    "pairedRatioMax": 0.5545677678241959,
+    "sprigValues": [
+      177.76732600003697,
+      188.3127230000241,
+      185.31183899983716
+    ],
+    "layerfsValues": [
+      359.4612790000101,
+      339.5666570000176,
+      362.59670399999595
+    ],
+    "pairedRatios": [
+      0.4945381780607084,
+      0.5545677678241959,
+      0.5110687354726733
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-distributed",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 82.37300800004732,
+    "layerfsMedian": 56.15761300000304,
+    "pairedRatioMedian": 1.699171170255943,
+    "pairedRatioMin": 1.4529510462462725,
+    "pairedRatioMax": 1.7352866102815345,
+    "sprigValues": [
+      95.42139699999552,
+      82.37300800004732,
+      81.60080300001482
+    ],
+    "layerfsValues": [
+      56.15761300000304,
+      56.693587999994634,
+      47.02439499995671
+    ],
+    "pairedRatios": [
+      1.699171170255943,
+      1.4529510462462725,
+      1.7352866102815345
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-distributed",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 4308992,
+    "layerfsMedian": 103976960,
+    "pairedRatioMedian": 0.041441796336419146,
+    "pairedRatioMin": 0.04139613583598945,
+    "pairedRatioMax": 0.04144342893161046,
+    "sprigValues": [
+      4308992,
+      4308992,
+      4308992
+    ],
+    "layerfsValues": [
+      103972864,
+      103976960,
+      104091648
+    ],
+    "pairedRatios": [
+      0.04144342893161046,
+      0.041441796336419146,
+      0.04139613583598945
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-distributed",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 6197248,
+    "layerfsMedian": 106074112,
+    "pairedRatioMedian": 0.05842375564737228,
+    "pairedRatioMin": 0.058297347316471314,
+    "pairedRatioMax": 0.05845084025497392,
+    "sprigValues": [
+      6197248,
+      6197248,
+      6193152
+    ],
+    "layerfsValues": [
+      106024960,
+      106074112,
+      106233856
+    ],
+    "pairedRatios": [
+      0.05845084025497392,
+      0.05842375564737228,
+      0.058297347316471314
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-distributed",
+    "metric": "writeCommitMs",
+    "sprigMedian": 3393.0516199999374,
+    "layerfsMedian": 1581.985134000075,
+    "pairedRatioMedian": 2.1448062608657716,
+    "pairedRatioMin": 2.0838380460305532,
+    "pairedRatioMax": 2.245622678983658,
+    "sprigValues": [
+      3543.862014999604,
+      3393.0516199999374,
+      3346.8699149992744
+    ],
+    "layerfsValues": [
+      1578.1199789999955,
+      1581.985134000075,
+      1606.1084599998721
+    ],
+    "pairedRatios": [
+      2.245622678983658,
+      2.1448062608657716,
+      2.0838380460305532
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-distributed",
+    "metric": "restoreTotalMs",
+    "sprigMedian": 7696.373994999816,
+    "layerfsMedian": 5177.072083999978,
+    "pairedRatioMedian": 1.4866267786353367,
+    "pairedRatioMin": 1.4419370004844514,
+    "pairedRatioMax": 1.550000569346106,
+    "sprigValues": [
+      7696.373994999816,
+      7717.795325999873,
+      7591.609620000213
+    ],
+    "layerfsValues": [
+      5177.072083999978,
+      4979.220961999876,
+      5264.869142999756
+    ],
+    "pairedRatios": [
+      1.4866267786353367,
+      1.550000569346106,
+      1.4419370004844514
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-hotset",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 185.43840699999237,
+    "layerfsMedian": 356.3710779999674,
+    "pairedRatioMedian": 0.5188595395786824,
+    "pairedRatioMin": 0.5033592596985534,
+    "pairedRatioMax": 0.5267520502033636,
+    "sprigValues": [
+      185.43840699999237,
+      179.38268200003904,
+      187.11420399995404
+    ],
+    "layerfsValues": [
+      352.04116800001066,
+      356.3710779999674,
+      360.62593000003835
+    ],
+    "pairedRatios": [
+      0.5267520502033636,
+      0.5033592596985534,
+      0.5188595395786824
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-hotset",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 88.05133500004558,
+    "layerfsMedian": 51.152835999964736,
+    "pairedRatioMedian": 1.673004503601621,
+    "pairedRatioMin": 1.5633108664443824,
+    "pairedRatioMax": 1.9592317849144447,
+    "sprigValues": [
+      88.05133500004558,
+      94.47851400005902,
+      85.57892499993613
+    ],
+    "layerfsValues": [
+      56.32362500000454,
+      48.22222399999737,
+      51.152835999964736
+    ],
+    "pairedRatios": [
+      1.5633108664443824,
+      1.9592317849144447,
+      1.673004503601621
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-hotset",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 8650752,
+    "layerfsMedian": 103993344,
+    "pairedRatioMedian": 0.08317252786200921,
+    "pairedRatioMin": 0.08288685786322092,
+    "pairedRatioMax": 0.08318563157272835,
+    "sprigValues": [
+      8650752,
+      8650752,
+      8617984
+    ],
+    "layerfsValues": [
+      103993344,
+      104009728,
+      103972864
+    ],
+    "pairedRatios": [
+      0.08318563157272835,
+      0.08317252786200921,
+      0.08288685786322092
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-hotset",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 10473472,
+    "layerfsMedian": 106455040,
+    "pairedRatioMedian": 0.09837642351492767,
+    "pairedRatioMin": 0.09807618314736437,
+    "pairedRatioMax": 0.09874119413327175,
+    "sprigValues": [
+      10473472,
+      10506240,
+      10440704
+    ],
+    "layerfsValues": [
+      106463232,
+      106401792,
+      106455040
+    ],
+    "pairedRatios": [
+      0.09837642351492767,
+      0.09874119413327175,
+      0.09807618314736437
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-hotset",
+    "metric": "writeCommitMs",
+    "sprigMedian": 4388.465110000481,
+    "layerfsMedian": 1614.722528000304,
+    "pairedRatioMedian": 2.7032325481901185,
+    "pairedRatioMin": 2.6767925058636566,
+    "pairedRatioMax": 2.725587018461495,
+    "sprigValues": [
+      4449.888540999438,
+      4388.465110000481,
+      4322.277162000432
+    ],
+    "layerfsValues": [
+      1646.1360470000072,
+      1610.099064999813,
+      1614.722528000304
+    ],
+    "pairedRatios": [
+      2.7032325481901185,
+      2.725587018461495,
+      2.6767925058636566
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-hotset",
+    "metric": "restoreTotalMs",
+    "sprigMedian": 7742.264650000323,
+    "layerfsMedian": 5064.347204999736,
+    "pairedRatioMedian": 1.528856654290169,
+    "pairedRatioMin": 1.5065364218100685,
+    "pairedRatioMax": 1.5423874466369276,
+    "sprigValues": [
+      7742.264650000323,
+      7742.660923999665,
+      7661.228425999752
+    ],
+    "layerfsValues": [
+      5019.662645000004,
+      5064.347204999736,
+      5085.325727999967
+    ],
+    "pairedRatios": [
+      1.5423874466369276,
+      1.528856654290169,
+      1.5065364218100685
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-recurring",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 188.13577100007706,
+    "layerfsMedian": 363.9885560000548,
+    "pairedRatioMedian": 0.5125432871782236,
+    "pairedRatioMin": 0.5040428175434101,
+    "pairedRatioMax": 0.5173731423579951,
+    "sprigValues": [
+      188.13577100007706,
+      184.7679719998041,
+      188.31790300009743
+    ],
+    "layerfsValues": [
+      373.253549999994,
+      360.4924239999964,
+      363.9885560000548
+    ],
+    "pairedRatios": [
+      0.5040428175434101,
+      0.5125432871782236,
+      0.5173731423579951
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-recurring",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 83.30228900001657,
+    "layerfsMedian": 54.68864800001029,
+    "pairedRatioMedian": 1.4962574697667395,
+    "pairedRatioMin": 1.458229855980024,
+    "pairedRatioMax": 1.5784208269320927,
+    "sprigValues": [
+      80.049028000019,
+      86.32170099997438,
+      83.30228900001657
+    ],
+    "layerfsValues": [
+      53.499500999983866,
+      54.68864800001029,
+      57.1256229999708
+    ],
+    "pairedRatios": [
+      1.4962574697667395,
+      1.5784208269320927,
+      1.458229855980024
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-recurring",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 1880064,
+    "layerfsMedian": 103559168,
+    "pairedRatioMedian": 0.01815449116006803,
+    "pairedRatioMin": 0.01815449116006803,
+    "pairedRatioMax": 0.01815951891122013,
+    "sprigValues": [
+      1880064,
+      1880064,
+      1880064
+    ],
+    "layerfsValues": [
+      103559168,
+      103559168,
+      103530496
+    ],
+    "pairedRatios": [
+      0.01815449116006803,
+      0.01815449116006803,
+      0.01815951891122013
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-recurring",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 3731456,
+    "layerfsMedian": 105644032,
+    "pairedRatioMedian": 0.035344325897187195,
+    "pairedRatioMin": 0.035321029776674936,
+    "pairedRatioMax": 0.03535843058194084,
+    "sprigValues": [
+      3735552,
+      3731456,
+      3731456
+    ],
+    "layerfsValues": [
+      105648128,
+      105644032,
+      105574400
+    ],
+    "pairedRatios": [
+      0.03535843058194084,
+      0.035321029776674936,
+      0.035344325897187195
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-recurring",
+    "metric": "writeCommitMs",
+    "sprigMedian": 2819.8271420005767,
+    "layerfsMedian": 1878.013807000054,
+    "pairedRatioMedian": 1.5014943614844765,
+    "pairedRatioMin": 1.4826348834701661,
+    "pairedRatioMax": 1.5032584670883204,
+    "sprigValues": [
+      2819.8271420005767,
+      2825.8640420004895,
+      2800.3146259993628
+    ],
+    "layerfsValues": [
+      1878.013807000054,
+      1905.9743390000658,
+      1862.8297709996114
+    ],
+    "pairedRatios": [
+      1.5014943614844765,
+      1.4826348834701661,
+      1.5032584670883204
+    ]
+  },
+  {
+    "backend": "projection",
+    "case": "history-recurring",
+    "metric": "restoreTotalMs",
+    "sprigMedian": 7897.664189001262,
+    "layerfsMedian": 5004.850133999935,
+    "pairedRatioMedian": 1.586101129796584,
+    "pairedRatioMin": 1.4886335864881908,
+    "pairedRatioMax": 1.6187625279597213,
+    "sprigValues": [
+      7938.1984519998805,
+      7897.664189001262,
+      7837.283252999441
+    ],
+    "layerfsValues": [
+      5004.850133999935,
+      5305.311031999823,
+      4841.527474000468
+    ],
+    "pairedRatios": [
+      1.586101129796584,
+      1.4886335864881908,
+      1.6187625279597213
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "identical",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 347.69075899998825,
+    "layerfsMedian": 462.63745800000106,
+    "pairedRatioMedian": 0.7598186896362392,
+    "pairedRatioMin": 0.711665379808843,
+    "pairedRatioMax": 0.7653751201442274,
+    "sprigValues": [
+      354.09119999997074,
+      347.69075899998825,
+      342.60944400011795
+    ],
+    "layerfsValues": [
+      462.63745800000106,
+      457.59700799995335,
+      481.41929299995536
+    ],
+    "pairedRatios": [
+      0.7653751201442274,
+      0.7598186896362392,
+      0.711665379808843
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "identical",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 199.9967750000451,
+    "layerfsMedian": 136.22478799999226,
+    "pairedRatioMedian": 1.4693907176414995,
+    "pairedRatioMin": 1.4449041818379336,
+    "pairedRatioMax": 1.5602682780679566,
+    "sprigValues": [
+      199.4863999999552,
+      199.9967750000451,
+      200.16743899986977
+    ],
+    "layerfsValues": [
+      127.85390999999981,
+      138.41525099999853,
+      136.22478799999226
+    ],
+    "pairedRatios": [
+      1.5602682780679566,
+      1.4449041818379336,
+      1.4693907176414995
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "identical",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 1134592,
+    "layerfsMedian": 99663872,
+    "pairedRatioMedian": 0.011384185434818346,
+    "pairedRatioMin": 0.011376704452111057,
+    "pairedRatioMax": 0.011388397812769806,
+    "sprigValues": [
+      1134592,
+      1134592,
+      1134592
+    ],
+    "layerfsValues": [
+      99627008,
+      99729408,
+      99663872
+    ],
+    "pairedRatios": [
+      0.011388397812769806,
+      0.011376704452111057,
+      0.011384185434818346
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "identical",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 1146880,
+    "layerfsMedian": 99663872,
+    "pairedRatioMedian": 0.011507479861910242,
+    "pairedRatioMin": 0.011499917857729587,
+    "pairedRatioMax": 0.01151173786128356,
+    "sprigValues": [
+      1146880,
+      1146880,
+      1146880
+    ],
+    "layerfsValues": [
+      99627008,
+      99729408,
+      99663872
+    ],
+    "pairedRatios": [
+      0.01151173786128356,
+      0.011499917857729587,
+      0.011507479861910242
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "unique",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 1001.5821769998183,
+    "layerfsMedian": 1941.916545,
+    "pairedRatioMedian": 0.5171657024900325,
+    "pairedRatioMin": 0.5147996795093005,
+    "pairedRatioMax": 0.5200875071914978,
+    "sprigValues": [
+      999.698014999808,
+      1023.8993200001687,
+      1001.5821769998183
+    ],
+    "layerfsValues": [
+      1941.916545,
+      1968.7058539999998,
+      1936.6755609999527
+    ],
+    "pairedRatios": [
+      0.5147996795093005,
+      0.5200875071914978,
+      0.5171657024900325
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "unique",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 241.5094750000435,
+    "layerfsMedian": 460.4501729999902,
+    "pairedRatioMedian": 0.5306159826332968,
+    "pairedRatioMin": 0.474628653402231,
+    "pairedRatioMax": 0.5327966279370006,
+    "sprigValues": [
+      232.25738099995397,
+      241.5094750000435,
+      244.3222210000613
+    ],
+    "layerfsValues": [
+      489.3454690000017,
+      453.2864180000033,
+      460.4501729999902
+    ],
+    "pairedRatios": [
+      0.474628653402231,
+      0.5327966279370006,
+      0.5306159826332968
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "unique",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 105324544,
+    "layerfsMedian": 204853248,
+    "pairedRatioMedian": 0.5141463219562914,
+    "pairedRatioMin": 0.5141360419082657,
+    "pairedRatioMax": 0.5144755006902623,
+    "sprigValues": [
+      105324544,
+      105324544,
+      105324544
+    ],
+    "layerfsValues": [
+      204853248,
+      204722176,
+      204857344
+    ],
+    "pairedRatios": [
+      0.5141463219562914,
+      0.5144755006902623,
+      0.5141360419082657
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "unique",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 105336832,
+    "layerfsMedian": 204853248,
+    "pairedRatioMedian": 0.5142063063603463,
+    "pairedRatioMin": 0.5141960251129684,
+    "pairedRatioMax": 0.5145355234989296,
+    "sprigValues": [
+      105336832,
+      105336832,
+      105336832
+    ],
+    "layerfsValues": [
+      204853248,
+      204722176,
+      204857344
+    ],
+    "pairedRatios": [
+      0.5142063063603463,
+      0.5145355234989296,
+      0.5141960251129684
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "mixed",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 860.4609110000183,
+    "layerfsMedian": 1622.3918910000066,
+    "pairedRatioMedian": 0.5303656383968051,
+    "pairedRatioMin": 0.515838601974793,
+    "pairedRatioMax": 0.5759049480373627,
+    "sprigValues": [
+      851.1600490001001,
+      860.4609110000183,
+      891.7182130001038
+    ],
+    "layerfsValues": [
+      1650.0510930000019,
+      1622.3918910000066,
+      1548.3774120000307
+    ],
+    "pairedRatios": [
+      0.515838601974793,
+      0.5303656383968051,
+      0.5759049480373627
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "mixed",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 234.182431000022,
+    "layerfsMedian": 431.60076999999,
+    "pairedRatioMedian": 0.5478399348769739,
+    "pairedRatioMin": 0.5425903920422279,
+    "pairedRatioMax": 0.5564269732633296,
+    "sprigValues": [
+      236.96314999995138,
+      234.182431000022,
+      227.70757400007824
+    ],
+    "layerfsValues": [
+      432.54084800000055,
+      431.60076999999,
+      409.23173200001474
+    ],
+    "pairedRatios": [
+      0.5478399348769739,
+      0.5425903920422279,
+      0.5564269732633296
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "mixed",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 79011840,
+    "layerfsMedian": 178229248,
+    "pairedRatioMedian": 0.4433157906832441,
+    "pairedRatioMin": 0.4431732028396168,
+    "pairedRatioMax": 0.4433361678655972,
+    "sprigValues": [
+      79011840,
+      79011840,
+      79011840
+    ],
+    "layerfsValues": [
+      178286592,
+      178221056,
+      178229248
+    ],
+    "pairedRatios": [
+      0.4431732028396168,
+      0.4433361678655972,
+      0.4433157906832441
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "mixed",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 79024128,
+    "layerfsMedian": 178229248,
+    "pairedRatioMedian": 0.4433847355962586,
+    "pairedRatioMin": 0.4432421255772279,
+    "pairedRatioMax": 0.4434051159476914,
+    "sprigValues": [
+      79024128,
+      79024128,
+      79024128
+    ],
+    "layerfsValues": [
+      178286592,
+      178221056,
+      178229248
+    ],
+    "pairedRatios": [
+      0.4432421255772279,
+      0.4434051159476914,
+      0.4433847355962586
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "insert",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 407.77688100001797,
+    "layerfsMedian": 531.1222930000076,
+    "pairedRatioMedian": 0.7854540203203263,
+    "pairedRatioMin": 0.7521743864116324,
+    "pairedRatioMax": 0.8033978890054755,
+    "sprigValues": [
+      426.70252899995376,
+      400.72121200012134,
+      407.77688100001797
+    ],
+    "layerfsValues": [
+      531.1222930000076,
+      532.7504090000002,
+      519.160727999988
+    ],
+    "pairedRatios": [
+      0.8033978890054755,
+      0.7521743864116324,
+      0.7854540203203263
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "insert",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 221.88195199998972,
+    "layerfsMedian": 141.0379060000123,
+    "pairedRatioMedian": 1.5584606204157712,
+    "pairedRatioMin": 1.5167573069522644,
+    "pairedRatioMax": 1.6273484519833292,
+    "sprigValues": [
+      221.88195199998972,
+      229.5178180000903,
+      213.42333199982022
+    ],
+    "layerfsValues": [
+      146.287049999999,
+      141.0379060000123,
+      136.9449630000163
+    ],
+    "pairedRatios": [
+      1.5167573069522644,
+      1.6273484519833292,
+      1.5584606204157712
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "insert",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 9990144,
+    "layerfsMedian": 103337984,
+    "pairedRatioMedian": 0.0966744619287328,
+    "pairedRatioMin": 0.09667063020214031,
+    "pairedRatioMax": 0.0967051266801475,
+    "sprigValues": [
+      9990144,
+      9990144,
+      9990144
+    ],
+    "layerfsValues": [
+      103337984,
+      103305216,
+      103342080
+    ],
+    "pairedRatios": [
+      0.0966744619287328,
+      0.0967051266801475,
+      0.09667063020214031
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "insert",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 10002432,
+    "layerfsMedian": 103337984,
+    "pairedRatioMedian": 0.09679337270601292,
+    "pairedRatioMin": 0.09678953626634959,
+    "pairedRatioMax": 0.09682407517544903,
+    "sprigValues": [
+      10002432,
+      10002432,
+      10002432
+    ],
+    "layerfsValues": [
+      103337984,
+      103305216,
+      103342080
+    ],
+    "pairedRatios": [
+      0.09679337270601292,
+      0.09682407517544903,
+      0.09678953626634959
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-distributed",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 221.94335800008957,
+    "layerfsMedian": 597.1560820000013,
+    "pairedRatioMedian": 0.3742760221942585,
+    "pairedRatioMin": 0.27374862431968333,
+    "pairedRatioMax": 0.5122875926111882,
+    "sprigValues": [
+      223.50120300006893,
+      221.94335800008957,
+      212.68957399990995
+    ],
+    "layerfsValues": [
+      597.1560820000013,
+      810.7560670000094,
+      415.17611800006125
+    ],
+    "pairedRatios": [
+      0.3742760221942585,
+      0.27374862431968333,
+      0.5122875926111882
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-distributed",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 137.96364399991035,
+    "layerfsMedian": 49.84946699999273,
+    "pairedRatioMedian": 2.7676051982648175,
+    "pairedRatioMin": 2.3837451218117094,
+    "pairedRatioMax": 2.898437701807863,
+    "sprigValues": [
+      140.9306900000047,
+      137.96364399991035,
+      119.1405179999947
+    ],
+    "layerfsValues": [
+      48.62298400000145,
+      49.84946699999273,
+      49.98039300000528
+    ],
+    "pairedRatios": [
+      2.898437701807863,
+      2.7676051982648175,
+      2.3837451218117094
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-distributed",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 5373952,
+    "layerfsMedian": 104087552,
+    "pairedRatioMedian": 0.051700358592426214,
+    "pairedRatioMin": 0.05098748918089543,
+    "pairedRatioMax": 0.05170785455690225,
+    "sprigValues": [
+      5382144,
+      5308416,
+      5373952
+    ],
+    "layerfsValues": [
+      104087552,
+      104112128,
+      103944192
+    ],
+    "pairedRatios": [
+      0.05170785455690225,
+      0.05098748918089543,
+      0.051700358592426214
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-distributed",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 7405568,
+    "layerfsMedian": 106151936,
+    "pairedRatioMedian": 0.06986899563318777,
+    "pairedRatioMin": 0.06919427623712732,
+    "pairedRatioMax": 0.06995678345423677,
+    "sprigValues": [
+      7426048,
+      7348224,
+      7405568
+    ],
+    "layerfsValues": [
+      106151936,
+      106196992,
+      105992192
+    ],
+    "pairedRatios": [
+      0.06995678345423677,
+      0.06919427623712732,
+      0.06986899563318777
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-distributed",
+    "metric": "writeCommitMs",
+    "sprigMedian": 7005.638496001325,
+    "layerfsMedian": 1924.9589180006878,
+    "pairedRatioMedian": 3.606606334337701,
+    "pairedRatioMin": 3.4108847809925935,
+    "pairedRatioMax": 4.019654448462858,
+    "sprigValues": [
+      7005.638496001325,
+      7015.208948999771,
+      6942.569027001127
+    ],
+    "layerfsValues": [
+      1742.8459550000189,
+      2056.712378000142,
+      1924.9589180006878
+    ],
+    "pairedRatios": [
+      4.019654448462858,
+      3.4108847809925935,
+      3.606606334337701
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-distributed",
+    "metric": "restoreTotalMs",
+    "sprigMedian": 13631.966037000097,
+    "layerfsMedian": 5010.509328000073,
+    "pairedRatioMedian": 2.7206747148081347,
+    "pairedRatioMin": 2.538059257031772,
+    "pairedRatioMax": 3.049371166160331,
+    "sprigValues": [
+      14428.600538000865,
+      13232.243256000402,
+      13631.966037000097
+    ],
+    "layerfsValues": [
+      4731.664252000155,
+      5213.528100000054,
+      5010.509328000073
+    ],
+    "pairedRatios": [
+      3.049371166160331,
+      2.538059257031772,
+      2.7206747148081347
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-hotset",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 213.23572699998294,
+    "layerfsMedian": 370.98364000000583,
+    "pairedRatioMedian": 0.5520101012935239,
+    "pairedRatioMin": 0.5299822547434532,
+    "pairedRatioMax": 0.6095980650636047,
+    "sprigValues": [
+      196.61474600013662,
+      219.66316599991842,
+      213.23572699998294
+    ],
+    "layerfsValues": [
+      370.98364000000583,
+      360.34098300000187,
+      386.2895379999536
+    ],
+    "pairedRatios": [
+      0.5299822547434532,
+      0.6095980650636047,
+      0.5520101012935239
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-hotset",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 135.02965199995742,
+    "layerfsMedian": 46.44499899999937,
+    "pairedRatioMedian": 2.6092882514602924,
+    "pairedRatioMin": 2.563714965307533,
+    "pairedRatioMax": 3.1205058238459094,
+    "sprigValues": [
+      119.0717389999918,
+      135.4383750000352,
+      135.02965199995742
+    ],
+    "layerfsValues": [
+      46.44499899999937,
+      43.40269899996929,
+      51.74961100000655
+    ],
+    "pairedRatios": [
+      2.563714965307533,
+      3.1205058238459094,
+      2.6092882514602924
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-hotset",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 9306112,
+    "layerfsMedian": 104112128,
+    "pairedRatioMedian": 0.08947700063011972,
+    "pairedRatioMin": 0.08935735074333359,
+    "pairedRatioMax": 0.08970021244787159,
+    "sprigValues": [
+      9306112,
+      9306112,
+      9338880
+    ],
+    "layerfsValues": [
+      104005632,
+      104144896,
+      104112128
+    ],
+    "pairedRatios": [
+      0.08947700063011972,
+      0.08935735074333359,
+      0.08970021244787159
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-hotset",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 11436032,
+    "layerfsMedian": 106565632,
+    "pairedRatioMedian": 0.1072938282991315,
+    "pairedRatioMin": 0.1070069569896606,
+    "pairedRatioMax": 0.10745073891625616,
+    "sprigValues": [
+      11436032,
+      11403264,
+      11436032
+    ],
+    "layerfsValues": [
+      106430464,
+      106565632,
+      106586112
+    ],
+    "pairedRatios": [
+      0.10745073891625616,
+      0.1070069569896606,
+      0.1072938282991315
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-hotset",
+    "metric": "writeCommitMs",
+    "sprigMedian": 7094.521221999457,
+    "layerfsMedian": 1833.5961450000177,
+    "pairedRatioMedian": 3.8691841937742453,
+    "pairedRatioMin": 3.7671564427580617,
+    "pairedRatioMax": 4.07237848166062,
+    "sprigValues": [
+      7268.987760000641,
+      6979.2853629979845,
+      7094.521221999457
+    ],
+    "layerfsValues": [
+      1784.9489659999672,
+      1852.666718000226,
+      1833.5961450000177
+    ],
+    "pairedRatios": [
+      4.07237848166062,
+      3.7671564427580617,
+      3.8691841937742453
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-hotset",
+    "metric": "restoreTotalMs",
+    "sprigMedian": 13247.830396000041,
+    "layerfsMedian": 4765.550213999988,
+    "pairedRatioMedian": 2.7799162323547124,
+    "pairedRatioMin": 2.7336328625982627,
+    "pairedRatioMax": 2.9182197456716934,
+    "sprigValues": [
+      13633.92510600113,
+      13177.851197000336,
+      13247.830396000041
+    ],
+    "layerfsValues": [
+      4672.000841000059,
+      4820.636808000272,
+      4765.550213999988
+    ],
+    "pairedRatios": [
+      2.9182197456716934,
+      2.7336328625982627,
+      2.7799162323547124
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-recurring",
+    "metric": "initInclusiveImportForkReadMs",
+    "sprigMedian": 259.91055999986656,
+    "layerfsMedian": 393.46809399998165,
+    "pairedRatioMedian": 0.6605632425176479,
+    "pairedRatioMin": 0.5410612066836228,
+    "pairedRatioMax": 0.7777348096539455,
+    "sprigValues": [
+      286.8229739999606,
+      259.91055999986656,
+      215.1094280000052
+    ],
+    "layerfsValues": [
+      368.7927689999924,
+      393.46809399998165,
+      397.5694900000235
+    ],
+    "pairedRatios": [
+      0.7777348096539455,
+      0.6605632425176479,
+      0.5410612066836228
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-recurring",
+    "metric": "warmForkReadMs",
+    "sprigMedian": 131.69131500001185,
+    "layerfsMedian": 47.15462499996647,
+    "pairedRatioMedian": 2.7927550054762493,
+    "pairedRatioMin": 2.5738353400648224,
+    "pairedRatioMax": 2.9052194188736973,
+    "sprigValues": [
+      132.29521200003092,
+      131.1810570000489,
+      131.69131500001185
+    ],
+    "layerfsValues": [
+      45.53708100000222,
+      50.96715199999744,
+      47.15462499996647
+    ],
+    "pairedRatios": [
+      2.9052194188736973,
+      2.5738353400648224,
+      2.7927550054762493
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-recurring",
+    "metric": "filesystemUsedDeltaBytes",
+    "sprigMedian": 8847360,
+    "layerfsMedian": 103542784,
+    "pairedRatioMedian": 0.08549817836210993,
+    "pairedRatioMin": 0.08542276358459226,
+    "pairedRatioMax": 0.08572332766327782,
+    "sprigValues": [
+      8847360,
+      8876032,
+      8843264
+    ],
+    "layerfsValues": [
+      103571456,
+      103542784,
+      103432192
+    ],
+    "pairedRatios": [
+      0.08542276358459226,
+      0.08572332766327782,
+      0.08549817836210993
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-recurring",
+    "metric": "postHistoryFilesystemUsedDeltaBytes",
+    "sprigMedian": 11010048,
+    "layerfsMedian": 105627648,
+    "pairedRatioMedian": 0.10427423424822392,
+    "pairedRatioMin": 0.10423048586606692,
+    "pairedRatioMax": 0.10435086086551884,
+    "sprigValues": [
+      11022336,
+      11010048,
+      11001856
+    ],
+    "layerfsValues": [
+      105627648,
+      105631744,
+      105508864
+    ],
+    "pairedRatios": [
+      0.10435086086551884,
+      0.10423048586606692,
+      0.10427423424822392
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-recurring",
+    "metric": "writeCommitMs",
+    "sprigMedian": 6807.652194000298,
+    "layerfsMedian": 2106.052131999837,
+    "pairedRatioMedian": 3.213966947994496,
+    "pairedRatioMin": 3.1735143867064526,
+    "pairedRatioMax": 3.5916916384008934,
+    "sprigValues": [
+      7233.673590001899,
+      6768.781943000818,
+      6807.652194000298
+    ],
+    "layerfsValues": [
+      2014.0018459999264,
+      2106.052131999837,
+      2145.146157999756
+    ],
+    "pairedRatios": [
+      3.5916916384008934,
+      3.213966947994496,
+      3.1735143867064526
+    ]
+  },
+  {
+    "backend": "writable",
+    "case": "history-recurring",
+    "metric": "restoreTotalMs",
+    "sprigMedian": 13380.888657999662,
+    "layerfsMedian": 4940.6226630000165,
+    "pairedRatioMedian": 2.70877998722391,
+    "pairedRatioMin": 2.7083405414075066,
+    "pairedRatioMax": 2.7156106209652875,
+    "sprigValues": [
+      13476.151595000032,
+      13380.888657999662,
+      13108.064000000468
+    ],
+    "layerfsValues": [
+      4962.475655000133,
+      4940.6226630000165,
+      4839.1024970005965
+    ],
+    "pairedRatios": [
+      2.7156106209652875,
+      2.7083405414075066,
+      2.70877998722391
+    ]
+  }
+]

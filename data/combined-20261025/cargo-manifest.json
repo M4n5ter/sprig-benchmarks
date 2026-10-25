@@ -1,0 +1,230 @@
+[
+  {
+    "mode": "smoke",
+    "run": 40166288627,
+    "complete": true,
+    "records": 4,
+    "correctRecords": 4,
+    "files": [
+      {
+        "path": "cargo-transport-measurements/_temp/cargo-transport-records/layerfs-0-0.jsonl",
+        "bytes": 767,
+        "sha256": "1cecb78648681c7faebd7b239f590a6a64ed393a5b5ffea1d787f5f8dc1f78c0"
+      },
+      {
+        "path": "cargo-transport-measurements/_temp/cargo-transport-records/layerfs-1-0.jsonl",
+        "bytes": 767,
+        "sha256": "40ad8c218b2ec4e06e1d3d86cc039ebdd137091d2e087119a5fa4c2de7507124"
+      },
+      {
+        "path": "cargo-transport-measurements/_temp/cargo-transport-records/sprig-writable-0-0.jsonl",
+        "bytes": 304,
+        "sha256": "e8a3c67d5992bb1070925e8dc014ef8bb6021cede64b52afe2a4b0ea4d15083f"
+      },
+      {
+        "path": "cargo-transport-measurements/_temp/cargo-transport-records/sprig-writable-1-0.jsonl",
+        "bytes": 302,
+        "sha256": "f3ca2f8b845c7e4107426681cb5b4ab3fa1b6ce1f60b2bd29acd64d38db9b32c"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-fixture-generation.json",
+        "bytes": 197,
+        "sha256": "66e734b427c77becc553eef00aa7b04af1e1d27809050b1fd7656b3be550100a"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-fixture-verified.json",
+        "bytes": 41,
+        "sha256": "e8f8d19e339b1e79eb26fe39f2bdf0178503dac9543889ae27318d275e066dfd"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-image-build.txt",
+        "bytes": 43153,
+        "sha256": "30da53f10860eda793f0096aef8998023e0e47f20722ed9a88359de368a0b157"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-image.json",
+        "bytes": 2025,
+        "sha256": "14ea3bb1e82d5d74c90620b2dec6d186b1df6df760f2ad201e140faf810c6193"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-software-identity.txt",
+        "bytes": 21117,
+        "sha256": "66b72a036ede09c5cd598bf048cafe033e226f8f7e0966dd758002ceb0c22176"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-transport-comparison.json",
+        "bytes": 2649016,
+        "sha256": "1dc1cad2ddfd726fe9d60b22539a6f5f0bf7dce19ce488f32858aded51cd3947"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-transport-layerfs-0-0.json",
+        "bytes": 101376,
+        "sha256": "7d5742a25195e5dffbbb9a1b12822af660e0a6596ffe986193f801aaad34e7a9"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-transport-layerfs-1-0.json",
+        "bytes": 120706,
+        "sha256": "6a2cdc2f0140b61487f118eab58fde2e271c50e8a84bcb7993a43349cfe1d760"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-transport-sprig-writable-0-0.json",
+        "bytes": 1120217,
+        "sha256": "ad5451b49be7fe875396e68b3d0854513a67edb0cf33ef52d0eaac503ca2ed5d"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-transport-sprig-writable-1-0.json",
+        "bytes": 1139003,
+        "sha256": "b621a9ef27f4988ed3a3dbf327bd640e982a0de74c284545e03d84557cc2995e"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/current-writable-contract.json",
+        "bytes": 8301,
+        "sha256": "0c66796e32e07ccd03bd08daaf822135534b02ad41ef625af5f0eb7318a7893b"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/docker-updated.txt",
+        "bytes": 769,
+        "sha256": "f4920363d6463240eaf4be2038cb9afd539b60ea1ee9139926372db35a80b049"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/environment.txt",
+        "bytes": 4196,
+        "sha256": "7c81e1ae1290344a36ac549466feb9fddf4a408468613ae8ee4b35bdeb4d39d1"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/production-binary-hash.txt",
+        "bytes": 93,
+        "sha256": "cfb502ac6bdbd30e7417c4ff1ecb0204523c2808007d35b23bc833aa70a4d2ff"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/production-kernel-contract.json",
+        "bytes": 412,
+        "sha256": "da85d5f1af7b7df7d3881fe32c9423baa6e37edca9c4e6fd9fe6444f52add4d9"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/production-source-hashes.txt",
+        "bytes": 3531,
+        "sha256": "3291236194f093631341b7de9a0e690f370f2e7084fb8c3d6bd0e4fcd9237b55"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/projection-rust-version.txt",
+        "bytes": 36,
+        "sha256": "55cd0529c005d3f62869ea6e2271bfa9d5196f56dc65a8be00a371af114a4a98"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/runtime-image.json",
+        "bytes": 1531,
+        "sha256": "2b9876a2d9a4c73ea8cb0b4460bdf903141b7a789dda9f08491e0806d39cf635"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/script-hashes.txt",
+        "bytes": 1401,
+        "sha256": "7b3ab66265f1e2c9b1e204004f664ce99fdff27a245a300b3543b60d4625ced4"
+      },
+      {
+        "path": "full-run.log",
+        "bytes": 94406,
+        "sha256": "6665bbc3f5d18b884320606e7ded4b25db28a560da42800254b0d8b4f125aa62"
+      }
+    ]
+  },
+  {
+    "mode": "full-failed",
+    "run": 40166665918,
+    "complete": false,
+    "records": 1,
+    "correctRecords": 0,
+    "files": [
+      {
+        "path": "cargo-transport-measurements/_temp/cargo-transport-records/sprig-writable-0-0.jsonl",
+        "bytes": 304,
+        "sha256": "c01d3a2689f92e8bbcb5bb3a8e975b170d5c37801171c5ad33fba161f55cb130"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-fixture-generation.json",
+        "bytes": 197,
+        "sha256": "66e734b427c77becc553eef00aa7b04af1e1d27809050b1fd7656b3be550100a"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-fixture-verified.json",
+        "bytes": 41,
+        "sha256": "e8f8d19e339b1e79eb26fe39f2bdf0178503dac9543889ae27318d275e066dfd"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-image-build.txt",
+        "bytes": 43153,
+        "sha256": "b5ddaebb1dd38415fa98fb668311d73048fb6b07367b61f711cc810364313ba0"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-image.json",
+        "bytes": 2025,
+        "sha256": "209e2b24822f4c8428b47d7724789391a75d7c6742ac691b59850b4c168ef429"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-software-identity.txt",
+        "bytes": 21117,
+        "sha256": "66b72a036ede09c5cd598bf048cafe033e226f8f7e0966dd758002ceb0c22176"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-transport-comparison.json",
+        "bytes": 12166,
+        "sha256": "22d38d52f32f02aa81f39e2fbc2ec94a0196351a5814b9915ce2dd3f5b1c2fbc"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/cargo-transport-sprig-writable-0-0.json",
+        "bytes": 855172,
+        "sha256": "f4dcce002ce5fa3af4c3e65d68e2331a2cb7a10c87fef6846ef31dea52e47128"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/current-writable-contract.json",
+        "bytes": 8301,
+        "sha256": "ef0b88dee099e0ec756c9d7e4263b88b39a97783b2e741f42b74ede4592b187d"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/docker-updated.txt",
+        "bytes": 769,
+        "sha256": "f4920363d6463240eaf4be2038cb9afd539b60ea1ee9139926372db35a80b049"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/environment.txt",
+        "bytes": 4337,
+        "sha256": "a9d696cf5110177babdc99cadf6354df4d98e1dc45ba51595d2244828575806f"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/production-binary-hash.txt",
+        "bytes": 93,
+        "sha256": "cfb502ac6bdbd30e7417c4ff1ecb0204523c2808007d35b23bc833aa70a4d2ff"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/production-kernel-contract.json",
+        "bytes": 412,
+        "sha256": "da85d5f1af7b7df7d3881fe32c9423baa6e37edca9c4e6fd9fe6444f52add4d9"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/production-source-hashes.txt",
+        "bytes": 3531,
+        "sha256": "3291236194f093631341b7de9a0e690f370f2e7084fb8c3d6bd0e4fcd9237b55"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/projection-rust-version.txt",
+        "bytes": 36,
+        "sha256": "55cd0529c005d3f62869ea6e2271bfa9d5196f56dc65a8be00a371af114a4a98"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/runtime-image.json",
+        "bytes": 1531,
+        "sha256": "6fca5957e8a73e2a79e8217819ffd2e5de4ac988c929b0afb4dfbfd5ae3fbb28"
+      },
+      {
+        "path": "cargo-transport-measurements/sprig-benchmarks/sprig-benchmarks/results/script-hashes.txt",
+        "bytes": 1401,
+        "sha256": "7b3ab66265f1e2c9b1e204004f664ce99fdff27a245a300b3543b60d4625ced4"
+      },
+      {
+        "path": "full-run.log",
+        "bytes": 120429,
+        "sha256": "f2f278733839a341b78419b686ff227d1fdf19aef88ee95a3281ea4ee2f8ed68"
+      }
+    ]
+  }
+]

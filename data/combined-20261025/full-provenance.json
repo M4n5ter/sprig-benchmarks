@@ -1,0 +1,593 @@
+[
+  {
+    "backend": "native",
+    "run": 40166273638,
+    "harnessSha": "4383a456cd8f26dbbfe4047be4a40d669f1adb9d",
+    "productionSha": "2a01fe445b8057ca49b4e8284fdd5583bbb4185c",
+    "comparatorSha": "9f97a7ec95b662e9cb288704afa165feff132cfa",
+    "records": 42,
+    "historicalReadbacks": 1800,
+    "rawRoot": "data/combined-20261025/native-full",
+    "files": [
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-history-distributed-0-steps.jsonl",
+        "sha256": "bf787322b4856fc108eadec182803c8fbc3d4b4f126de3b0d4e7a7ff8acffe2b",
+        "bytes": 166910
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-history-distributed-1-steps.jsonl",
+        "sha256": "2c06599973bd2393fb80f9b047311b0d720ae789f9d65dd2f17d78bc2cdd61e0",
+        "bytes": 166866
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-history-distributed-2-steps.jsonl",
+        "sha256": "dd4a1e4594af620fcc45d5d6b708d5a406bafec95f04b5a912833a177e3eb691",
+        "bytes": 166893
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-history-hotset-0-steps.jsonl",
+        "sha256": "31aa62fed1165b6c5d760a7dbdfd6ec0e4a33d370ce674ce9db5a45ac452bd55",
+        "bytes": 166359
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-history-hotset-1-steps.jsonl",
+        "sha256": "f35d6fbee1b8fc8681799aac8b9614632b3a92af34e6dd0cc3322e5810b4e084",
+        "bytes": 166402
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-history-hotset-2-steps.jsonl",
+        "sha256": "f192d26e71a7baff98e9df7800ce374da3275a786d80df005dbdb0562efa3a9e",
+        "bytes": 166372
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-history-recurring-0-steps.jsonl",
+        "sha256": "b4e0309f4c07ab71d3b87f346f0e0c44acac69ac5282f913e4bacd57d4af2e10",
+        "bytes": 166669
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-history-recurring-1-steps.jsonl",
+        "sha256": "8ccaa525db0a9bb628a8dceef999608aa33b5e47013b2d6a5f42e8f645fe95f6",
+        "bytes": 166679
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-history-recurring-2-steps.jsonl",
+        "sha256": "55f2213d04fcae965fca4c66c85e7139d8aebed5e07e4569fed5ab2d17a0f2ff",
+        "bytes": 166671
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-identical-0-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-identical-1-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-identical-2-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-insert-0-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-insert-1-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-insert-2-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-mixed-0-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-mixed-1-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-mixed-2-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-unique-0-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-unique-1-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-native-measurements/_temp/combined-paired-records/production-native-unique-2-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-comparison.json",
+        "sha256": "24e2ab48d25672c5721f725cb5d1696ed6e65fcef52f6086f8f1e7c78fa5260d",
+        "bytes": 6015822
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-history-samples.jsonl",
+        "sha256": "ce44003253d1cc343d924826eddc6508448687d286dc7c78349bd1c21628606a",
+        "bytes": 835034
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-restore-samples.jsonl",
+        "sha256": "53ecfff4448619e29ba16c1148b1d879b27ca18f22963f98e22d401ced55abb5",
+        "bytes": 226734
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-summary.csv",
+        "sha256": "d0ab55505138daf7cd7028b11982c284fa38a90150f96909ede9ee2124fea209",
+        "bytes": 4097
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-summary.json",
+        "sha256": "ca94c2dc1dc5aea82b007c33c8f35e22c385eb60981359147c8b4f620caa6432",
+        "bytes": 12393
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/current-writable-contract.json",
+        "sha256": "b557a752f1d59bcaf1cf32a5c67ca4dfa2c8049d860c907a9eb0cac8d11869c5",
+        "bytes": 8301
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/docker-updated.txt",
+        "sha256": "f4920363d6463240eaf4be2038cb9afd539b60ea1ee9139926372db35a80b049",
+        "bytes": 769
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/environment.txt",
+        "sha256": "43a668708f81015586991a79e4c2205f22d809a39e887861de8090195a105729",
+        "bytes": 4196
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/fixture-generation.txt",
+        "sha256": "d0c4b5c78539219894a36c15d70f9812ecf339d86d2619cc763f31605cc27390",
+        "bytes": 630
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/production-binary-hash.txt",
+        "sha256": "cfb502ac6bdbd30e7417c4ff1ecb0204523c2808007d35b23bc833aa70a4d2ff",
+        "bytes": 93
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/production-kernel-contract.json",
+        "sha256": "da85d5f1af7b7df7d3881fe32c9423baa6e37edca9c4e6fd9fe6444f52add4d9",
+        "bytes": 412
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/production-source-hashes.txt",
+        "sha256": "3291236194f093631341b7de9a0e690f370f2e7084fb8c3d6bd0e4fcd9237b55",
+        "bytes": 3531
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/projection-rust-version.txt",
+        "sha256": "55cd0529c005d3f62869ea6e2271bfa9d5196f56dc65a8be00a371af114a4a98",
+        "bytes": 36
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/runtime-image.json",
+        "sha256": "514c2dd0a549ad71fb15665e5f1773d6164145c150201d279131195655f1515f",
+        "bytes": 1531
+      },
+      {
+        "path": "combined-native-measurements/sprig-benchmarks/sprig-benchmarks/results/script-hashes.txt",
+        "sha256": "0a2729c419dbcb32e522c44c99845a6473c72ec67eb3ba39af307b2822fe37d4",
+        "bytes": 1248
+      },
+      {
+        "path": "exact-run-status.json",
+        "sha256": "e8268d22be32464178ff75296e35901c05a6e3eeb34be4e58586466d15bd6b62",
+        "bytes": 2352
+      }
+    ]
+  },
+  {
+    "backend": "projection",
+    "run": 40166281989,
+    "harnessSha": "4383a456cd8f26dbbfe4047be4a40d669f1adb9d",
+    "productionSha": "2a01fe445b8057ca49b4e8284fdd5583bbb4185c",
+    "comparatorSha": "9f97a7ec95b662e9cb288704afa165feff132cfa",
+    "records": 42,
+    "historicalReadbacks": 1800,
+    "rawRoot": "data/combined-20261025/projection-full",
+    "files": [
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-history-distributed-0-steps.jsonl",
+        "sha256": "f20bc225672237becb3eae610010d655080bb82c2c96df90d820ab58a2264ece",
+        "bytes": 168412
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-history-distributed-1-steps.jsonl",
+        "sha256": "d88cf3d2f1c24cefc3d7be7f39bbb3fba35d9dd67364c714cd246c663d6be2aa",
+        "bytes": 168739
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-history-distributed-2-steps.jsonl",
+        "sha256": "d59d654cfbb3971c61a816573f09d57fad9b40b2b0ff40b42ed62b9824dad776",
+        "bytes": 168742
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-history-hotset-0-steps.jsonl",
+        "sha256": "dbd94482a93d7658bcfc55397bc2bbf61cceb770fba7cbeda409b7193e07fe86",
+        "bytes": 168094
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-history-hotset-1-steps.jsonl",
+        "sha256": "63925d1a09e56a121b1d2aa452244c2f3992b91d06e13f5310f533e8fa51d551",
+        "bytes": 168137
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-history-hotset-2-steps.jsonl",
+        "sha256": "ef0b3c09cabcba0ee66ff17652e940729eaf0be6698ce1a0e55ee4b0a9cc8a88",
+        "bytes": 168178
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-history-recurring-0-steps.jsonl",
+        "sha256": "6f48c7e77d2276a5fdff35a5e14577ead154ffe89c601bb5349dd2fd3844c7a4",
+        "bytes": 168528
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-history-recurring-1-steps.jsonl",
+        "sha256": "2f42e0a9a0f3251c19174acbfb947c5bf74d31a188c6c3a489750491bb2816b4",
+        "bytes": 168540
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-history-recurring-2-steps.jsonl",
+        "sha256": "f71be0f0de805c39c0f68d3cbab73c25bbd6428787239420144cdb13092b88ab",
+        "bytes": 168523
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-identical-0-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-identical-1-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-identical-2-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-insert-0-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-insert-1-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-insert-2-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-mixed-0-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-mixed-1-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-mixed-2-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-unique-0-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-unique-1-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-projection-measurements/_temp/combined-paired-records/production-projection-unique-2-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-comparison.json",
+        "sha256": "31d06bd284e6e2e09a928bb87ec1388137ac3b4036889e2f1c99ffb6e0675581",
+        "bytes": 8085996
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-history-samples.jsonl",
+        "sha256": "bdd4fbc694dad1a757620aa2ed312b2c6d6e57485f5f1d6fbcd908d1616eff39",
+        "bytes": 835479
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-restore-samples.jsonl",
+        "sha256": "be4be153b5180587785da2e9ab77b8422821e60f1a469411732422a550392a40",
+        "bytes": 227629
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-summary.csv",
+        "sha256": "ac039be23637ad9bf4db283ef19f07e51f442067ebee37af317d5c2869449467",
+        "bytes": 4187
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-summary.json",
+        "sha256": "da57c359d3dba630eeece4a61b4fac3ff9c3987ae64c6f0c0f5485fecb2ec0b6",
+        "bytes": 12483
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/current-writable-contract.json",
+        "sha256": "5b0b6aaa3ca9c872197f8c8556d86e69f09f1bb34ff945094df77274c77160cb",
+        "bytes": 8301
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/docker-updated.txt",
+        "sha256": "f4920363d6463240eaf4be2038cb9afd539b60ea1ee9139926372db35a80b049",
+        "bytes": 769
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/environment.txt",
+        "sha256": "3793705533e10818c3d5d4d4c032d64ca00783e589ee618f04251ee8042daacb",
+        "bytes": 4426
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/fixture-generation.txt",
+        "sha256": "d0c4b5c78539219894a36c15d70f9812ecf339d86d2619cc763f31605cc27390",
+        "bytes": 630
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/production-binary-hash.txt",
+        "sha256": "cfb502ac6bdbd30e7417c4ff1ecb0204523c2808007d35b23bc833aa70a4d2ff",
+        "bytes": 93
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/production-kernel-contract.json",
+        "sha256": "da85d5f1af7b7df7d3881fe32c9423baa6e37edca9c4e6fd9fe6444f52add4d9",
+        "bytes": 412
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/production-source-hashes.txt",
+        "sha256": "3291236194f093631341b7de9a0e690f370f2e7084fb8c3d6bd0e4fcd9237b55",
+        "bytes": 3531
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/projection-rust-version.txt",
+        "sha256": "55cd0529c005d3f62869ea6e2271bfa9d5196f56dc65a8be00a371af114a4a98",
+        "bytes": 36
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/runtime-image.json",
+        "sha256": "e5a3df299e9fab02be70eb4b168513bcdd9654c379c50f3dc3bf130fcbb47382",
+        "bytes": 1531
+      },
+      {
+        "path": "combined-projection-measurements/sprig-benchmarks/sprig-benchmarks/results/script-hashes.txt",
+        "sha256": "0a2729c419dbcb32e522c44c99845a6473c72ec67eb3ba39af307b2822fe37d4",
+        "bytes": 1248
+      },
+      {
+        "path": "exact-run-status.json",
+        "sha256": "626c00ab0e91fdcf8e0354837bc1c9712bfdbb122fa510212826698086708fa4",
+        "bytes": 2352
+      }
+    ]
+  },
+  {
+    "backend": "writable",
+    "run": 40166285366,
+    "harnessSha": "4383a456cd8f26dbbfe4047be4a40d669f1adb9d",
+    "productionSha": "2a01fe445b8057ca49b4e8284fdd5583bbb4185c",
+    "comparatorSha": "9f97a7ec95b662e9cb288704afa165feff132cfa",
+    "records": 42,
+    "historicalReadbacks": 1800,
+    "rawRoot": "data/combined-20261025/writable-full",
+    "files": [
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-history-distributed-0-steps.jsonl",
+        "sha256": "22bb909e57c22c6cf7e0a7941e434fdbd28c6a4d4bc5330873324533be594255",
+        "bytes": 169998
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-history-distributed-1-steps.jsonl",
+        "sha256": "57bc5d5672023d206c585a3a1af3ae8bd58b2924f76dbfd5fe134112d102b3ab",
+        "bytes": 169994
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-history-distributed-2-steps.jsonl",
+        "sha256": "9d8f926ed7e9d1d3694443466085b56d997d87cfb5eebed3c714f1f57f4e7d96",
+        "bytes": 170013
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-history-hotset-0-steps.jsonl",
+        "sha256": "c1532c8f4d2f3b06182a3f9d2b6d1f42d2017d5ce507329d6633a9a4cffa1fd8",
+        "bytes": 169509
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-history-hotset-1-steps.jsonl",
+        "sha256": "7c123300e5daf7dbed247b02ee8434446c357612257fb6a680be8bf8077fd5b7",
+        "bytes": 169548
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-history-hotset-2-steps.jsonl",
+        "sha256": "c81f4e6d10ad23d6145087f3c85f05a0f2ec13aaa67ff1370672eeb639aa6607",
+        "bytes": 169516
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-history-recurring-0-steps.jsonl",
+        "sha256": "d6d8766d5127c9a6166e336b55e03b090b60a6ca6ac379640a1d038bd61b5f15",
+        "bytes": 169866
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-history-recurring-1-steps.jsonl",
+        "sha256": "d64d8daedd14dc9fb09d70422e512c5d67eae78ac30fd48d464dfc1b2ea30ae0",
+        "bytes": 169841
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-history-recurring-2-steps.jsonl",
+        "sha256": "bbcfb62b52177db3a6b0b923025ddaf71b2ea2f9d65ec235e5e4906f987faf1c",
+        "bytes": 169854
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-identical-0-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-identical-1-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-identical-2-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-insert-0-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-insert-1-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-insert-2-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-mixed-0-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-mixed-1-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-mixed-2-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-unique-0-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-unique-1-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-writable-measurements/_temp/combined-paired-records/production-writable-unique-2-steps.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-comparison.json",
+        "sha256": "3a113d9972359bea5721abfa849b8187d165d836c496a8e2be641f76bac3c1ef",
+        "bytes": 8615750
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-history-samples.jsonl",
+        "sha256": "3326ec8416cfbc3f6a5c0200a4e4fc0173ff980c56ca068dcc111c1b470773a9",
+        "bytes": 835274
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-restore-samples.jsonl",
+        "sha256": "63680aa26717a154193a5ac972c9751b7cbecde51e5dec999fbafff003cff7c2",
+        "bytes": 227368
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-summary.csv",
+        "sha256": "98b3862f28a16131e24934fb611834e379e9f0e2a96d41a9fec05945d48e8ae0",
+        "bytes": 4145
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/combined-summary.json",
+        "sha256": "5b47f63a05220c30fbdb71ebddcb21d2a7d9ecbbe9c95db6c924ca82b99d77d9",
+        "bytes": 12441
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/current-writable-contract.json",
+        "sha256": "b29a30af397d66d17b4204beae3b36bf3793a138aeed63bd18004e8d19d71aef",
+        "bytes": 8310
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/docker-updated.txt",
+        "sha256": "f4920363d6463240eaf4be2038cb9afd539b60ea1ee9139926372db35a80b049",
+        "bytes": 769
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/environment.txt",
+        "sha256": "25786f0dee6617bd53190411d6a13e0ca710644721604f5a60ac474360d1ea0e",
+        "bytes": 4323
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/fixture-generation.txt",
+        "sha256": "d0c4b5c78539219894a36c15d70f9812ecf339d86d2619cc763f31605cc27390",
+        "bytes": 630
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/production-binary-hash.txt",
+        "sha256": "cfb502ac6bdbd30e7417c4ff1ecb0204523c2808007d35b23bc833aa70a4d2ff",
+        "bytes": 93
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/production-kernel-contract.json",
+        "sha256": "da85d5f1af7b7df7d3881fe32c9423baa6e37edca9c4e6fd9fe6444f52add4d9",
+        "bytes": 412
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/production-source-hashes.txt",
+        "sha256": "3291236194f093631341b7de9a0e690f370f2e7084fb8c3d6bd0e4fcd9237b55",
+        "bytes": 3531
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/projection-rust-version.txt",
+        "sha256": "55cd0529c005d3f62869ea6e2271bfa9d5196f56dc65a8be00a371af114a4a98",
+        "bytes": 36
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/runtime-image.json",
+        "sha256": "4190623be624bf6eb0261da85ac3548ef21c57575ad45625d47759fc33a4551e",
+        "bytes": 1531
+      },
+      {
+        "path": "combined-writable-measurements/sprig-benchmarks/sprig-benchmarks/results/script-hashes.txt",
+        "sha256": "0a2729c419dbcb32e522c44c99845a6473c72ec67eb3ba39af307b2822fe37d4",
+        "bytes": 1248
+      },
+      {
+        "path": "exact-run-status.json",
+        "sha256": "d996041078c327300d2b5d359670115dacaf832055b9c3009a28c291b104aa0c",
+        "bytes": 2352
+      }
+    ]
+  }
+]

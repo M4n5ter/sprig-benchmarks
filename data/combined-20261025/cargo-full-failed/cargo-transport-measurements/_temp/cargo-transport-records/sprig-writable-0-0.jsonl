@@ -1,0 +1,1 @@
+{"checkpoint": {"branch": "work", "committed": true, "previous_head": "c619dd4cdca3a488e2655b8070893a4f80f5f4ee96b41e06b03f0cf780dd05a1", "revision": "b5097aa2d24ccf5ea5c56b17a90941576b498331a8d29b34bfa8d7230f0b4cdf"}, "checkpoint_cli_seconds": 0.10260993700001109, "event": "cargo_checkpoint_response"}

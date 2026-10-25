@@ -1,0 +1,737 @@
+paired	Set up job	﻿2026-10-25T06:01:25.0236769Z Current runner version: '2.338.0'
+paired	Set up job	2026-10-25T06:01:25.0276398Z ##[group]Runner Image Provisioner
+paired	Set up job	2026-10-25T06:01:25.0277968Z Hosted Compute Agent
+paired	Set up job	2026-10-25T06:01:25.0279759Z Version: 20261021.618
+paired	Set up job	2026-10-25T06:01:25.0281071Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+paired	Set up job	2026-10-25T06:01:25.0282570Z Build Date: 2026-10-21T00:45:21Z
+paired	Set up job	2026-10-25T06:01:25.0283882Z Worker ID: {fe6d0840-986d-4ed5-8828-ed0ca27e75df}
+paired	Set up job	2026-10-25T06:01:25.0285100Z Region: eastus
+paired	Set up job	2026-10-25T06:01:25.0286180Z Cloud: Azure
+paired	Set up job	2026-10-25T06:01:25.0287157Z ##[endgroup]
+paired	Set up job	2026-10-25T06:01:25.0289419Z ##[group]Operating System
+paired	Set up job	2026-10-25T06:01:25.0290583Z Ubuntu
+paired	Set up job	2026-10-25T06:01:25.0291569Z 24.04.5
+paired	Set up job	2026-10-25T06:01:25.0292877Z LTS
+paired	Set up job	2026-10-25T06:01:25.0293949Z ##[endgroup]
+paired	Set up job	2026-10-25T06:01:25.0294973Z ##[group]Runner Image
+paired	Set up job	2026-10-25T06:01:25.0296183Z Image: ubuntu-24.04
+paired	Set up job	2026-10-25T06:01:25.0297172Z Version: 20261012.334.1
+paired	Set up job	2026-10-25T06:01:25.0299154Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261012.334/images/ubuntu/Ubuntu2404-Readme.md
+paired	Set up job	2026-10-25T06:01:25.0302909Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261012.334
+paired	Set up job	2026-10-25T06:01:25.0304720Z ##[endgroup]
+paired	Set up job	2026-10-25T06:01:25.0306695Z ##[group]GITHUB_TOKEN Permissions
+paired	Set up job	2026-10-25T06:01:25.0310013Z Contents: read
+paired	Set up job	2026-10-25T06:01:25.0311101Z Metadata: read
+paired	Set up job	2026-10-25T06:01:25.0312077Z ##[endgroup]
+paired	Set up job	2026-10-25T06:01:25.0315604Z Secret source: Actions
+paired	Set up job	2026-10-25T06:01:25.0317442Z Cache mode: write
+paired	Set up job	2026-10-25T06:01:25.0318748Z Prepare workflow directory
+paired	Set up job	2026-10-25T06:01:25.0919693Z Prepare all required actions
+paired	Set up job	2026-10-25T06:01:25.0995514Z Getting action download info
+paired	Set up job	2026-10-25T06:01:25.2497809Z Download action repository 'actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683' (SHA:11bd71901bbe5b1630ceea73d27597364c9af683)
+paired	Set up job	2026-10-25T06:01:25.3911455Z Download action repository 'actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+paired	Set up job	2026-10-25T06:01:25.4882709Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+paired	Set up job	2026-10-25T06:01:25.7076427Z Complete job name: paired
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	﻿2026-10-25T06:01:25.7891999Z ##[group]Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7893402Z with:
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7893881Z   repository: M4n5ter/sprig-benchmarks
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7897975Z   token: ***
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7898408Z   ssh-strict: true
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7898861Z   ssh-user: git
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7899326Z   persist-credentials: true
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7899813Z   clean: true
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7900254Z   sparse-checkout-cone-mode: true
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7900775Z   fetch-depth: 1
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7901202Z   fetch-tags: false
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7901641Z   show-progress: true
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7902080Z   lfs: false
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7902730Z   submodules: false
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7903183Z   set-safe-directory: true
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7903924Z env:
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7904368Z   CARGO_BUILD_JOBS: 2
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.7904829Z ##[endgroup]
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.8934460Z Syncing repository: M4n5ter/sprig-benchmarks
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.8937192Z ##[group]Getting Git version info
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.8938577Z Working directory is '/home/runner/work/sprig-benchmarks/sprig-benchmarks'
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.8940359Z [command]/usr/bin/git version
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9039366Z git version 2.55.0
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9064384Z ##[endgroup]
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9081444Z Temporarily overriding HOME='/home/runner/work/_temp/86cc33ca-1a4e-42e8-9c5e-88148425eb62' before making global git config changes
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9084037Z Adding repository directory to the temporary git global config as a safe directory
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9089593Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sprig-benchmarks/sprig-benchmarks
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9164369Z Deleting the contents of '/home/runner/work/sprig-benchmarks/sprig-benchmarks'
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9168567Z ##[group]Initializing the repository
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9174651Z [command]/usr/bin/git init /home/runner/work/sprig-benchmarks/sprig-benchmarks
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9306516Z hint: Using 'master' as the name for the initial branch. This default branch name
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9310836Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9312737Z hint: to use in all of your new repositories, which will suppress this warning,
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9314238Z hint: call:
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9314918Z hint:
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9315778Z hint: 	git config --global init.defaultBranch <name>
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9316803Z hint:
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9317892Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9319484Z hint: 'development'. The just-created branch can be renamed via this command:
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9320706Z hint:
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9321354Z hint: 	git branch -m <name>
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9322099Z hint:
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9323415Z hint: Disable this message with "git config set advice.defaultBranchName false"
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9325252Z Initialized empty Git repository in /home/runner/work/sprig-benchmarks/sprig-benchmarks/.git/
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9327952Z [command]/usr/bin/git remote add origin https://github.com/M4n5ter/sprig-benchmarks
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9389524Z ##[endgroup]
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9390860Z ##[group]Disabling automatic garbage collection
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9394656Z [command]/usr/bin/git config --local gc.auto 0
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9433046Z ##[endgroup]
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9434482Z ##[group]Setting up auth
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9441344Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9480069Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9912986Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:25.9954821Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:26.0221780Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:26.0270342Z ##[endgroup]
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:26.0272104Z ##[group]Fetching the repository
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:26.0284440Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +0ab93379edbe89c8185714473fd551d2b451bfd5:refs/remotes/origin/main
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.2363781Z From https://github.com/M4n5ter/sprig-benchmarks
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.2365225Z  * [new ref]         0ab93379edbe89c8185714473fd551d2b451bfd5 -> origin/main
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.2394264Z ##[endgroup]
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.2404428Z ##[group]Determining the checkout info
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.2406161Z ##[endgroup]
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.2407128Z [command]/usr/bin/git sparse-checkout disable
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.2467472Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.2514658Z ##[group]Checking out the ref
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.2523187Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.5949707Z Switched to a new branch 'main'
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.5957343Z branch 'main' set up to track 'origin/main'.
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.5977399Z ##[endgroup]
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.6027393Z [command]/usr/bin/git log -1 --format=%H
+paired	Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:01:27.6062042Z 0ab93379edbe89c8185714473fd551d2b451bfd5
+paired	Record paired environment and install official tools	﻿2026-10-25T06:01:27.6354364Z ##[group]Run mkdir -p results
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.6355801Z [36;1mmkdir -p results[0m
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.6357013Z [36;1msudo apt-get update[0m
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.6358520Z [36;1msudo apt-get install -y btrfs-progs python3-btrfsutil[0m
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.6361850Z [36;1m{ uname -a; lscpu; free -h; df -h; findmnt -T "$PWD"; btrfs version; /usr/bin/python3 --version; dpkg-query -W btrfs-progs python3-btrfsutil; } > results/environment.txt[0m
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.6372712Z [36;1msha256sum feasibility/cargo_sample.py feasibility/test_cargo_transport_mock.py feasibility/CARGO-TRANSPORT-CONTRACT.md feasibility/cargo_transport_sample.py feasibility/cargo_layerfs.mjs feasibility/cargo_transport_compare.mjs feasibility/tree_oracle.py feasibility/prepare_cargo_fixture.py feasibility/current_sample.py feasibility/cas_sample.py feasibility/runtime_storage.py feasibility/CARGO-IMAGE-CONTRACT.md feasibility/CARGO-MEASUREMENT-BOUNDARIES.md feasibility/Cargo.Dockerfile > results/script-hashes.txt[0m
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.6662385Z shell: /usr/bin/bash -e {0}
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.6663655Z env:
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.6664603Z   CARGO_BUILD_JOBS: 2
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.6665652Z ##[endgroup]
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.7628754Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.7901560Z Get:6 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease [3600 B]
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.8012524Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.8035337Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.8092639Z Get:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.8136285Z Get:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.9277227Z Get:7 https://packages.microsoft.com/ubuntu/24.04/prod noble/main arm64 Packages [598 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.9465285Z Get:8 https://packages.microsoft.com/ubuntu/24.04/prod noble/main amd64 Packages [660 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.9573753Z Get:9 https://packages.microsoft.com/ubuntu/24.04/prod noble/main armhf Packages [12.4 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.9856171Z Get:10 http://azure.archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1400 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.9956397Z Get:11 http://azure.archive.ubuntu.com/ubuntu noble-updates/main Translation-en [310 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:27.9986341Z Get:12 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [1706 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:28.0072924Z Get:13 http://azure.archive.ubuntu.com/ubuntu noble-updates/universe Translation-en [342 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:28.0114556Z Get:14 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [1805 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:28.0196601Z Get:15 http://azure.archive.ubuntu.com/ubuntu noble-updates/restricted Translation-en [411 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:28.1014159Z Get:16 http://azure.archive.ubuntu.com/ubuntu noble-security/main amd64 Packages [1146 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:28.1078623Z Get:17 http://azure.archive.ubuntu.com/ubuntu noble-security/main Translation-en [231 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:28.1102070Z Get:18 http://azure.archive.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1222 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:28.1164929Z Get:19 http://azure.archive.ubuntu.com/ubuntu noble-security/universe Translation-en [246 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:28.1606216Z Get:20 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [1713 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:28.1713640Z Get:21 http://azure.archive.ubuntu.com/ubuntu noble-security/restricted Translation-en [392 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:31.7157732Z Fetched 12.6 MB in 1s (9812 kB/s)
+paired	Record paired environment and install official tools	2026-10-25T06:01:32.7573299Z Reading package lists...
+paired	Record paired environment and install official tools	2026-10-25T06:01:32.7883154Z Reading package lists...
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.0061479Z Building dependency tree...
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.0069396Z Reading state information...
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.2219021Z btrfs-progs is already the newest version (6.6.3-1.1build2).
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.2219624Z btrfs-progs set to manually installed.
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.2219999Z The following NEW packages will be installed:
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.2225573Z   libbtrfsutil1t64 python3-btrfsutil
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.2406364Z 0 upgraded, 2 newly installed, 0 to remove and 100 not upgraded.
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.2407241Z Need to get 29.1 kB of archives.
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.2408011Z After this operation, 122 kB of additional disk space will be used.
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.2408500Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.2740130Z Get:2 http://azure.archive.ubuntu.com/ubuntu noble/main amd64 libbtrfsutil1t64 amd64 6.6.3-1.1build2 [15.0 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.2896801Z Get:3 http://azure.archive.ubuntu.com/ubuntu noble/universe amd64 python3-btrfsutil amd64 6.6.3-1.1build2 [14.1 kB]
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.5554544Z Fetched 29.1 kB in 0s (486 kB/s)
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.5792802Z Selecting previously unselected package libbtrfsutil1t64:amd64.
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.6087447Z (Reading database ... 
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.6088175Z (Reading database ... 5%
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.6088900Z (Reading database ... 10%
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.6089278Z (Reading database ... 15%
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.6089567Z (Reading database ... 20%
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.6090295Z (Reading database ... 25%
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.6090706Z (Reading database ... 30%
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.6091137Z (Reading database ... 35%
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.6091682Z (Reading database ... 40%
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.6092423Z (Reading database ... 45%
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.6092877Z (Reading database ... 50%
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.6150566Z (Reading database ... 55%
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.7150298Z (Reading database ... 60%
+paired	Record paired environment and install official tools	2026-10-25T06:01:33.8624151Z (Reading database ... 65%
+paired	Record paired environment and install official tools	2026-10-25T06:01:34.0670302Z (Reading database ... 70%
+paired	Record paired environment and install official tools	2026-10-25T06:01:34.2763924Z (Reading database ... 75%
+paired	Record paired environment and install official tools	2026-10-25T06:01:34.4120134Z (Reading database ... 80%
+paired	Record paired environment and install official tools	2026-10-25T06:01:34.6170265Z (Reading database ... 85%
+paired	Record paired environment and install official tools	2026-10-25T06:01:34.7803491Z (Reading database ... 90%
+paired	Record paired environment and install official tools	2026-10-25T06:01:34.9717797Z (Reading database ... 95%
+paired	Record paired environment and install official tools	2026-10-25T06:01:34.9718402Z (Reading database ... 100%
+paired	Record paired environment and install official tools	2026-10-25T06:01:34.9719348Z (Reading database ... 203540 files and directories currently installed.)
+paired	Record paired environment and install official tools	2026-10-25T06:01:34.9763428Z Preparing to unpack .../libbtrfsutil1t64_6.6.3-1.1build2_amd64.deb ...
+paired	Record paired environment and install official tools	2026-10-25T06:01:34.9803061Z Unpacking libbtrfsutil1t64:amd64 (6.6.3-1.1build2) ...
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.0020941Z Selecting previously unselected package python3-btrfsutil:amd64.
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.0146858Z Preparing to unpack .../python3-btrfsutil_6.6.3-1.1build2_amd64.deb ...
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.0154605Z Unpacking python3-btrfsutil:amd64 (6.6.3-1.1build2) ...
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.0536748Z Setting up libbtrfsutil1t64:amd64 (6.6.3-1.1build2) ...
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.0584952Z Setting up python3-btrfsutil:amd64 (6.6.3-1.1build2) ...
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.0612934Z Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.7441199Z 
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.7441523Z Running kernel seems to be up-to-date.
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.7441931Z 
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.7442381Z No services need to be restarted.
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.7442743Z 
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.7442942Z No containers need to be restarted.
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.7443243Z 
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.7443457Z No user sessions are running outdated binaries.
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.7443821Z 
+paired	Record paired environment and install official tools	2026-10-25T06:01:35.7444159Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+paired	Fetch fixed comparator	﻿2026-10-25T06:01:37.0598950Z ##[group]Run git clone --filter=blob:none --no-checkout https://github.com/Ephemeral-AI-Lab/layerfs.git layerfs
+paired	Fetch fixed comparator	2026-10-25T06:01:37.0599833Z [36;1mgit clone --filter=blob:none --no-checkout https://github.com/Ephemeral-AI-Lab/layerfs.git layerfs[0m
+paired	Fetch fixed comparator	2026-10-25T06:01:37.0600396Z [36;1mgit -C layerfs sparse-checkout init --cone[0m
+paired	Fetch fixed comparator	2026-10-25T06:01:37.0600830Z [36;1mgit -C layerfs sparse-checkout set core/crates core/vendor api .cargo[0m
+paired	Fetch fixed comparator	2026-10-25T06:01:37.0601334Z [36;1mgit -C layerfs checkout 9f97a7ec95b662e9cb288704afa165feff132cfa[0m
+paired	Fetch fixed comparator	2026-10-25T06:01:37.0667408Z shell: /usr/bin/bash -e {0}
+paired	Fetch fixed comparator	2026-10-25T06:01:37.0667691Z env:
+paired	Fetch fixed comparator	2026-10-25T06:01:37.0667881Z   CARGO_BUILD_JOBS: 2
+paired	Fetch fixed comparator	2026-10-25T06:01:37.0668104Z ##[endgroup]
+paired	Fetch fixed comparator	2026-10-25T06:01:37.0765016Z Cloning into 'layerfs'...
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4299480Z Note: switching to '9f97a7ec95b662e9cb288704afa165feff132cfa'.
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4300154Z 
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4300581Z You are in 'detached HEAD' state. You can look around, make experimental
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4302033Z changes and commit them, and you can discard any commits you make in this
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4303339Z state without impacting any branches by switching back to a branch.
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4303955Z 
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4304338Z If you want to create a new branch to retain commits you create, you may
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4304967Z do so (now or later) by using -c with the switch command. Example:
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4305336Z 
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4305478Z   git switch -c <new-branch-name>
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4305707Z 
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4305839Z Or undo this operation with:
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4306054Z 
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4306167Z   git switch -
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4306323Z 
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4306614Z Turn off this advice by setting config variable advice.detachedHead to false
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4307095Z 
+paired	Fetch fixed comparator	2026-10-25T06:01:39.4307438Z HEAD is now at 9f97a7ec Merge #428: three JavaScript packages, the layerfs command and 1.1.0
+paired	Fetch fixed production CLI	﻿2026-10-25T06:01:39.4345319Z ##[group]Run git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.4346032Z [36;1mgit clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig[0m
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.4346590Z [36;1mgit -C sprig checkout 2a01fe445b8057ca49b4e8284fdd5583bbb4185c[0m
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.4347027Z [36;1mrustup toolchain install stable --profile minimal[0m
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.4347454Z [36;1mrustc +stable --version > results/projection-rust-version.txt[0m
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.4348148Z [36;1mfind sprig/src sprig/tests -type f -not -path '*/target/*' -print0 | sort -z | xargs -0 sha256sum > results/production-source-hashes.txt[0m
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.4412614Z shell: /usr/bin/bash -e {0}
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.4412882Z env:
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.4413076Z   CARGO_BUILD_JOBS: 2
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.4413291Z ##[endgroup]
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.4512675Z Cloning into 'sprig'...
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8097418Z Note: switching to '2a01fe445b8057ca49b4e8284fdd5583bbb4185c'.
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8097981Z 
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8098227Z You are in 'detached HEAD' state. You can look around, make experimental
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8098775Z changes and commit them, and you can discard any commits you make in this
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8099304Z state without impacting any branches by switching back to a branch.
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8099612Z 
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8099819Z If you want to create a new branch to retain commits you create, you may
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8100327Z do so (now or later) by using -c with the switch command. Example:
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8100619Z 
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8100730Z   git switch -c <new-branch-name>
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8100913Z 
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8101019Z Or undo this operation with:
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8101189Z 
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8101279Z   git switch -
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8101401Z 
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8101630Z Turn off this advice by setting config variable advice.detachedHead to false
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8101972Z 
+paired	Fetch fixed production CLI	2026-10-25T06:01:39.8102521Z HEAD is now at 2a01fe4 Share immutable observation metadata across state backups
+paired	Fetch fixed production CLI	2026-10-25T06:01:40.1239592Z info: syncing channel updates for stable-x86_64-unknown-linux-gnu
+paired	Fetch fixed production CLI	2026-10-25T06:01:40.2349146Z info: latest update on 2026-10-15 for version 1.99.1 (58cf8f9c3 2026-10-13)
+paired	Fetch fixed production CLI	2026-10-25T06:01:40.3069898Z info: removing previous version of component rustfmt
+paired	Fetch fixed production CLI	2026-10-25T06:01:40.3098063Z info: removing previous version of component clippy
+paired	Fetch fixed production CLI	2026-10-25T06:01:40.3111412Z info: removing previous version of component cargo
+paired	Fetch fixed production CLI	2026-10-25T06:01:40.3166843Z info: removing previous version of component rust-std
+paired	Fetch fixed production CLI	2026-10-25T06:01:40.3216375Z info: removing previous version of component rustc
+paired	Fetch fixed production CLI	2026-10-25T06:01:40.3275608Z info: downloading 5 components
+paired	Fetch fixed production CLI	2026-10-25T06:01:48.7175286Z 
+paired	Fetch fixed production CLI	2026-10-25T06:01:48.7244022Z   stable-x86_64-unknown-linux-gnu updated - rustc 1.99.1 (58cf8f9c3 2026-10-13) (from rustc 1.99.0 (b940084d7 2026-09-28))
+paired	Fetch fixed production CLI	2026-10-25T06:01:48.7244572Z 
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	﻿2026-10-25T06:01:48.7524465Z ##[group]Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.7525044Z with:
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.7525357Z   path: ~/.cargo/registry
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	~/.cargo/git
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	layerfs/core/target
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	sprig/target
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.7525771Z   key: combined-ubuntu24-2a01fe4-9f97a7-v1
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.7526058Z   enableCrossOsArchive: false
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.7526310Z   fail-on-cache-miss: false
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.7526540Z   lookup-only: false
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.7526744Z   save-always: false
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.7526943Z env:
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.7527123Z   CARGO_BUILD_JOBS: 2
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.7527327Z ##[endgroup]
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.8607950Z (node:2765) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.8609215Z (Use `node --trace-deprecation ...` to show where the warning was created)
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.9287290Z Cache hit for: combined-ubuntu24-2a01fe4-9f97a7-v1
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:48.9397152Z (node:2765) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:50.0008088Z Received 268435456 of 344274201 (78.0%), 248.1 MBs/sec
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:50.2431525Z Received 344274201 of 344274201 (100.0%), 257.7 MBs/sec
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:50.2434189Z Cache Size: ~328 MB (344274201 B)
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:50.2476143Z [command]/usr/bin/tar -xf /home/runner/work/_temp/87a56de3-e5b7-4359-bf1b-f3b39a7b6569/cache.tzst -P -C /home/runner/work/sprig-benchmarks/sprig-benchmarks --use-compress-program unzstd
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:52.7149041Z Cache restored successfully
+paired	Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:01:52.7770331Z Cache restored from key: combined-ubuntu24-2a01fe4-9f97a7-v1
+paired	Build fixed comparator	﻿2026-10-25T06:01:52.9076601Z ##[group]Run rustup toolchain install 1.85.1 --profile minimal
+paired	Build fixed comparator	2026-10-25T06:01:52.9077148Z [36;1mrustup toolchain install 1.85.1 --profile minimal[0m
+paired	Build fixed comparator	2026-10-25T06:01:52.9077652Z [36;1m(cd layerfs && cargo +1.85.1 fetch --manifest-path core/Cargo.toml --locked)[0m
+paired	Build fixed comparator	2026-10-25T06:01:52.9078402Z [36;1m(cd layerfs && npm --prefix api install --offline --ignore-scripts --no-audit --no-fund && npm --prefix api run build:native)[0m
+paired	Build fixed comparator	2026-10-25T06:01:52.9079257Z [36;1m(cd layerfs && cargo +1.85.1 build --manifest-path core/Cargo.toml --locked --offline --release -p layerfs-daemon)[0m
+paired	Build fixed comparator	2026-10-25T06:01:52.9142740Z shell: /usr/bin/bash -e {0}
+paired	Build fixed comparator	2026-10-25T06:01:52.9143010Z env:
+paired	Build fixed comparator	2026-10-25T06:01:52.9143211Z   CARGO_BUILD_JOBS: 2
+paired	Build fixed comparator	2026-10-25T06:01:52.9143448Z ##[endgroup]
+paired	Build fixed comparator	2026-10-25T06:01:52.9278807Z info: syncing channel updates for 1.85.1-x86_64-unknown-linux-gnu
+paired	Build fixed comparator	2026-10-25T06:01:53.0255725Z info: latest update on 2025-03-18 for version 1.85.1 (4eb161250 2025-03-15)
+paired	Build fixed comparator	2026-10-25T06:01:53.0256499Z info: downloading 3 components
+paired	Build fixed comparator	2026-10-25T06:02:00.0497510Z 
+paired	Build fixed comparator	2026-10-25T06:02:00.0571333Z   1.85.1-x86_64-unknown-linux-gnu installed - rustc 1.85.1 (4eb161250 2025-03-15)
+paired	Build fixed comparator	2026-10-25T06:02:00.0571750Z 
+paired	Build fixed comparator	2026-10-25T06:02:01.0782349Z 
+paired	Build fixed comparator	2026-10-25T06:02:01.0783102Z added 3 packages in 622ms
+paired	Build fixed comparator	2026-10-25T06:02:01.2131162Z 
+paired	Build fixed comparator	2026-10-25T06:02:01.2131793Z > layerfs-js@1.1.0 build:native
+paired	Build fixed comparator	2026-10-25T06:02:01.2132465Z > node scripts/build-native.mjs
+paired	Build fixed comparator	2026-10-25T06:02:01.2132671Z 
+paired	Build fixed comparator	2026-10-25T06:02:01.3288942Z    Compiling layerfs-telemetry v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-telemetry)
+paired	Build fixed comparator	2026-10-25T06:02:01.3305321Z    Compiling layerfs-overlay v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-overlay)
+paired	Build fixed comparator	2026-10-25T06:02:01.9090251Z    Compiling layerfs-content v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-content)
+paired	Build fixed comparator	2026-10-25T06:02:18.9350449Z    Compiling layerfs-history v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-history)
+paired	Build fixed comparator	2026-10-25T06:02:19.3262348Z    Compiling layerfs-storage v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-storage)
+paired	Build fixed comparator	2026-10-25T06:02:30.4747199Z    Compiling layerfs-persistence v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-persistence)
+paired	Build fixed comparator	2026-10-25T06:02:31.6297185Z    Compiling layerfs-bridge v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-bridge)
+paired	Build fixed comparator	2026-10-25T06:02:34.6028365Z    Compiling layerfs-workspace v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-workspace)
+paired	Build fixed comparator	2026-10-25T06:02:40.6247748Z    Compiling layerfs-node v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/api/binding)
+paired	Build fixed comparator	2026-10-25T06:02:40.7469869Z    Compiling layerfs-store-service v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-store-service)
+paired	Build fixed comparator	2026-10-25T06:02:45.9654020Z    Compiling layerfs-project v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-project)
+paired	Build fixed comparator	2026-10-25T06:02:51.4177067Z    Compiling layerfs-sandbox v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-sandbox)
+paired	Build fixed comparator	2026-10-25T06:02:54.2891311Z    Compiling layerfs-api v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-api)
+paired	Build fixed comparator	2026-10-25T06:03:06.8296272Z     Finished `release` profile [optimized] target(s) in 1m 05s
+paired	Build fixed comparator	2026-10-25T06:03:06.8477526Z Built linux/x64: /home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/api/binding/layerfs.node
+paired	Build fixed comparator	2026-10-25T06:03:06.9489236Z    Compiling layerfs-overlay v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-overlay)
+paired	Build fixed comparator	2026-10-25T06:03:06.9490864Z    Compiling fuser v0.18.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/vendor/fuser-0.18.0)
+paired	Build fixed comparator	2026-10-25T06:03:12.0560465Z    Compiling layerfs-workspace v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-workspace)
+paired	Build fixed comparator	2026-10-25T06:03:18.1396603Z    Compiling layerfs-persistence v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-persistence)
+paired	Build fixed comparator	2026-10-25T06:03:24.6489272Z    Compiling layerfs-bridge v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-bridge)
+paired	Build fixed comparator	2026-10-25T06:03:27.6834727Z    Compiling layerfs-store-service v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-store-service)
+paired	Build fixed comparator	2026-10-25T06:03:33.7946440Z    Compiling layerfs-fuse v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-fuse)
+paired	Build fixed comparator	2026-10-25T06:03:38.8144423Z    Compiling layerfs-daemon v1.1.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/crates/layerfs-daemon)
+paired	Build fixed comparator	2026-10-25T06:03:51.7489039Z     Finished `release` profile [optimized] target(s) in 44.88s
+paired	Build and verify real production CLI	﻿2026-10-25T06:03:51.7699096Z ##[group]Run export CARGO_TARGET_DIR="$PWD/sprig/target"
+paired	Build and verify real production CLI	2026-10-25T06:03:51.7699560Z [36;1mexport CARGO_TARGET_DIR="$PWD/sprig/target"[0m
+paired	Build and verify real production CLI	2026-10-25T06:03:51.7700060Z [36;1mcargo +stable test --locked --features projection --manifest-path sprig/Cargo.toml[0m
+paired	Build and verify real production CLI	2026-10-25T06:03:51.7700728Z [36;1mcargo +stable build --release --locked --features projection --manifest-path sprig/Cargo.toml[0m
+paired	Build and verify real production CLI	2026-10-25T06:03:51.7701382Z [36;1msha256sum sprig/target/release/sprig > results/production-binary-hash.txt[0m
+paired	Build and verify real production CLI	2026-10-25T06:03:51.7763475Z shell: /usr/bin/bash -e {0}
+paired	Build and verify real production CLI	2026-10-25T06:03:51.7763745Z env:
+paired	Build and verify real production CLI	2026-10-25T06:03:51.7763941Z   CARGO_BUILD_JOBS: 2
+paired	Build and verify real production CLI	2026-10-25T06:03:51.7764166Z ##[endgroup]
+paired	Build and verify real production CLI	2026-10-25T06:03:51.8619699Z    Compiling sprig v0.2.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig)
+paired	Build and verify real production CLI	2026-10-25T06:03:59.8763760Z     Finished `test` profile [unoptimized] target(s) in 8.08s
+paired	Build and verify real production CLI	2026-10-25T06:03:59.8809814Z      Running unittests src/lib.rs (sprig/target/debug/deps/sprig-a20b180b5781064e)
+paired	Build and verify real production CLI	2026-10-25T06:03:59.8834080Z 
+paired	Build and verify real production CLI	2026-10-25T06:03:59.8834827Z running 51 tests
+paired	Build and verify real production CLI	2026-10-25T06:03:59.8850598Z test content::tests::validates_paths_addresses_and_root_syntax ... ok
+paired	Build and verify real production CLI	2026-10-25T06:03:59.8851245Z test copy_tree::tests::identity_validation_rejects_bad_paths_topology_and_times ... ok
+paired	Build and verify real production CLI	2026-10-25T06:03:59.8852384Z test copy_tree::tests::validates_root_syntax_and_clone_error_classification ... ok
+paired	Build and verify real production CLI	2026-10-25T06:03:59.8952530Z test copy_tree::tests::identity_capture_rejects_non_utf8_names_without_changing_raw_copy ... ok
+paired	Build and verify real production CLI	2026-10-25T06:03:59.8987390Z test copy_tree::tests::copy_report_tracks_each_node_and_preserves_link_isolation ... ok
+paired	Build and verify real production CLI	2026-10-25T06:03:59.9015536Z test file_cache::tests::ineligible_files_never_initialize_the_cache ... ok
+paired	Build and verify real production CLI	2026-10-25T06:03:59.9063810Z test file_cache::tests::cache_is_disposable_bounded_verified_and_never_a_mutable_alias ... ok
+paired	Build and verify real production CLI	2026-10-25T06:03:59.9072463Z test content::tests::preserves_native_link_topology_and_inode_continuity ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.0323441Z test manifest_pages::tests::encoded_envelope_rejects_before_object_reads ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.0453293Z test manifest_pages::tests::path_page_caps_and_bounded_canonical_sink ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.5593848Z test manifest_pages::tests::oversized_entry_fragments_reset_without_moving_later_groups ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.5753139Z test manifest_pages::tests::canonical_emission_insert_delete_rename_and_wrong_partitions ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.5843381Z test merge::tests::hardlink_payload_namespace_and_conflict_closure ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.5893259Z test observations::tests::budgets_charge_actual_distinct_refs_not_declared_lengths ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.5918987Z test observations::tests::orphan_inspection_and_encoded_work_are_bounded_and_configurable ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.5983177Z test merge::tests::identity_text_units_and_structural_resolution ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.6033699Z test observations::tests::rejects_corruption_extra_frames_trailing_bytes_and_preserves_existing ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.6044228Z test observations::tests::publication_faults_preserve_only_safe_orphans_and_retry_verifies_them ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.6045513Z test observations::tests::rejects_oversized_codec_window_and_unsafe_leaf_types ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.6099255Z test observations::tests::rejects_noncanonical_maps_fields_and_invalid_paths ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.6123441Z test observations::tests::verification_cache_is_not_shared_between_locations_or_descriptors ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.6125706Z test observations::tests::roundtrip_empty_wide_identity_and_semantic_dedup ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.6375289Z test packed::tests::compaction_keeps_reader_generations_and_reclaims_only_under_both_locks ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.6603766Z test packed::tests::compaction_failpoints_preserve_old_payload_and_published_index_outcomes ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.6941811Z test packed::tests::compressed_payloads_keep_plain_addresses_and_bound_decoding ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.6943887Z test projection::capture::tests::mount_binding_is_exact_and_metacopy_is_not_assumed ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.7186590Z test manifest_pages::tests::path_groups_ignore_id_seeds_and_value_edits ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.7205904Z test projection::capture::tests::same_path_identity_wins_and_origin_duplicates_get_fresh_ids ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.8063616Z test packed::tests::packed_batches_preserve_snapshots_verify_dedup_and_reject_damage ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.8065666Z test projection::lifecycle::tests::mount_binding_and_parser_fail_closed ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.8183048Z test projection::tree::tests::bounded_cache_and_invalid_store_contract ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.8544057Z test projection::capture::tests::upper_absence_never_follows_symlinks_or_accepts_permission_errors ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.8705071Z test manifest_pages::tests::roundtrip_corruption_and_limits ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.9018293Z test store::lifecycle_tests::copied_pending_rename_merges_with_original_path_edit ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.9349391Z test store::lifecycle_tests::native_fork_copies_identity_without_publishing_uncommitted_content ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.9543732Z test store::lifecycle_tests::restore_reuses_one_verified_revision_and_rechecks_next_operation ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.9674348Z test store::lifecycle_tests::stopped_owned_core_is_reused_with_lease_and_failure_checks_intact ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.9874908Z test store::observation_roots::tests::retained_backup_evidence_and_dependencies_protect_older_good_backups ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:00.9997542Z test store::observation_roots::tests::same_length_inventory_tamper_stales_plan_and_unknown_files_survive ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.0248585Z test store::observation_tests::explicit_writable_recovery_does_not_heal_broken_source_observations ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.0564340Z test store::observation_tests::observation_backup_only_root_and_recovery_preserve_missing_current_evidence ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.0794371Z test store::observation_tests::observation_gc_protects_backups_staging_and_rejects_changed_evidence ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.1814252Z test store::observation_tests::observation_publication_failure_keeps_exact_authoritative_state ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.2054865Z test store::observation_tests::observation_recovery_and_collection_faults_never_erase_published_roots ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.2104122Z test store::observation_tests::observation_resolution_is_explicit_budgeted_and_missing_is_not_empty ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.2246156Z test writable::tests::writable_hardlinks_share_inodes_and_replay_namespace_topology ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.2255040Z test writable_lifecycle::tests::writable_binding_requires_one_exact_restrictive_mount ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.2313691Z test writable::tests::writable_generation_namespace_content_recovery_and_checkpoint ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.2344523Z test writable_session::tests::session_phases_reject_corruption_stale_certificates_and_remaining_markers ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.3395500Z test projection::capture::tests::production_chunk_boundaries_match_and_existing_corruption_is_rejected ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5252606Z test projection::tree::tests::projection_roundtrip_and_readonly_contract ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5253064Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5253339Z test result: ok. 51 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.64s
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5253727Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5280274Z      Running unittests src/main.rs (sprig/target/debug/deps/sprig-20e8b94065ce3e70)
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5292909Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5293115Z running 1 test
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5532669Z test cli::tests::command_grammar ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5533303Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5533741Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5534126Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5535292Z      Running tests/cli_safety.rs (sprig/target/debug/deps/cli_safety-e252426ac81aca04)
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5551828Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:01.5552090Z running 3 tests
+paired	Build and verify real production CLI	2026-10-25T06:04:01.9036813Z test native_isolation_content_dedup_and_path_safety ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:02.1584194Z test shared_branch_merges_conflicts_and_immutable_branch_outputs ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:02.3225222Z test transactional_sdk_exec_leases_recovery_and_non_destructive_inspection ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:02.3225667Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:02.3225926Z test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.77s
+paired	Build and verify real production CLI	2026-10-25T06:04:02.3226308Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:02.3234692Z      Running tests/storage_workflow.rs (sprig/target/debug/deps/storage_workflow-2eb775a83c523cf8)
+paired	Build and verify real production CLI	2026-10-25T06:04:02.3250116Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:02.3250321Z running 1 test
+paired	Build and verify real production CLI	2026-10-25T06:04:02.5164740Z test storage_lifecycle_keeps_live_data_and_rejects_stale_collection ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:02.5165155Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:02.5165420Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.19s
+paired	Build and verify real production CLI	2026-10-25T06:04:02.5165769Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:02.5170667Z      Running tests/windows_native.rs (sprig/target/debug/deps/windows_native-930fdb8a6ecf09e8)
+paired	Build and verify real production CLI	2026-10-25T06:04:02.5182029Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:02.5182451Z running 0 tests
+paired	Build and verify real production CLI	2026-10-25T06:04:02.5182703Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:02.5183150Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+paired	Build and verify real production CLI	2026-10-25T06:04:02.5183765Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:02.5185265Z      Running tests/writable_store.rs (sprig/target/debug/deps/writable_store-9676b4d76102d94e)
+paired	Build and verify real production CLI	2026-10-25T06:04:02.5199306Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:02.5199445Z running 1 test
+paired	Build and verify real production CLI	2026-10-25T06:04:03.2545679Z test owned_workspaces_share_publication_merge_and_recovery ... ok
+paired	Build and verify real production CLI	2026-10-25T06:04:03.2546247Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:03.2546641Z test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.73s
+paired	Build and verify real production CLI	2026-10-25T06:04:03.2547193Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:03.2551503Z    Doc-tests sprig
+paired	Build and verify real production CLI	2026-10-25T06:04:03.5226540Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:03.5227074Z running 0 tests
+paired	Build and verify real production CLI	2026-10-25T06:04:03.5227370Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:03.5227830Z test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+paired	Build and verify real production CLI	2026-10-25T06:04:03.5228386Z 
+paired	Build and verify real production CLI	2026-10-25T06:04:03.5749193Z    Compiling sprig v0.2.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig)
+paired	Build and verify real production CLI	2026-10-25T06:04:26.2124719Z     Finished `release` profile [optimized] target(s) in 22.67s
+paired	Verify production kernel lifecycle contract	﻿2026-10-25T06:04:26.2304209Z ##[group]Run mkdir "$RUNNER_TEMP/production-kernel-gate"
+paired	Verify production kernel lifecycle contract	2026-10-25T06:04:26.2304706Z [36;1mmkdir "$RUNNER_TEMP/production-kernel-gate"[0m
+paired	Verify production kernel lifecycle contract	2026-10-25T06:04:26.2305617Z [36;1msudo env TMPDIR="$RUNNER_TEMP/production-kernel-gate" /usr/bin/python3 sprig/tests/projection_workflow.py --binary "$PWD/sprig/target/release/sprig" > results/production-kernel-contract.json[0m
+paired	Verify production kernel lifecycle contract	2026-10-25T06:04:26.2367858Z shell: /usr/bin/bash -e {0}
+paired	Verify production kernel lifecycle contract	2026-10-25T06:04:26.2368123Z env:
+paired	Verify production kernel lifecycle contract	2026-10-25T06:04:26.2368318Z   CARGO_BUILD_JOBS: 2
+paired	Verify production kernel lifecycle contract	2026-10-25T06:04:26.2368544Z ##[endgroup]
+paired	Verify owned writable kernel lifecycle contract	﻿2026-10-25T06:04:26.9505784Z ##[group]Run mkdir "$RUNNER_TEMP/current-writable-gate"
+paired	Verify owned writable kernel lifecycle contract	2026-10-25T06:04:26.9506262Z [36;1mmkdir "$RUNNER_TEMP/current-writable-gate"[0m
+paired	Verify owned writable kernel lifecycle contract	2026-10-25T06:04:26.9507336Z [36;1msudo env PATH="$PATH" RUSTUP_HOME="$HOME/.rustup" CARGO_HOME="$HOME/.cargo" TMPDIR="$RUNNER_TEMP/current-writable-gate" /usr/bin/python3 sprig/tests/writable_workflow.py --binary "$PWD/sprig/target/release/sprig" > results/current-writable-contract.json[0m
+paired	Verify owned writable kernel lifecycle contract	2026-10-25T06:04:26.9570650Z shell: /usr/bin/bash -e {0}
+paired	Verify owned writable kernel lifecycle contract	2026-10-25T06:04:26.9570931Z env:
+paired	Verify owned writable kernel lifecycle contract	2026-10-25T06:04:26.9571122Z   CARGO_BUILD_JOBS: 2
+paired	Verify owned writable kernel lifecycle contract	2026-10-25T06:04:26.9571349Z ##[endgroup]
+paired	Prepare official container runtime and frozen fixture	﻿2026-10-25T06:04:31.5489833Z ##[group]Run sudo install -m 0755 -d /etc/apt/keyrings
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5490277Z [36;1msudo install -m 0755 -d /etc/apt/keyrings[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5490801Z [36;1msudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5491335Z [36;1msudo chmod a+r /etc/apt/keyrings/docker.asc[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5492106Z [36;1mecho 'deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu noble stable' | sudo tee /etc/apt/sources.list.d/docker-benchmark.list[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5493312Z [36;1msudo apt-get update[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5493860Z [36;1msudo apt-get install -y docker-ce=5:29.8.2-1~ubuntu.24.04~noble docker-ce-cli=5:29.8.2-1~ubuntu.24.04~noble containerd.io[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5494426Z [36;1msudo systemctl restart docker[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5494759Z [36;1mdocker version > results/docker-updated.txt[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5495081Z [36;1mdocker pull ubuntu:24.04[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5495572Z [36;1mecho "LAYERFS_IMAGE=$(docker image inspect --format '{{.Id}}' ubuntu:24.04)" >> "$GITHUB_ENV"[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5496219Z [36;1mecho "LAYERFS_DAEMON=$PWD/layerfs/core/target/release/layerfs-daemon" >> "$GITHUB_ENV"[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5496783Z [36;1mdocker image inspect ubuntu:24.04 > results/runtime-image.json[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5497275Z [36;1mdocker save ubuntu:24.04 -o "$RUNNER_TEMP/fixed-runtime-image.tar"[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5497829Z [36;1mecho "LAYERFS_IMAGE_ARCHIVE=$RUNNER_TEMP/fixed-runtime-image.tar" >> "$GITHUB_ENV"[0m
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5559632Z shell: /usr/bin/bash -e {0}
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5559897Z env:
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5560089Z   CARGO_BUILD_JOBS: 2
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.5560312Z ##[endgroup]
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.7028569Z deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu noble stable
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.7737185Z Get:1 file:/etc/apt/apt-mirrors.txt Mirrorlist [144 B]
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.7984200Z Get:6 https://download.docker.com/linux/ubuntu noble InRelease [48.5 kB]
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.8088215Z Hit:2 http://azure.archive.ubuntu.com/ubuntu noble InRelease
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.8089566Z Hit:7 https://packages.microsoft.com/ubuntu/24.04/prod noble InRelease
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.8125881Z Hit:3 http://azure.archive.ubuntu.com/ubuntu noble-updates InRelease
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.8135881Z Hit:4 http://azure.archive.ubuntu.com/ubuntu noble-backports InRelease
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.8146776Z Hit:5 http://azure.archive.ubuntu.com/ubuntu noble-security InRelease
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:31.8802407Z Get:8 https://download.docker.com/linux/ubuntu noble/stable amd64 Packages [71.9 kB]
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:32.2306653Z Fetched 120 kB in 0s (322 kB/s)
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.1892495Z Reading package lists...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.2199442Z Reading package lists...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.4308522Z Building dependency tree...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.4318271Z Reading state information...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.6133610Z Suggested packages:
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.6134189Z   cgroupfs-mount | cgroup-lite docker-model-plugin
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.6134764Z Recommended packages:
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.6135370Z   docker-ce-rootless-extras docker-buildx-plugin docker-compose-plugin
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.6326695Z The following packages will be upgraded:
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.6332538Z   containerd.io docker-ce docker-ce-cli
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.6665691Z 3 upgraded, 0 newly installed, 0 to remove and 100 not upgraded.
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.6666400Z Need to get 65.2 MB of archives.
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.6666809Z After this operation, 32.3 MB of additional disk space will be used.
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.6667590Z Get:1 https://download.docker.com/linux/ubuntu noble/stable amd64 docker-ce-cli amd64 5:29.8.2-1~ubuntu.24.04~noble [17.5 MB]
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.7876121Z Get:2 https://download.docker.com/linux/ubuntu noble/stable amd64 containerd.io amd64 2.4.2-3~ubuntu.24.04~noble [23.3 MB]
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:33.9290443Z Get:3 https://download.docker.com/linux/ubuntu noble/stable amd64 docker-ce amd64 5:29.8.2-1~ubuntu.24.04~noble [24.4 MB]
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3194818Z Fetched 65.2 MB in 0s (150 MB/s)
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3428865Z (Reading database ... 
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3429549Z (Reading database ... 5%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3429954Z (Reading database ... 10%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3430308Z (Reading database ... 15%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3430671Z (Reading database ... 20%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3431009Z (Reading database ... 25%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3431396Z (Reading database ... 30%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3431752Z (Reading database ... 35%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3432240Z (Reading database ... 40%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3432588Z (Reading database ... 45%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3432948Z (Reading database ... 50%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3450159Z (Reading database ... 55%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3555138Z (Reading database ... 60%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3581531Z (Reading database ... 65%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3600980Z (Reading database ... 70%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3633786Z (Reading database ... 75%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3660033Z (Reading database ... 80%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.3792174Z (Reading database ... 85%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.4006011Z (Reading database ... 90%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.4090290Z (Reading database ... 95%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.4090730Z (Reading database ... 100%
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.4091300Z (Reading database ... 203554 files and directories currently installed.)
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.4131722Z Preparing to unpack .../docker-ce-cli_5%3a29.8.2-1~ubuntu.24.04~noble_amd64.deb ...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.4152578Z Unpacking docker-ce-cli (5:29.8.2-1~ubuntu.24.04~noble) over (5:28.0.4-1~ubuntu.24.04~noble) ...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.9707837Z Preparing to unpack .../containerd.io_2.4.2-3~ubuntu.24.04~noble_amd64.deb ...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:34.9771206Z Unpacking containerd.io (2.4.2-3~ubuntu.24.04~noble) over (2.4.1-2~ubuntu.24.04~noble) ...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:35.7543946Z Preparing to unpack .../docker-ce_5%3a29.8.2-1~ubuntu.24.04~noble_amd64.deb ...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:35.7692574Z Unpacking docker-ce (5:29.8.2-1~ubuntu.24.04~noble) over (5:28.0.4-1~ubuntu.24.04~noble) ...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:36.5390127Z Setting up containerd.io (2.4.2-3~ubuntu.24.04~noble) ...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:36.9917954Z Setting up docker-ce-cli (5:29.8.2-1~ubuntu.24.04~noble) ...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:36.9940978Z Setting up docker-ce (5:29.8.2-1~ubuntu.24.04~noble) ...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:38.4851435Z Processing triggers for man-db (2.12.0-4build2) ...
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:38.4874794Z Not building database; man-db/auto-update is not 'true'.
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:39.0236581Z 
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:39.0237192Z Running kernel seems to be up-to-date.
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:39.0237578Z 
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:39.0237751Z No services need to be restarted.
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:39.0238063Z 
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:39.0238226Z No containers need to be restarted.
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:39.0238552Z 
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:39.0238781Z No user sessions are running outdated binaries.
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:39.0239162Z 
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:39.0239537Z No VM guests are running outdated hypervisor (qemu) binaries on this host.
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:40.7248625Z 24.04: Pulling from library/ubuntu
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:40.7889686Z f2b4ef06ff01: Pulling fs layer
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:40.9423902Z f2b4ef06ff01: Verifying Checksum
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:40.9424280Z f2b4ef06ff01: Download complete
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:42.3378585Z f2b4ef06ff01: Pull complete
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:42.3419299Z Digest: sha256:68ee22004a9109b44973313b02ff7b1de250f1de0f5ecb628d73f579aaff33ac
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:42.3433038Z Status: Downloaded newer image for ubuntu:24.04
+paired	Prepare official container runtime and frozen fixture	2026-10-25T06:04:42.3441139Z docker.io/library/ubuntu:24.04
+paired	Build one immutable shared compiler image and external source fixture	﻿2026-10-25T06:04:42.8640677Z ##[group]Run rustup toolchain install 1.90.0 --profile minimal
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8641200Z [36;1mrustup toolchain install 1.90.0 --profile minimal[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8641616Z [36;1mTOOLCHAIN="$(rustup run 1.90.0 rustc --print sysroot)"[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8641985Z [36;1mtest -x "$TOOLCHAIN/bin/rustc"[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8642781Z [36;1mCONTEXT="$(mktemp -d "$RUNNER_TEMP/cargo-image-context.XXXXXX")"[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8643259Z [36;1mmkdir "$CONTEXT/toolchain"[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8643560Z [36;1mcp -a "$TOOLCHAIN/." "$CONTEXT/toolchain/"[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8643944Z [36;1mcp feasibility/tree_oracle.py "$CONTEXT/tree_oracle.py"[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8644365Z [36;1mcp feasibility/Cargo.Dockerfile "$CONTEXT/Dockerfile"[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8644861Z [36;1mBASE_IMAGE="$(docker image inspect --format '{{index .RepoDigests 0}}' ubuntu:24.04)"[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8645348Z [36;1m[[ "$BASE_IMAGE" =~ ^ubuntu@sha256:[0-9a-f]{64}$ ]][0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8646061Z [36;1mdocker build --pull=false --build-arg "BASE_IMAGE=$BASE_IMAGE" -t "sprig-cargo-fixture:$GITHUB_RUN_ID" "$CONTEXT" > results/cargo-image-build.txt 2>&1[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8646958Z [36;1mCARGO_IMAGE="$(docker image inspect --format '{{.Id}}' "sprig-cargo-fixture:$GITHUB_RUN_ID")"[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8647473Z [36;1mecho "CARGO_IMAGE=$CARGO_IMAGE" >> "$GITHUB_ENV"[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8647948Z [36;1mecho "CARGO_IMAGE_ARCHIVE=$RUNNER_TEMP/cargo-runtime-image.tar" >> "$GITHUB_ENV"[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8648480Z [36;1mdocker image inspect "$CARGO_IMAGE" > results/cargo-image.json[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8649037Z [36;1mdocker save "sprig-cargo-fixture:$GITHUB_RUN_ID" -o "$RUNNER_TEMP/cargo-runtime-image.tar"[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8650185Z [36;1mdocker run --rm --pull=never "$CARGO_IMAGE" /bin/bash -c 'set -eu; rustc -Vv; cargo -V; cc --version; dpkg-query -W; sha256sum /usr/bin/cc /usr/bin/ld; find /opt/rust -type f -print0 | sort -z | xargs -0 sha256sum' > results/cargo-software-identity.txt[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8651134Z [36;1mmkdir -p fixtures[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8651985Z [36;1mpython3 feasibility/prepare_cargo_fixture.py --template feasibility/cargo-fixture-template --oracle feasibility/cargo-fixture-oracle.json --output fixtures/cargo > results/cargo-fixture-generation.json[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8653603Z [36;1mpython3 -B feasibility/tree_oracle.py verify fixtures/cargo < feasibility/cargo-fixture-oracle.json > results/cargo-fixture-verified.json[0m
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8715864Z shell: /usr/bin/bash -e {0}
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8716123Z env:
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8716312Z   CARGO_BUILD_JOBS: 2
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8716889Z   LAYERFS_IMAGE: sha256:6277ab668b2ad3c3ab851d370faa1690d324b30db29d342527f61fed28f20f36
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8717613Z   LAYERFS_DAEMON: /home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/target/release/layerfs-daemon
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8718256Z   LAYERFS_IMAGE_ARCHIVE: /home/runner/work/_temp/fixed-runtime-image.tar
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8718630Z ##[endgroup]
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.8845317Z info: syncing channel updates for 1.90.0-x86_64-unknown-linux-gnu
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.9792728Z info: latest update on 2025-09-18 for version 1.90.0 (1159e78c4 2025-09-14)
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:42.9793710Z info: downloading 3 components
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:50.3146051Z 
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:50.3224178Z   1.90.0-x86_64-unknown-linux-gnu installed - rustc 1.90.0 (1159e78c4 2025-09-14)
+paired	Build one immutable shared compiler image and external source fixture	2026-10-25T06:04:50.3224813Z 
+paired	Real Cargo lifecycle paired series	﻿2026-10-25T06:05:19.2000180Z ##[group]Run sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,LAYERFS_DAEMON,CARGO_MODE,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/cargo_transport_compare.mjs
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:19.2001422Z [36;1msudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,LAYERFS_DAEMON,CARGO_MODE,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/cargo_transport_compare.mjs[0m
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:19.2063575Z shell: /usr/bin/bash -e {0}
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:19.2063841Z env:
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:19.2064034Z   CARGO_BUILD_JOBS: 2
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:19.2064440Z   LAYERFS_IMAGE: sha256:6277ab668b2ad3c3ab851d370faa1690d324b30db29d342527f61fed28f20f36
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:19.2065136Z   LAYERFS_DAEMON: /home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/target/release/layerfs-daemon
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:19.2065795Z   LAYERFS_IMAGE_ARCHIVE: /home/runner/work/_temp/fixed-runtime-image.tar
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:19.2066331Z   CARGO_IMAGE: sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:19.2066872Z   CARGO_IMAGE_ARCHIVE: /home/runner/work/_temp/cargo-runtime-image.tar
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:19.2067274Z   CARGO_MODE: full
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:19.2067481Z ##[endgroup]
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:34.6972708Z time="2026-10-25T06:05:20Z" level=warning msg="Configuration migrated from version 0, use `containerd config migrate` to avoid migration" t="10.911µs"
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:40.4959337Z {
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:40.4959942Z   "product": "sprig-writable",
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:40.4960321Z   "round": 0,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:40.4960564Z   "incremental": 0,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:40.4960808Z   "correct": true
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:40.4961027Z }
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:55.2151752Z time="2026-10-25T06:05:41Z" level=warning msg="Configuration migrated from version 0, use `containerd config migrate` to avoid migration" t="21.881µs"
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:58.2208858Z {
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:58.2209201Z   "product": "layerfs",
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:58.2209501Z   "round": 0,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:58.2209781Z   "incremental": 0,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:58.2210035Z   "correct": true
+paired	Real Cargo lifecycle paired series	2026-10-25T06:05:58.2210282Z }
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:12.8653917Z time="2026-10-25T06:05:59Z" level=warning msg="Configuration migrated from version 0, use `containerd config migrate` to avoid migration" t="8.867µs"
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:18.7556945Z {
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:18.7557394Z   "product": "sprig-writable",
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:18.7557760Z   "round": 0,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:18.7557975Z   "incremental": 1,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:18.7558193Z   "correct": true
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:18.7558396Z }
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:33.5867857Z time="2026-10-25T06:06:19Z" level=warning msg="Configuration migrated from version 0, use `containerd config migrate` to avoid migration" t="11.121µs"
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:36.6001310Z {
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:36.6001765Z   "product": "layerfs",
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:36.6004290Z   "round": 0,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:36.6004673Z   "incremental": 1,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:36.6005039Z   "correct": true
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:36.6005381Z }
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:51.2739071Z time="2026-10-25T06:06:37Z" level=warning msg="Configuration migrated from version 0, use `containerd config migrate` to avoid migration" t="7.995µs"
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:54.2815207Z {
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:54.2815697Z   "product": "layerfs",
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:54.2816112Z   "round": 1,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:54.2816465Z   "incremental": 0,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:54.2816823Z   "correct": true
+paired	Real Cargo lifecycle paired series	2026-10-25T06:06:54.2817143Z }
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:09.0646206Z time="2026-10-25T06:06:55Z" level=warning msg="Configuration migrated from version 0, use `containerd config migrate` to avoid migration" t="8.726µs"
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:14.7948968Z {
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:14.7949408Z   "product": "sprig-writable",
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:14.7950842Z   "round": 1,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:14.7951474Z   "incremental": 0,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:14.7951897Z   "correct": true
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:14.7952487Z }
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:29.6123602Z time="2026-10-25T06:07:15Z" level=warning msg="Configuration migrated from version 0, use `containerd config migrate` to avoid migration" t="8.647µs"
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:32.7238564Z {
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:32.7239047Z   "product": "layerfs",
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:32.7239457Z   "round": 1,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:32.7240233Z   "incremental": 1,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:32.7240578Z   "correct": true
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:32.7240898Z }
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:47.3800244Z time="2026-10-25T06:07:33Z" level=warning msg="Configuration migrated from version 0, use `containerd config migrate` to avoid migration" t="11.582µs"
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:53.3178225Z {
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:53.3178683Z   "product": "sprig-writable",
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:53.3179145Z   "round": 1,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:53.3179487Z   "incremental": 1,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:53.3179841Z   "correct": true
+paired	Real Cargo lifecycle paired series	2026-10-25T06:07:53.3180153Z }
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:08.0191593Z time="2026-10-25T06:07:54Z" level=warning msg="Configuration migrated from version 0, use `containerd config migrate` to avoid migration" t="8.405µs"
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:13.9229541Z {
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:13.9230011Z   "product": "sprig-writable",
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:13.9230384Z   "round": 2,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:13.9230620Z   "incremental": 0,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:13.9230889Z   "correct": true
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:13.9231104Z }
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:28.7689800Z time="2026-10-25T06:08:14Z" level=warning msg="Configuration migrated from version 0, use `containerd config migrate` to avoid migration" t="8.446µs"
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:31.7529794Z {
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:31.7530297Z   "product": "layerfs",
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:31.7530766Z   "round": 2,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:31.7531158Z   "incremental": 0,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:31.7531574Z   "correct": true
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:31.7531904Z }
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:46.5176128Z time="2026-10-25T06:08:32Z" level=warning msg="Configuration migrated from version 0, use `containerd config migrate` to avoid migration" t="7.915µs"
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:52.4806009Z {
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:52.4806480Z   "product": "sprig-writable",
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:52.4806826Z   "round": 2,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:52.4807068Z   "incremental": 1,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:52.4807315Z   "correct": true
+paired	Real Cargo lifecycle paired series	2026-10-25T06:08:52.4807547Z }
+paired	Real Cargo lifecycle paired series	2026-10-25T06:09:07.2363389Z time="2026-10-25T06:08:53Z" level=warning msg="Configuration migrated from version 0, use `containerd config migrate` to avoid migration" t="8.255µs"
+paired	Real Cargo lifecycle paired series	2026-10-25T06:09:10.2922677Z {
+paired	Real Cargo lifecycle paired series	2026-10-25T06:09:10.2924728Z   "product": "layerfs",
+paired	Real Cargo lifecycle paired series	2026-10-25T06:09:10.2925186Z   "round": 2,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:09:10.2925553Z   "incremental": 1,
+paired	Real Cargo lifecycle paired series	2026-10-25T06:09:10.2925951Z   "correct": true
+paired	Real Cargo lifecycle paired series	2026-10-25T06:09:10.2926227Z }
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	﻿2026-10-25T06:09:10.3148534Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3148976Z with:
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3149197Z   name: cargo-transport-measurements
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3149568Z   path: results/
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	/home/runner/work/_temp/cargo-transport-records/
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3149944Z   if-no-files-found: warn
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3150184Z   compression-level: 6
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3150403Z   overwrite: false
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3150626Z   include-hidden-files: false
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3150860Z env:
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3151042Z   CARGO_BUILD_JOBS: 2
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3151419Z   LAYERFS_IMAGE: sha256:6277ab668b2ad3c3ab851d370faa1690d324b30db29d342527f61fed28f20f36
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3152611Z   LAYERFS_DAEMON: /home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/target/release/layerfs-daemon
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3153273Z   LAYERFS_IMAGE_ARCHIVE: /home/runner/work/_temp/fixed-runtime-image.tar
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3153799Z   CARGO_IMAGE: sha256:306f0ec09f3782d039f04c472f6c72ae01d054fbe5e2808dbd9f4be2f946345b
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3154359Z   CARGO_IMAGE_ARCHIVE: /home/runner/work/_temp/cargo-runtime-image.tar
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.3154715Z ##[endgroup]
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.4802133Z (node:31106) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.4803235Z (Use `node --trace-deprecation ...` to show where the warning was created)
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.4942456Z Multiple search paths detected. Calculating the least common ancestor of all paths
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.4954809Z The least common ancestor is /home/runner/work. This will be the root directory of the artifact
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.4956271Z With the provided path, there will be 39 files uploaded
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.4957522Z Artifact name is valid!
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.4958118Z Root directory input is valid!
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.6910986Z Beginning upload of artifact content to blob storage
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.8940089Z (node:31106) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:10.9915217Z Uploaded bytes 834681
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:11.0085966Z Finished uploading artifact content to blob storage!
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:11.0087087Z SHA256 digest of uploaded artifact zip is 8578cfa7b11311668732be25266483b5685d692a1631e21c20db4fc79bcf5977
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:11.0089452Z Finalizing artifact upload
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:11.4380724Z Artifact cargo-transport-measurements.zip successfully finalized. Artifact ID 12589935015
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:11.4383130Z Artifact cargo-transport-measurements has been successfully uploaded! Final size is 834681 bytes. Artifact ID is 12589935015
+paired	Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02	2026-10-25T06:09:11.4389260Z Artifact download URL: https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40167612813/artifacts/12589935015
+paired	Post Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	﻿2026-10-25T06:09:11.4570969Z Post job cleanup.
+paired	Post Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:09:11.5617489Z Cache hit occurred on the primary key combined-ubuntu24-2a01fe4-9f97a7-v1, not saving cache.
+paired	Post Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:09:11.5619235Z (node:31120) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+paired	Post Run actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830	2026-10-25T06:09:11.5620698Z (Use `node --trace-deprecation ...` to show where the warning was created)
+paired	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	﻿2026-10-25T06:09:11.5760690Z Post job cleanup.
+paired	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:09:11.6605186Z [command]/usr/bin/git version
+paired	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:09:11.6652386Z git version 2.55.0
+paired	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:09:11.6693190Z Temporarily overriding HOME='/home/runner/work/_temp/d378508f-ce83-444c-9549-f7156890379c' before making global git config changes
+paired	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:09:11.6694616Z Adding repository directory to the temporary git global config as a safe directory
+paired	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:09:11.6700525Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/sprig-benchmarks/sprig-benchmarks
+paired	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:09:11.6741649Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+paired	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:09:11.6780875Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+paired	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:09:11.7042077Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+paired	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:09:11.7074986Z http.https://github.com/.extraheader
+paired	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:09:11.7088638Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+paired	Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683	2026-10-25T06:09:11.7125420Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+paired	Complete job	﻿2026-10-25T06:09:11.7540422Z Cleaning up orphan processes
+paired	Complete job	2026-10-25T06:09:11.8141903Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830, actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
