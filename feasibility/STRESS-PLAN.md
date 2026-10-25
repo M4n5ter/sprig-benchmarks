@@ -4,8 +4,9 @@
 Product baseline: promoted schema-14 main `071036f83691b89bd9e35bb162d34e305e1874b7`; comparator release `9f97a7ec95b662e9cb288704afa165feff132cfa`.
 Old reports, fixtures, scripts, workflows and raw results are not modified.
 No workflow is dispatched or pushed by this change. The new local code prepares
-fixtures, oracles, a bounded plan and descriptive statistics; it does **not** yet
-execute production products. No new performance or Fresh claim is made.
+fixtures, oracles, a bounded plan and descriptive statistics, and now implements
+separate public-CLI/SDK production samplers plus bounded sequential orchestration.
+These drivers have only local/mocked checks so far, not real kernel acceptance. No new performance or Fresh claim is made.
 
 ## Highest-signal first, not a Cartesian matrix
 
@@ -19,21 +20,23 @@ correctness passes. Never infer improvement from runs on different machines.
 
 | Priority | Fixture | Logical bytes | Worst retained logical estimate | Why |
 |---|---|---:|---:|---|
-| 1 | 10,000 × 4 KiB files, one directory | 39.1 MiB | 117.2 MiB, 3 views | Metadata/checkpoint scheduling |
-| 2 | 256 × 4 KiB, depth 128, narrow | 1 MiB | 3 MiB, 3 views | Traversal/path and small-file overhead |
+| 1 | 10,000 × 4 KiB files, one directory | 39.1 MiB | 273.4 MiB conservative, 7 generations | Metadata/checkpoint scheduling |
+| 2 | 256 × 4 KiB, depth 128, narrow | 1 MiB | 7 MiB conservative, 7 generations | Traversal/path and small-file overhead |
 | 3 | 256 × 4 KiB, random 64-byte overwrites, 300 commits | 1 MiB | 603 MiB, 3+2N generations | History growth, per-step tails and restores |
 | 4 | 16 library crates + binary, shared local dependency DAG, build script | generated source is small; target measured | Must preflight real compiler/target size | Real Cargo graph instead of dependency-free crate |
 
 For priorities 1/2, production execution will include a separately named no-change
 checkpoint and one changed-file checkpoint, with exact no-op semantics checked
-rather than requiring a new revision for no-op. This sequence is not yet wired.
+rather than requiring a new revision for no-op. Both products publicly restore
+and fully verify the unchanged initial revision too; no-op restores are charged.
 Each image stays **2 GiB**, matching the existing harness. No resource/timeout,
 security, privilege or runner-class changes. Parent authorized local preparation
 only. The `imageGiB` plan field does not create an image.
 
 **Budgets (planning caps, not measured product forecasts):** existing job limit
-45 minutes; allow up to 20 minutes setup/build, at most 10 minutes per product
-sample, and 5 minutes evidence/normal teardown. Actual setup overruns reduce the
+45 minutes; allow up to 20 minutes setup/build, at most 570 seconds per product
+sample in an ordinary two-product pilot (120seconds in canary), plus a60-second
+admission reserve, and5minutes evidence/normal teardown. Actual setup overruns reduce the
 sample budget; do not start a sample without its remaining reserved budget. First
 four pilots are at most 4 × 45 = 180 runner-minutes, concurrency 1, not four jobs
 in parallel. Expected warmed setup can be shorter, but no promise relies on it.
@@ -46,9 +49,11 @@ inside image require measured runtime-ready Used + conservative retained bytes +
 256 MiB reserve <= 2 GiB. Filesystem metadata can exceed a logical estimate: also
 record actual Used at untimed boundaries. Reject insufficiency as **capacity
 blocked**, retain evidence, never silently shrink a fixture, prune a generation,
-clean caches, or omit a restore. A 600-second sample timeout is a failed/incomplete
-sample, not a correctness pass; production integration must retain partial ledgers
-and use existing safe normal teardown. No blind retry of uncertain mutations.
+clean caches, or omit a restore. A cooperative time/capacity budget abort is incomplete, not a correctness pass or
+an incorrect-output assertion. Guards admit operations at boundaries, never kill
+or cancel an uncertain product mutation. Partial ledgers are retained and normal
+teardown is attempted. A single operation can outlast its admission estimate;
+the existing45-minute external job cap is unchanged. No blind retry of uncertain mutations.
 
 ## Graduated expansion after pilot evidence
 
@@ -141,9 +146,45 @@ python3 feasibility/stress_cargo_fixture.py NEW_DIR --crates 16 > cargo-fixture.
 Generators fail on an existing output; they never replace it. Unit tests are
 non-kernel fixture/oracle checks, not production acceptance. The review-only
 `stress-pilot.workflow-draft.yml` is deliberately outside `.github/workflows`;
-production driver and pinned-source build steps must be reviewed/implemented
-before any move into dispatchable location.
+production driver, new runtime image and pinned-source build steps must be
+reviewed before any move into a dispatchable location. The current draft can run
+one fixed Sprig/release pair or a separately labeled Sprig-only diagnostic canary;
+it never automatically launches all menu cells or follow-on pressure jobs.
 
 Optional `SPRIG_LIFECYCLE_TRACE=1` diagnostics must retain prefixed JSON-lines stderr
 and inherited writable generation FUSE daemon logs as a separate instrumented
 series. Primary timings keep trace disabled. Never subtract logging overhead.
+
+
+## Implemented driver and current verification state
+
+`stress_run.py` accepts1product for canary or2exact configured products for pressure,
+strictly belowRUNNER_TEMP on root GitHub Linux. It provisions fresh2GiB Btrfs images
+sequentially, retains images, logs source/binary hashes and measures empty and
+runtime-ready boundaries. `stress_sample.py` reuses reviewed normal Sprig
+mount/server/cleanup contracts but not frozen fixture assumptions;
+`stress_layerfs.mjs` uses public SDK methods with exact commit IDs/parents.
+Both perform identical shell dd+fsync+fixed-mtime writes, full Python tree snapshots
+for every acknowledged checkpoint and restore, and15full-tree checks for the3-edit
+plus no-op canary. Full observed JSON stays in charged logs, copied externally only
+after physical samples/normal teardown. This prevents one-sided oracle log costs.
+The outer sampler subprocess wall is the matched authoritative window, including
+preparation, checks, logging, accounting, normal cleanup and final serialization;
+internal timers can overlap and have separately declared narrower scopes.
+
+LayerFS uses a **new stress-only immutable Ubuntu+Python runtime image** built from
+an exact official Ubuntu digest with `Stress.Dockerfile`, including the exact
+oracle script. Its full image, package manifest/hash and all deployed runtime roots
+are charged. The Sprig and LayerFS workspace oracle program is identical; external
+source checks use the same host Python helper. This is not a comparison to old
+plain-Ubuntu historical results. Cargo retains its separate shared compiler image.
+
+Local Cargo DAG validation passed on rustc/cargo1.99.1: both incremental0/1 built
+and executed, all17packages Fresh with noCompiling on no-op; exact stdout645.
+This is not pinned1.90.0 CI compiler or product restore acceptance. See
+`stress-cargo-local-sanity.json`; real pinned-image build/restore/Fresh gate remains.
+
+The draft `sprig_sha` input requires40hex and verified detached checkout. Diagnostic
+mode is canary-only and excludes comparator primary ratios; lifecycletrace is set
+only on Sprig CLI/descendants, full stderr/daemon logs retained. Default primary
+rejects ambient enabledtrace. Publication/dispatch awaits explicit authority.

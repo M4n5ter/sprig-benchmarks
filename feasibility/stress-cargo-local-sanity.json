@@ -1,0 +1,22 @@
+{
+  "status": "local-build-and-noop-pass",
+  "software": "cargo 1.99.1 (5f94df478 2026-08-27)\nrustc 1.99.1 (58cf8f9c3 2026-10-13)\nbinary: rustc\ncommit-hash: 58cf8f9c35b355199727627d07ae34a4e2846d67\ncommit-date: 2026-10-13\nhost: x86_64-unknown-linux-gnu\nrelease: 1.99.1\nLLVM version: 23.1.1\n",
+  "rows": [
+    {
+      "incremental": 0,
+      "freshPackages": 17,
+      "allPackagesFresh": true,
+      "stdout": "645\n"
+    },
+    {
+      "incremental": 1,
+      "freshPackages": 17,
+      "allPackagesFresh": true,
+      "stdout": "645\n"
+    }
+  ],
+  "treeEntries": 580,
+  "restoredBuildVerified": false,
+  "productRun": false,
+  "pinnedCompilerCaveat": "local stable compiler, not CI pinned1.90.0; pinned-image smoke remains required"
+}

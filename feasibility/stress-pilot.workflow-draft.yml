@@ -1,18 +1,28 @@
-# REVIEW ONLY; not dispatchable, not a production benchmark implementation.
-# Integration must copy reviewed pinned environment/build/kernel gates from
-# combined-paired.yml and cargo-transport.yml without reducing them.
-name: Bounded stress pilot (draft)
+# REVIEW ONLY: intentionally outside.github/workflows until parent approves publication.
+# Baseline/reference pair only; candidateA/B requires explicit immutable config review.
+name: Bounded stress paired pilot (review draft)
+run-name: Stress auto ${{ inputs.backend }} ${{ inputs.cell }}
 on:
   workflow_dispatch:
     inputs:
+      sprig_sha:
+        type: string
+        default: '071036f83691b89bd9e35bb162d34e305e1874b7'
+        description: Reviewed immutable Sprig source commit; never a branch name
+        required: true
+      diagnostic:
+        type: boolean
+        default: false
+        description: Instrumented Sprig-only canary; no primary performance comparison
       cell:
         type: choice
-        options: [files-10000, depth-128, history-random-300, cargo-16]
+        options: [canary, files-10000, history-random-300, depth-128]
+        default: canary
         required: true
       backend:
         type: choice
-        options: [writable, native, projection]
-        default: writable
+        options: [all, native, projection, writable]
+        default: all
         required: true
 permissions:
   contents: read
@@ -20,19 +30,132 @@ concurrency:
   group: sprig-stress-pilot
   cancel-in-progress: false
 jobs:
-  pilot:
+  paired:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
       CARGO_BUILD_JOBS: '2'
+      SPRIG_SOURCE_SHA: ${{ inputs.sprig_sha }}
+      STRESS_DIAGNOSTIC: ${{ inputs.diagnostic }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Check deterministic preparation only
+      - name: Validate bounded selection before setup
+        env:
+          CELL: ${{ inputs.cell }}
+          BACKEND: ${{ inputs.backend }}
         run: |
-          python3 -m unittest discover -s feasibility -p test_stress.py -v
-          python3 feasibility/stress_plan.py
-      - name: Fail closed until production integration is reviewed
+          [[ "$SPRIG_SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          if [ "$BACKEND" = all ] && [ "$CELL" != canary ]; then exit 2; fi
+          if [ "$STRESS_DIAGNOSTIC" = true ] && [ "$CELL" != canary ]; then exit 2; fi
+      - name: Record paired environment and install official tools
         run: |
-          echo 'Draft only: pin baseline/candidate, reuse existing kernel/runtime gates,'
-          echo 'implement whole-tree both-product driver, disk/time guards and evidence upload.'
-          exit 1
+          echo "STRESS_JOB_START=$(date +%s)" >> "$GITHUB_ENV"
+          mkdir -p results
+          sudo apt-get update
+          sudo apt-get install -y btrfs-progs python3-btrfsutil
+          { uname -a; lscpu; free -h; df -h; findmnt -T "$PWD"; btrfs version; /usr/bin/python3 --version; dpkg-query -W btrfs-progs python3-btrfsutil; } > results/environment.txt
+          sha256sum feasibility/stress_*.py feasibility/stress_layerfs.mjs feasibility/tree_oracle.py feasibility/Stress.Dockerfile feasibility/STRESS-PLAN.md > results/script-hashes.txt
+      - name: Fetch fixed comparator
+        run: |
+          git clone --filter=blob:none --no-checkout https://github.com/Ephemeral-AI-Lab/layerfs.git layerfs
+          git -C layerfs sparse-checkout init --cone
+          git -C layerfs sparse-checkout set core/crates core/vendor api .cargo
+          git -C layerfs checkout 9f97a7ec95b662e9cb288704afa165feff132cfa
+      - name: Fetch fixed production CLI
+        run: |
+          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig
+          [[ "$SPRIG_SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
+          git -C sprig checkout "$SPRIG_SOURCE_SHA"
+          test "$(git -C sprig rev-parse HEAD)" = "$SPRIG_SOURCE_SHA"
+          rustup toolchain install stable --profile minimal
+          rustc +stable --version > results/projection-rust-version.txt
+          find sprig/src sprig/tests -type f -not -path '*/target/*' -print0 | sort -z | xargs -0 sha256sum > results/production-source-hashes.txt
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            layerfs/core/target
+            sprig/target
+          key: stress-ubuntu24-071036f-9f97a7-v1
+      - name: Build fixed comparator
+        run: |
+          rustup toolchain install 1.85.1 --profile minimal
+          (cd layerfs && cargo +1.85.1 fetch --manifest-path core/Cargo.toml --locked)
+          (cd layerfs && npm --prefix api install --offline --ignore-scripts --no-audit --no-fund && npm --prefix api run build:native)
+          (cd layerfs && cargo +1.85.1 build --manifest-path core/Cargo.toml --locked --offline --release -p layerfs-daemon)
+      - name: Build and verify real production CLI
+        run: |
+          export CARGO_TARGET_DIR="$PWD/sprig/target"
+          cargo +stable test --locked --features projection --manifest-path sprig/Cargo.toml
+          cargo +stable build --release --locked --features projection --manifest-path sprig/Cargo.toml
+          sha256sum sprig/target/release/sprig > results/production-binary-hash.txt
+      - name: Verify production kernel lifecycle contract
+        run: |
+          mkdir "$RUNNER_TEMP/production-kernel-gate"
+          sudo env TMPDIR="$RUNNER_TEMP/production-kernel-gate" /usr/bin/python3 sprig/tests/projection_workflow.py --binary "$PWD/sprig/target/release/sprig" > results/production-kernel-contract.json
+      - name: Verify owned writable kernel lifecycle contract
+        run: |
+          mkdir "$RUNNER_TEMP/current-writable-gate"
+          sudo env PATH="$PATH" RUSTUP_HOME="$HOME/.rustup" CARGO_HOME="$HOME/.cargo" TMPDIR="$RUNNER_TEMP/current-writable-gate" /usr/bin/python3 sprig/tests/writable_workflow.py --binary "$PWD/sprig/target/release/sprig" > results/current-writable-contract.json
+      - name: Prepare official container runtime and frozen fixture
+        run: |
+          sudo install -m 0755 -d /etc/apt/keyrings
+          sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+          sudo chmod a+r /etc/apt/keyrings/docker.asc
+          echo 'deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu noble stable' | sudo tee /etc/apt/sources.list.d/docker-benchmark.list
+          sudo apt-get update
+          sudo apt-get install -y docker-ce=5:29.8.2-1~ubuntu.24.04~noble docker-ce-cli=5:29.8.2-1~ubuntu.24.04~noble containerd.io
+          sudo systemctl restart docker
+          docker version > results/docker-updated.txt
+          docker pull ubuntu:24.04
+          echo "LAYERFS_IMAGE=$(docker image inspect --format '{{.Id}}' ubuntu:24.04)" >> "$GITHUB_ENV"
+          echo "LAYERFS_DAEMON=$PWD/layerfs/core/target/release/layerfs-daemon" >> "$GITHUB_ENV"
+          docker image inspect ubuntu:24.04 > results/runtime-image.json
+          docker save ubuntu:24.04 -o "$RUNNER_TEMP/fixed-runtime-image.tar"
+          echo "LAYERFS_IMAGE_ARCHIVE=$RUNNER_TEMP/fixed-runtime-image.tar" >> "$GITHUB_ENV"
+          CONTEXT="$(mktemp -d "$RUNNER_TEMP/stress-image-context.XXXXXX")"
+          cp feasibility/tree_oracle.py "$CONTEXT/tree_oracle.py"
+          cp feasibility/Stress.Dockerfile "$CONTEXT/Dockerfile"
+          BASE_IMAGE="$(docker image inspect --format '{{index .RepoDigests 0}}' ubuntu:24.04)"
+          [[ "$BASE_IMAGE" =~ ^ubuntu@sha256:[0-9a-f]{64}$ ]]
+          docker build --pull=false --build-arg "BASE_IMAGE=$BASE_IMAGE" -t "sprig-stress:$GITHUB_RUN_ID" "$CONTEXT" > results/stress-image-build.txt 2>&1
+          STRESS_IMAGE="$(docker image inspect --format '{{.Id}}' "sprig-stress:$GITHUB_RUN_ID")"
+          echo "STRESS_IMAGE=$STRESS_IMAGE" >> "$GITHUB_ENV"
+          echo "STRESS_IMAGE_ARCHIVE=$RUNNER_TEMP/stress-runtime-image.tar" >> "$GITHUB_ENV"
+          docker image inspect "$STRESS_IMAGE" > results/stress-runtime-image.json
+          docker save "sprig-stress:$GITHUB_RUN_ID" -o "$RUNNER_TEMP/stress-runtime-image.tar"
+          docker run --rm --pull=never "$STRESS_IMAGE" /bin/bash -c 'python3 --version; dpkg-query -W; sha256sum /opt/bench/tree_oracle.py' > results/stress-runtime-software.txt
+          python3 -m unittest discover -s feasibility -p 'test_stress*.py' -v
+          node --test feasibility/test_stress_layerfs.mjs
+      - name: One bounded paired cell (canary required before pressure)
+        env:
+          STRESS_CELL: ${{ inputs.cell }}
+          SPRIG_BACKEND: ${{ inputs.backend }}
+        run: |
+          export STRESS_MEASURE_BUDGET=$((2700 - ($(date +%s) - STRESS_JOB_START) - 300))
+          if [ "$STRESS_MEASURE_BUDGET" -gt 1200 ]; then export STRESS_MEASURE_BUDGET=1200; fi
+          if [ "$STRESS_MEASURE_BUDGET" -lt 60 ]; then
+            printf '{"status":"budget_aborted","reason":"setup left insufficient safe measurement and cleanup budget"}\n' > results/stress-budget.json
+            exit 2
+          fi
+          python3 - <<'PYCONFIG'
+          import json,os
+          from pathlib import Path
+          cwd=Path.cwd()
+          products=[dict(label='sprig-baseline',type='sprig',sha=os.environ['SPRIG_SOURCE_SHA'],binary=str(cwd/'sprig/target/release/sprig')),
+                    dict(label='layerfs-release',type='layerfs',sha='9f97a7ec95b662e9cb288704afa165feff132cfa',daemonPath=os.environ['LAYERFS_DAEMON'],layerfsSdkPath=str(cwd/'layerfs/api/agent/sdk/src/index.js'),image=os.environ['STRESS_IMAGE'],imageArchive=os.environ['STRESS_IMAGE_ARCHIVE'])]
+          if os.environ['STRESS_DIAGNOSTIC']=='true':
+              products=products[:1];products[0]['diagnostic']=True
+          Path('results/stress-products.json').write_text(json.dumps(products,indent=2))
+          PYCONFIG
+          sudo --preserve-env=GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/stress-products.json" --cell "$STRESS_CELL" --backend "$SPRIG_BACKEND" --rounds 1 --budget-seconds "$STRESS_MEASURE_BUDGET" --output "$RUNNER_TEMP/stress-results"
+      - name: Summarize successful complete records only
+        run: python3 feasibility/stress_summarize.py "$RUNNER_TEMP/stress-results/stress-comparison.json" --output results/stress-summary.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: stress-${{ inputs.cell }}-${{ inputs.backend }}-measurements
+          path: |
+            results/
+            ${{ runner.temp }}/stress-results/

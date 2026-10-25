@@ -20,11 +20,12 @@ def bytes_for(key, size):
 
 def normalize_source(root):
     for p in sorted([root, *root.rglob('*')], key=lambda x: len(x.parts), reverse=True):
-        os.chmod(p, 0o750 if p.is_dir() else 0o640)
-        os.utime(p, ns=(STAMP, STAMP))
+        if not p.is_symlink():
+            os.chmod(p, 0o750 if p.is_dir() else 0o640)
+        os.utime(p, ns=(STAMP, STAMP), follow_symlinks=False)
 
 def generate(root, *, files=256, size=4096, depth=0, width=32, links=0,
-             steps=0, pattern='random'):
+             steps=0, pattern='random', symlink=False):
     root = Path(root)
     if not (1 <= files <= 50000 and 1 <= size <= 16*1024*1024
             and 0 <= depth <= 128 and 1 <= width <= 1024
@@ -47,6 +48,8 @@ def generate(root, *, files=256, size=4096, depth=0, width=32, links=0,
         (root / 'links').mkdir()
         for i in range(links):
             os.link(root / names[i], root / 'links' / f'l{i:06d}.dat')
+    if symlink:
+        os.symlink(names[0], root / 'source-link')
     normalize_source(root)
     initial = snapshot(root)
     rng = random.Random(SEED)
@@ -65,7 +68,7 @@ def generate(root, *, files=256, size=4096, depth=0, width=32, links=0,
                           sha256=hashlib.sha256(data).hexdigest()))
     return dict(schema='sprig-stress-fixture-v1', seed=SEED,
                 parameters=dict(files=files, size=size, depth=depth, width=width,
-                                links=links, steps=steps, pattern=pattern),
+                                links=links, steps=steps, pattern=pattern, symlink=symlink),
                 initial=initial, edits=edits)
 
 def expected_after(fixture, count):
@@ -99,6 +102,7 @@ def main():
     p.add_argument('output', type=Path)
     for name, default in [('files',256), ('size',4096), ('depth',0), ('width',32), ('links',0), ('steps',0)]:
         p.add_argument('--'+name, type=int, default=default)
+    p.add_argument('--symlink', action='store_true')
     p.add_argument('--pattern', choices=['random','hot','repeated'], default='random')
     args = vars(p.parse_args())
     root = args.pop('output')

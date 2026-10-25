@@ -15,7 +15,7 @@ class StressTests(unittest.TestCase):
             with self.subTest(pattern=pattern), tempfile.TemporaryDirectory() as t:
                 root = Path(t)/'source'
                 fixture = generate(root, files=16, size=4096, depth=8, width=4,
-                                   links=16, steps=30, pattern=pattern)
+                                   links=16, steps=30, pattern=pattern, symlink=True)
                 for i, edit in enumerate(fixture['edits'], 1):
                     apply_edit(root, edit)
                     self.assertEqual(differences(expected_after(fixture, i), snapshot(root)), [])
