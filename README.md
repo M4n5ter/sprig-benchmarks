@@ -1,3 +1,5 @@
+**25 October native-fork A/B:** [five-pair results and original smoke](NATIVE-FORK-RESULTS.md) preserve 70 full samples/3,000 readbacks plus the earlier smoke. Large-case warm fork/read is about 42–46% lower, but checkpoint/restore and physical storage are not generally improved; small regressions remain reported.
+
 **25 October owned lifecycle A/B:** [five-pair full results](LIFECYCLE-WRITABLE-RESULTS.md) passed 70 samples and 3,000 historical readbacks. Checkpoints are consistently about 6.2–6.7% lower in the three history cases; warm forks, total restore time and storage do not show a universal improvement. This is within-Sprig evidence, not a new comparator victory.
 
 **25 October lifecycle candidate smoke:** [same-runner baseline/candidate results](LIFECYCLE-SMOKE-RESULTS.md) retain all 12 samples and 600 historical readbacks. Single-pair improvements are mixed, not a universal performance or storage win; the earlier complete comparator results remain below.

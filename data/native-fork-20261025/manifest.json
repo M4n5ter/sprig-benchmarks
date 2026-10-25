@@ -1,0 +1,38 @@
+[
+  {
+    "mode": "smoke",
+    "run": 40160178206,
+    "benchmarkSha": "a5c94333294625262327d2cd374b7d6774990530",
+    "pins": {
+      "baseline": "a2b76e4c3ecdccdeeca24a669df4a82d1a4792f3",
+      "candidate": "e2a86dc2b7942e0adf4273cd608857447d403335"
+    },
+    "binaryHashes": {
+      "baseline": "7b14cc45d30292b366db5d2b7ad74917f5c79772234431b462a7a2e528bf3bc4",
+      "candidate": "98bdc72f784d07b3d879eda2a8950db6e9793e17ad4de9022a63de5ff5885adc"
+    },
+    "archive": "smoke-40160178206-full-artifact.tar.gz",
+    "archiveSha256": "33f4977fa9ac0f2185bad552425a594efd2e7a7109c48440f999cee6a80ff976",
+    "originalRawSha256": "3bb71df4d60c8683a3e36b64b5c7bac41c54976c08d3dff0b93c921710fd7a22",
+    "records": 4,
+    "historicalReadbacks": 200
+  },
+  {
+    "mode": "full",
+    "run": 40160664806,
+    "benchmarkSha": "a5c94333294625262327d2cd374b7d6774990530",
+    "pins": {
+      "baseline": "a2b76e4c3ecdccdeeca24a669df4a82d1a4792f3",
+      "candidate": "e2a86dc2b7942e0adf4273cd608857447d403335"
+    },
+    "binaryHashes": {
+      "baseline": "7b14cc45d30292b366db5d2b7ad74917f5c79772234431b462a7a2e528bf3bc4",
+      "candidate": "98bdc72f784d07b3d879eda2a8950db6e9793e17ad4de9022a63de5ff5885adc"
+    },
+    "archive": "full-40160664806-full-artifact.tar.gz",
+    "archiveSha256": "b3beb3d4ffd88fcfa95e75a3140c81189d3cd3835ffa292df9a37d21b9c2caea",
+    "originalRawSha256": "d70b3f67283d4bb1f038731a2711844a197b942ecbf7f9c7977ea77a1c064224",
+    "records": 70,
+    "historicalReadbacks": 3000
+  }
+]
