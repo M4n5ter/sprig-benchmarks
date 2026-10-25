@@ -19,8 +19,57 @@ def allowed(group, parts):
     if group == 'records' and len(parts) in (2,3) and re.fullmatch(r'inc[01]',parts[0]):
         if len(parts)==2:
             return re.fullmatch(PRODUCT+r'-[0-2](?:\.jsonl|-options\.json)',parts[1])
-        return re.fullmatch(PRODUCT+r'-[0-2]\.jsonl\.logs',parts[1]) and re.fullmatch(r'[A-Za-z0-9_.-]+\.(?:stdout|stderr|log)',parts[2])
+        return re.fullmatch(PRODUCT+r'-[0-2]\.jsonl\.logs',parts[1]) and re.fullmatch(r'[A-Za-z0-9_.-]+\.(?:stdout|stderr|log|jsonl)',parts[2])
     return False
+
+
+def verify_declared_archives(destination, temporary, copied):
+    """Check declarations against copied bytes, never follow a report-provided path."""
+    inventory={row['path']:row for row in copied}
+    errors=[];verified=set();samples=0
+    def verify(sample, product, incremental, round_):
+        nonlocal samples
+        samples+=1
+        if not isinstance(sample,dict):errors.append('invalid sample report');return
+        archive=sample.get('completeLogArchive')
+        if archive is None and sample.get('ok') is not True:return
+        if not isinstance(archive,list) or (sample.get('ok') is True and not archive):
+            errors.append('missing/non-list archive declaration');return
+        expected=temporary/'stress-cargo-records'/f'inc{incremental}'/f'{product}-{round_}.jsonl.logs'
+        seen=set()
+        for item in archive:
+            if not isinstance(item,dict):errors.append('invalid archive entry');continue
+            if not isinstance(item.get('archived'),str):errors.append('invalid archive path');continue
+            path=Path(item['archived'])
+            parts=(f'inc{incremental}',f'{product}-{round_}.jsonl.logs',path.name)
+            if path.parent!=expected or not allowed('records',parts):
+                errors.append('archive path outside exact sample allowlist');continue
+            key='records/'+'/'.join(parts)
+            if key in seen:errors.append('duplicate archive declaration');continue
+            seen.add(key);actual=inventory.get(key)
+            if actual is None or actual['bytes']!=item.get('bytes') or actual['sha256']!=item.get('sha256'):
+                errors.append('missing or mismatched declared archive: '+key);continue
+            verified.add(key)
+    for row in copied:
+        name=Path(row['path']).name
+        if not row['path'].startswith('results/'):continue
+        match=re.fullmatch(r'stress-cargo-('+PRODUCT+r')-inc([01])-([0-2])\.json',name)
+        comparison=re.fullmatch(r'stress-cargo-comparison-([01])\.json',name)
+        if not match and not comparison:continue
+        try:report=json.loads((destination/row['path']).read_text())
+        except (ValueError,UnicodeError):errors.append('invalid report JSON: '+row['path']);continue
+        if not isinstance(report,dict):errors.append('invalid report object');continue
+        if match:verify(report,match[1],match[2],match[3])
+        else:
+            records=report.get('records',[])
+            if not isinstance(records,list):errors.append('invalid comparison records');continue
+            for record in records:
+                if not isinstance(record,dict):errors.append('invalid comparison record');continue
+                if 'sample' not in record:continue # runtime setup can fail before sampler
+                if record.get('product') not in ('sprig-writable','layerfs') or record.get('round') not in range(3):
+                    errors.append('invalid comparison sample identity');continue
+                verify(record['sample'],record['product'],comparison[1],record['round'])
+    return {'ok':not errors,'sampleDeclarations':samples,'verifiedUniqueFiles':len(verified),'errors':errors}
 
 
 def collect(results, temporary, destination, uid, gid):
@@ -65,9 +114,11 @@ def collect(results, temporary, destination, uid, gid):
             fd=os.open(target,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o644)
             with os.fdopen(fd,'wb') as out:out.write(data);os.fchmod(out.fileno(),0o644);os.fchown(out.fileno(),uid,gid)
             rows.append({'path':str(target.relative_to(destination)),'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()})
+    coverage=verify_declared_archives(destination,temporary,rows)
     manifest=destination/'collection.json'
-    manifest.write_text(json.dumps({'schema':'sprig-cargo-artifact-copy-v1','files':rows},indent=2)+'\n')
+    manifest.write_text(json.dumps({'schema':'sprig-cargo-artifact-copy-v1','files':rows,'declaredArchiveVerification':coverage},indent=2)+'\n')
     os.chmod(manifest,0o644);os.chown(manifest,uid,gid)
+    if not coverage['ok']:raise ValueError('declared archive completeness failed; see collection.json')
     return rows
 
 if __name__=='__main__':

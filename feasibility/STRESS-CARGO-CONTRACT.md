@@ -173,7 +173,7 @@ unknown-state cleanup rules are unchanged. Component lists, toolchain allocation
 image size and archive bytes are recorded without changing image contents.
 
 An always-run collector copies only named generated reports, ledger files, and
-stdout/stderr/log files into a new runner-owned0755 artifact directory with0644
+stdout/stderr/log/lifecycle-jsonl files into a new runner-owned0755 artifact directory with0644
 files. It never descends into capacity-pilot source/target, runtime roots, sockets
 or private configuration backups; symlinks/nonregular files are rejected. Source
 permissions/ownership and cleanup state are untouched. This post-job evidence copy
@@ -193,3 +193,8 @@ reviewed attempt use fresh8GiB images for BOTH products; no mixed-size ratios.
 The45minute job, one runner, two compiler jobs, cleanup/oracle and permission
 settings are unchanged. This exception applies only to Cargo; other stress
 profiles retain2GiB. The immutable shared compiler image is not pruned/shrunk.
+Artifact collection additionally verifies every completeLogArchive declaration
+from standalone and comparison-embedded sample reports against copied size/hash.
+Missing or mismatched declared files, unsafe/duplicate declarations, or successful
+samples without an archive fail collection. A partial collection manifest is still
+written with explicit errors for diagnosis; such a job is not full-evidence accepted.
