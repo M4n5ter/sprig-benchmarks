@@ -1,0 +1,12 @@
+{
+  "root": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-XnDKgL/mount/sample",
+  "measuredMount": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-XnDKgL/mount",
+  "source": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/fixtures/stress-cargo",
+  "oraclePath": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/results/stress-cargo-oracle.json",
+  "manifestPath": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/results/stress-cargo-manifest.json",
+  "layerfsSdkPath": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/api/agent/sdk/src/index.js",
+  "daemonPath": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/layerfs/core/target/release/layerfs-daemon",
+  "image": "sha256:390554aa50e5f3b7ca310b888a7e2dbaa3e230efc520c3de7a9b2037cd6f7198",
+  "incremental": 0,
+  "recordsPath": "/home/runner/work/_temp/stress-cargo-records/inc0/layerfs-0.jsonl"
+}

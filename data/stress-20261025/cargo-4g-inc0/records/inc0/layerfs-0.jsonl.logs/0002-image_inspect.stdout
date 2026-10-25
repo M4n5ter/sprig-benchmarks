@@ -1,0 +1,47 @@
+[
+    {
+        "Id": "sha256:390554aa50e5f3b7ca310b888a7e2dbaa3e230efc520c3de7a9b2037cd6f7198",
+        "RepoTags": [
+            "sprig-cargo-fixture:40192707608"
+        ],
+        "RepoDigests": [],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-10-25T12:26:00.944862503Z",
+        "Config": {
+            "Env": [
+                "PATH=/opt/rust/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/bash"
+            ],
+            "Labels": {
+                "org.opencontainers.image.version": "24.04"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 1005165334,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-XnDKgL/mount/docker-data/overlay2/4b730058a054f393035c5b7338d2d8708455008afceeaf8102894a1b77dabb65/diff:/home/runner/work/_temp/stress-cargo-layerfs-0-0-XnDKgL/mount/docker-data/overlay2/5c5dc458059feea16af8a32fc816b43ec54b1beccc97250174f7b36d93112124/diff:/home/runner/work/_temp/stress-cargo-layerfs-0-0-XnDKgL/mount/docker-data/overlay2/b2051677a42801215da68c562e4161ed23e559a50a7db25920a2883e76efbe06/diff:/home/runner/work/_temp/stress-cargo-layerfs-0-0-XnDKgL/mount/docker-data/overlay2/a36f7073b3b1deec040dfc1087436aedaf8b3429014bfa6d5cc704eeb0493716/diff",
+                "MergedDir": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-XnDKgL/mount/docker-data/overlay2/fe41ed95c3f170ffd03acc354611e4bb2a968d4c365dc77db9c122b94a4c9db5/merged",
+                "UpperDir": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-XnDKgL/mount/docker-data/overlay2/fe41ed95c3f170ffd03acc354611e4bb2a968d4c365dc77db9c122b94a4c9db5/diff",
+                "WorkDir": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-XnDKgL/mount/docker-data/overlay2/fe41ed95c3f170ffd03acc354611e4bb2a968d4c365dc77db9c122b94a4c9db5/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:32ab39660fd51c6dc3aae486b42d42bbe8fe4c1db78eaf57bb9c21198de48a16",
+                "sha256:d756166b5f1d244ca3b3a3049b2d0a37a38dbb370fcc8c080a17acd9f41b488d",
+                "sha256:fae5d1d2703bb7aa6c06bed2231a66292a56d9d3185efb896599169060823b7f",
+                "sha256:0a3faa0762a9bd6861f4b2e9117e6c0b4aa86c27acd2f943bd835f0cfa5f3702",
+                "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "0001-01-01T00:00:00Z"
+        }
+    }
+]

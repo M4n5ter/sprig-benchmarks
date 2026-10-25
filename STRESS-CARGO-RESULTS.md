@@ -1,4 +1,4 @@
-# Cargo DAG16 v2 acceptance — incomplete first pilot
+# Cargo DAG16 v2 acceptance — capacity failures and first passing product gates
 
 [Run40188875391](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40188875391), benchmark `d0095a97b40d805abc486d2fea1c74493751504a`, production `70307d3480239e96a24552d8595ec537927d9301`, failed in6m52s. This is **not a passing Cargo comparison and supplies no product performance ratio**.
 
@@ -17,3 +17,30 @@ Docker reports `no space left on device` while writing the Rust `libcore` rlib d
 The immutable image reports1,005,165,334bytes; saved archive logical size1,013,662,208bytes. Rust1.90.0 toolchain allocation593,596,416bytes, including12,972,032bytes under share/doc; installed components are only cargo, rust-std and rustc. This does not support the speculative stale-documentation explanation. External pilot target allocation is9,134,080bytes for incremental0; that pilot did not cover the Docker import transient footprint.
 
 Setup rollback and outer normal unmount/loop detach completed. There are still **zero product measurements and no Cargo performance comparison**. A failed runtime-load capacity constraint cannot be relabeled as a Sprig or LayerFS correctness failure. No filesystem enlargement, selective runtime deletion, oracle relaxation or further speculative retry is implied. Complete diagnostic artifact and provenance: `data/stress-20261025/cargo-evidence-retry-failed`.
+
+## First fresh 4 GiB incremental0 attempt: product gates pass, one archive gap
+
+[Run40192707608](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40192707608), benchmark `d11cec87bd7c8b2ca8bd6377724c49b9392a0d08`, passed in6m8s. This is the explicitly authorized Cargo-only resource revision `sprig-cargo-resource-4g-v1`: both products used fresh4,294,967,296-byte Btrfs images; native pressure remains2GiB. No8GiB attempt was needed. The original2GiB failures remain capacity evidence, unpooled with these measurements.
+
+Independent raw review confirms both280-entry restored trees exactly match before execution/rebuild. Both actual product samples passed: full restored-tree content, permissions/mtime/symlink/internal-hardlink oracle; source and original-main invariance; acknowledged checkpoint/history; executable outputs269→3400; all17packages Compiling on clean/edited builds and Fresh on no-op/restored builds. Both used shared compiler image `sha256:390554aa50e5f3b7ca310b888a7e2dbaa3e230efc520c3de7a9b2037cd6f7198`, Rust/Cargo1.90.0, jobs2, incremental0. Normal owned cleanup, empty mounts/containers and outer detach were verified. Product pins remain Sprig70307d3480239e96a24552d8595ec537927d9301 and LayerFS9f97a7ec95b662e9cb288704afa165feff132cfa.
+
+**Evidence caveat:** all373collector-listed files pass byte/SHA256 verification, but only343of344sampler-listed archive files are present. The collector allowlist omitted Sprig's `000055-lifecycle.jsonl`; its hash is recorded but its bytes are unavailable. This is not complete raw-log archive acceptance. No missing file is reconstructed or substituted. Full product reports and command outputs remain available under `data/stress-20261025/cargo-4g-inc0` with explicit missing-file provenance.
+
+One pair, seconds unless bytes:
+
+| Boundary | Sprig writable | LayerFS |
+|---|---:|---:|
+| Whole sampler subprocess, launch through exit |6.291300|2.568808|
+| Runtime import/setup, separate |17.783661|17.380554|
+| Clean build |1.032295|0.483125|
+| No-op build |0.180421|0.037977|
+| Edited build |0.938201|0.384089|
+| Product checkpoint plus acknowledgment/readiness |0.103903|0.101881|
+| Sprig compiler quiesce plus checkpoint composite |0.425309|not matched|
+| Product restore |0.021758|0.003369|
+| Sprig restore to compiler-ready composite |0.175098|not matched|
+| Restored build |0.185046|0.041233|
+| Normal sample cleanup |0.313151|0.158008|
+| Whole active filesystem Used, bytes |1,056,051,200|1,065,345,024|
+
+These are descriptive acceptance observations, not a statistically established speedup/regression or equal-durability ranking. Sprig's generation-scoped default-root Docker CLI transport and LayerFS's persistent UID501 SDK transport differ; all costs stay charged. LayerFS uses disposable/WAL/synchronous=OFF semantics, not matched Sprig durability. Compiler runtime, target/cache, retained views, history and logs are included in whole Used; runtime bytes are not subtracted. Nested phase/composite timers are not additive. No tails or incremental1 conclusion follows from this single incremental0 pair. Fresh synthetic images were disposed only after normal cleanup and durable evidence, never pruned during accounting.

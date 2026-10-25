@@ -1,0 +1,16 @@
+{
+  "result": {
+    "backend": {
+      "kind": "writable",
+      "revision": "f5db34a6294bd8590ff18566335fdc7953d9c9f203be1f2803d2e7ef4072d59e"
+    },
+    "base_revision": "f5db34a6294bd8590ff18566335fdc7953d9c9f203be1f2803d2e7ef4072d59e",
+    "branch": "second",
+    "copy_stats": null,
+    "mount_state": "unmounted",
+    "name": "second",
+    "path": "/home/runner/work/_temp/stress-cargo-sprig-writable-0-0-N0Sy8r/mount/sample/library/native/1792931200289828585-16036-0/tree",
+    "pending_conflicts": []
+  },
+  "schema_version": 1
+}
