@@ -178,3 +178,18 @@ files. It never descends into capacity-pilot source/target, runtime roots, socke
 or private configuration backups; symlinks/nonregular files are rejected. Source
 permissions/ownership and cleanup state are untouched. This post-job evidence copy
 is outside paired timing; the original measured logs remain fully charged.
+
+## Cargo-only resource revision after confirmed import failure
+
+The initial2GiB attempts remain immutable capacity-failure evidence with zero
+product samples. The next Cargo attempt uses fresh symmetric4GiB images for
+both products, recorded as `sprig-cargo-resource-4g-v1`; command/fixture/compiler
+protocol is unchanged. The fixed guard rejects2GiB and8GiB filesystems in this
+first4GiB attempt, and any prior incremental gate must match resource geometry
+as well as image/source/protocol identities. Host admission requires4GiB plus
+the existing1GiB evidence reserve. No resizing, reuse across sizes or automatic
+retry is implemented. Only after a confirmed4GiB capacity failure may a separate
+reviewed attempt use fresh8GiB images for BOTH products; no mixed-size ratios.
+The45minute job, one runner, two compiler jobs, cleanup/oracle and permission
+settings are unchanged. This exception applies only to Cargo; other stress
+profiles retain2GiB. The immutable shared compiler image is not pruned/shrunk.

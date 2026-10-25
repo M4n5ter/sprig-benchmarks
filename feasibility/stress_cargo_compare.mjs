@@ -7,7 +7,9 @@ import {execFileSync} from 'node:child_process';
 import {performance} from 'node:perf_hooks';
 import {createHash} from 'node:crypto';
 import {SOURCE_SHA,loadCommands,verifyCargoPackages} from './stress_cargo_layerfs.mjs';
-export const IMAGE_BYTES=2*1024**3;
+// Cargo-only resource revision: fixed4GiB first, no automatic fallback/resizing.
+export const IMAGE_BYTES=4*1024**3;
+export const RESOURCE_PROTOCOL='sprig-cargo-resource-4g-v1';
 const MIB=1024**2;
 const sha=x=>createHash('sha256').update(x).digest('hex');
 const json=x=>JSON.stringify(x,(_,v)=>typeof v==='bigint'?v.toString():v,2);
@@ -28,10 +30,10 @@ export function admitSampler(record,admitBudget){
 }
 export function capacityGuard({availableBytes,deviceBytes,targetAllocatedBytes,fixtureLogicalBytes}){
  for(const [key,value]of Object.entries({availableBytes,deviceBytes,targetAllocatedBytes,fixtureLogicalBytes}))assert.ok(Number.isSafeInteger(value)&&value>=0,`invalid ${key}`);
- assert.equal(deviceBytes,IMAGE_BYTES,'measured filesystem must remain exactly 2GiB');
+ assert.equal(deviceBytes,IMAGE_BYTES,'measured filesystem must remain exactly 4GiB');
  assert.ok(targetAllocatedBytes>0,'capacity requires a real measured target allocation');
  const requiredBytes=Math.max(512*MIB,4*targetAllocatedBytes+8*fixtureLogicalBytes+256*MIB);assert.ok(Number.isSafeInteger(requiredBytes),'capacity arithmetic exceeds safe integer range');
- if(availableBytes<requiredBytes)throw new CapacityBlocked(`capacity blocked: available ${availableBytes}, required ${requiredBytes}; 2GiB ceiling unchanged`);
+ if(availableBytes<requiredBytes)throw new CapacityBlocked(`capacity blocked: available ${availableBytes}, required ${requiredBytes}; 4GiB Cargo resource bound`);
  return {availableBytes,requiredBytes,deviceBytes,targetAllocatedBytes,fixtureLogicalBytes,admitted:true};
 }
 export function validateCapacity(document,identity,incremental){
@@ -52,7 +54,7 @@ export function validateFresh(sample){
 }
 export function validatePreviousGate(gate,identity){
  assert.equal(gate.schema,'sprig-stress-cargo-comparison-v2');assert.equal(gate.complete,true);assert.equal(gate.status,'passed');assert.equal(gate.incremental,0);
- for(const key of ['image','protocolSha256','fixtureManifestSha256','productionSha','comparatorSha'])assert.equal(gate[key],identity[key],`incremental prerequisite ${key} mismatch`);
+ for(const key of ['image','protocolSha256','fixtureManifestSha256','productionSha','comparatorSha','imageBytes','resourceProtocol'])assert.equal(gate[key],identity[key],`incremental prerequisite ${key} mismatch`);
  assert.ok(Array.isArray(gate.records)&&gate.records.length===2*gate.rounds&&[1,3].includes(gate.rounds));
  for(let round=0;round<gate.rounds;round++)for(const product of ['sprig-writable','layerfs']){
   const rows=gate.records.filter(x=>x.round===round&&x.product===product);assert.equal(rows.length,1);
@@ -116,13 +118,13 @@ export async function main(){
  assert.match(productionSha??'',/^[a-f0-9]{40}$/);assert.match(image??'',/^sha256:[a-f0-9]{64}$/);assert.ok(path.isAbsolute(archive??''));
  const source=path.join(cwd,'fixtures/stress-cargo'),oracle=path.join(cwd,'results/stress-cargo-oracle.json'),manifestPath=path.join(cwd,'results/stress-cargo-manifest.json');
  const manifestRaw=fs.readFileSync(manifestPath),manifest=JSON.parse(manifestRaw),protocolSha256=loadCommands().sha256,fixtureManifestSha256=sha(manifestRaw);
- const identity={image,productionSha,comparatorSha,protocolSha256,fixtureManifestSha256};assert.equal(manifest.protocolSha256,protocolSha256);
+ const identity={image,productionSha,comparatorSha,protocolSha256,fixtureManifestSha256,imageBytes:IMAGE_BYTES,resourceProtocol:RESOURCE_PROTOCOL};assert.equal(manifest.protocolSha256,protocolSha256);
  const capacity=JSON.parse(fs.readFileSync('results/stress-cargo-capacity.json','utf8')),pilot=validateCapacity(capacity,identity,incremental);
  const fixtureFiles=manifest.initial.entries.filter(x=>x.type==='file');assert.ok(fixtureFiles.every(x=>Number.isSafeInteger(x.size)&&x.size>=0));const fixtureLogicalBytes=fixtureFiles.reduce((sum,x)=>sum+x.size,0);assert.ok(Number.isSafeInteger(fixtureLogicalBytes));
  let previousGate=null;if(incremental===1){assert.ok(path.isAbsolute(process.env.STRESS_CARGO_PREVIOUS_GATE??''),'incremental1 requires explicit previous gate');const bytes=fs.readFileSync(process.env.STRESS_CARGO_PREVIOUS_GATE);validatePreviousGate(JSON.parse(bytes),identity);previousGate={path:process.env.STRESS_CARGO_PREVIOUS_GATE,sha256:sha(bytes)};}
  const recordRoot=path.join(process.env.RUNNER_TEMP,'stress-cargo-records');fs.mkdirSync(recordRoot,{recursive:true});const recordDir=path.join(recordRoot,`inc${incremental}`);fs.mkdirSync(recordDir,{recursive:false});
  const reportPath=`results/stress-cargo-comparison-${incremental}.json`,records=[];
- const report={schema:'sprig-stress-cargo-comparison-v2',status:'running',complete:false,incremental,rounds,expectedRecords:rounds*2,...identity,previousGate,capacityPilot:pilot,imageBytes:IMAGE_BYTES,records,notes:['New DAG16 protocol; never pooled with frozen tiny Cargo results.','Whole Used includes immutable image, runtime state, target/cache/logs/history; runtime setup separately timed but baseline bytes never subtracted from primary space.','WholeSampleSubprocessWallSeconds is matched sampler process launch-through-exit including evidence serialization and normal cleanup; internal phases overlap, not additive.','Both products use identical image; Sprig compiler lifetime remains generation-scoped, LayerFS UID501 SDK transport is persistent; no equal durability claim.']};
+ const report={schema:'sprig-stress-cargo-comparison-v2',status:'running',complete:false,incremental,rounds,expectedRecords:rounds*2,...identity,previousGate,capacityPilot:pilot,imageBytes:IMAGE_BYTES,records,notes:['Cargo-only resource revision: fresh symmetric4GiB images, not pooled with2GiB capacity failures; no automatic8GiB retry.', 'New DAG16 protocol; never pooled with frozen tiny Cargo results.','Whole Used includes immutable image, runtime state, target/cache/logs/history; runtime setup separately timed but baseline bytes never subtracted from primary space.','WholeSampleSubprocessWallSeconds is matched sampler process launch-through-exit including evidence serialization and normal cleanup; internal phases overlap, not additive.','Both products use identical image; Sprig compiler lifetime remains generation-scoped, LayerFS UID501 SDK transport is persistent; no equal durability claim.']};
  report.sharedJobBudget={startedEpochSeconds:jobStarted,deadlineEpochSeconds:jobDeadline,minimumSampleSeconds:180,cleanupReserveSeconds:300,scope:'same absolute first-step deadline across setup and incremental invocations; no reset'};
  const save=()=>atomicReport(reportPath,report);save();
  try{
@@ -134,7 +136,7 @@ export async function main(){
    Object.assign(r,{filesystem:{dir,imagePath,mount,runtimeStatePath},isolatedImageRetained:imagePath});
    let mounted=false,runtimeAttempted=false,runtimeReady=false,sampleStarted=false,error=null;
    try{
-    const host=fs.statfsSync(dir,{bigint:true});if(host.bavail*host.bsize<BigInt(IMAGE_BYTES+1024**3))throw new CapacityBlocked('host capacity blocked: 2GiB image plus1GiB evidence reserve required');
+    const host=fs.statfsSync(dir,{bigint:true});if(host.bavail*host.bsize<BigInt(IMAGE_BYTES+1024**3))throw new CapacityBlocked('host capacity blocked: 4GiB image plus1GiB evidence reserve required');
     const fd=fs.openSync(imagePath,'wx',0o600);fs.ftruncateSync(fd,IMAGE_BYTES);fs.closeSync(fd);fs.mkdirSync(mount);
     const stat=fs.lstatSync(imagePath);r.filesystem.imageIdentity={dev:String(stat.dev),ino:String(stat.ino)};assert.equal(stat.size,IMAGE_BYTES);
     r.mkfs=command('mkfs.btrfs',['-d','single','-m','dup',imagePath]);command('mount',['-o','loop,noatime',imagePath,mount]);mounted=true;r.emptySpace=physicalSpace(mount);

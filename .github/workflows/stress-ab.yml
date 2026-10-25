@@ -1,6 +1,8 @@
 name: Cargo DAG16 incremental0 acceptance
-run-name: Cargo DAG16 incremental0, fixed query and backoff candidate
+run-name: Cargo DAG16 incremental0, fresh symmetric4GiB images
 on:
+  push:
+    branches: [stress/canary-validation]
   workflow_dispatch:
 permissions:
   contents: read
@@ -120,7 +122,7 @@ jobs:
       - name: Common external capacity pilot (not product results or reusable cache)
         run: |
           sudo env GITHUB_ACTIONS=true RUNNER_TEMP="$RUNNER_TEMP" /usr/bin/python3 feasibility/stress_cargo_capacity.py --source "$PWD/fixtures/stress-cargo" --manifest "$PWD/results/stress-cargo-manifest.json" --image "$CARGO_IMAGE" --root "$RUNNER_TEMP/stress-cargo-capacity-pilot" --output "$PWD/results/stress-cargo-capacity.json" > results/stress-cargo-capacity-status.json
-      - name: Actual incremental0 paired acceptance within2GiB ceiling
+      - name: Actual incremental0 paired acceptance with fresh symmetric4GiB Cargo images
         env:
           STRESS_CARGO_INCREMENTAL: '0'
           SPRIG_STRESS_SHA: '70307d3480239e96a24552d8595ec537927d9301'
