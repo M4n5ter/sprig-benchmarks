@@ -147,7 +147,7 @@ export async function main(){
     sampleStarted=true;const start=performance.now();let raw;try{raw=command(args[0],args.slice(1));r.sampleReturncode=0;}catch(e){raw=e.stdout?.toString()??'';r.sampleReturncode=e.status;r.failureStderr=e.stderr?.toString();}finally{r.wholeSampleSubprocessWallSeconds=(performance.now()-start)/1000;}
     fs.writeFileSync(rawPath,raw);r.rawReportPath=rawPath;r.sample=JSON.parse(raw);assert.equal(r.sampleReturncode,0);validateSample(r.sample,product,identity,incremental);
     r.activeSpace=r.sample.activeSpace;r.runtimeReadyDeltaBytes=r.activeSpace.filesystemUsedBytes-r.runtimeReadySpace.filesystemUsedBytes;r.correct=true;r.status='passed';
-   }catch(e){error=e;r.correct=false;r.status=e instanceof CapacityBlocked?'capacity_blocked':e instanceof BudgetBlocked?'budget_blocked':'failed';r.error={message:e.message,stack:e.stack};}
+   }catch(e){if(runtimeAttempted&&!runtimeReady)r.runtimeSetupFailure={exitCode:e.status??null,stdout:e.stdout?.toString()??'',stderr:e.stderr?.toString()??''};error=e;r.correct=false;r.status=e instanceof CapacityBlocked?'capacity_blocked':e instanceof BudgetBlocked?'budget_blocked':'failed';r.error={message:e.message,stack:e.stack};}
    finally{
     let state=null;if(fs.existsSync(runtimeStatePath)){try{state=JSON.parse(fs.readFileSync(runtimeStatePath,'utf8'));}catch{state={malformed:true};}}
     const blocked=cleanupAdmission({sampleStarted,runtimeAttempted,runtimeReady,runtimeState:state,sample:r.sample});r.recoveryMetadata={runtimeAttempted,runtimeReady,sampleStarted,cleanupAdmissionBlocked:blocked,action:'On uncertainty retain state; no forced cleanup, repeated action or runtime restoration.'};r.cleanup=[];

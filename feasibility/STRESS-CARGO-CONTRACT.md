@@ -161,3 +161,20 @@ bytes:10,465,280 (incremental0),18,837,504 (incremental1). These figures are not
 pinned1.90 capacity admission or product restore results. The graph exposes four
 ready siblings; jobs2 bounds compiler concurrency, without asserting a measured
 overlap duration from Cargo verbose output.
+
+## Failure evidence, including runtime setup failures
+
+The stress-only runtime wrapper records a failed Docker image load's complete
+original merged stdout/stderr before the existing setup rollback. It labels the
+phase explicitly and adds read-only df/Btrfs usage (each bounded at10seconds);
+diagnostic failures do not replace the original load exception. No cause such as
+ENOSPC is inferred without the captured output. Runtime rollback/admission and
+unknown-state cleanup rules are unchanged. Component lists, toolchain allocation,
+image size and archive bytes are recorded without changing image contents.
+
+An always-run collector copies only named generated reports, ledger files, and
+stdout/stderr/log files into a new runner-owned0755 artifact directory with0644
+files. It never descends into capacity-pilot source/target, runtime roots, sockets
+or private configuration backups; symlinks/nonregular files are rejected. Source
+permissions/ownership and cleanup state are untouched. This post-job evidence copy
+is outside paired timing; the original measured logs remain fully charged.
