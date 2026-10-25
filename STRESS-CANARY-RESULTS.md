@@ -23,3 +23,12 @@ Publication is isolated to the experimental benchmark branch. Benchmark main rem
 227valid trace records were preserved (214CLI stderr,13daemon logs), with zero malformed records. Normal unmount, lease polling and server readiness each have13result-wrapped `ok=true` records; scope-only `ok=null` spans are retained but do not count as successful-phase evidence. This validates actual mounted trace coverage, not a performance improvement. Nested trace spans overlap and cannot be summed into a synthetic task time; this instrumented sample is never pooled into primary comparisons.
 
 [Full unchanged diagnostic artifact](data/stress-20261025/writable-diagnostic/) · [Independent verification](data/stress-20261025/writable-diagnostic/verified.json) · [All-file provenance](data/stress-20261025/diagnostic-provenance.json).
+
+
+## Final narrowed integrated candidate gate
+
+[Run40181583445](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40181583445), source `1bd8793eda1be01dfe35b22abe00c14e5fff4fc9`, benchmark `52e78e5e288dcfb300ff4ea5775566cb2526a1e5`: all6primary records across three backends passed90full-tree checks and24historical readbacks. All257archived raw files verified by byte count/SHA256; trace remains disabled, cleanup is complete, and both kernel gates pass. Job duration4m14s.
+
+[Complete candidate artifact](data/stress-20261025/integrated-canary/) · [Independent verification](data/stress-20261025/integrated-canary/verified.json) · [All-file provenance](data/stress-20261025/integrated-provenance.json).
+
+Separate baseline/candidate canary runners are **not** causal optimization evidence. The next gated experiment builds both immutable sources on one runner, preserves separate binaries and runs one native10k pair with the same fixture/oracle. The old canary remains a manual workflow; only the new A/B workflow responds to the isolated experimental branch push, so runs remain sequential.

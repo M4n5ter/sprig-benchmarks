@@ -2,8 +2,6 @@
 name: Bounded full-tree stress canary
 run-name: Stress auto ${{ inputs.backend || 'all' }} ${{ inputs.cell || 'canary' }}
 on:
-  push:
-    branches: [stress/canary-validation]
   workflow_dispatch:
     inputs:
       sprig_sha:

@@ -13,6 +13,13 @@ class RunTests(unittest.TestCase):
         p,n=cell_parameters('canary')
         self.assertTrue(n and p['symlink']);self.assertEqual(p['steps'],3)
         with self.assertRaises(BudgetAbort): cell_parameters('history-random-1000')
+    def test_pair_order_alternation(self):
+        from stress_run import ordered_products
+        self.assertEqual(ordered_products(['base','candidate'],0,'forward'),['base','candidate'])
+        self.assertEqual(ordered_products(['base','candidate'],1,'forward'),['candidate','base'])
+        self.assertEqual(ordered_products(['base','candidate'],0,'reverse'),['candidate','base'])
+        self.assertEqual(ordered_products(['base','candidate'],1,'reverse'),['base','candidate'])
+
     def test_unknown(self):
         with self.assertRaises(ValueError): cell_parameters('not-a-cell')
 

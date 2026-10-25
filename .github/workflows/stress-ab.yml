@@ -1,0 +1,102 @@
+name: Same-runner native pressure A/B
+run-name: Native10k baseline versus integrated, one pair
+on:
+  push:
+    branches: [stress/canary-validation]
+  workflow_dispatch:
+    inputs:
+      pair_order:
+        type: choice
+        options: [forward, reverse]
+        default: forward
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: sprig-stress-pilot
+  cancel-in-progress: false
+jobs:
+  native-ab:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      CARGO_BUILD_JOBS: '2'
+      BASELINE_SHA: '071036f83691b89bd9e35bb162d34e305e1874b7'
+      CANDIDATE_SHA: '1bd8793eda1be01dfe35b22abe00c14e5fff4fc9'
+      PAIR_ORDER: ${{ inputs.pair_order || 'forward' }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Verify exact real canary gates before building pressure candidates
+        run: |
+          echo "STRESS_JOB_START=$(date +%s)" >> "$GITHUB_ENV"
+          mkdir -p results bin
+          python3 feasibility/check_stress_gate.py data/stress-20261025/baseline-canary --provenance data/stress-20261025/baseline-provenance.json --source-sha "$BASELINE_SHA" > results/baseline-gate.json
+          python3 feasibility/check_stress_gate.py data/stress-20261025/integrated-canary --provenance data/stress-20261025/integrated-provenance.json --source-sha "$CANDIDATE_SHA" > results/candidate-gate.json
+      - name: Record paired environment and immutable inputs
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y btrfs-progs python3-btrfsutil
+          { uname -a; lscpu; free -h; df -h; findmnt -T "$PWD"; btrfs version; /usr/bin/python3 --version; } > results/environment.txt
+          sha256sum feasibility/stress_*.py feasibility/tree_oracle.py feasibility/check_stress_gate.py feasibility/STRESS-PLAN.md > results/script-hashes.txt
+          rustup toolchain install stable --profile minimal
+          rustc +stable -Vv > results/rust-version.txt
+          cargo +stable -V >> results/rust-version.txt
+          for variant in baseline candidate; do
+            if [ "$variant" = baseline ]; then pin="$BASELINE_SHA"; else pin="$CANDIDATE_SHA"; fi
+            [[ "$pin" =~ ^[0-9a-f]{40}$ ]]
+            git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git "sprig-$variant"
+            git -C "sprig-$variant" checkout "$pin"
+            test "$(git -C "sprig-$variant" rev-parse HEAD)" = "$pin"
+            find "sprig-$variant/src" "sprig-$variant/tests" -type f -print0 | sort -z | xargs -0 sha256sum > "results/$variant-source-hashes.txt"
+          done
+      - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: stress-ab-registry-ubuntu24-${{ hashFiles('sprig-baseline/Cargo.lock', 'sprig-candidate/Cargo.lock') }}
+      - name: Build and verify both separate immutable binaries serially
+        run: |
+          for variant in baseline candidate; do
+            export CARGO_TARGET_DIR="$PWD/build-target-$variant"
+            test ! -e "$CARGO_TARGET_DIR"
+            cargo +stable test --locked --features projection --manifest-path "sprig-$variant/Cargo.toml"
+            cargo +stable build --release --locked --features projection --manifest-path "sprig-$variant/Cargo.toml" -vv > "results/$variant-release-build.log" 2>&1
+            grep -F "Compiling sprig " "results/$variant-release-build.log"
+            grep -F "$PWD/sprig-$variant" "results/$variant-release-build.log"
+            install -m 0755 "$CARGO_TARGET_DIR/release/sprig" "bin/$variant-sprig"
+            sha256sum "bin/$variant-sprig" > "results/$variant-binary-hash.txt"
+            mkdir "$RUNNER_TEMP/$variant-projection-gate" "$RUNNER_TEMP/$variant-writable-gate"
+            sudo env TMPDIR="$RUNNER_TEMP/$variant-projection-gate" /usr/bin/python3 "sprig-$variant/tests/projection_workflow.py" --binary "$PWD/bin/$variant-sprig" > "results/$variant-projection-gate.json"
+            sudo env PATH="$PATH" RUSTUP_HOME="$HOME/.rustup" CARGO_HOME="$HOME/.cargo" TMPDIR="$RUNNER_TEMP/$variant-writable-gate" /usr/bin/python3 "sprig-$variant/tests/writable_workflow.py" --binary "$PWD/bin/$variant-sprig" > "results/$variant-writable-gate.json"
+          done
+          test "$(realpath build-target-baseline)" != "$(realpath build-target-candidate)"
+          if cmp -s bin/baseline-sprig bin/candidate-sprig; then echo "Unexpected identical variant binaries"; exit 1; fi
+          sha256sum bin/*-sprig > results/both-binary-hashes-after-build.txt
+          python3 -m unittest discover -s feasibility -p 'test_stress*.py' -v
+      - name: One exact same-runner native10k pair, tracing off
+        run: |
+          export STRESS_MEASURE_BUDGET=$((2700 - ($(date +%s) - STRESS_JOB_START) - 300))
+          if [ "$STRESS_MEASURE_BUDGET" -gt 1200 ]; then export STRESS_MEASURE_BUDGET=1200; fi
+          if [ "$STRESS_MEASURE_BUDGET" -lt 60 ]; then
+            printf '{"status":"budget_aborted","reason":"setup left insufficient budget"}\n' > results/stress-budget.json
+            exit 2
+          fi
+          python3 - <<'PYCONFIG'
+          import json,os
+          from pathlib import Path
+          root=Path.cwd()
+          products=[dict(label='baseline',type='sprig',sha=os.environ['BASELINE_SHA'],binary=str(root/'bin/baseline-sprig')),
+                    dict(label='candidate',type='sprig',sha=os.environ['CANDIDATE_SHA'],binary=str(root/'bin/candidate-sprig'))]
+          Path('results/stress-products.json').write_text(json.dumps(products,indent=2))
+          PYCONFIG
+          sudo --preserve-env=GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/stress-products.json" --cell files-10000 --backend native --rounds 1 --pair-order "$PAIR_ORDER" --budget-seconds "$STRESS_MEASURE_BUDGET" --output "$RUNNER_TEMP/stress-results"
+      - name: Summarize only complete exact paired records
+        run: python3 feasibility/stress_summarize.py "$RUNNER_TEMP/stress-results/stress-comparison.json" --output results/stress-summary.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: stress-native10k-own-ab-measurements
+          path: |
+            results/
+            ${{ runner.temp }}/stress-results/

@@ -95,6 +95,11 @@ def cell_parameters(cell):
     return p,noop
 
 
+def ordered_products(products, round_no, pair_order):
+    if pair_order not in ('forward','reverse'): raise ValueError('invalid pair order')
+    return list(products) if (round_no+int(pair_order=='reverse'))%2==0 else list(reversed(products))
+
+
 def cleanup_admission(record, *, sampler_started, runtime_attempted,
                       runtime_ready, runtime_state):
     """Read-only proof gate; unknown output/state never authorizes teardown."""
@@ -131,6 +136,7 @@ def main():
     parser.add_argument('--cell',required=True)
     parser.add_argument('--backend',choices=['native','projection','writable','all'],required=True)
     parser.add_argument('--rounds',type=int,choices=[1,3],default=1)
+    parser.add_argument('--pair-order',choices=['forward','reverse'],default='forward')
     parser.add_argument('--budget-seconds',type=int,default=1200)
     parser.add_argument('--output',type=Path,required=True)
     a=parser.parse_args()
@@ -151,7 +157,7 @@ def main():
     a.output.mkdir(parents=True,exist_ok=False)
     started=time.monotonic(); deadline=started+a.budget_seconds
     report=dict(schema='sprig-stress-run-v1',complete=False,status='running',cell=a.cell,
-                products=products,backends=backends,rounds=a.rounds,records=[],diagnostic=diagnostic,
+                products=products,backends=backends,rounds=a.rounds,records=[],diagnostic=diagnostic,pairOrder=a.pair_order,
                 comparisonProtocol=('diagnostic-canary' if diagnostic else 'within-sprig-ab' if len(products)==2 and all(p['type']=='sprig' for p in products) else 'sprig-layerfs-stress' if len(products)==2 else 'single-product-canary'),
                 measurementBudgetSeconds=a.budget_seconds,wholeTaskScope='per-sampler task excludes fixture/runtime setup; phases overlap only as documented',
                 durability='Sprig sync enabled; LayerFS Disposable WAL/OFF and MEMORY/OFF are unequal',
@@ -172,7 +178,7 @@ def main():
                       noopCheckpoint=noop,fixtureSha256=hashlib.sha256(fixture_path.read_bytes()).hexdigest())
         for round_no in range(a.rounds):
             for backend in backends:
-                for product in products if round_no%2==0 else list(reversed(products)):
+                for product in ordered_products(products,round_no,a.pair_order):
                     # Canary reserves120seconds per sample; pressure600. Never
                     # start a sample without its full budget+normal cleanup reserve.
                     sample_budget=min(120 if a.cell=='canary' else 600,

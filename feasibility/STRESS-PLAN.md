@@ -227,3 +227,23 @@ trace parsing and excerpts remain separately labeled and never pooled with prima
 Publication update: user authorized public benchmark scripts/workflow and
 existing-limit CI on25October2026. `.github/workflows/stress-canary.yml` stages the
 reviewed canary-only gate; pressure remains disabled pending real acceptance.
+
+## First same-runner own-version pressure pilot
+
+After exact baseline and final integrated three-backend canaries, one native10k
+pair compares baseline071036f with integrated1bd8793 on the SAME runner. The AB
+workflow verifies committed full artifacts and public exact-head completed/success
+run metadata before building; no new token scope or Actions permission is needed.
+Two separate fresh target roots prevent cross-worktree Cargo package reuse; only
+registry/git downloads are cached. Verbose compile logs must show the actual
+source build; copied binary bytes and hashes must differ. Kernel gates use each
+copied binary. Same compiler identity, fixture, oracle, tracing-off configuration,
+operation boundaries and fresh2GiB images apply to both. No LayerFS or Docker setup
+is inserted into this own-version causal question.
+
+The first order is baseline→candidate; `--pair-order reverse` can counterbalance a
+later authorized confirmatory job. Its pair/run identity is retained, not pooled
+as an invented same-runner repeated measurement. One pilot pair is descriptive;
+no confidence or p99 claim is made from its two checkpoint operations. Confirmatory
+pairs require fresh review of observed budget. Remaining-time admission is checked
+after setup and again immediately before each sampler; normal cleanup reserve stays.
