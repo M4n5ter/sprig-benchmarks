@@ -1,6 +1,7 @@
 name: Compare pinned products
 on:
   push:
+    branches-ignore: [stress/canary-validation]
   workflow_dispatch:
 permissions:
   contents: read

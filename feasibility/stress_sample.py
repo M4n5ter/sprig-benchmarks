@@ -389,6 +389,7 @@ class StressSample(CurrentSample):
         self.report['runtimeLogs'] = []
         trace_counts = dict(cli=0, daemon=0, other=0)
         trace_phases = {}
+        successful_trace_phases = {}
         trace_errors = []
         for index, path in enumerate(sorted(paths)):
             checked_path(path)
@@ -416,17 +417,23 @@ class StressSample(CurrentSample):
                                         else 'daemon' if path.parent != self.logs else 'other')
                             trace_counts[category] += 1
                             trace_phases[trace['phase']] = trace_phases.get(trace['phase'], 0) + 1
+                            if trace['ok'] is True:
+                                successful_trace_phases[trace['phase']] = successful_trace_phases.get(trace['phase'], 0) + 1
                 text = archived_bytes[-16384:].decode('utf-8', errors='replace')
                 self.report['runtimeLogs'].append(dict(path=str(path), archived=str(target),
                     bytes=path.stat().st_size, truncated=len(archived_bytes) > 16384, text=text))
         count = sum(trace_counts.values())
         self.report['lifecycleTraceEvidence'] = dict(validRecords=count, counts=trace_counts,
-            phases=trace_phases, invalidRecords=trace_errors, archivedBeforeValidation=True,
+            phases=trace_phases, successfulPhases=successful_trace_phases, invalidRecords=trace_errors, archivedBeforeValidation=True,
             enabled=getattr(self,'diagnostic',False), present=count > 0)
         require(not trace_errors, 'malformed lifecycle trace records preserved', errors=trace_errors)
         if getattr(self,'diagnostic',False):
             if self.report.get('ok'):
                 require(count > 0, 'diagnostic run produced no valid archived lifecycle trace records')
+                if self.report.get('backend') == 'writable':
+                    required = ['writable.normal_unmount','writable.lease_poll','writable.server_readiness']
+                    missing = [phase for phase in required if not successful_trace_phases.get(phase)]
+                    require(not missing, 'writable diagnostic missing successful lifecycle phases', missing=missing)
         else:
             require(count == 0, 'primary run unexpectedly emitted lifecycle trace records')
 

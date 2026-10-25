@@ -1,0 +1,10 @@
+{
+   "filesystems": [
+      {
+         "target": "/home/runner/work/_temp/stress-projection-layerfs-release-0-zp1rcrcp/mount",
+         "source": "/dev/loop0",
+         "fstype": "btrfs",
+         "options": "rw,noatime,ssd,discard=async,space_cache=v2,subvolid=5,subvol=/"
+      }
+   ]
+}

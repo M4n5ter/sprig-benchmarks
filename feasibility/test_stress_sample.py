@@ -125,6 +125,21 @@ class SampleTests(unittest.TestCase):
                     with self.assertRaises(SampleError): s.preserve_logs()
                     self.assertEqual(s.report['lifecycleTraceEvidence']['validRecords'],0)
 
+    def test_writable_diagnostic_requires_successful_phase_evidence(self):
+        import json
+        for outcome in (None,False,True):
+            with self.subTest(outcome=outcome), tempfile.TemporaryDirectory() as d:
+                s=StressSample(production_report());s.root=Path(d)/'root';s.root.mkdir()
+                s.logs=s.root/'logs';s.logs.mkdir();s.records=Path(d)/'steps.jsonl'
+                s.diagnostic=True;s.report.update(ok=True,backend='writable')
+                phases=['writable.normal_unmount','writable.lease_poll','writable.server_readiness']
+                rows=[dict(version=1,pid=123,phase=p,elapsed_ns=0,retries=0,ok=outcome) for p in phases]
+                (s.logs/'command-000001-stderr.log').write_text(''.join('SPRIG_LIFECYCLE_TRACE '+json.dumps(row)+'\n' for row in rows))
+                if outcome is True:
+                    s.preserve_logs();self.assertEqual(len(s.report['lifecycleTraceEvidence']['successfulPhases']),3)
+                else:
+                    with self.assertRaises(SampleError):s.preserve_logs()
+
     def test_trace_schema_validation(self):
         import json
         from stress_sample import parse_trace_line

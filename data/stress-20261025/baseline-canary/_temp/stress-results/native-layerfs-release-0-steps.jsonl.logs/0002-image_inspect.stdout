@@ -1,0 +1,45 @@
+[
+    {
+        "Id": "sha256:b60a56b25f982304679f01acc66135ca487b32a8d41a1b20ffd8561cf0081eda",
+        "RepoTags": [
+            "sprig-stress:40180439871"
+        ],
+        "RepoDigests": [],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-10-25T09:28:22.934514114Z",
+        "Config": {
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/bash"
+            ],
+            "Labels": {
+                "org.opencontainers.image.version": "24.04"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 116841377,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/home/runner/work/_temp/stress-native-layerfs-release-0-sesprjve/mount/docker-data/overlay2/3992f0b5769f9247833acb9375d0f57f98d12421f2696f73b54c84b2b43af3e7/diff:/home/runner/work/_temp/stress-native-layerfs-release-0-sesprjve/mount/docker-data/overlay2/7ca8489e02583788acc952a4d26cbbb68246db248e948955b5ddf60263f3d66d/diff",
+                "MergedDir": "/home/runner/work/_temp/stress-native-layerfs-release-0-sesprjve/mount/docker-data/overlay2/b9bdece39a8cedfa73c3d149ab5dd94a483db1d3b1d56b91e8bc28f1f7939464/merged",
+                "UpperDir": "/home/runner/work/_temp/stress-native-layerfs-release-0-sesprjve/mount/docker-data/overlay2/b9bdece39a8cedfa73c3d149ab5dd94a483db1d3b1d56b91e8bc28f1f7939464/diff",
+                "WorkDir": "/home/runner/work/_temp/stress-native-layerfs-release-0-sesprjve/mount/docker-data/overlay2/b9bdece39a8cedfa73c3d149ab5dd94a483db1d3b1d56b91e8bc28f1f7939464/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:32ab39660fd51c6dc3aae486b42d42bbe8fe4c1db78eaf57bb9c21198de48a16",
+                "sha256:f20d926d2fdcb0337b18471b5052a020cbff4bb8e34a9badc2c3459012e4a1e8",
+                "sha256:b76e4a33be138885b64c9950caa5fd49e7e866fb140c9e63a57930e60d01e58e"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "0001-01-01T00:00:00Z"
+        }
+    }
+]
