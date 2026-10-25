@@ -1,0 +1,388 @@
+{
+  "complete": true,
+  "expectedRecords": 4,
+  "historicalReadbacks": 200,
+  "ratioDirection": "candidate/baseline",
+  "rows": [
+    {
+      "backend": "projection",
+      "case": "identical",
+      "metric": "preparationMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 379.9397419999764,
+          "candidate": 357.5211609999087,
+          "candidateOverBaseline": 0.9409943774713911,
+          "candidateMinusBaseline": -22.41858100006766
+        }
+      ],
+      "baselineMedian": 379.9397419999764,
+      "candidateMedian": 357.5211609999087,
+      "medianPairedRatio": 0.9409943774713911,
+      "minPairedRatio": 0.9409943774713911,
+      "maxPairedRatio": 0.9409943774713911
+    },
+    {
+      "backend": "projection",
+      "case": "identical",
+      "metric": "warmMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 155.82232600002044,
+          "candidate": 155.90436000002228,
+          "candidateOverBaseline": 1.0005264585769424,
+          "candidateMinusBaseline": 0.08203400000184047
+        }
+      ],
+      "baselineMedian": 155.82232600002044,
+      "candidateMedian": 155.90436000002228,
+      "medianPairedRatio": 1.0005264585769424,
+      "minPairedRatio": 1.0005264585769424,
+      "maxPairedRatio": 1.0005264585769424
+    },
+    {
+      "backend": "projection",
+      "case": "identical",
+      "metric": "writeAndCheckpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "candidateOverBaseline": null,
+          "candidateMinusBaseline": 0.0
+        }
+      ],
+      "baselineMedian": 0.0,
+      "candidateMedian": 0.0,
+      "medianPairedRatio": null,
+      "minPairedRatio": null,
+      "maxPairedRatio": null
+    },
+    {
+      "backend": "projection",
+      "case": "identical",
+      "metric": "checkpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "candidateOverBaseline": null,
+          "candidateMinusBaseline": 0.0
+        }
+      ],
+      "baselineMedian": 0.0,
+      "candidateMedian": 0.0,
+      "medianPairedRatio": null,
+      "minPairedRatio": null,
+      "maxPairedRatio": null
+    },
+    {
+      "backend": "projection",
+      "case": "identical",
+      "metric": "filesystemUsedDeltaBytes",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 1200128,
+          "candidate": 1200128,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        }
+      ],
+      "baselineMedian": 1200128,
+      "candidateMedian": 1200128,
+      "medianPairedRatio": 1.0,
+      "minPairedRatio": 1.0,
+      "maxPairedRatio": 1.0
+    },
+    {
+      "backend": "projection",
+      "case": "identical",
+      "metric": "postHistoryFilesystemUsedDeltaBytes",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 1212416,
+          "candidate": 1212416,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        }
+      ],
+      "baselineMedian": 1212416,
+      "candidateMedian": 1212416,
+      "medianPairedRatio": 1.0,
+      "minPairedRatio": 1.0,
+      "maxPairedRatio": 1.0
+    },
+    {
+      "backend": "projection",
+      "case": "identical",
+      "metric": "restoreMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "candidateOverBaseline": null,
+          "candidateMinusBaseline": 0.0
+        }
+      ],
+      "baselineMedian": 0.0,
+      "candidateMedian": 0.0,
+      "medianPairedRatio": null,
+      "minPairedRatio": null,
+      "maxPairedRatio": null
+    },
+    {
+      "backend": "projection",
+      "case": "identical",
+      "metric": "restoreReadMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "candidateOverBaseline": null,
+          "candidateMinusBaseline": 0.0
+        }
+      ],
+      "baselineMedian": 0.0,
+      "candidateMedian": 0.0,
+      "medianPairedRatio": null,
+      "minPairedRatio": null,
+      "maxPairedRatio": null
+    },
+    {
+      "backend": "projection",
+      "case": "identical",
+      "metric": "restoreCleanupMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "candidateOverBaseline": null,
+          "candidateMinusBaseline": 0.0
+        }
+      ],
+      "baselineMedian": 0.0,
+      "candidateMedian": 0.0,
+      "medianPairedRatio": null,
+      "minPairedRatio": null,
+      "maxPairedRatio": null
+    },
+    {
+      "backend": "projection",
+      "case": "identical",
+      "metric": "restoreTotalMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 0.0,
+          "candidate": 0.0,
+          "candidateOverBaseline": null,
+          "candidateMinusBaseline": 0.0
+        }
+      ],
+      "baselineMedian": 0.0,
+      "candidateMedian": 0.0,
+      "medianPairedRatio": null,
+      "minPairedRatio": null,
+      "maxPairedRatio": null
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "preparationMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 222.985207000022,
+          "candidate": 216.78460599991922,
+          "candidateOverBaseline": 0.9721927697199116,
+          "candidateMinusBaseline": -6.200601000102779
+        }
+      ],
+      "baselineMedian": 222.985207000022,
+      "candidateMedian": 216.78460599991922,
+      "medianPairedRatio": 0.9721927697199116,
+      "minPairedRatio": 0.9721927697199116,
+      "maxPairedRatio": 0.9721927697199116
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "warmMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 97.99269000001232,
+          "candidate": 105.00070500000902,
+          "candidateOverBaseline": 1.0715156916296085,
+          "candidateMinusBaseline": 7.008014999996703
+        }
+      ],
+      "baselineMedian": 97.99269000001232,
+      "candidateMedian": 105.00070500000902,
+      "medianPairedRatio": 1.0715156916296085,
+      "minPairedRatio": 1.0715156916296085,
+      "maxPairedRatio": 1.0715156916296085
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "writeAndCheckpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 4716.924888999927,
+          "candidate": 4578.586801000085,
+          "candidateOverBaseline": 0.9706719756503962,
+          "candidateMinusBaseline": -138.33808799984217
+        }
+      ],
+      "baselineMedian": 4716.924888999927,
+      "candidateMedian": 4578.586801000085,
+      "medianPairedRatio": 0.9706719756503962,
+      "minPairedRatio": 0.9706719756503962,
+      "maxPairedRatio": 0.9706719756503962
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "checkpointMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 4149.040102000072,
+          "candidate": 4028.605456000207,
+          "candidateOverBaseline": 0.9709728893818577,
+          "candidateMinusBaseline": -120.43464599986464
+        }
+      ],
+      "baselineMedian": 4149.040102000072,
+      "candidateMedian": 4028.605456000207,
+      "medianPairedRatio": 0.9709728893818577,
+      "minPairedRatio": 0.9709728893818577,
+      "maxPairedRatio": 0.9709728893818577
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "filesystemUsedDeltaBytes",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 7680000,
+          "candidate": 7680000,
+          "candidateOverBaseline": 1.0,
+          "candidateMinusBaseline": 0
+        }
+      ],
+      "baselineMedian": 7680000,
+      "candidateMedian": 7680000,
+      "medianPairedRatio": 1.0,
+      "minPairedRatio": 1.0,
+      "maxPairedRatio": 1.0
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "postHistoryFilesystemUsedDeltaBytes",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 20455424,
+          "candidate": 20934656,
+          "candidateOverBaseline": 1.0234281137364838,
+          "candidateMinusBaseline": 479232
+        }
+      ],
+      "baselineMedian": 20455424,
+      "candidateMedian": 20934656,
+      "medianPairedRatio": 1.0234281137364838,
+      "minPairedRatio": 1.0234281137364838,
+      "maxPairedRatio": 1.0234281137364838
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "restoreMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 14033.35393000026,
+          "candidate": 14217.347953000115,
+          "candidateOverBaseline": 1.0131111937971233,
+          "candidateMinusBaseline": 183.9940229998556
+        }
+      ],
+      "baselineMedian": 14033.35393000026,
+      "candidateMedian": 14217.347953000115,
+      "medianPairedRatio": 1.0131111937971233,
+      "minPairedRatio": 1.0131111937971233,
+      "maxPairedRatio": 1.0131111937971233
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "restoreReadMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 3041.9238630000223,
+          "candidate": 3050.239475000126,
+          "candidateOverBaseline": 1.0027336686829178,
+          "candidateMinusBaseline": 8.315612000103556
+        }
+      ],
+      "baselineMedian": 3041.9238630000223,
+      "candidateMedian": 3050.239475000126,
+      "medianPairedRatio": 1.0027336686829178,
+      "minPairedRatio": 1.0027336686829178,
+      "maxPairedRatio": 1.0027336686829178
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "restoreCleanupMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 4785.006690000102,
+          "candidate": 4830.1836849998945,
+          "candidateOverBaseline": 1.009441365065216,
+          "candidateMinusBaseline": 45.17699499979244
+        }
+      ],
+      "baselineMedian": 4785.006690000102,
+      "candidateMedian": 4830.1836849998945,
+      "medianPairedRatio": 1.009441365065216,
+      "minPairedRatio": 1.009441365065216,
+      "maxPairedRatio": 1.009441365065216
+    },
+    {
+      "backend": "projection",
+      "case": "history-distributed",
+      "metric": "restoreTotalMs",
+      "pairs": [
+        {
+          "pair": 0,
+          "baseline": 21860.284483000385,
+          "candidate": 22097.771113000133,
+          "candidateOverBaseline": 1.0108638398637688,
+          "candidateMinusBaseline": 237.4866299997484
+        }
+      ],
+      "baselineMedian": 21860.284483000385,
+      "candidateMedian": 22097.771113000133,
+      "medianPairedRatio": 1.0108638398637688,
+      "minPairedRatio": 1.0108638398637688,
+      "maxPairedRatio": 1.0108638398637688
+    }
+  ]
+}

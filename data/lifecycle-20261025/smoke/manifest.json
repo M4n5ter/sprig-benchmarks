@@ -1,0 +1,56 @@
+[
+  {
+    "backend": "native",
+    "run": 40157066125,
+    "benchmarkSha": "f0dcedfde47f301dc138c20e855a2e790489d748",
+    "pins": {
+      "baseline": "bc4165f5f55ceac63e18716ac96b19d9e4675afd",
+      "candidate": "a2b76e4c3ecdccdeeca24a669df4a82d1a4792f3"
+    },
+    "binaryHashes": {
+      "baseline": "6c529f1d99c3c4de4a5f4d15d94aa41499f79342262c6c36bf5f3526479dd65e",
+      "candidate": "7b14cc45d30292b366db5d2b7ad74917f5c79772234431b462a7a2e528bf3bc4"
+    },
+    "archive": "native-40157066125-full-artifact.tar.gz",
+    "archiveSha256": "20a8a4467072a71014c76ea8418b89063c8df96afc8825aae340f3f50acb3eeb",
+    "originalRawSha256": "81840b129f387b0b14cc3f1aa55675f3f581dc6a053c5fb0f67ca9b01da62e6f",
+    "records": 4,
+    "historicalReadbacks": 200
+  },
+  {
+    "backend": "writable",
+    "run": 40157514250,
+    "benchmarkSha": "f0dcedfde47f301dc138c20e855a2e790489d748",
+    "pins": {
+      "baseline": "bc4165f5f55ceac63e18716ac96b19d9e4675afd",
+      "candidate": "a2b76e4c3ecdccdeeca24a669df4a82d1a4792f3"
+    },
+    "binaryHashes": {
+      "baseline": "6c529f1d99c3c4de4a5f4d15d94aa41499f79342262c6c36bf5f3526479dd65e",
+      "candidate": "7b14cc45d30292b366db5d2b7ad74917f5c79772234431b462a7a2e528bf3bc4"
+    },
+    "archive": "writable-40157514250-full-artifact.tar.gz",
+    "archiveSha256": "5caa6babfcb2203798ba5313e668a0492b9a58a7cb950ea3cad9fb81207cd80a",
+    "originalRawSha256": "cb0c3ba83215a7400ec972ba38cd4e28040f24a6be28974c41518e3ea8c095fe",
+    "records": 4,
+    "historicalReadbacks": 200
+  },
+  {
+    "backend": "projection",
+    "run": 40157941109,
+    "benchmarkSha": "f0dcedfde47f301dc138c20e855a2e790489d748",
+    "pins": {
+      "baseline": "bc4165f5f55ceac63e18716ac96b19d9e4675afd",
+      "candidate": "a2b76e4c3ecdccdeeca24a669df4a82d1a4792f3"
+    },
+    "binaryHashes": {
+      "baseline": "6c529f1d99c3c4de4a5f4d15d94aa41499f79342262c6c36bf5f3526479dd65e",
+      "candidate": "7b14cc45d30292b366db5d2b7ad74917f5c79772234431b462a7a2e528bf3bc4"
+    },
+    "archive": "projection-40157941109-full-artifact.tar.gz",
+    "archiveSha256": "5d4edfce40cb79f8156c30ef30bc2b4e68471cdb12646f56611a37f8d13a871b",
+    "originalRawSha256": "ea5cb4594a51dadd931188f204ae0adad3f2b8bbc922c1a1cb7f6d7c2969ab44",
+    "records": 4,
+    "historicalReadbacks": 200
+  }
+]

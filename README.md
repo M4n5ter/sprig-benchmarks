@@ -1,3 +1,5 @@
+**25 October lifecycle candidate smoke:** [same-runner baseline/candidate results](LIFECYCLE-SMOKE-RESULTS.md) retain all 12 samples and 600 historical readbacks. Single-pair improvements are mixed, not a universal performance or storage win; the earlier complete comparator results remain below.
+
 **Latest complete production comparison (24 October):** [e382/default-auto versus LayerFS v1.1.0](LATEST-V11-RESULTS.md) passed 126 records and 5,400 history readbacks across native, projection and owned writable. Full timing/storage/durability boundaries and original raw evidence are preserved; the overall speed-plus-storage target is not met.
 
 **Latest production Cargo (24 October):** [e382/default-auto tiny real Cargo comparison](CARGO-CURRENT-RESULTS.md) passed 12 samples with complete build-tree restoration and Fresh rebuilds. Full task/transport and durability differences are explicit; no overall win.
