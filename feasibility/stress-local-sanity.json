@@ -1,0 +1,26 @@
+[
+  {
+    "cell": "files-10000",
+    "entries": 10002,
+    "historicalFullTreeChecks": 0,
+    "fixtureGenerationSeconds": 0.5778653410088737,
+    "totalLocalSanitySeconds": 0.786476847002632,
+    "productBenchmark": false
+  },
+  {
+    "cell": "depth-128",
+    "entries": 386,
+    "historicalFullTreeChecks": 0,
+    "fixtureGenerationSeconds": 0.04799671100045089,
+    "totalLocalSanitySeconds": 0.05744625799707137,
+    "productBenchmark": false
+  },
+  {
+    "cell": "history-random-300",
+    "entries": 289,
+    "historicalFullTreeChecks": 300,
+    "fixtureGenerationSeconds": 0.017700537006021477,
+    "totalLocalSanitySeconds": 1.5231763060000958,
+    "productBenchmark": false
+  }
+]

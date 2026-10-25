@@ -1,0 +1,38 @@
+# REVIEW ONLY; not dispatchable, not a production benchmark implementation.
+# Integration must copy reviewed pinned environment/build/kernel gates from
+# combined-paired.yml and cargo-transport.yml without reducing them.
+name: Bounded stress pilot (draft)
+on:
+  workflow_dispatch:
+    inputs:
+      cell:
+        type: choice
+        options: [files-10000, depth-128, history-random-300, cargo-16]
+        required: true
+      backend:
+        type: choice
+        options: [writable, native, projection]
+        default: writable
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: sprig-stress-pilot
+  cancel-in-progress: false
+jobs:
+  pilot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      CARGO_BUILD_JOBS: '2'
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Check deterministic preparation only
+        run: |
+          python3 -m unittest discover -s feasibility -p test_stress.py -v
+          python3 feasibility/stress_plan.py
+      - name: Fail closed until production integration is reviewed
+        run: |
+          echo 'Draft only: pin baseline/candidate, reuse existing kernel/runtime gates,'
+          echo 'implement whole-tree both-product driver, disk/time guards and evidence upload.'
+          exit 1
