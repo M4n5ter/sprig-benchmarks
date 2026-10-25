@@ -89,8 +89,10 @@ claim about a shared workspace. No concurrent scenario is currently executable.
 
 ## Correctness is stronger, not cheaper
 
-Reuse `tree_oracle.py`: exact path set, regular bytes, file/directory mode and
-nanosecond mtime, symlink target, internal hardlink equivalence groups. Initial
+Reuse `tree_oracle.py`: exact path set, regular bytes, file/directory permission bits0777 and
+nanosecond mtime, symlink target, internal hardlink equivalence groups. This is
+not allPOSIX attributes: uid/gid, atime/ctime, suid/sgid/sticky bits, ACLs, xattrs
+and external hardlink relationships are not verified by this oracle. Initial
 oracle is captured on a deterministic external source tree **before import**;
 no product/restored tree normalization. Every acknowledged historical revision
 gets a public restore, full-tree verification and normal public unmount when
@@ -188,3 +190,35 @@ The draft `sprig_sha` input requires40hex and verified detached checkout. Diagno
 mode is canary-only and excludes comparator primary ratios; lifecycletrace is set
 only on Sprig CLI/descendants, full stderr/daemon logs retained. Default primary
 rejects ambient enabledtrace. Publication/dispatch awaits explicit authority.
+
+
+## Fail-closed cleanup and canary admission review
+
+The first workflow draft exposes **canary only**. Pressure menu cells remain local
+code, not selectable CI jobs, until an exact-head successful real gate is reviewed
+and enabling them is separately approved. The outer report labels
+`within-sprig-ab`, `sprig-layerfs-stress`, `single-product-canary` and
+`diagnostic-canary` distinctly; a nonbaseline fullSHA is labeled candidate.
+
+Outer teardown requires an affirmative parsed sampler cleanup proof and known
+zero mounts/daemons/containers. Missing/malformed output or any uncertain mutation
+blocks runtime leave and image unmount; image/runtime-state paths are recorded for
+recovery without leaking original configuration backups. Stress-specific runtime
+wrapper makes any Docker inventory failure a hard block, including a failure
+between inventory reads; it cannot fall through the old helper's outage fallback
+to stop Docker/containerd. Pre-sampler setup failure requires confirmed rollback
+(or no state file, proving no configuration mutation was begun). No workflow
+finalizer forcibly stops runtime. Eventual ephemeral-runner termination remains an
+external CI action, not a harness claim of successful normal cleanup.
+
+Both sampler physical boundaries run only sync/usage/df, with wholeFSUsed primary.
+The one-sided comparator extent traversal was removed; outer empty/runtime-ready
+extent diagnostics are symmetric and outside sampler task wall. Admission budget
+is checked again after image/runtime setup, immediately before starting a sample.
+
+Primary Sprig evidence archival copies/hashes full logs without the diagnostic-only
+line-by-line trace parsing or inline excerpts. Both products still have different
+Python/Node orchestration and CLI/SDK transports: matched subprocess **window**
+does not mean identical harness implementation or product-only CPU cost. Full
+wall charges that work rather than subtracting a guessed overhead. Diagnostic
+trace parsing and excerpts remain separately labeled and never pooled with primary.

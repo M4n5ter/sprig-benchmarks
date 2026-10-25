@@ -17,3 +17,32 @@ class RunTests(unittest.TestCase):
         with self.assertRaises(ValueError): cell_parameters('not-a-cell')
 
 if __name__=='__main__':unittest.main()
+
+class CleanupAdmissionTests(unittest.TestCase):
+    def check(self,record,**kwargs):
+        from stress_run import cleanup_admission
+        opts=dict(sampler_started=True,runtime_attempted=True,runtime_ready=True,runtime_state={'restored':False})
+        opts.update(kwargs)
+        return cleanup_admission(record,**opts)
+    def good(self):
+        return dict(productType='layerfs',sample=dict(lifecycle=dict(cleanup=dict(complete=True)),remainingMounts=[],remainingContainers=[],remainingMountsKnown=True,remainingContainersKnown=True))
+    def test_parse_failure_retains_state(self):
+        self.assertIsNotNone(self.check({}))
+        self.assertIsNotNone(self.check(dict(sample=None)))
+    def test_malformed_nested_proof_retains_state(self):
+        for key,value in [('error',[]),('lifecycle',[]),('lifecycle',{'cleanup':None})]:
+            r=self.good();r['sample'][key]=value
+            self.assertIsNotNone(self.check(r))
+
+    def test_uncertain_mutation_retains_state(self):
+        r=self.good();r['sample']['error']=dict(uncertain=True)
+        self.assertIsNotNone(self.check(r))
+    def test_cleanup_incomplete_retains_state(self):
+        r=self.good();r['sample']['lifecycle']['cleanup']['complete']=False
+        self.assertIsNotNone(self.check(r))
+    def test_affirmative_cleanup_admitted(self):
+        self.assertIsNone(self.check(self.good()))
+    def test_setup_failure_requires_rollback(self):
+        self.assertIsNotNone(self.check({},sampler_started=False,runtime_ready=False))
+        self.assertIsNone(self.check({},sampler_started=False,runtime_ready=False,runtime_state={'restored':True}))
+        self.assertIsNone(self.check({},sampler_started=False,runtime_ready=False,runtime_state=None))

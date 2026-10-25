@@ -397,9 +397,13 @@ class StressSample(CurrentSample):
             target = archive/('%06d-' % index + path.name)
             shutil.copyfile(path, target)
             os.chmod(target, 0o644)
+            archived_bytes = target.read_bytes()
             self.report['completeLogArchive'].append(dict(source=str(path), archived=str(target),
-                bytes=target.stat().st_size, sha256=hashlib.sha256(target.read_bytes()).hexdigest()))
-            if not path.name.startswith('oracle-'):
+                bytes=len(archived_bytes), sha256=hashlib.sha256(archived_bytes).hexdigest()))
+            if not path.name.startswith('oracle-') and not getattr(self,'diagnostic',False):
+                if b'SPRIG_LIFECYCLE_TRACE ' in archived_bytes:
+                    trace_counts['other'] += 1
+            if not path.name.startswith('oracle-') and getattr(self,'diagnostic',False):
                 with target.open('r', encoding='utf-8', errors='replace') as stream:
                     for line_number, line in enumerate(stream, 1):
                         try:
@@ -412,11 +416,9 @@ class StressSample(CurrentSample):
                                         else 'daemon' if path.parent != self.logs else 'other')
                             trace_counts[category] += 1
                             trace_phases[trace['phase']] = trace_phases.get(trace['phase'], 0) + 1
-                with path.open('rb') as stream:
-                    stream.seek(max(0, path.stat().st_size - 65536))
-                    text = stream.read().decode('utf-8', errors='replace')
+                text = archived_bytes[-16384:].decode('utf-8', errors='replace')
                 self.report['runtimeLogs'].append(dict(path=str(path), archived=str(target),
-                    bytes=path.stat().st_size, truncated=path.stat().st_size > 65536, text=text))
+                    bytes=path.stat().st_size, truncated=len(archived_bytes) > 16384, text=text))
         count = sum(trace_counts.values())
         self.report['lifecycleTraceEvidence'] = dict(validRecords=count, counts=trace_counts,
             phases=trace_phases, invalidRecords=trace_errors, archivedBeforeValidation=True,

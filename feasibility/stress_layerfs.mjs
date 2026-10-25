@@ -114,9 +114,9 @@ export async function runStressLayerfs(options, testDependencies=undefined){
  async function account(label,liveViews){
   budget(label);const live=await client.sandbox.list_workspaces(sandbox,1000,0);require(!live.hasMore&&live.items.length===3&&liveViews.every(v=>live.items.some(w=>w.path===v.path&&w.activity==='Idle')),'three idle live views required at accounting');
   const pending=[];
-  for(const [purpose,argv]of [['sync',['btrfs','filesystem','sync',o.measuredMount]],['usage',['btrfs','filesystem','usage','-b',o.measuredMount]],['groups',['btrfs','filesystem','df','-b',o.measuredMount]],['extents',['btrfs','filesystem','du','-s','--raw',o.measuredMount]]]){const result=await runner(argv,null);pending.push({purpose,argv,result});require(result.returncode===0&&!result.signal,'space query failed');}
-  const [usageRaw,groupsRaw,extentSetRaw]=pending.slice(1).map(r=>r.result.stdout),used=usageRaw.match(/^\s*Used:\s*(\d+)\s*$/m);require(used,'missing Used');
-  const value={filesystemUsedBytes:Number(used[1]),usageRaw,groupsRaw,extentSetRaw};
+  for(const [purpose,argv]of [['sync',['btrfs','filesystem','sync',o.measuredMount]],['usage',['btrfs','filesystem','usage','-b',o.measuredMount]],['groups',['btrfs','filesystem','df','-b',o.measuredMount]]]){const result=await runner(argv,null);pending.push({purpose,argv,result});require(result.returncode===0&&!result.signal,'space query failed');}
+  const [usageRaw,groupsRaw]=pending.slice(1).map(r=>r.result.stdout),used=usageRaw.match(/^\s*Used:\s*(\d+)\s*$/m);require(used,'missing Used');
+  const value={filesystemUsedBytes:Number(used[1]),usageRaw,groupsRaw};
   for(const row of pending)logResult(label+'_'+row.purpose,row.result,{argv:row.argv});return value;
  }
 

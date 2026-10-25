@@ -95,6 +95,36 @@ def cell_parameters(cell):
     return p,noop
 
 
+def cleanup_admission(record, *, sampler_started, runtime_attempted,
+                      runtime_ready, runtime_state):
+    """Read-only proof gate; unknown output/state never authorizes teardown."""
+    if sampler_started:
+        sample=record.get('sample')
+        if not isinstance(sample,dict): return 'sampler report missing or malformed'
+        error=sample.get('error',{})
+        if not isinstance(error,dict): return 'sampler error field malformed'
+        if error.get('uncertain'):
+            return 'sampler reported uncertain mutation or exec outcome'
+        lifecycle=sample.get('lifecycle')
+        if not isinstance(lifecycle,dict) or not isinstance(lifecycle.get('cleanup'),dict):
+            return 'sampler cleanup proof malformed'
+        if lifecycle['cleanup'].get('complete') is not True:
+            return 'sampler did not affirm normal cleanup completion'
+        if sample.get('remainingMounts') != []:
+            return 'sampler did not affirm zero remaining mounts'
+        if record.get('productType')=='layerfs':
+            if sample.get('remainingContainers') != [] or sample.get('remainingContainersKnown') is not True or sample.get('remainingMountsKnown') is not True:
+                return 'comparator did not affirm known zero containers/mounts'
+        elif sample.get('lifecycle',{}).get('daemons') != []:
+            return 'Sprig did not affirm zero remaining daemons'
+    if runtime_attempted and not runtime_ready:
+        # No state file means relocation failed before configuration mutation;
+        # otherwise require explicit completed rollback, never assume it.
+        if runtime_state is not None and runtime_state.get('restored') is not True:
+            return 'runtime setup rollback incomplete or unconfirmed'
+    return None
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--products',type=Path,required=True)
@@ -122,6 +152,7 @@ def main():
     started=time.monotonic(); deadline=started+a.budget_seconds
     report=dict(schema='sprig-stress-run-v1',complete=False,status='running',cell=a.cell,
                 products=products,backends=backends,rounds=a.rounds,records=[],diagnostic=diagnostic,
+                comparisonProtocol=('diagnostic-canary' if diagnostic else 'within-sprig-ab' if len(products)==2 and all(p['type']=='sprig' for p in products) else 'sprig-layerfs-stress' if len(products)==2 else 'single-product-canary'),
                 measurementBudgetSeconds=a.budget_seconds,wholeTaskScope='per-sampler task excludes fixture/runtime setup; phases overlap only as documented',
                 durability='Sprig sync enabled; LayerFS Disposable WAL/OFF and MEMORY/OFF are unequal',
                 cpuMemoryComparison='unavailable; no partial process RSS/CPU claim')
@@ -152,12 +183,12 @@ def main():
                     if shutil.disk_usage(temp).free < 2*GIB+GIB:
                         raise BudgetAbort('host capacity blocked: need2GiB image+1GiB evidence reserve')
                     identity=f'{backend}-{product["label"]}-{round_no}'
-                    record=dict(identity=identity,backend=backend,product=product['label'],round=round_no,status='running',correct=False)
+                    record=dict(identity=identity,backend=backend,product=product['label'],round=round_no,status='running',correct=False,productType=product['type'])
                     report['records'].append(record);save()
                     isolated=Path(tempfile.mkdtemp(prefix='stress-'+identity+'-',dir=temp))
                     image=isolated/'store.img';mount=isolated/'mount';runtime=isolated/'runtime-state.json'
                     with image.open('xb') as stream: stream.truncate(2*GIB)
-                    mount.mkdir();mounted=False;runtime_attempted=False
+                    mount.mkdir();mounted=False;runtime_attempted=False;runtime_ready=False;sampler_started=False
                     try:
                         record['mkfs']=command(['mkfs.btrfs','-d','single','-m','dup',image])
                         command(['mount','-o','loop,noatime',image,mount]);mounted=True
@@ -165,7 +196,8 @@ def main():
                         record['emptySpace']=physical_space(mount)
                         if product['type']=='layerfs':
                             runtime_attempted=True
-                            record['runtime']=json.loads(command(['/usr/bin/python3','feasibility/runtime_storage.py','enter','--state',runtime,'--mount',mount,'--archive',product['imageArchive'],'--image',product['image']]))
+                            record['runtime']=json.loads(command(['/usr/bin/python3','feasibility/stress_runtime_storage.py','enter','--state',runtime,'--mount',mount,'--archive',product['imageArchive'],'--image',product['image']]))
+                            runtime_ready=True
                         record['runtimeReadySpace']=physical_space(mount)
                         capacity_guard(record['runtimeReadySpace']['filesystemUsedBytes'],retained)
                         ledger=a.output/(identity+'-steps.jsonl')
@@ -177,6 +209,9 @@ def main():
                             opts=dict(root=str(mount/'sample'),measuredMount=str(mount),source=str(fixture_dir/'tree'),fixturePath=str(fixture_path),daemonPath=product['daemonPath'],layerfsSdkPath=product['layerfsSdkPath'],image=product['image'],recordsPath=str(ledger.resolve()),sampleBudgetSeconds=sample_budget,noopCheckpoint=noop)
                             options=a.output/(identity+'-options.json');options.write_text(json.dumps(opts))
                             args=['node','feasibility/stress_layerfs.mjs',str(options.resolve())]
+                        if deadline-time.monotonic() < sample_budget+30:
+                            raise BudgetAbort('runtime/image setup consumed admission budget; sampler not started')
+                        sampler_started=True
                         sample_started=time.monotonic()
                         proc=subprocess.run([str(x) for x in args],capture_output=True,text=True,check=False)
                         record['wholeSampleSubprocessWallSeconds']=time.monotonic()-sample_started
@@ -193,10 +228,24 @@ def main():
                         record['correct']=True;record['status']='passed'
                     finally:
                         cleanup=[]
-                        # runtime state may exist even if enter failed; no retry of
-                        # enter. Existing leave validates recorded exact identities.
-                        if runtime_attempted and runtime.exists():
-                            try: command(['/usr/bin/python3','feasibility/runtime_storage.py','leave','--state',runtime])
+                        runtime_state=None
+                        if runtime.exists():
+                            try:
+                                runtime_state=json.loads(runtime.read_text())
+                                if not isinstance(runtime_state,dict): runtime_state={'restored':False,'malformed':True}
+                            except (OSError,ValueError): runtime_state={'restored':False,'unreadable':True}
+                        blocked=cleanup_admission(record,sampler_started=sampler_started,
+                            runtime_attempted=runtime_attempted,runtime_ready=runtime_ready,
+                            runtime_state=runtime_state)
+                        record['recoveryMetadata']=dict(image=str(image),mount=str(mount),
+                            runtimeState=str(runtime),samplerStarted=sampler_started,
+                            runtimeReady=runtime_ready,cleanupAdmissionBlocked=blocked,
+                            runtimeStateExists=runtime.exists(),
+                            runtimeRestored=runtime_state.get('restored') if runtime_state else None,
+                            instruction='On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness.')
+                        if blocked: cleanup.append(blocked)
+                        if not cleanup and runtime_ready:
+                            try: command(['/usr/bin/python3','feasibility/stress_runtime_storage.py','leave','--state',runtime])
                             except Exception as e: cleanup.append(str(e))
                         if mounted and not cleanup:
                             try: command(['umount','-i',mount])

@@ -16,7 +16,7 @@ on:
         description: Instrumented Sprig-only canary; no primary performance comparison
       cell:
         type: choice
-        options: [canary, files-10000, history-random-300, depth-128]
+        options: [canary]
         default: canary
         required: true
       backend:
@@ -143,7 +143,7 @@ jobs:
           import json,os
           from pathlib import Path
           cwd=Path.cwd()
-          products=[dict(label='sprig-baseline',type='sprig',sha=os.environ['SPRIG_SOURCE_SHA'],binary=str(cwd/'sprig/target/release/sprig')),
+          products=[dict(label=('sprig-baseline' if os.environ['SPRIG_SOURCE_SHA']=='071036f83691b89bd9e35bb162d34e305e1874b7' else 'sprig-candidate'),type='sprig',sha=os.environ['SPRIG_SOURCE_SHA'],binary=str(cwd/'sprig/target/release/sprig')),
                     dict(label='layerfs-release',type='layerfs',sha='9f97a7ec95b662e9cb288704afa165feff132cfa',daemonPath=os.environ['LAYERFS_DAEMON'],layerfsSdkPath=str(cwd/'layerfs/api/agent/sdk/src/index.js'),image=os.environ['STRESS_IMAGE'],imageArchive=os.environ['STRESS_IMAGE_ARCHIVE'])]
           if os.environ['STRESS_DIAGNOSTIC']=='true':
               products=products[:1];products[0]['diagnostic']=True
