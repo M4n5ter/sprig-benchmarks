@@ -1,0 +1,71 @@
+{
+  "schema": "sprig-stress-sequence-v1",
+  "status": "passed",
+  "complete": true,
+  "sharedBudgetSeconds": 1200,
+  "cell": null,
+  "suite": "cache-admission-controls",
+  "backend": "native",
+  "pairOrder": "forward",
+  "products": [
+    {
+      "label": "inventory",
+      "type": "sprig",
+      "sha": "8558b130323d904ae8eaec822d502f52459c5b79",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig"
+    },
+    {
+      "label": "admission",
+      "type": "sprig",
+      "sha": "cd46df767abaecac2948eebaa46ac9ff5c0885c9",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig"
+    }
+  ],
+  "binarySha256": {
+    "inventory": "b16c2e2527d2e06f34f4c5af67f80ed5e8ac04532cec73e768971568e92a01e6",
+    "admission": "d263f5a98f58173a93767dc5d6cd5f2bf21f1ff56ebac8b36d497d37324a9a40"
+  },
+  "phases": [
+    {
+      "phase": "canary",
+      "cell": "canary",
+      "budgetSeconds": 300,
+      "startedAfterSeconds": 0.011629508999988047,
+      "returncode": 0,
+      "verified": true,
+      "fullTreeChecks": 30,
+      "historicalReadbacks": 8
+    },
+    {
+      "phase": "history300",
+      "cell": "cache-history-repeated-300",
+      "budgetSeconds": 1167,
+      "startedAfterSeconds": 2.837614387000002,
+      "returncode": 0,
+      "verified": true,
+      "fullTreeChecks": 1214,
+      "historicalReadbacks": 600
+    },
+    {
+      "phase": "unique10k",
+      "cell": "files-10000",
+      "budgetSeconds": 964,
+      "startedAfterSeconds": 205.93541025699997,
+      "returncode": 0,
+      "verified": true,
+      "fullTreeChecks": 22,
+      "historicalReadbacks": 4
+    },
+    {
+      "phase": "cold4096",
+      "cell": "files-4096",
+      "budgetSeconds": 837,
+      "startedAfterSeconds": 332.466062857,
+      "returncode": 0,
+      "verified": true,
+      "fullTreeChecks": 22,
+      "historicalReadbacks": 4
+    }
+  ],
+  "elapsedSeconds": 392.88760903
+}

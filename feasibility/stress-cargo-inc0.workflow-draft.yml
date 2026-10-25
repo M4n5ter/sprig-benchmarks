@@ -32,6 +32,8 @@ jobs:
           sha256sum feasibility/stress_cargo* feasibility/stress-cargo-protocol.json feasibility/cargo_transport_sample.py feasibility/cargo_sample.py feasibility/current_sample.py feasibility/cas_sample.py feasibility/tree_oracle.py feasibility/runtime_storage.py feasibility/stress_runtime_storage.py feasibility/Cargo.Dockerfile > results/script-hashes.txt
           python3 feasibility/test_stress_cargo.py
           python3 feasibility/test_stress_cargo_capacity.py
+          python3 feasibility/test_stress_runtime_storage.py
+          python3 feasibility/test_stress_cargo_collect.py
           node feasibility/test_stress_cargo_layerfs.mjs
           node feasibility/test_stress_cargo_compare.mjs
       - name: Fetch fixed comparator
@@ -95,6 +97,7 @@ jobs:
           rustup toolchain install 1.90.0 --profile minimal
           TOOLCHAIN="$(rustup run 1.90.0 rustc --print sysroot)"
           test -x "$TOOLCHAIN/bin/rustc"
+          { rustup component list --toolchain 1.90.0 --installed; du -sB1 "$TOOLCHAIN"; du -sB1 "$TOOLCHAIN/share/doc" 2>/dev/null || true; } > results/cargo-toolchain-capacity.txt
           CONTEXT="$(mktemp -d "$RUNNER_TEMP/cargo-image-context.XXXXXX")"
           mkdir "$CONTEXT/toolchain"
           cp -a "$TOOLCHAIN/." "$CONTEXT/toolchain/"
@@ -107,7 +110,10 @@ jobs:
           echo "CARGO_IMAGE=$CARGO_IMAGE" >> "$GITHUB_ENV"
           echo "CARGO_IMAGE_ARCHIVE=$RUNNER_TEMP/cargo-runtime-image.tar" >> "$GITHUB_ENV"
           docker image inspect "$CARGO_IMAGE" > results/cargo-image.json
+          docker image inspect --format '{{.Size}}' "$CARGO_IMAGE" > results/cargo-image-capacity.txt
           docker save "sprig-cargo-fixture:$GITHUB_RUN_ID" -o "$RUNNER_TEMP/cargo-runtime-image.tar"
+          stat --printf='archive logical bytes: %s\n' "$RUNNER_TEMP/cargo-runtime-image.tar" >> results/cargo-image-capacity.txt
+          du -B1 "$RUNNER_TEMP/cargo-runtime-image.tar" >> results/cargo-image-capacity.txt
           docker run --rm --pull=never "$CARGO_IMAGE" /bin/bash -c 'set -eu; rustc -Vv; cargo -V; cc --version; dpkg-query -W; sha256sum /usr/bin/cc /usr/bin/ld; find /opt/rust -type f -print0 | sort -z | xargs -0 sha256sum' > results/cargo-software-identity.txt
           mkdir -p fixtures
           python3 feasibility/stress_cargo_prepare.py generate fixtures/stress-cargo > results/stress-cargo-generated.json
@@ -122,12 +128,11 @@ jobs:
           STRESS_CARGO_INCREMENTAL: '0'
           SPRIG_STRESS_SHA: '70307d3480239e96a24552d8595ec537927d9301'
         run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,LAYERFS_DAEMON,STRESS_CARGO_INCREMENTAL,SPRIG_STRESS_SHA,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
+      - name: Copy allowlisted evidence on success or failure without changing source permissions
+        if: always()
+        run: sudo env GITHUB_ACTIONS=true python3 feasibility/stress_cargo_collect.py --results "$PWD/results" --temporary "$RUNNER_TEMP" --destination "$PWD/cargo-artifacts" --uid "$(id -u)" --gid "$(id -g)"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: stress-cargo-dag16-acceptance
-          path: |
-            results/
-            ${{ runner.temp }}/stress-cargo-records/
-            ${{ runner.temp }}/stress-cargo-capacity-pilot/*.stdout
-            ${{ runner.temp }}/stress-cargo-capacity-pilot/*.stderr
+          path: cargo-artifacts/

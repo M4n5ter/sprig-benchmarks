@@ -1,0 +1,33 @@
+{
+  "verified": true,
+  "comparisonProtocol": "within-sprig-ab",
+  "diagnostic": false,
+  "records": [
+    {
+      "product": "inventory",
+      "backend": "native",
+      "round": 0,
+      "fullTreeChecks": 15,
+      "historicalReadbacks": 4,
+      "cleanup": true,
+      "archivedFilesVerified": 16,
+      "binarySha256": "b16c2e2527d2e06f34f4c5af67f80ed5e8ac04532cec73e768971568e92a01e6"
+    },
+    {
+      "product": "admission",
+      "backend": "native",
+      "round": 0,
+      "fullTreeChecks": 15,
+      "historicalReadbacks": 4,
+      "cleanup": true,
+      "archivedFilesVerified": 16,
+      "binarySha256": "d263f5a98f58173a93767dc5d6cd5f2bf21f1ff56ebac8b36d497d37324a9a40"
+    }
+  ],
+  "totalFullTreeChecks": 30,
+  "totalHistoricalReadbacks": 8,
+  "sourcePins": {
+    "inventory": "8558b130323d904ae8eaec822d502f52459c5b79",
+    "admission": "cd46df767abaecac2948eebaa46ac9ff5c0885c9"
+  }
+}

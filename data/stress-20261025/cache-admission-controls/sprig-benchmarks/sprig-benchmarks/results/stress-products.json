@@ -1,0 +1,14 @@
+[
+  {
+    "label": "inventory",
+    "type": "sprig",
+    "sha": "8558b130323d904ae8eaec822d502f52459c5b79",
+    "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig"
+  },
+  {
+    "label": "admission",
+    "type": "sprig",
+    "sha": "cd46df767abaecac2948eebaa46ac9ff5c0885c9",
+    "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig"
+  }
+]
