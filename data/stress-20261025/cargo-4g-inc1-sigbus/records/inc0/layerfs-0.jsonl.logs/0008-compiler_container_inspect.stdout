@@ -1,0 +1,249 @@
+[
+    {
+        "Id": "a3eaa87b09e7f31ffffafcde7e71a40133176b432b1c04d1635a97441a2d5bec",
+        "Created": "2026-10-25T12:58:04.096990334Z",
+        "Path": "/usr/local/bin/layerfs-daemon",
+        "Args": [
+            "--config",
+            "/layerfs-local/config/daemon.setup"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 18054,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-25T12:58:04.176369167Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:14cf1f04e43252f654d3afdb8d6112e031cd37b46b03936fca3d97e6b7c2d00d",
+        "ResolvConfPath": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/containers/a3eaa87b09e7f31ffffafcde7e71a40133176b432b1c04d1635a97441a2d5bec/resolv.conf",
+        "HostnamePath": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/containers/a3eaa87b09e7f31ffffafcde7e71a40133176b432b1c04d1635a97441a2d5bec/hostname",
+        "HostsPath": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/containers/a3eaa87b09e7f31ffffafcde7e71a40133176b432b1c04d1635a97441a2d5bec/hosts",
+        "LogPath": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/containers/a3eaa87b09e7f31ffffafcde7e71a40133176b432b1c04d1635a97441a2d5bec/a3eaa87b09e7f31ffffafcde7e71a40133176b432b1c04d1635a97441a2d5bec-json.log",
+        "Name": "/cargo-lfs-cargo-84e722a4ac7b465bbc5a4d2117d5dc84-1",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "unconfined",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {
+                    "max-file": "2",
+                    "max-size": "10m"
+                }
+            },
+            "NetworkMode": "bridge",
+            "PortBindings": {
+                "30421/tcp": [
+                    {
+                        "HostIp": "127.0.0.1",
+                        "HostPort": ""
+                    }
+                ]
+            },
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": [
+                "CAP_SYS_ADMIN"
+            ],
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": null,
+            "DnsSearch": null,
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": [
+                "no-new-privileges=true",
+                "apparmor=unconfined",
+                "seccomp={\"defaultAction\":\"SCMP_ACT_ALLOW\",\"syscalls\":[{\"names\":[\"unshare\",\"clone\"],\"action\":\"SCMP_ACT_ERRNO\",\"errnoRet\":1,\"args\":[{\"index\":0,\"value\":268435456,\"valueTwo\":268435456,\"op\":\"SCMP_CMP_MASKED_EQ\"}]},{\"names\":[\"clone3\"],\"action\":\"SCMP_ACT_ERRNO\",\"errnoRet\":38}]}"
+            ],
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": null,
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [
+                {
+                    "PathOnHost": "/dev/fuse",
+                    "PathInContainer": "/dev/fuse",
+                    "CgroupPermissions": "rwm"
+                }
+            ],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "Mounts": [
+                {
+                    "Type": "volume",
+                    "Source": "cargo-84e722a4ac7b465bbc5a4d2117d5dc84",
+                    "Target": "/layerfs-store",
+                    "VolumeOptions": {
+                        "NoCopy": true
+                    }
+                }
+            ],
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ],
+            "Init": true
+        },
+        "GraphDriver": {
+            "Data": {
+                "ID": "a3eaa87b09e7f31ffffafcde7e71a40133176b432b1c04d1635a97441a2d5bec",
+                "LowerDir": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/overlay2/f35fa24efb68df993365077e682ee21b69f790bc2f8a56689bfcb8683be6b2f7-init/diff:/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/overlay2/bfa8c1e06ee50e63a09bd39ec6c757629808d40e2a58c5a680457ddf1f3d576b/diff:/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/overlay2/42f1853506189a1474f8fd7eae8bde352a0c14a02b39604b6a0b1dde9a0d9742/diff:/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/overlay2/1baec9fec242a7fcebd985ce7a094221f487b2f3b00216e7fdf7661154f0ab0e/diff:/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/overlay2/b347261a8e759c34bcf16e6b95dedfa6883ee2e3f3ed2de46d17db4a2b496694/diff:/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/overlay2/cfb1ef54bc5e70d6e116a46e70ee7da2db317da5cae5800e548faa185f0d407f/diff",
+                "MergedDir": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/overlay2/f35fa24efb68df993365077e682ee21b69f790bc2f8a56689bfcb8683be6b2f7/merged",
+                "UpperDir": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/overlay2/f35fa24efb68df993365077e682ee21b69f790bc2f8a56689bfcb8683be6b2f7/diff",
+                "WorkDir": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/overlay2/f35fa24efb68df993365077e682ee21b69f790bc2f8a56689bfcb8683be6b2f7/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "volume",
+                "Name": "cargo-84e722a4ac7b465bbc5a4d2117d5dc84",
+                "Source": "/home/runner/work/_temp/stress-cargo-layerfs-0-0-oTjvru/mount/docker-data/volumes/cargo-84e722a4ac7b465bbc5a4d2117d5dc84/_data",
+                "Destination": "/layerfs-store",
+                "Driver": "local",
+                "Mode": "z",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+        "Config": {
+            "Hostname": "a3eaa87b09e7",
+            "Domainname": "",
+            "User": "0:0",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "30421/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/opt/rust/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "--config",
+                "/layerfs-local/config/daemon.setup"
+            ],
+            "Image": "sha256:14cf1f04e43252f654d3afdb8d6112e031cd37b46b03936fca3d97e6b7c2d00d",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": [
+                "/usr/local/bin/layerfs-daemon"
+            ],
+            "Labels": {
+                "layerfs.project": "cargo-84e722a4ac7b465bbc5a4d2117d5dc84",
+                "layerfs.role": "sandbox",
+                "layerfs.sandbox": "1",
+                "org.opencontainers.image.version": "24.04"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "0f4cb374535c44dcdccca5541182f35ec61316a37d4b5cdb411988dd81269b11",
+            "SandboxKey": "/var/run/docker/netns/0f4cb374535c",
+            "Ports": {
+                "30421/tcp": [
+                    {
+                        "HostIp": "127.0.0.1",
+                        "HostPort": "32768"
+                    }
+                ]
+            },
+            "Networks": {
+                "bridge": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "e9ea408dfc6d1a3c350db592ddc780c8ad87f11b725f239ada65c05e18c11ff9",
+                    "EndpointID": "d4d14094111f7583ee656ffed5f8b8fbd95b3e9482f4caadc778509d752b5808",
+                    "Gateway": "172.17.0.1",
+                    "IPAddress": "172.17.0.2",
+                    "MacAddress": "a2:90:08:d9:04:c3",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        }
+    }
+]

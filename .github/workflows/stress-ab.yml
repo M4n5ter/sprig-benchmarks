@@ -1,5 +1,5 @@
 name: Cargo DAG16 same-image incremental0 then1 acceptance
-run-name: Cargo DAG16 same-image inc0 then1, fresh symmetric4GiB images
+run-name: Cargo DAG16 normal inc0 then1, fixed hardlink generation,4GiB
 on:
   push:
     branches: [stress/canary-validation]
@@ -44,7 +44,7 @@ jobs:
       - name: Fetch fixed production CLI
         run: |
           git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig
-          git -C sprig checkout 70307d3480239e96a24552d8595ec537927d9301
+          git -C sprig checkout 4ef4a90d7ccf5f305416c5374bfc81038f5ca46e
           rustup toolchain install stable --profile minimal
           rustc +stable --version > results/projection-rust-version.txt
           find sprig/src sprig/tests -type f -not -path '*/target/*' -print0 | sort -z | xargs -0 sha256sum > results/production-source-hashes.txt
@@ -125,12 +125,12 @@ jobs:
       - name: Actual incremental0 paired acceptance with fresh symmetric4GiB Cargo images
         env:
           STRESS_CARGO_INCREMENTAL: '0'
-          SPRIG_STRESS_SHA: '70307d3480239e96a24552d8595ec537927d9301'
+          SPRIG_STRESS_SHA: '4ef4a90d7ccf5f305416c5374bfc81038f5ca46e'
         run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,LAYERFS_DAEMON,STRESS_CARGO_INCREMENTAL,SPRIG_STRESS_SHA,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
       - name: Actual incremental1 only after same-job same-image complete incremental0 gate
         env:
           STRESS_CARGO_INCREMENTAL: '1'
-          SPRIG_STRESS_SHA: '70307d3480239e96a24552d8595ec537927d9301'
+          SPRIG_STRESS_SHA: '4ef4a90d7ccf5f305416c5374bfc81038f5ca46e'
           STRESS_CARGO_PREVIOUS_GATE: '${{ github.workspace }}/results/stress-cargo-comparison-0.json'
         run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,LAYERFS_DAEMON,STRESS_CARGO_INCREMENTAL,SPRIG_STRESS_SHA,STRESS_CARGO_PREVIOUS_GATE,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
       - name: Copy allowlisted evidence on success or failure without changing source permissions

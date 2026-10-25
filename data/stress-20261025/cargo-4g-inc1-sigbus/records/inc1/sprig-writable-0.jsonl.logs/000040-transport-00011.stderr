@@ -1,0 +1,51 @@
+   Compiling node000 v0.1.0 (/work/node000)
+     Running `rustc --crate-name build_script_build --edition=2021 node000/build.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type bin --emit=dep-info,link -C embed-bitcode=no --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=495b383872794ef7 -C extra-filename=-77280c6c215e9943 --out-dir /work/target/debug/build/node000-77280c6c215e9943 -C incremental=/work/target/debug/incremental -L dependency=/work/target/debug/deps`
+     Running `/work/target/debug/build/node000-77280c6c215e9943/build-script-build`
+     Running `rustc --crate-name node000 --edition=2021 node000/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=e010015ed0014c13 -C extra-filename=-89a5ca4a79ac731d --out-dir /work/target/debug/deps -C incremental=/work/target/debug/incremental -L dependency=/work/target/debug/deps`
+   Compiling node004 v0.1.0 (/work/node004)
+     Running `rustc --crate-name node004 --edition=2021 node004/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=7ba5e18d6de11628 -C extra-filename=-385d494a5297ba05 --out-dir /work/target/debug/deps -C incremental=/work/target/debug/incremental -L dependency=/work/target/debug/deps --extern node000=/work/target/debug/deps/libnode000-89a5ca4a79ac731d.rmeta`
+error: rustc interrupted by SIGBUS, printing backtrace
+
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x3c83a9f)[0x7f3fcf483a9f]
+/lib/x86_64-linux-gnu/libc.so.6(+0x45330)[0x7f3fcb632330]
+/lib/x86_64-linux-gnu/libc.so.6(+0x189087)[0x7f3fcb776087]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(_RNvMs2_NtCsbUCUY0RbY87_6object5writeNtB5_7Section11append_data+0x10c)[0x7f3fd1fea64c]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x67ea7a4)[0x7f3fd1fea7a4]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x650f70d)[0x7f3fd1d0f70d]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(_RNvNtNtCsc5lr08gZmv6_17rustc_codegen_ssa4back4link11link_binary+0x59d)[0x7f3fd1d2921d]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(_RNvMNtCshk0CrVEr7wz_15rustc_interface7queriesNtB2_6Linker4link+0x4a8)[0x7f3fd1ec7628]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x66c131b)[0x7f3fd1ec131b]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x65751c1)[0x7f3fd1d751c1]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x6574ea2)[0x7f3fd1d74ea2]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x657a7c5)[0x7f3fd1d7a7c5]
+/lib/x86_64-linux-gnu/libc.so.6(+0x9cb84)[0x7f3fcb689b84]
+/lib/x86_64-linux-gnu/libc.so.6(__clone+0x44)[0x7f3fcb716cc4]
+
+note: we would appreciate a report at https://github.com/rust-lang/rust
+error: rustc interrupted by SIGBUS, printing backtrace
+
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x3c83a9f)[0x7fed4f283a9f]
+/lib/x86_64-linux-gnu/libc.so.6(+0x45330)[0x7fed4b42d330]
+/lib/x86_64-linux-gnu/libc.so.6(+0x189024)[0x7fed4b571024]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(_RNvMs2_NtCsbUCUY0RbY87_6object5writeNtB5_7Section11append_data+0x10c)[0x7fed51dea64c]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x67ea7a4)[0x7fed51dea7a4]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x650f70d)[0x7fed51b0f70d]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(_RNvNtNtCsc5lr08gZmv6_17rustc_codegen_ssa4back4link11link_binary+0x59d)[0x7fed51b2921d]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(_RNvMNtCshk0CrVEr7wz_15rustc_interface7queriesNtB2_6Linker4link+0x4a8)[0x7fed51cc7628]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x66c131b)[0x7fed51cc131b]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x65751c1)[0x7fed51b751c1]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x6574ea2)[0x7fed51b74ea2]
+/opt/rust/bin/../lib/librustc_driver-890dfd19c9b338c0.so(+0x657a7c5)[0x7fed51b7a7c5]
+/lib/x86_64-linux-gnu/libc.so.6(+0x9cb84)[0x7fed4b484b84]
+/lib/x86_64-linux-gnu/libc.so.6(__clone+0x44)[0x7fed4b511cc4]
+
+note: we would appreciate a report at https://github.com/rust-lang/rust
+error: could not compile `node000` (lib)
+
+Caused by:
+  process didn't exit successfully: `rustc --crate-name node000 --edition=2021 node000/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=e010015ed0014c13 -C extra-filename=-89a5ca4a79ac731d --out-dir /work/target/debug/deps -C incremental=/work/target/debug/incremental -L dependency=/work/target/debug/deps` (signal: 7, SIGBUS: access to undefined memory)
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `node004` (lib)
+
+Caused by:
+  process didn't exit successfully: `rustc --crate-name node004 --edition=2021 node004/src/lib.rs --error-format=json --json=diagnostic-rendered-ansi,artifacts,future-incompat --crate-type lib --emit=dep-info,metadata,link -C embed-bitcode=no -C debuginfo=2 --check-cfg 'cfg(docsrs,test)' --check-cfg 'cfg(feature, values())' -C metadata=7ba5e18d6de11628 -C extra-filename=-385d494a5297ba05 --out-dir /work/target/debug/deps -C incremental=/work/target/debug/incremental -L dependency=/work/target/debug/deps --extern node000=/work/target/debug/deps/libnode000-89a5ca4a79ac731d.rmeta` (signal: 7, SIGBUS: access to undefined memory)
