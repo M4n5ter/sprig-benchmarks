@@ -1,0 +1,14 @@
+[
+  {
+    "label": "admission",
+    "type": "sprig",
+    "sha": "cd46df767abaecac2948eebaa46ac9ff5c0885c9",
+    "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig"
+  },
+  {
+    "label": "clean-reserve",
+    "type": "sprig",
+    "sha": "382564b39806b3b1015107b5a40866946d82512b",
+    "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig"
+  }
+]

@@ -1,0 +1,1436 @@
+{
+  "schema": "sprig-stress-run-v1",
+  "complete": true,
+  "status": "passed",
+  "cell": "files-4096",
+  "products": [
+    {
+      "label": "admission",
+      "type": "sprig",
+      "sha": "cd46df767abaecac2948eebaa46ac9ff5c0885c9",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig",
+      "binarySha256": "d263f5a98f58173a93767dc5d6cd5f2bf21f1ff56ebac8b36d497d37324a9a40"
+    },
+    {
+      "label": "clean-reserve",
+      "type": "sprig",
+      "sha": "382564b39806b3b1015107b5a40866946d82512b",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig",
+      "binarySha256": "cc8df9d0e0ed9b9ce24a3d4fb04f910f4a2c9937e7bf69d0297c462dd9c2b2f4"
+    }
+  ],
+  "backends": [
+    "native"
+  ],
+  "rounds": 1,
+  "records": [
+    {
+      "identity": "native-admission-0",
+      "backend": "native",
+      "product": "admission",
+      "round": 0,
+      "status": "passed",
+      "correct": true,
+      "productType": "sprig",
+      "mkfs": "btrfs-progs v6.6.3\nSee https://btrfs.readthedocs.io for more information.\n\nNOTE: several default settings have changed in version 5.15, please make sure\n      this does not affect your deployments:\n      - DUP for metadata (-m dup)\n      - enabled no-holes (-O no-holes)\n      - enabled free-space-tree (-R free-space-tree)\n\nLabel:              (null)\nUUID:               ad3bd2c1-44a5-44ba-a694-f95e0c1c0d43\nNode size:          16384\nSector size:        4096\nFilesystem size:    2.00GiB\nBlock group profiles:\n  Data:             single            8.00MiB\n  Metadata:         DUP             102.38MiB\n  System:           DUP               8.00MiB\nSSD detected:       no\nZoned device:       no\nIncompat features:  extref, skinny-metadata, no-holes, free-space-tree\nRuntime features:   free-space-tree\nChecksum:           crc32c\nNumber of devices:  1\nDevices:\n   ID        SIZE  PATH                                                                \n    1     2.00GiB  /home/runner/work/_temp/stress-native-admission-0-6vb0ft21/store.img\n\n",
+      "emptySpace": {
+        "filesystemUsedBytes": 294912,
+        "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         239861760\n    Device unallocated:\t\t        1907621888\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            294912\n    Free (estimated):\t\t        1916010496\t(min: 962199552)\n    Free (statfs, df):\t\t        1914961920\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:0 (0.00%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:107347968, Used:131072 (0.12%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1907621888\n",
+        "groupsRaw": "Data, single: total=8388608, used=0\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=131072\nGlobalReserve, single: total=5767168, used=0\n",
+        "extentSetRaw": "     Total   Exclusive  Set shared  Filename\n         0           0           0  /home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount\n"
+      },
+      "runtimeReadySpace": {
+        "filesystemUsedBytes": 294912,
+        "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         239861760\n    Device unallocated:\t\t        1907621888\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            294912\n    Free (estimated):\t\t        1916010496\t(min: 962199552)\n    Free (statfs, df):\t\t        1914961920\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:0 (0.00%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:107347968, Used:131072 (0.12%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1907621888\n",
+        "groupsRaw": "Data, single: total=8388608, used=0\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=131072\nGlobalReserve, single: total=5767168, used=0\n",
+        "extentSetRaw": "     Total   Exclusive  Set shared  Filename\n         0           0           0  /home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount\n"
+      },
+      "wholeSampleSubprocessWallSeconds": 29.846132442,
+      "wholeSampleSubprocessWallScope": "authoritative matched sampler process launch through exit, including preparation, verification, accounting, normal cleanup and evidence serialization; excludes external image/runtime/fixture setup",
+      "sampleReturncode": 0,
+      "sample": {
+        "activeSpace": {
+          "filesystemUsedBytes": 52662272,
+          "groupsRaw": "Data, single: total=662700032, used=39391232\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=6619136\nGlobalReserve, single: total=5767168, used=0\n",
+          "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         894173184\n    Device unallocated:\t\t        1253310464\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t          52662272\n    Free (estimated):\t\t        1876619264\t(min: 1249964032)\n    Free (statfs, df):\t\t        1875570688\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:662700032, Used:39391232 (5.94%)\n   /dev/loop0\t 662700032\n\nMetadata,DUP: Size:107347968, Used:6619136 (6.17%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1253310464\n"
+        },
+        "allAcknowledgedIdsPresent": true,
+        "backend": "native",
+        "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig",
+        "binarySha256": "d263f5a98f58173a93767dc5d6cd5f2bf21f1ff56ebac8b36d497d37324a9a40",
+        "binarySourcePinVerifiedBySampler": false,
+        "capacityPreflight": {
+          "filesystemBytes": 2147483648,
+          "reserveBytes": 268435456,
+          "retainedEstimateBytes": 117440512,
+          "usedBytes": 294912
+        },
+        "checkpointLatenciesByKind": {
+          "changed": {
+            "checkpoint_cli_seconds": {
+              "maximum": 0.24591324599998643,
+              "median": 0.24591324599998643,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.24591324599998643
+            },
+            "checkpoint_ready_seconds": {
+              "maximum": 0.0022055669999190286,
+              "median": 0.0022055669999190286,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.0022055669999190286
+            },
+            "checkpoint_seconds": {
+              "maximum": 0.24811881299990546,
+              "median": 0.24811881299990546,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.24811881299990546
+            },
+            "write_seconds": {
+              "maximum": 0.005108909999989919,
+              "median": 0.005108909999989919,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.005108909999989919
+            }
+          },
+          "unchanged": {
+            "checkpoint_cli_seconds": {
+              "maximum": 0.23018563400000858,
+              "median": 0.23018563400000858,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.23018563400000858
+            },
+            "checkpoint_ready_seconds": {
+              "maximum": 0.0021849879999535915,
+              "median": 0.0021849879999535915,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.0021849879999535915
+            },
+            "checkpoint_seconds": {
+              "maximum": 0.23237062199996217,
+              "median": 0.23237062199996217,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.23237062199996217
+            },
+            "write_seconds": {
+              "maximum": 0.0,
+              "median": 0.0,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.0
+            }
+          }
+        },
+        "checkpointOperationCount": 2,
+        "checkpoint_seconds": 0.4804894349998676,
+        "checkpoint_steps": [
+          {
+            "base": "0951386e52feb1f4082316a032763396a18939c5c93d2bdd55bbf5dd863bc1c8",
+            "checkpoint": {
+              "branch": "work",
+              "committed": true,
+              "previous_head": "0951386e52feb1f4082316a032763396a18939c5c93d2bdd55bbf5dd863bc1c8",
+              "revision": "0951386e52feb1f4082316a032763396a18939c5c93d2bdd55bbf5dd863bc1c8"
+            },
+            "checkpoint_cli_seconds": 0.23018563400000858,
+            "checkpoint_ready_seconds": 0.0021849879999535915,
+            "checkpoint_seconds": 0.23237062199996217,
+            "editStep": 0,
+            "fullTreeVerified": true,
+            "generation_after": "1792936590406682761-15512-0",
+            "generation_before": "1792936590406682761-15512-0",
+            "noop": true,
+            "revision": "0951386e52feb1f4082316a032763396a18939c5c93d2bdd55bbf5dd863bc1c8",
+            "step": 1,
+            "write_seconds": 0.0
+          },
+          {
+            "base": "0951386e52feb1f4082316a032763396a18939c5c93d2bdd55bbf5dd863bc1c8",
+            "checkpoint": {
+              "branch": "work",
+              "committed": true,
+              "previous_head": "0951386e52feb1f4082316a032763396a18939c5c93d2bdd55bbf5dd863bc1c8",
+              "revision": "46bc874469d84dba88827f28cfcb8ea134d7cd9048a9d7a161594dda3043ee36"
+            },
+            "checkpoint_cli_seconds": 0.24591324599998643,
+            "checkpoint_ready_seconds": 0.0022055669999190286,
+            "checkpoint_seconds": 0.24811881299990546,
+            "editStep": 1,
+            "fullTreeVerified": true,
+            "generation_after": "1792936590406682761-15512-0",
+            "generation_before": "1792936590406682761-15512-0",
+            "noop": false,
+            "revision": "46bc874469d84dba88827f28cfcb8ea134d7cd9048a9d7a161594dda3043ee36",
+            "step": 2,
+            "write_seconds": 0.005108909999989919
+          }
+        ],
+        "completeLogArchive": [
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-admission-0-steps.jsonl.logs/000000-lifecycle.jsonl",
+            "bytes": 12644,
+            "sha256": "89c4e9b8a4228c048be18ca9491e733c49b707572cc9b75a3600585c08781823",
+            "source": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/logs/lifecycle.jsonl"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-admission-0-steps.jsonl.logs/000001-oracle-000000.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/logs/oracle-000000.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-admission-0-steps.jsonl.logs/000002-oracle-000001.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/logs/oracle-000001.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-admission-0-steps.jsonl.logs/000003-oracle-000002.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/logs/oracle-000002.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-admission-0-steps.jsonl.logs/000004-oracle-000003.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/logs/oracle-000003.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-admission-0-steps.jsonl.logs/000005-oracle-000004.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/logs/oracle-000004.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-admission-0-steps.jsonl.logs/000006-oracle-000005.json",
+            "bytes": 798936,
+            "sha256": "e585fbb77ba44079edb2bb91559c3874faaf4072f3d9b22f689b09d90acdc761",
+            "source": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/logs/oracle-000005.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-admission-0-steps.jsonl.logs/000007-oracle-000006.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/logs/oracle-000006.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-admission-0-steps.jsonl.logs/000008-oracle-000007.json",
+            "bytes": 798936,
+            "sha256": "e585fbb77ba44079edb2bb91559c3874faaf4072f3d9b22f689b09d90acdc761",
+            "source": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/logs/oracle-000007.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-admission-0-steps.jsonl.logs/000009-oracle-000008.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/logs/oracle-000008.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-admission-0-steps.jsonl.logs/000010-oracle-000009.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/logs/oracle-000009.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-admission-0-steps.jsonl.logs/000011-oracle-000010.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/logs/oracle-000010.json"
+          }
+        ],
+        "complete_sprig_semantics": false,
+        "componentDiagnostics": {},
+        "compressionPolicy": "auto (default init)",
+        "conservativeRetainedLogicalBytes": 117440512,
+        "containingFilesystem": {
+          "filesystem": "btrfs",
+          "id": 263,
+          "mountOptions": [
+            "rw",
+            "noatime"
+          ],
+          "mountpoint": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount",
+          "parentId": 27,
+          "root": "/",
+          "source": "/dev/loop0",
+          "superOptions": {
+            "discard": "async",
+            "rw": "",
+            "space_cache": "v2",
+            "subvol": "/",
+            "subvolid": "5"
+          }
+        },
+        "diagnostic": false,
+        "exactMetadataOracle": true,
+        "expectedCheckpointOperations": 2,
+        "first_fork_seconds": 2.990551613999969,
+        "first_read_seconds": 0.48983400000008714,
+        "fixtureParameters": {
+          "depth": 0,
+          "files": 4096,
+          "links": 0,
+          "pattern": "random",
+          "size": 4096,
+          "steps": 1,
+          "symlink": false,
+          "width": 1
+        },
+        "fixtureSha256": "fedfb5dd8933f55c1cb33855a99a21221da2b8e5a2656a3ad4d93d7551e764bd",
+        "fullHistoricalSnapshotReadbacks": 2,
+        "fullTreeChecks": [
+          {
+            "entries": 4098,
+            "label": "source-setup",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.18598759799999698,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "main-initial",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.19236010999998143,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "work-initial",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.48983400000008714,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "second-initial",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.5107168179999917,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "checkpoint-1",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.19328884699996252,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "checkpoint-2",
+            "oracleSha256": "295d47a734906e0695b25edc5669b124f05245ca6d4998722aea48d608196b62",
+            "seconds": 0.19203199499997936,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "restore-1",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.19228246799991666,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "restore-2",
+            "oracleSha256": "295d47a734906e0695b25edc5669b124f05245ca6d4998722aea48d608196b62",
+            "seconds": 0.5258361449999711,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "source-unchanged",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.18633882699998594,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "main-unchanged",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.1903339230000256,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "second-unchanged",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.19085979700003008,
+            "verified": true
+          }
+        ],
+        "historical_restore_steps": [
+          {
+            "cleanup_operation": "native tree retained",
+            "fullTreeVerified": true,
+            "generation": "1792936598607724591-15536-0",
+            "restore_cleanup_seconds": 0.0,
+            "restore_read_seconds": 0.19228246799991666,
+            "restore_seconds": 11.474986519000026,
+            "revision": "0951386e52feb1f4082316a032763396a18939c5c93d2bdd55bbf5dd863bc1c8",
+            "step": 1
+          },
+          {
+            "cleanup_operation": "native tree retained",
+            "fullTreeVerified": true,
+            "generation": "1792936610301526498-15538-0",
+            "restore_cleanup_seconds": 0.0,
+            "restore_read_seconds": 0.5258361449999711,
+            "restore_seconds": 3.3849708740000324,
+            "revision": "46bc874469d84dba88827f28cfcb8ea134d7cd9048a9d7a161594dda3043ee36",
+            "step": 2
+          }
+        ],
+        "historyExpectedSteps": 1,
+        "historyWindows": [
+          {
+            "checkpointSeconds": {
+              "maximum": 0.24811881299990546,
+              "median": 0.24811881299990546,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.24811881299990546
+            },
+            "firstEdit": 1,
+            "label": "late",
+            "lastEdit": 1
+          }
+        ],
+        "history_distinct_revisions": 1,
+        "import": {
+          "backend": {
+            "kind": "native"
+          },
+          "base_revision": "0951386e52feb1f4082316a032763396a18939c5c93d2bdd55bbf5dd863bc1c8",
+          "branch": "main",
+          "copy_stats": {
+            "cloned": 0,
+            "copied": 4096,
+            "hardlinks": 0,
+            "symlinks": 0
+          },
+          "mount_state": "native",
+          "name": "main",
+          "path": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/library/native/1792936585385906008-15509-0/tree",
+          "pending_conflicts": []
+        },
+        "import_seconds": 4.821266284999979,
+        "init_seconds": 0.01342534799994155,
+        "initialHead": "0951386e52feb1f4082316a032763396a18939c5c93d2bdd55bbf5dd863bc1c8",
+        "initializationIncludedInImport": false,
+        "instrumentation": "off",
+        "latencies": {
+          "checkpoint_cli_seconds": {
+            "maximum": 0.24591324599998643,
+            "median": 0.2380494399999975,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.476098879999995
+          },
+          "checkpoint_ready_seconds": {
+            "maximum": 0.0022055669999190286,
+            "median": 0.00219527749993631,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.00439055499987262
+          },
+          "checkpoint_seconds": {
+            "maximum": 0.24811881299990546,
+            "median": 0.2402447174999338,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.4804894349998676
+          },
+          "restore_cleanup_seconds": {
+            "maximum": 0.0,
+            "median": 0.0,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.0
+          },
+          "restore_read_seconds": {
+            "maximum": 0.5258361449999711,
+            "median": 0.3590593064999439,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.7181186129998878
+          },
+          "restore_seconds": {
+            "maximum": 11.474986519000026,
+            "median": 7.429978696500029,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 14.859957393000059
+          },
+          "write_seconds": {
+            "maximum": 0.005108909999989919,
+            "median": 0.0025544549999949595,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.005108909999989919
+          }
+        },
+        "latencyScope": "all recorded operations; noop/changed are additionally separated below",
+        "lifecycle": {
+          "activeAfterHistory": {
+            "allRuntimeLogsAndJournalsInsideMeasuredStore": true,
+            "controlProcessesRunning": 0,
+            "fileTreesRetained": true,
+            "foregroundFuseProcesses": [],
+            "generationDirectories": [
+              "1792936585385906008-15509-0",
+              "1792936590406682761-15512-0",
+              "1792936593893895491-15514-0",
+              "1792936598607724591-15536-0",
+              "1792936610301526498-15538-0"
+            ],
+            "historicalReadbacksComplete": true,
+            "historicalReadbacksCompleted": 2,
+            "historicalReadbacksStarted": true,
+            "measurementBoundary": "after all restores/readbacks and before cleanup",
+            "retainedGenerationCount": 5,
+            "retainedGenerations": {
+              "projection": [],
+              "writable": []
+            },
+            "views": [
+              {
+                "backend": {
+                  "kind": "native"
+                },
+                "base_revision": "0951386e52feb1f4082316a032763396a18939c5c93d2bdd55bbf5dd863bc1c8",
+                "generation": "1792936585385906008-15509-0",
+                "name": "main",
+                "path": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/library/native/1792936585385906008-15509-0/tree"
+              },
+              {
+                "backend": {
+                  "kind": "native"
+                },
+                "base_revision": "46bc874469d84dba88827f28cfcb8ea134d7cd9048a9d7a161594dda3043ee36",
+                "generation": "1792936590406682761-15512-0",
+                "name": "work",
+                "path": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/library/native/1792936590406682761-15512-0/tree"
+              },
+              {
+                "backend": {
+                  "kind": "native"
+                },
+                "base_revision": "0951386e52feb1f4082316a032763396a18939c5c93d2bdd55bbf5dd863bc1c8",
+                "generation": "1792936593893895491-15514-0",
+                "name": "second",
+                "path": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/library/native/1792936593893895491-15514-0/tree"
+              }
+            ]
+          },
+          "activeAtSpace": {
+            "allRuntimeLogsAndJournalsInsideMeasuredStore": true,
+            "controlProcessesRunning": 0,
+            "fileTreesRetained": true,
+            "foregroundFuseProcesses": [],
+            "historicalReadbacksCompleted": 0,
+            "historicalReadbacksStarted": false,
+            "retainedGenerationCount": 3,
+            "retainedGenerations": {
+              "projection": [],
+              "writable": []
+            },
+            "views": [
+              {
+                "backend": {
+                  "kind": "native"
+                },
+                "base_revision": "0951386e52feb1f4082316a032763396a18939c5c93d2bdd55bbf5dd863bc1c8",
+                "generation": "1792936585385906008-15509-0",
+                "name": "main",
+                "path": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/library/native/1792936585385906008-15509-0/tree"
+              },
+              {
+                "backend": {
+                  "kind": "native"
+                },
+                "base_revision": "46bc874469d84dba88827f28cfcb8ea134d7cd9048a9d7a161594dda3043ee36",
+                "generation": "1792936590406682761-15512-0",
+                "name": "work",
+                "path": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/library/native/1792936590406682761-15512-0/tree"
+              },
+              {
+                "backend": {
+                  "kind": "native"
+                },
+                "base_revision": "0951386e52feb1f4082316a032763396a18939c5c93d2bdd55bbf5dd863bc1c8",
+                "generation": "1792936593893895491-15514-0",
+                "name": "second",
+                "path": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample/library/native/1792936593893895491-15514-0/tree"
+              }
+            ]
+          },
+          "cleanup": {
+            "attempts": [],
+            "blocked": false,
+            "complete": true,
+            "forceOrLazyUnmountUsed": false,
+            "harnessProcessesKilled": false,
+            "processesKilled": null
+          },
+          "daemons": [],
+          "fileTreesRetained": true,
+          "normalUnmountOnly": true,
+          "persistentControlDaemon": false
+        },
+        "lifecycleTraceEvidence": {
+          "archivedBeforeValidation": true,
+          "counts": {
+            "cli": 0,
+            "daemon": 0,
+            "other": 0
+          },
+          "enabled": false,
+          "invalidRecords": [],
+          "phases": {},
+          "present": false,
+          "successfulPhases": {},
+          "validRecords": 0
+        },
+        "logicalBytes": 16777216,
+        "measurementNotes": [
+          "New stress protocol, not comparable to frozen listed-file timing without workload qualification.",
+          "All exact path sets, bytes, modes, nanosecond mtimes, symlinks and internal hardlink groups checked.",
+          "Every checkpoint acknowledgement, including unchanged initial revision when selected, is restored and fully checked.",
+          "No-op committed=true retains the same revision; writable still retains/replaces its owned generation.",
+          "Complete public CLI, readiness and normal-unmount costs retained; no processes killed or uncertain mutations retried.",
+          "All source and full-tree oracle checks are setup-warm; no cold-cache, equal crash-durability or CPU/RAM-equivalence claim.",
+          "Direct task wall includes checks/ledger/space diagnostics; additive phase diagnostics do not replace it.",
+          "Budget guard is cooperative at operation boundaries, never a process-killing command timeout.",
+          "Whole filesystem contains all retained trees/generations and runtime logs; no selective cleanup or pruning.",
+          "Source commit comes from verified external checkout/build; recorded binary SHA is independently measured."
+        ],
+        "metadataScope": [
+          "path-set",
+          "type",
+          "bytes",
+          "mode-0777",
+          "mtime-ns",
+          "symlink-target",
+          "internal-hardlink-groups"
+        ],
+        "metadata_branch_available": true,
+        "metadata_branch_probe": "omitted",
+        "metadata_branch_seconds": null,
+        "metadata_branch_unavailable_reason": null,
+        "nativeRestoreCleanup": "0.0 seconds: no unmount operation; native trees retained",
+        "noopCheckpointIncluded": true,
+        "ok": true,
+        "oracleFiles": 4096,
+        "originalMainViewUnchanged": true,
+        "originalSecondViewUnchanged": true,
+        "postHistorySpace": {
+          "filesystemUsedBytes": 88236032,
+          "groupsRaw": "Data, single: total=662700032, used=60514304\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=13844480\nGlobalReserve, single: total=5767168, used=0\n",
+          "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         894173184\n    Device unallocated:\t\t        1253310464\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t          88236032\n    Free (estimated):\t\t        1855496192\t(min: 1228840960)\n    Free (statfs, df):\t\t        1854447616\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:662700032, Used:60514304 (9.13%)\n   /dev/loop0\t 662700032\n\nMetadata,DUP: Size:107347968, Used:13844480 (12.90%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1253310464\n"
+        },
+        "productionShaSource": "explicit --production-sha supplied by verified checkout/build harness",
+        "production_sha": "cd46df767abaecac2948eebaa46ac9ff5c0885c9",
+        "protocol": "sprig-stress-full-tree-v1",
+        "prototype_only": false,
+        "recordsFile": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-admission-0-steps.jsonl",
+        "recordsIncludedInActiveSpace": false,
+        "remainingMounts": [],
+        "resourceComparisonAvailable": false,
+        "restoreTimingScope": "100 historical snapshots after active-space accounting; zero for nonhistory",
+        "restore_cleanup_seconds": 0.0,
+        "restore_read_seconds": 0.7181186129998878,
+        "restore_seconds": 14.859957393000059,
+        "root": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount/sample",
+        "runtimeLogs": [],
+        "source": "/home/runner/work/_temp/stress-source-nnluuiui/tree",
+        "sourceUnchanged": true,
+        "status": "passed",
+        "total_import_fork_read_seconds": 8.301651899000035,
+        "warm_fork_seconds": 3.160421350999968,
+        "warm_read_seconds": 0.5107168179999917,
+        "warm_total_seconds": 3.67113816899996,
+        "wholeSampleIncludingSetupCleanupSeconds": 29.789195621999966,
+        "wholeTaskSeconds": 29.482457731999943,
+        "wholeTaskTimingScope": "execute: init through post-history space, excluding preparation and final teardown/archive",
+        "workload_only_verification": true,
+        "write_seconds": 0.005108909999989919
+      },
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "isolatedImageRetained": "/home/runner/work/_temp/stress-native-admission-0-6vb0ft21/store.img"
+    },
+    {
+      "identity": "native-clean-reserve-0",
+      "backend": "native",
+      "product": "clean-reserve",
+      "round": 0,
+      "status": "passed",
+      "correct": true,
+      "productType": "sprig",
+      "mkfs": "btrfs-progs v6.6.3\nSee https://btrfs.readthedocs.io for more information.\n\nNOTE: several default settings have changed in version 5.15, please make sure\n      this does not affect your deployments:\n      - DUP for metadata (-m dup)\n      - enabled no-holes (-O no-holes)\n      - enabled free-space-tree (-R free-space-tree)\n\nLabel:              (null)\nUUID:               ec0ea716-4619-4fd1-92d7-ed9c124648d2\nNode size:          16384\nSector size:        4096\nFilesystem size:    2.00GiB\nBlock group profiles:\n  Data:             single            8.00MiB\n  Metadata:         DUP             102.38MiB\n  System:           DUP               8.00MiB\nSSD detected:       no\nZoned device:       no\nIncompat features:  extref, skinny-metadata, no-holes, free-space-tree\nRuntime features:   free-space-tree\nChecksum:           crc32c\nNumber of devices:  1\nDevices:\n   ID        SIZE  PATH                                                                    \n    1     2.00GiB  /home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/store.img\n\n",
+      "emptySpace": {
+        "filesystemUsedBytes": 294912,
+        "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         239861760\n    Device unallocated:\t\t        1907621888\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            294912\n    Free (estimated):\t\t        1916010496\t(min: 962199552)\n    Free (statfs, df):\t\t        1914961920\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:0 (0.00%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:107347968, Used:131072 (0.12%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1907621888\n",
+        "groupsRaw": "Data, single: total=8388608, used=0\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=131072\nGlobalReserve, single: total=5767168, used=0\n",
+        "extentSetRaw": "     Total   Exclusive  Set shared  Filename\n         0           0           0  /home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount\n"
+      },
+      "runtimeReadySpace": {
+        "filesystemUsedBytes": 294912,
+        "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         239861760\n    Device unallocated:\t\t        1907621888\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            294912\n    Free (estimated):\t\t        1916010496\t(min: 962199552)\n    Free (statfs, df):\t\t        1914961920\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:0 (0.00%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:107347968, Used:131072 (0.12%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1907621888\n",
+        "groupsRaw": "Data, single: total=8388608, used=0\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=131072\nGlobalReserve, single: total=5767168, used=0\n",
+        "extentSetRaw": "     Total   Exclusive  Set shared  Filename\n         0           0           0  /home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount\n"
+      },
+      "wholeSampleSubprocessWallSeconds": 29.414389917999983,
+      "wholeSampleSubprocessWallScope": "authoritative matched sampler process launch through exit, including preparation, verification, accounting, normal cleanup and evidence serialization; excludes external image/runtime/fixture setup",
+      "sampleReturncode": 0,
+      "sample": {
+        "activeSpace": {
+          "filesystemUsedBytes": 52695040,
+          "groupsRaw": "Data, single: total=662700032, used=39391232\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=6635520\nGlobalReserve, single: total=5767168, used=0\n",
+          "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         894173184\n    Device unallocated:\t\t        1253310464\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t          52695040\n    Free (estimated):\t\t        1876619264\t(min: 1249964032)\n    Free (statfs, df):\t\t        1875570688\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:662700032, Used:39391232 (5.94%)\n   /dev/loop0\t 662700032\n\nMetadata,DUP: Size:107347968, Used:6635520 (6.18%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1253310464\n"
+        },
+        "allAcknowledgedIdsPresent": true,
+        "backend": "native",
+        "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig",
+        "binarySha256": "cc8df9d0e0ed9b9ce24a3d4fb04f910f4a2c9937e7bf69d0297c462dd9c2b2f4",
+        "binarySourcePinVerifiedBySampler": false,
+        "capacityPreflight": {
+          "filesystemBytes": 2147483648,
+          "reserveBytes": 268435456,
+          "retainedEstimateBytes": 117440512,
+          "usedBytes": 294912
+        },
+        "checkpointLatenciesByKind": {
+          "changed": {
+            "checkpoint_cli_seconds": {
+              "maximum": 0.24741784099990127,
+              "median": 0.24741784099990127,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.24741784099990127
+            },
+            "checkpoint_ready_seconds": {
+              "maximum": 0.0022093139999697087,
+              "median": 0.0022093139999697087,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.0022093139999697087
+            },
+            "checkpoint_seconds": {
+              "maximum": 0.24962715499987098,
+              "median": 0.24962715499987098,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.24962715499987098
+            },
+            "write_seconds": {
+              "maximum": 0.005121483999914744,
+              "median": 0.005121483999914744,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.005121483999914744
+            }
+          },
+          "unchanged": {
+            "checkpoint_cli_seconds": {
+              "maximum": 0.22990705600000183,
+              "median": 0.22990705600000183,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.22990705600000183
+            },
+            "checkpoint_ready_seconds": {
+              "maximum": 0.0021705520000523393,
+              "median": 0.0021705520000523393,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.0021705520000523393
+            },
+            "checkpoint_seconds": {
+              "maximum": 0.23207760800005417,
+              "median": 0.23207760800005417,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.23207760800005417
+            },
+            "write_seconds": {
+              "maximum": 0.0,
+              "median": 0.0,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.0
+            }
+          }
+        },
+        "checkpointOperationCount": 2,
+        "checkpoint_seconds": 0.48170476299992515,
+        "checkpoint_steps": [
+          {
+            "base": "a58bf4c1657ef815567f866efd6258cdddb4fa454fbf6238cea8f8dbb98f5803",
+            "checkpoint": {
+              "branch": "work",
+              "committed": true,
+              "previous_head": "a58bf4c1657ef815567f866efd6258cdddb4fa454fbf6238cea8f8dbb98f5803",
+              "revision": "a58bf4c1657ef815567f866efd6258cdddb4fa454fbf6238cea8f8dbb98f5803"
+            },
+            "checkpoint_cli_seconds": 0.22990705600000183,
+            "checkpoint_ready_seconds": 0.0021705520000523393,
+            "checkpoint_seconds": 0.23207760800005417,
+            "editStep": 0,
+            "fullTreeVerified": true,
+            "generation_after": "1792936620263592966-15599-0",
+            "generation_before": "1792936620263592966-15599-0",
+            "noop": true,
+            "revision": "a58bf4c1657ef815567f866efd6258cdddb4fa454fbf6238cea8f8dbb98f5803",
+            "step": 1,
+            "write_seconds": 0.0
+          },
+          {
+            "base": "a58bf4c1657ef815567f866efd6258cdddb4fa454fbf6238cea8f8dbb98f5803",
+            "checkpoint": {
+              "branch": "work",
+              "committed": true,
+              "previous_head": "a58bf4c1657ef815567f866efd6258cdddb4fa454fbf6238cea8f8dbb98f5803",
+              "revision": "1627df1101865fb58c9af9286d6147584fa425766ec050cc7ad0a513530e52fd"
+            },
+            "checkpoint_cli_seconds": 0.24741784099990127,
+            "checkpoint_ready_seconds": 0.0022093139999697087,
+            "checkpoint_seconds": 0.24962715499987098,
+            "editStep": 1,
+            "fullTreeVerified": true,
+            "generation_after": "1792936620263592966-15599-0",
+            "generation_before": "1792936620263592966-15599-0",
+            "noop": false,
+            "revision": "1627df1101865fb58c9af9286d6147584fa425766ec050cc7ad0a513530e52fd",
+            "step": 2,
+            "write_seconds": 0.005121483999914744
+          }
+        ],
+        "completeLogArchive": [
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-clean-reserve-0-steps.jsonl.logs/000000-lifecycle.jsonl",
+            "bytes": 12698,
+            "sha256": "a19c4fd99efb6ff6d10772d854bebfe63faa3fa8eec63315cca109ae89974016",
+            "source": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/logs/lifecycle.jsonl"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-clean-reserve-0-steps.jsonl.logs/000001-oracle-000000.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/logs/oracle-000000.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-clean-reserve-0-steps.jsonl.logs/000002-oracle-000001.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/logs/oracle-000001.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-clean-reserve-0-steps.jsonl.logs/000003-oracle-000002.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/logs/oracle-000002.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-clean-reserve-0-steps.jsonl.logs/000004-oracle-000003.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/logs/oracle-000003.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-clean-reserve-0-steps.jsonl.logs/000005-oracle-000004.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/logs/oracle-000004.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-clean-reserve-0-steps.jsonl.logs/000006-oracle-000005.json",
+            "bytes": 798936,
+            "sha256": "e585fbb77ba44079edb2bb91559c3874faaf4072f3d9b22f689b09d90acdc761",
+            "source": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/logs/oracle-000005.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-clean-reserve-0-steps.jsonl.logs/000007-oracle-000006.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/logs/oracle-000006.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-clean-reserve-0-steps.jsonl.logs/000008-oracle-000007.json",
+            "bytes": 798936,
+            "sha256": "e585fbb77ba44079edb2bb91559c3874faaf4072f3d9b22f689b09d90acdc761",
+            "source": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/logs/oracle-000007.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-clean-reserve-0-steps.jsonl.logs/000009-oracle-000008.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/logs/oracle-000008.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-clean-reserve-0-steps.jsonl.logs/000010-oracle-000009.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/logs/oracle-000009.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-clean-reserve-0-steps.jsonl.logs/000011-oracle-000010.json",
+            "bytes": 798936,
+            "sha256": "a6b87ae5ff12a92ea1e89c290778cfb9e2ee940157b397d96deba24a46bb7b3a",
+            "source": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/logs/oracle-000010.json"
+          }
+        ],
+        "complete_sprig_semantics": false,
+        "componentDiagnostics": {},
+        "compressionPolicy": "auto (default init)",
+        "conservativeRetainedLogicalBytes": 117440512,
+        "containingFilesystem": {
+          "filesystem": "btrfs",
+          "id": 263,
+          "mountOptions": [
+            "rw",
+            "noatime"
+          ],
+          "mountpoint": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount",
+          "parentId": 27,
+          "root": "/",
+          "source": "/dev/loop0",
+          "superOptions": {
+            "discard": "async",
+            "rw": "",
+            "space_cache": "v2",
+            "subvol": "/",
+            "subvolid": "5"
+          }
+        },
+        "diagnostic": false,
+        "exactMetadataOracle": true,
+        "expectedCheckpointOperations": 2,
+        "first_fork_seconds": 2.963968578999925,
+        "first_read_seconds": 0.4849517319998995,
+        "fixtureParameters": {
+          "depth": 0,
+          "files": 4096,
+          "links": 0,
+          "pattern": "random",
+          "size": 4096,
+          "steps": 1,
+          "symlink": false,
+          "width": 1
+        },
+        "fixtureSha256": "fedfb5dd8933f55c1cb33855a99a21221da2b8e5a2656a3ad4d93d7551e764bd",
+        "fullHistoricalSnapshotReadbacks": 2,
+        "fullTreeChecks": [
+          {
+            "entries": 4098,
+            "label": "source-setup",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.186185810999973,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "main-initial",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.19154080600003454,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "work-initial",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.4849517319998995,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "second-initial",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.516081262000057,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "checkpoint-1",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.19245833000002222,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "checkpoint-2",
+            "oracleSha256": "295d47a734906e0695b25edc5669b124f05245ca6d4998722aea48d608196b62",
+            "seconds": 0.19053184599999895,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "restore-1",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.19125981699994554,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "restore-2",
+            "oracleSha256": "295d47a734906e0695b25edc5669b124f05245ca6d4998722aea48d608196b62",
+            "seconds": 0.4989758309999388,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "source-unchanged",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.18565508000006048,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "main-unchanged",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.19078246399999443,
+            "verified": true
+          },
+          {
+            "entries": 4098,
+            "label": "second-unchanged",
+            "oracleSha256": "5f1cc30c672696bb8b4cba180bb10e8bc8cbb9b0fdfa9ef8269b14e6db02ed51",
+            "seconds": 0.19049410600007377,
+            "verified": true
+          }
+        ],
+        "historical_restore_steps": [
+          {
+            "cleanup_operation": "native tree retained",
+            "fullTreeVerified": true,
+            "generation": "1792936628176114130-15628-0",
+            "restore_cleanup_seconds": 0.0,
+            "restore_read_seconds": 0.19125981699994554,
+            "restore_seconds": 11.544458179999992,
+            "revision": "a58bf4c1657ef815567f866efd6258cdddb4fa454fbf6238cea8f8dbb98f5803",
+            "step": 1
+          },
+          {
+            "cleanup_operation": "native tree retained",
+            "fullTreeVerified": true,
+            "generation": "1792936639938707243-15633-0",
+            "restore_cleanup_seconds": 0.0,
+            "restore_read_seconds": 0.4989758309999388,
+            "restore_seconds": 3.3768011600000136,
+            "revision": "1627df1101865fb58c9af9286d6147584fa425766ec050cc7ad0a513530e52fd",
+            "step": 2
+          }
+        ],
+        "historyExpectedSteps": 1,
+        "historyWindows": [
+          {
+            "checkpointSeconds": {
+              "maximum": 0.24962715499987098,
+              "median": 0.24962715499987098,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.24962715499987098
+            },
+            "firstEdit": 1,
+            "label": "late",
+            "lastEdit": 1
+          }
+        ],
+        "history_distinct_revisions": 1,
+        "import": {
+          "backend": {
+            "kind": "native"
+          },
+          "base_revision": "a58bf4c1657ef815567f866efd6258cdddb4fa454fbf6238cea8f8dbb98f5803",
+          "branch": "main",
+          "copy_stats": {
+            "cloned": 0,
+            "copied": 4096,
+            "hardlinks": 0,
+            "symlinks": 0
+          },
+          "mount_state": "native",
+          "name": "main",
+          "path": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/library/native/1792936615432515390-15595-0/tree",
+          "pending_conflicts": []
+        },
+        "import_seconds": 4.632464324000011,
+        "init_seconds": 0.015154818000041814,
+        "initialHead": "a58bf4c1657ef815567f866efd6258cdddb4fa454fbf6238cea8f8dbb98f5803",
+        "initializationIncludedInImport": false,
+        "instrumentation": "off",
+        "latencies": {
+          "checkpoint_cli_seconds": {
+            "maximum": 0.24741784099990127,
+            "median": 0.23866244849995155,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.4773248969999031
+          },
+          "checkpoint_ready_seconds": {
+            "maximum": 0.0022093139999697087,
+            "median": 0.002189933000011024,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.004379866000022048
+          },
+          "checkpoint_seconds": {
+            "maximum": 0.24962715499987098,
+            "median": 0.24085238149996258,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.48170476299992515
+          },
+          "restore_cleanup_seconds": {
+            "maximum": 0.0,
+            "median": 0.0,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.0
+          },
+          "restore_read_seconds": {
+            "maximum": 0.4989758309999388,
+            "median": 0.3451178239999422,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.6902356479998843
+          },
+          "restore_seconds": {
+            "maximum": 11.544458179999992,
+            "median": 7.460629670000003,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 14.921259340000006
+          },
+          "write_seconds": {
+            "maximum": 0.005121483999914744,
+            "median": 0.002560741999957372,
+            "n": 2,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.005121483999914744
+          }
+        },
+        "latencyScope": "all recorded operations; noop/changed are additionally separated below",
+        "lifecycle": {
+          "activeAfterHistory": {
+            "allRuntimeLogsAndJournalsInsideMeasuredStore": true,
+            "controlProcessesRunning": 0,
+            "fileTreesRetained": true,
+            "foregroundFuseProcesses": [],
+            "generationDirectories": [
+              "1792936615432515390-15595-0",
+              "1792936620263592966-15599-0",
+              "1792936623719374331-15606-0",
+              "1792936628176114130-15628-0",
+              "1792936639938707243-15633-0"
+            ],
+            "historicalReadbacksComplete": true,
+            "historicalReadbacksCompleted": 2,
+            "historicalReadbacksStarted": true,
+            "measurementBoundary": "after all restores/readbacks and before cleanup",
+            "retainedGenerationCount": 5,
+            "retainedGenerations": {
+              "projection": [],
+              "writable": []
+            },
+            "views": [
+              {
+                "backend": {
+                  "kind": "native"
+                },
+                "base_revision": "a58bf4c1657ef815567f866efd6258cdddb4fa454fbf6238cea8f8dbb98f5803",
+                "generation": "1792936615432515390-15595-0",
+                "name": "main",
+                "path": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/library/native/1792936615432515390-15595-0/tree"
+              },
+              {
+                "backend": {
+                  "kind": "native"
+                },
+                "base_revision": "1627df1101865fb58c9af9286d6147584fa425766ec050cc7ad0a513530e52fd",
+                "generation": "1792936620263592966-15599-0",
+                "name": "work",
+                "path": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/library/native/1792936620263592966-15599-0/tree"
+              },
+              {
+                "backend": {
+                  "kind": "native"
+                },
+                "base_revision": "a58bf4c1657ef815567f866efd6258cdddb4fa454fbf6238cea8f8dbb98f5803",
+                "generation": "1792936623719374331-15606-0",
+                "name": "second",
+                "path": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/library/native/1792936623719374331-15606-0/tree"
+              }
+            ]
+          },
+          "activeAtSpace": {
+            "allRuntimeLogsAndJournalsInsideMeasuredStore": true,
+            "controlProcessesRunning": 0,
+            "fileTreesRetained": true,
+            "foregroundFuseProcesses": [],
+            "historicalReadbacksCompleted": 0,
+            "historicalReadbacksStarted": false,
+            "retainedGenerationCount": 3,
+            "retainedGenerations": {
+              "projection": [],
+              "writable": []
+            },
+            "views": [
+              {
+                "backend": {
+                  "kind": "native"
+                },
+                "base_revision": "a58bf4c1657ef815567f866efd6258cdddb4fa454fbf6238cea8f8dbb98f5803",
+                "generation": "1792936615432515390-15595-0",
+                "name": "main",
+                "path": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/library/native/1792936615432515390-15595-0/tree"
+              },
+              {
+                "backend": {
+                  "kind": "native"
+                },
+                "base_revision": "1627df1101865fb58c9af9286d6147584fa425766ec050cc7ad0a513530e52fd",
+                "generation": "1792936620263592966-15599-0",
+                "name": "work",
+                "path": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/library/native/1792936620263592966-15599-0/tree"
+              },
+              {
+                "backend": {
+                  "kind": "native"
+                },
+                "base_revision": "a58bf4c1657ef815567f866efd6258cdddb4fa454fbf6238cea8f8dbb98f5803",
+                "generation": "1792936623719374331-15606-0",
+                "name": "second",
+                "path": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample/library/native/1792936623719374331-15606-0/tree"
+              }
+            ]
+          },
+          "cleanup": {
+            "attempts": [],
+            "blocked": false,
+            "complete": true,
+            "forceOrLazyUnmountUsed": false,
+            "harnessProcessesKilled": false,
+            "processesKilled": null
+          },
+          "daemons": [],
+          "fileTreesRetained": true,
+          "normalUnmountOnly": true,
+          "persistentControlDaemon": false
+        },
+        "lifecycleTraceEvidence": {
+          "archivedBeforeValidation": true,
+          "counts": {
+            "cli": 0,
+            "daemon": 0,
+            "other": 0
+          },
+          "enabled": false,
+          "invalidRecords": [],
+          "phases": {},
+          "present": false,
+          "successfulPhases": {},
+          "validRecords": 0
+        },
+        "logicalBytes": 16777216,
+        "measurementNotes": [
+          "New stress protocol, not comparable to frozen listed-file timing without workload qualification.",
+          "All exact path sets, bytes, modes, nanosecond mtimes, symlinks and internal hardlink groups checked.",
+          "Every checkpoint acknowledgement, including unchanged initial revision when selected, is restored and fully checked.",
+          "No-op committed=true retains the same revision; writable still retains/replaces its owned generation.",
+          "Complete public CLI, readiness and normal-unmount costs retained; no processes killed or uncertain mutations retried.",
+          "All source and full-tree oracle checks are setup-warm; no cold-cache, equal crash-durability or CPU/RAM-equivalence claim.",
+          "Direct task wall includes checks/ledger/space diagnostics; additive phase diagnostics do not replace it.",
+          "Budget guard is cooperative at operation boundaries, never a process-killing command timeout.",
+          "Whole filesystem contains all retained trees/generations and runtime logs; no selective cleanup or pruning.",
+          "Source commit comes from verified external checkout/build; recorded binary SHA is independently measured."
+        ],
+        "metadataScope": [
+          "path-set",
+          "type",
+          "bytes",
+          "mode-0777",
+          "mtime-ns",
+          "symlink-target",
+          "internal-hardlink-groups"
+        ],
+        "metadata_branch_available": true,
+        "metadata_branch_probe": "omitted",
+        "metadata_branch_seconds": null,
+        "metadata_branch_unavailable_reason": null,
+        "nativeRestoreCleanup": "0.0 seconds: no unmount operation; native trees retained",
+        "noopCheckpointIncluded": true,
+        "ok": true,
+        "oracleFiles": 4096,
+        "originalMainViewUnchanged": true,
+        "originalSecondViewUnchanged": true,
+        "postHistorySpace": {
+          "filesystemUsedBytes": 88100864,
+          "groupsRaw": "Data, single: total=662700032, used=60510208\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=13778944\nGlobalReserve, single: total=5767168, used=0\n",
+          "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         894173184\n    Device unallocated:\t\t        1253310464\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t          88100864\n    Free (estimated):\t\t        1855500288\t(min: 1228845056)\n    Free (statfs, df):\t\t        1854451712\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:662700032, Used:60510208 (9.13%)\n   /dev/loop0\t 662700032\n\nMetadata,DUP: Size:107347968, Used:13778944 (12.84%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1253310464\n"
+        },
+        "productionShaSource": "explicit --production-sha supplied by verified checkout/build harness",
+        "production_sha": "382564b39806b3b1015107b5a40866946d82512b",
+        "protocol": "sprig-stress-full-tree-v1",
+        "prototype_only": false,
+        "recordsFile": "/home/runner/work/_temp/cache-sequence/cold4096/stress-results/native-clean-reserve-0-steps.jsonl",
+        "recordsIncludedInActiveSpace": false,
+        "remainingMounts": [],
+        "resourceComparisonAvailable": false,
+        "restoreTimingScope": "100 historical snapshots after active-space accounting; zero for nonhistory",
+        "restore_cleanup_seconds": 0.0,
+        "restore_read_seconds": 0.6902356479998843,
+        "restore_seconds": 14.921259340000006,
+        "root": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount/sample",
+        "runtimeLogs": [],
+        "source": "/home/runner/work/_temp/stress-source-nnluuiui/tree",
+        "sourceUnchanged": true,
+        "status": "passed",
+        "total_import_fork_read_seconds": 8.081384634999836,
+        "warm_fork_seconds": 2.895979765999982,
+        "warm_read_seconds": 0.516081262000057,
+        "warm_total_seconds": 3.412061028000039,
+        "wholeSampleIncludingSetupCleanupSeconds": 29.35630615299999,
+        "wholeTaskSeconds": 29.04938342899993,
+        "wholeTaskTimingScope": "execute: init through post-history space, excluding preparation and final teardown/archive",
+        "workload_only_verification": true,
+        "write_seconds": 0.005121483999914744
+      },
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "isolatedImageRetained": "/home/runner/work/_temp/stress-native-clean-reserve-0-zusnkdby/store.img"
+    }
+  ],
+  "diagnostic": false,
+  "pairOrder": "forward",
+  "comparisonProtocol": "within-sprig-ab",
+  "measurementBudgetSeconds": 874,
+  "wholeTaskScope": "per-sampler task excludes fixture/runtime setup; phases overlap only as documented",
+  "durability": "Sprig sync enabled; LayerFS Disposable WAL/OFF and MEMORY/OFF are unequal",
+  "cpuMemoryComparison": "unavailable; no partial process RSS/CPU claim",
+  "logicalBytes": 16777216,
+  "conservativeRetainedLogicalBytes": 117440512,
+  "noopCheckpoint": true,
+  "fixtureSha256": "fedfb5dd8933f55c1cb33855a99a21221da2b8e5a2656a3ad4d93d7551e764bd",
+  "elapsedSeconds": 60.367248389999986
+}

@@ -1,8 +1,6 @@
 name: Same-runner cache clean-reserve controls
 run-name: Cache clean-reserve history300 unique10k cold4096, one suite
 on:
-  push:
-    branches: [stress/canary-validation]
   workflow_dispatch:
     inputs:
       pair_order:
