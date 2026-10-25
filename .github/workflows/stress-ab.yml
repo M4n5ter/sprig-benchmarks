@@ -1,8 +1,6 @@
 name: Cargo DAG16 within-Sprig ordinary A/B
 run-name: Cargo DAG16 baseline4ef versus renameb300, inc0 then1,4GiB
 on:
-  push:
-    branches: [stress/canary-validation]
   workflow_dispatch:
 permissions:
   contents: read

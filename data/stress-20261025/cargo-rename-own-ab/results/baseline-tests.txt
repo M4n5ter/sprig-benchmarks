@@ -1,0 +1,172 @@
+   Compiling libc v0.2.191
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.27
+   Compiling shlex v2.0.1
+   Compiling find-msvc-tools v0.1.15
+   Compiling jobserver v0.1.35
+   Compiling memchr v2.8.3
+   Compiling cc v1.9.0
+   Compiling pkg-config v0.3.34
+   Compiling crossbeam-utils v0.8.23
+   Compiling syn v3.0.9
+   Compiling zstd-sys v2.1.2+zstd.1.5.7
+   Compiling serde_core v1.0.229
+   Compiling utf8parse v0.2.2
+   Compiling cfg_aliases v0.2.2
+   Compiling crossbeam-epoch v0.9.21
+   Compiling nix v0.29.0
+   Compiling anstyle-parse v1.0.0
+   Compiling aho-corasick v1.1.5
+   Compiling syn v2.0.119
+   Compiling crossbeam-deque v0.8.8
+   Compiling zstd-safe v7.3.0
+   Compiling log v0.4.34
+   Compiling zerocopy v0.8.63
+   Compiling is_terminal_polyfill v1.70.2
+   Compiling anstyle v1.0.14
+   Compiling colorchoice v1.0.5
+   Compiling anstyle-query v1.1.5
+   Compiling regex-syntax v0.8.11
+   Compiling zmij v1.0.23
+   Compiling cfg-if v1.0.5
+   Compiling regex-automata v0.4.18
+   Compiling anstream v1.0.0
+   Compiling zerocopy-derive v0.8.63
+   Compiling blake3 v1.8.7
+   Compiling bstr v1.13.1
+   Compiling serde_json v1.0.154
+   Compiling heck v0.5.0
+   Compiling strsim v0.11.1
+   Compiling clap_lex v1.1.1
+   Compiling same-file v1.0.6
+   Compiling bitflags v2.13.2
+   Compiling fuser v0.16.0
+   Compiling serde v1.0.229
+   Compiling walkdir v2.5.0
+   Compiling clap_builder v4.6.7
+   Compiling clap_derive v4.6.7
+   Compiling globset v0.4.20
+   Compiling page_size v0.6.0
+   Compiling serde_derive v1.0.229
+   Compiling itoa v1.0.18
+   Compiling arrayvec v0.7.8
+   Compiling cpufeatures v0.3.1
+   Compiling nu-ansi-term v0.50.3
+   Compiling constant_time_eq v0.4.2
+   Compiling smallvec v1.16.3
+   Compiling diffy v0.4.2
+   Compiling ignore v0.4.33
+   Compiling clap v4.6.7
+   Compiling zstd v0.13.3
+   Compiling fastcdc v3.2.1
+   Compiling sprig v0.2.0 (/home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig-baseline)
+    Finished `test` profile [unoptimized] target(s) in 29.70s
+     Running unittests src/lib.rs (build-target-baseline/debug/deps/sprig-a20b180b5781064e)
+
+running 60 tests
+test content::tests::validates_paths_addresses_and_root_syntax ... ok
+test copy_tree::tests::identity_validation_rejects_bad_paths_topology_and_times ... ok
+test copy_tree::tests::validates_root_syntax_and_clone_error_classification ... ok
+test copy_tree::tests::identity_capture_rejects_non_utf8_names_without_changing_raw_copy ... ok
+test copy_tree::tests::copy_report_tracks_each_node_and_preserves_link_isolation ... ok
+test file_cache::tests::ineligible_files_never_initialize_the_cache ... ok
+test content::tests::preserves_native_link_topology_and_inode_continuity ... ok
+test file_cache::tests::cache_is_disposable_bounded_verified_and_never_a_mutable_alias ... ok
+test manifest_pages::tests::encoded_envelope_rejects_before_object_reads ... ok
+test manifest_pages::tests::path_page_caps_and_bounded_canonical_sink ... ok
+test manifest_pages::tests::canonical_emission_insert_delete_rename_and_wrong_partitions ... ok
+test manifest_pages::tests::oversized_entry_fragments_reset_without_moving_later_groups ... ok
+test merge::tests::hardlink_payload_namespace_and_conflict_closure ... ok
+test merge::tests::identity_text_units_and_structural_resolution ... ok
+test observations::tests::budgets_charge_actual_distinct_refs_not_declared_lengths ... ok
+test observations::tests::orphan_inspection_and_encoded_work_are_bounded_and_configurable ... ok
+test observations::tests::rejects_corruption_extra_frames_trailing_bytes_and_preserves_existing ... ok
+test observations::tests::rejects_noncanonical_maps_fields_and_invalid_paths ... ok
+test observations::tests::rejects_oversized_codec_window_and_unsafe_leaf_types ... ok
+test observations::tests::roundtrip_empty_wide_identity_and_semantic_dedup ... ok
+test observations::tests::verification_cache_is_not_shared_between_locations_or_descriptors ... ok
+test observations::tests::publication_faults_preserve_only_safe_orphans_and_retry_verifies_them ... ok
+test manifest_pages::tests::path_groups_ignore_id_seeds_and_value_edits ... ok
+test manifest_pages::tests::roundtrip_corruption_and_limits ... ok
+test packed::tests::compaction_keeps_reader_generations_and_reclaims_only_under_both_locks ... ok
+test projection::capture::tests::mount_binding_is_exact_and_metacopy_is_not_assumed ... ok
+test packed::tests::compaction_failpoints_preserve_old_payload_and_published_index_outcomes ... ok
+test projection::capture::tests::same_path_identity_wins_and_origin_duplicates_get_fresh_ids ... ok
+test packed::tests::compressed_payloads_keep_plain_addresses_and_bound_decoding ... ok
+test projection::lifecycle::tests::mount_binding_and_parser_fail_closed ... ok
+test projection::tree::tests::bounded_cache_and_invalid_store_contract ... ok
+test packed::tests::packed_batches_preserve_snapshots_verify_dedup_and_reject_damage ... ok
+test projection::capture::tests::upper_absence_never_follows_symlinks_or_accepts_permission_errors ... ok
+test store::lifecycle_tests::copied_pending_rename_merges_with_original_path_edit ... ok
+test store::lifecycle_tests::query_operations_decode_each_reference_once_without_cross_operation_cache ... ok
+test store::lifecycle_tests::native_fork_copies_identity_without_publishing_uncommitted_content ... ok
+test store::lifecycle_tests::stopped_owned_core_is_reused_with_lease_and_failure_checks_intact ... ok
+test store::lifecycle_tests::restore_reuses_one_verified_revision_and_rechecks_next_operation ... ok
+test store::observation_roots::tests::same_length_inventory_tamper_stales_plan_and_unknown_files_survive ... ok
+test store::observation_roots::tests::retained_backup_evidence_and_dependencies_protect_older_good_backups ... ok
+test store::observation_tests::explicit_writable_recovery_does_not_heal_broken_source_observations ... ok
+test store::observation_tests::observation_backup_only_root_and_recovery_preserve_missing_current_evidence ... ok
+test store::observation_tests::observation_gc_protects_backups_staging_and_rejects_changed_evidence ... ok
+test store::observation_tests::observation_publication_failure_keeps_exact_authoritative_state ... ok
+test store::observation_tests::observation_resolution_is_explicit_budgeted_and_missing_is_not_empty ... ok
+test store::observation_tests::observation_recovery_and_collection_faults_never_erase_published_roots ... ok
+test writable::tests::writable_hardlinks_share_inodes_and_replay_namespace_topology ... ok
+test writable_lifecycle::tests::lease_backoff_fatal_error_is_returned_unchanged_without_sleep ... ok
+test writable_lifecycle::tests::lease_backoff_immediate_release_never_sleeps ... ok
+test writable_lifecycle::tests::lease_backoff_interrupted_acquisition_sleeps_and_rechecks_lock ... ok
+test writable_lifecycle::tests::lease_backoff_late_release_caps_sleep_and_keeps_original_deadline ... ok
+test writable_lifecycle::tests::lease_backoff_never_release_times_out_without_oversleep_or_spin ... ok
+test writable_lifecycle::tests::lease_backoff_preserves_acquisition_before_timeout_after_scheduler_delay ... ok
+test writable_lifecycle::tests::lease_backoff_prompt_release_requires_actual_acquisition ... ok
+test writable_lifecycle::tests::lease_backoff_scheduler_delay_does_not_reset_timeout ... ok
+test writable_lifecycle::tests::writable_binding_requires_one_exact_restrictive_mount ... ok
+test writable::tests::writable_generation_namespace_content_recovery_and_checkpoint ... ok
+test writable_session::tests::session_phases_reject_corruption_stale_certificates_and_remaining_markers ... ok
+test projection::capture::tests::production_chunk_boundaries_match_and_existing_corruption_is_rejected ... ok
+test projection::tree::tests::projection_roundtrip_and_readonly_contract ... ok
+
+test result: ok. 60 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.20s
+
+     Running unittests src/main.rs (build-target-baseline/debug/deps/sprig-20e8b94065ce3e70)
+
+running 1 test
+test cli::tests::command_grammar ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+     Running tests/cli_safety.rs (build-target-baseline/debug/deps/cli_safety-e252426ac81aca04)
+
+running 3 tests
+test native_isolation_content_dedup_and_path_safety ... ok
+test shared_branch_merges_conflicts_and_immutable_branch_outputs ... ok
+test transactional_sdk_exec_leases_recovery_and_non_destructive_inspection ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.74s
+
+     Running tests/storage_workflow.rs (build-target-baseline/debug/deps/storage_workflow-2eb775a83c523cf8)
+
+running 1 test
+test storage_lifecycle_keeps_live_data_and_rejects_stale_collection ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.18s
+
+     Running tests/windows_native.rs (build-target-baseline/debug/deps/windows_native-930fdb8a6ecf09e8)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/writable_store.rs (build-target-baseline/debug/deps/writable_store-9676b4d76102d94e)
+
+running 1 test
+test owned_workspaces_share_publication_merge_and_recovery ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.73s
+
+   Doc-tests sprig
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

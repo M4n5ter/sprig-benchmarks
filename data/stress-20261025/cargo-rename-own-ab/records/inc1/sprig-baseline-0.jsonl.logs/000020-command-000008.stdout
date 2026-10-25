@@ -1,0 +1,16 @@
+{
+  "result": {
+    "backend": {
+      "kind": "writable",
+      "revision": "b1a467266c69a34f8b5540a32daa6dc30a9b9dad9ae4195eb83994a95fd48542"
+    },
+    "base_revision": "351d13af94b726801f840cae527443099f4ec8d84188a9bbe3b30d7c31cd8986",
+    "branch": "work",
+    "copy_stats": null,
+    "mount_state": "mounted",
+    "name": "work",
+    "path": "/home/runner/work/_temp/stress-cargo-sprig-baseline-1-0-9TiCDU/mount/sample/library/native/1792966323881679437-23325-1/tree",
+    "pending_conflicts": []
+  },
+  "schema_version": 1
+}

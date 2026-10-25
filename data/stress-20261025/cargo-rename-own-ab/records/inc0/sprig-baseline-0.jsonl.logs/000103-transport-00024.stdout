@@ -1,0 +1,222 @@
+[
+    {
+        "Id": "ff770f2c6444321f6008bc5a49a715490273df88ce8f3803640f4613de4d76b5",
+        "Created": "2026-10-25T22:10:48.733995927Z",
+        "Path": "python3",
+        "Args": [
+            "-B",
+            "-c",
+            "import json, pathlib, sys, time\nmarker = pathlib.Path(sys.argv[1])\ndef identity(pid):\n    try:\n        value = pathlib.Path('/proc', str(pid), 'stat').read_text().rpartition(') ')[2].split()\n        return int(value[19])\n    except (FileNotFoundError, ProcessLookupError):\n        return None\nwhile not marker.exists():\n    time.sleep(0.05)\nwith marker.open() as stream:\n    value = json.load(stream)\npid, ticks = value['pid'], value['startTimeTicks']\nif type(pid) is not int or pid <= 1 or type(ticks) is not int or ticks < 0:\n    raise ValueError('invalid cooperative marker identity')\nwhile identity(pid) == ticks:\n    time.sleep(0.01)\n",
+            "/tmp/sprig-cargo-exit-fd7b635edcbd42858f19ec8f3dd6326c"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 14734,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-25T22:10:48.793470707Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:8fe1ae418eaa561337241498ea21a276cd7e8cd80ceff4611f4f8c7207fbbf4c",
+        "ResolvConfPath": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/docker-data/containers/ff770f2c6444321f6008bc5a49a715490273df88ce8f3803640f4613de4d76b5/resolv.conf",
+        "HostnamePath": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/docker-data/containers/ff770f2c6444321f6008bc5a49a715490273df88ce8f3803640f4613de4d76b5/hostname",
+        "HostsPath": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/docker-data/containers/ff770f2c6444321f6008bc5a49a715490273df88ce8f3803640f4613de4d76b5/hosts",
+        "LogPath": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/docker-data/containers/ff770f2c6444321f6008bc5a49a715490273df88ce8f3803640f4613de4d76b5/ff770f2c6444321f6008bc5a49a715490273df88ce8f3803640f4613de4d76b5-json.log",
+        "Name": "/sprig-cargo-5a02680c46e84a6ca5edbd903983a705-generation-0001",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "bridge",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "Mounts": [
+                {
+                    "Type": "bind",
+                    "Source": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/sample/library/native/1792966248688817028-14676-1/tree",
+                    "Target": "/work"
+                }
+            ],
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "ID": "ff770f2c6444321f6008bc5a49a715490273df88ce8f3803640f4613de4d76b5",
+                "LowerDir": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/docker-data/overlay2/cd41d71ef18a7f29fb6a923046fa6f864ace47aad2163c503ada54812a4c81cf-init/diff:/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/docker-data/overlay2/b850e9d529b039ef3cd059697684ffa5ac107db3e22bdeb321abecec247861c9/diff:/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/docker-data/overlay2/db2b38c7d108f1461b61dde8e1798b8885487088e1e322c37f78ae13c10805c2/diff:/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/docker-data/overlay2/618a515c3e8deabbb911cbe73cd50668d9d775f4e382e62548a09d01e03951bb/diff:/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/docker-data/overlay2/25b547990bf4c95512568ee511c597250fa010db1c66d7e85f9e3509d63ed0e8/diff:/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/docker-data/overlay2/acfe270dd0521389c13335215281d6d5f55563ec8d0e30e950fef858ca61e85d/diff",
+                "MergedDir": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/docker-data/overlay2/cd41d71ef18a7f29fb6a923046fa6f864ace47aad2163c503ada54812a4c81cf/merged",
+                "UpperDir": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/docker-data/overlay2/cd41d71ef18a7f29fb6a923046fa6f864ace47aad2163c503ada54812a4c81cf/diff",
+                "WorkDir": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/docker-data/overlay2/cd41d71ef18a7f29fb6a923046fa6f864ace47aad2163c503ada54812a4c81cf/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "bind",
+                "Source": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-0-juRHJY/mount/sample/library/native/1792966248688817028-14676-1/tree",
+                "Destination": "/work",
+                "Mode": "",
+                "RW": true,
+                "Propagation": "rprivate"
+            }
+        ],
+        "Config": {
+            "Hostname": "ff770f2c6444",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "CARGO_TARGET_DIR=/work/target",
+                "TMPDIR=/work/.tmp",
+                "CARGO_NET_OFFLINE=true",
+                "LC_ALL=C",
+                "TZ=UTC",
+                "CARGO_INCREMENTAL=0",
+                "CARGO_HOME=/work/.cargo-home",
+                "PATH=/opt/rust/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "-B",
+                "-c",
+                "import json, pathlib, sys, time\nmarker = pathlib.Path(sys.argv[1])\ndef identity(pid):\n    try:\n        value = pathlib.Path('/proc', str(pid), 'stat').read_text().rpartition(') ')[2].split()\n        return int(value[19])\n    except (FileNotFoundError, ProcessLookupError):\n        return None\nwhile not marker.exists():\n    time.sleep(0.05)\nwith marker.open() as stream:\n    value = json.load(stream)\npid, ticks = value['pid'], value['startTimeTicks']\nif type(pid) is not int or pid <= 1 or type(ticks) is not int or ticks < 0:\n    raise ValueError('invalid cooperative marker identity')\nwhile identity(pid) == ticks:\n    time.sleep(0.01)\n",
+                "/tmp/sprig-cargo-exit-fd7b635edcbd42858f19ec8f3dd6326c"
+            ],
+            "Image": "sha256:8fe1ae418eaa561337241498ea21a276cd7e8cd80ceff4611f4f8c7207fbbf4c",
+            "Volumes": null,
+            "WorkingDir": "/work",
+            "Entrypoint": [
+                "python3"
+            ],
+            "Labels": {
+                "org.opencontainers.image.version": "24.04",
+                "sprig.cargo.generation": "1792966248688817028-14676-1",
+                "sprig.cargo.sample": "sprig-cargo-5a02680c46e84a6ca5edbd903983a705",
+                "sprig.cargo.session": "fd7b635edcbd42858f19ec8f3dd6326c"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "1cfe25805c4c46648e8418bc678c3e39cf5f705c896c6ebb9c18c2100448f394",
+            "SandboxKey": "/var/run/docker/netns/1cfe25805c4c",
+            "Ports": {},
+            "Networks": {
+                "bridge": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "27e5dc35426b2911e3faa8a2c7507dee70c5989e67a43f7d3d03d07e2eb9cb28",
+                    "EndpointID": "2670452200cf855815b0178d58dd2a09cee8a537a1249e6941dbcda0057400d0",
+                    "Gateway": "172.17.0.1",
+                    "IPAddress": "172.17.0.2",
+                    "MacAddress": "ce:1d:96:14:bb:b0",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        }
+    }
+]
