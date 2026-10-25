@@ -1,0 +1,530 @@
+{
+  "schema": "sprig-stress-summary-v1",
+  "cell": "canary",
+  "diagnostic": false,
+  "units": "seconds and bytes",
+  "rows": [
+    {
+      "product": "sprig-baseline",
+      "backend": "native",
+      "round": 0,
+      "wholeSampleSeconds": 1.3899730279999858,
+      "activeWholeFilesystemBytes": 741376,
+      "postHistoryWholeFilesystemBytes": 1204224,
+      "activeMinusEmptyBytes": 446464,
+      "postHistoryMinusEmptyBytes": 909312,
+      "changedCheckpoints": 3,
+      "historicalReadbacks": 4,
+      "checkpointTails": {
+        "n": 3,
+        "median": 0.022966279000002032,
+        "maximum": 0.024504294999985632,
+        "total": 0.06269978000000265,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "restoreTails": {
+        "n": 4,
+        "median": 0.09163255400002868,
+        "maximum": 0.22913618800004087,
+        "total": 0.4524795830001267,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historyWindows": [
+        {
+          "window": "early",
+          "firstChangedOrdinal": 1,
+          "lastChangedOrdinal": 1,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.024504294999985632,
+            "maximum": 0.024504294999985632,
+            "total": 0.024504294999985632,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "middle",
+          "firstChangedOrdinal": 2,
+          "lastChangedOrdinal": 2,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.015229206000014983,
+            "maximum": 0.015229206000014983,
+            "total": 0.015229206000014983,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "late",
+          "firstChangedOrdinal": 3,
+          "lastChangedOrdinal": 3,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.022966279000002032,
+            "maximum": 0.022966279000002032,
+            "total": 0.022966279000002032,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        }
+      ]
+    },
+    {
+      "product": "layerfs-release",
+      "backend": "native",
+      "round": 0,
+      "wholeSampleSeconds": 1.8858837849999759,
+      "activeWholeFilesystemBytes": 143446016,
+      "postHistoryWholeFilesystemBytes": 143618048,
+      "activeMinusEmptyBytes": 143151104,
+      "postHistoryMinusEmptyBytes": 143323136,
+      "changedCheckpoints": 3,
+      "historicalReadbacks": 4,
+      "checkpointTails": {
+        "n": 3,
+        "median": 0.0046635050000001,
+        "maximum": 0.006782643000000007,
+        "total": 0.015726187000000093,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "restoreTails": {
+        "n": 4,
+        "median": 0.004361631999999986,
+        "maximum": 0.005303139000000101,
+        "total": 0.01799979200000007,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historyWindows": [
+        {
+          "window": "early",
+          "firstChangedOrdinal": 1,
+          "lastChangedOrdinal": 1,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.006782643000000007,
+            "maximum": 0.006782643000000007,
+            "total": 0.006782643000000007,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "middle",
+          "firstChangedOrdinal": 2,
+          "lastChangedOrdinal": 2,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.0046635050000001,
+            "maximum": 0.0046635050000001,
+            "total": 0.0046635050000001,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "late",
+          "firstChangedOrdinal": 3,
+          "lastChangedOrdinal": 3,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.004280038999999988,
+            "maximum": 0.004280038999999988,
+            "total": 0.004280038999999988,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        }
+      ]
+    },
+    {
+      "product": "sprig-baseline",
+      "backend": "projection",
+      "round": 0,
+      "wholeSampleSeconds": 3.201854111999978,
+      "activeWholeFilesystemBytes": 684032,
+      "postHistoryWholeFilesystemBytes": 999424,
+      "activeMinusEmptyBytes": 389120,
+      "postHistoryMinusEmptyBytes": 704512,
+      "changedCheckpoints": 3,
+      "historicalReadbacks": 4,
+      "checkpointTails": {
+        "n": 3,
+        "median": 0.02025929600000609,
+        "maximum": 0.07753022599996484,
+        "total": 0.11667712100000927,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "restoreTails": {
+        "n": 4,
+        "median": 0.24504396700001507,
+        "maximum": 0.5958621730000004,
+        "total": 1.183156785000051,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historyWindows": [
+        {
+          "window": "early",
+          "firstChangedOrdinal": 1,
+          "lastChangedOrdinal": 1,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.07753022599996484,
+            "maximum": 0.07753022599996484,
+            "total": 0.07753022599996484,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "middle",
+          "firstChangedOrdinal": 2,
+          "lastChangedOrdinal": 2,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.018887599000038335,
+            "maximum": 0.018887599000038335,
+            "total": 0.018887599000038335,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "late",
+          "firstChangedOrdinal": 3,
+          "lastChangedOrdinal": 3,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.02025929600000609,
+            "maximum": 0.02025929600000609,
+            "total": 0.02025929600000609,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        }
+      ]
+    },
+    {
+      "product": "layerfs-release",
+      "backend": "projection",
+      "round": 0,
+      "wholeSampleSeconds": 1.712225631000024,
+      "activeWholeFilesystemBytes": 143446016,
+      "postHistoryWholeFilesystemBytes": 143650816,
+      "activeMinusEmptyBytes": 143151104,
+      "postHistoryMinusEmptyBytes": 143355904,
+      "changedCheckpoints": 3,
+      "historicalReadbacks": 4,
+      "checkpointTails": {
+        "n": 3,
+        "median": 0.0046362879999999225,
+        "maximum": 0.006587486999999896,
+        "total": 0.015329665999999974,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "restoreTails": {
+        "n": 4,
+        "median": 0.004314009499999997,
+        "maximum": 0.00546316899999988,
+        "total": 0.018123900999999932,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historyWindows": [
+        {
+          "window": "early",
+          "firstChangedOrdinal": 1,
+          "lastChangedOrdinal": 1,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.006587486999999896,
+            "maximum": 0.006587486999999896,
+            "total": 0.006587486999999896,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "middle",
+          "firstChangedOrdinal": 2,
+          "lastChangedOrdinal": 2,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.0046362879999999225,
+            "maximum": 0.0046362879999999225,
+            "total": 0.0046362879999999225,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "late",
+          "firstChangedOrdinal": 3,
+          "lastChangedOrdinal": 3,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.0041058910000001565,
+            "maximum": 0.0041058910000001565,
+            "total": 0.0041058910000001565,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        }
+      ]
+    },
+    {
+      "product": "sprig-baseline",
+      "backend": "writable",
+      "round": 0,
+      "wholeSampleSeconds": 3.1131304730000124,
+      "activeWholeFilesystemBytes": 610304,
+      "postHistoryWholeFilesystemBytes": 720896,
+      "activeMinusEmptyBytes": 315392,
+      "postHistoryMinusEmptyBytes": 425984,
+      "changedCheckpoints": 3,
+      "historicalReadbacks": 4,
+      "checkpointTails": {
+        "n": 3,
+        "median": 0.08463004799995133,
+        "maximum": 0.09715675399996826,
+        "total": 0.24051537499985898,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "restoreTails": {
+        "n": 4,
+        "median": 0.10688860900000918,
+        "maximum": 0.32921096199999056,
+        "total": 0.5614133899999842,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historyWindows": [
+        {
+          "window": "early",
+          "firstChangedOrdinal": 1,
+          "lastChangedOrdinal": 1,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.05872857299993939,
+            "maximum": 0.05872857299993939,
+            "total": 0.05872857299993939,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "middle",
+          "firstChangedOrdinal": 2,
+          "lastChangedOrdinal": 2,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.09715675399996826,
+            "maximum": 0.09715675399996826,
+            "total": 0.09715675399996826,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "late",
+          "firstChangedOrdinal": 3,
+          "lastChangedOrdinal": 3,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.08463004799995133,
+            "maximum": 0.08463004799995133,
+            "total": 0.08463004799995133,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        }
+      ]
+    },
+    {
+      "product": "layerfs-release",
+      "backend": "writable",
+      "round": 0,
+      "wholeSampleSeconds": 1.4021304539999733,
+      "activeWholeFilesystemBytes": 143249408,
+      "postHistoryWholeFilesystemBytes": 143454208,
+      "activeMinusEmptyBytes": 142954496,
+      "postHistoryMinusEmptyBytes": 143159296,
+      "changedCheckpoints": 3,
+      "historicalReadbacks": 4,
+      "checkpointTails": {
+        "n": 3,
+        "median": 0.004552715000000148,
+        "maximum": 0.006679518999999914,
+        "total": 0.015413827999999966,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "restoreTails": {
+        "n": 4,
+        "median": 0.004205604499999993,
+        "maximum": 0.005240516999999954,
+        "total": 0.017541376999999896,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historyWindows": [
+        {
+          "window": "early",
+          "firstChangedOrdinal": 1,
+          "lastChangedOrdinal": 1,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.006679518999999914,
+            "maximum": 0.006679518999999914,
+            "total": 0.006679518999999914,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "middle",
+          "firstChangedOrdinal": 2,
+          "lastChangedOrdinal": 2,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.004552715000000148,
+            "maximum": 0.004552715000000148,
+            "total": 0.004552715000000148,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "late",
+          "firstChangedOrdinal": 3,
+          "lastChangedOrdinal": 3,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.004181593999999905,
+            "maximum": 0.004181593999999905,
+            "total": 0.004181593999999905,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        }
+      ]
+    }
+  ],
+  "withinPairRatios": [
+    {
+      "backend": "native",
+      "round": 0,
+      "numerator": "sprig-baseline",
+      "denominator": "layerfs-release",
+      "ratios": {
+        "wholeSampleSeconds": 0.7370406591623585,
+        "activeWholeFilesystemBytes": 0.005168327574883641,
+        "postHistoryWholeFilesystemBytes": 0.008384907167099222,
+        "activeMinusEmptyBytes": 0.00311883029557355,
+        "postHistoryMinusEmptyBytes": 0.0063444885827784285
+      }
+    },
+    {
+      "backend": "projection",
+      "round": 0,
+      "numerator": "sprig-baseline",
+      "denominator": "layerfs-release",
+      "ratios": {
+        "wholeSampleSeconds": 1.8699954340304659,
+        "activeWholeFilesystemBytes": 0.004768567430969989,
+        "postHistoryWholeFilesystemBytes": 0.006957315160674061,
+        "activeMinusEmptyBytes": 0.002718246587885204,
+        "postHistoryMinusEmptyBytes": 0.004914426126460756
+      }
+    },
+    {
+      "backend": "writable",
+      "round": 0,
+      "numerator": "sprig-baseline",
+      "denominator": "layerfs-release",
+      "ratios": {
+        "wholeSampleSeconds": 2.2202858971637967,
+        "activeWholeFilesystemBytes": 0.004260429474165785,
+        "postHistoryWholeFilesystemBytes": 0.005025269108871313,
+        "activeMinusEmptyBytes": 0.0022062405088679408,
+        "postHistoryMinusEmptyBytes": 0.0029755944035936024
+      }
+    }
+  ],
+  "caveats": [
+    "Descriptive correlated-operation tails; no independent-sample statistical claim.",
+    "Whole sample subprocess wall is authoritative; nested phase totals are not added to it.",
+    "Whole filesystem includes runtime and all retained generations; runtime differences disclosed.",
+    "Different durability and CLI versus SDK/container transport; no CPU/RAM-equivalence claim.",
+    "New full-metadata stress protocol, not interchangeable with frozen listed-file results."
+  ]
+}
