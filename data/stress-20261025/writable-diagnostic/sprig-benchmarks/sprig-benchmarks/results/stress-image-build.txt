@@ -1,0 +1,185 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 462B done
+#1 WARN: InvalidDefaultArgInFrom: Default value for ARG ${BASE_IMAGE} results in empty or invalid base image name (line 5)
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/ubuntu@sha256:68ee22004a9109b44973313b02ff7b1de250f1de0f5ecb628d73f579aaff33ac
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/library/ubuntu@sha256:68ee22004a9109b44973313b02ff7b1de250f1de0f5ecb628d73f579aaff33ac
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 4.65kB done
+#5 DONE 0.0s
+
+#6 [2/3] RUN apt-get update && apt-get install -y --no-install-recommends python3 && rm -rf /var/lib/apt/lists/*
+#6 0.304 Get:1 http://archive.ubuntu.com/ubuntu noble InRelease [256 kB]
+#6 0.606 Get:2 http://security.ubuntu.com/ubuntu noble-security InRelease [126 kB]
+#6 0.708 Get:3 http://archive.ubuntu.com/ubuntu noble-updates InRelease [126 kB]
+#6 0.807 Get:4 http://archive.ubuntu.com/ubuntu noble-backports InRelease [126 kB]
+#6 0.907 Get:5 http://archive.ubuntu.com/ubuntu noble/main amd64 Packages [1808 kB]
+#6 1.216 Get:6 http://archive.ubuntu.com/ubuntu noble/restricted amd64 Packages [117 kB]
+#6 1.216 Get:7 http://archive.ubuntu.com/ubuntu noble/multiverse amd64 Packages [331 kB]
+#6 1.232 Get:8 http://archive.ubuntu.com/ubuntu noble/universe amd64 Packages [19.3 MB]
+#6 1.334 Get:9 http://security.ubuntu.com/ubuntu noble-security/restricted amd64 Packages [2122 kB]
+#6 1.668 Get:10 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 Packages [1733 kB]
+#6 1.676 Get:11 http://archive.ubuntu.com/ubuntu noble-updates/multiverse amd64 Packages [61.7 kB]
+#6 1.677 Get:12 http://archive.ubuntu.com/ubuntu noble-updates/universe amd64 Packages [2170 kB]
+#6 1.712 Get:13 http://archive.ubuntu.com/ubuntu noble-updates/restricted amd64 Packages [2231 kB]
+#6 1.726 Get:14 http://archive.ubuntu.com/ubuntu noble-backports/multiverse amd64 Packages [669 B]
+#6 1.726 Get:15 http://archive.ubuntu.com/ubuntu noble-backports/universe amd64 Packages [36.0 kB]
+#6 1.727 Get:16 http://archive.ubuntu.com/ubuntu noble-backports/main amd64 Packages [49.0 kB]
+#6 2.479 Get:17 http://security.ubuntu.com/ubuntu noble-security/multiverse amd64 Packages [55.6 kB]
+#6 2.482 Get:18 http://security.ubuntu.com/ubuntu noble-security/universe amd64 Packages [1549 kB]
+#6 2.685 Get:19 http://security.ubuntu.com/ubuntu noble-security/main amd64 Packages [1411 kB]
+#6 2.904 Fetched 33.6 MB in 3s (12.3 MB/s)
+#6 2.904 Reading package lists...
+#6 3.624 Reading package lists...
+#6 4.332 Building dependency tree...
+#6 4.467 Reading state information...
+#6 4.595 The following additional packages will be installed:
+#6 4.595   libexpat1 libpython3-stdlib libpython3.12-minimal libpython3.12-stdlib
+#6 4.596   libreadline8t64 libsqlite3-0 media-types netbase python3-minimal python3.12
+#6 4.596   python3.12-minimal readline-common tzdata
+#6 4.596 Suggested packages:
+#6 4.596   python3-doc python3-tk python3-venv python3.12-venv python3.12-doc binutils
+#6 4.596   binfmt-support readline-doc
+#6 4.596 Recommended packages:
+#6 4.596   ca-certificates
+#6 4.645 The following NEW packages will be installed:
+#6 4.645   libexpat1 libpython3-stdlib libpython3.12-minimal libpython3.12-stdlib
+#6 4.645   libreadline8t64 libsqlite3-0 media-types netbase python3 python3-minimal
+#6 4.645   python3.12 python3.12-minimal readline-common tzdata
+#6 5.068 0 upgraded, 14 newly installed, 0 to remove and 4 not upgraded.
+#6 5.068 Need to get 7288 kB of archives.
+#6 5.068 After this operation, 28.0 MB of additional disk space will be used.
+#6 5.068 Get:1 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-minimal amd64 3.12.3-1ubuntu0.17 [839 kB]
+#6 6.198 Get:2 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libexpat1 amd64 2.6.1-2ubuntu0.6 [98.9 kB]
+#6 6.215 Get:3 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12-minimal amd64 3.12.3-1ubuntu0.17 [2335 kB]
+#6 6.684 Get:4 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3-minimal amd64 3.12.3-0ubuntu2.1 [27.4 kB]
+#6 6.688 Get:5 http://archive.ubuntu.com/ubuntu noble/main amd64 media-types all 10.1.0 [27.5 kB]
+#6 6.691 Get:6 http://archive.ubuntu.com/ubuntu noble/main amd64 netbase all 6.4 [13.1 kB]
+#6 6.691 Get:7 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 tzdata all 2026e-0ubuntu0.24.04.1 [282 kB]
+#6 6.749 Get:8 http://archive.ubuntu.com/ubuntu noble/main amd64 readline-common all 8.2-4build1 [56.5 kB]
+#6 6.751 Get:9 http://archive.ubuntu.com/ubuntu noble/main amd64 libreadline8t64 amd64 8.2-4build1 [153 kB]
+#6 6.760 Get:10 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libsqlite3-0 amd64 3.45.1-1ubuntu2.8 [702 kB]
+#6 6.799 Get:11 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3.12-stdlib amd64 3.12.3-1ubuntu0.17 [2071 kB]
+#6 6.956 Get:12 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3.12 amd64 3.12.3-1ubuntu0.17 [651 kB]
+#6 7.017 Get:13 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libpython3-stdlib amd64 3.12.3-0ubuntu2.1 [10.1 kB]
+#6 7.017 Get:14 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 python3 amd64 3.12.3-0ubuntu2.1 [23.0 kB]
+#6 7.108 debconf: delaying package configuration, since apt-utils is not installed
+#6 7.128 Fetched 7288 kB in 2s (3082 kB/s)
+#6 7.140 Selecting previously unselected package libpython3.12-minimal:amd64.
+#6 7.140 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 4381 files and directories currently installed.)
+#6 7.147 Preparing to unpack .../libpython3.12-minimal_3.12.3-1ubuntu0.17_amd64.deb ...
+#6 7.148 Unpacking libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.17) ...
+#6 7.222 Selecting previously unselected package libexpat1:amd64.
+#6 7.223 Preparing to unpack .../libexpat1_2.6.1-2ubuntu0.6_amd64.deb ...
+#6 7.225 Unpacking libexpat1:amd64 (2.6.1-2ubuntu0.6) ...
+#6 7.240 Selecting previously unselected package python3.12-minimal.
+#6 7.241 Preparing to unpack .../python3.12-minimal_3.12.3-1ubuntu0.17_amd64.deb ...
+#6 7.244 Unpacking python3.12-minimal (3.12.3-1ubuntu0.17) ...
+#6 7.288 Setting up libpython3.12-minimal:amd64 (3.12.3-1ubuntu0.17) ...
+#6 7.291 Setting up libexpat1:amd64 (2.6.1-2ubuntu0.6) ...
+#6 7.293 Setting up python3.12-minimal (3.12.3-1ubuntu0.17) ...
+#6 7.973 Selecting previously unselected package python3-minimal.
+#6 7.973 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 4700 files and directories currently installed.)
+#6 7.979 Preparing to unpack .../0-python3-minimal_3.12.3-0ubuntu2.1_amd64.deb ...
+#6 7.979 Unpacking python3-minimal (3.12.3-0ubuntu2.1) ...
+#6 7.994 Selecting previously unselected package media-types.
+#6 7.995 Preparing to unpack .../1-media-types_10.1.0_all.deb ...
+#6 7.996 Unpacking media-types (10.1.0) ...
+#6 8.009 Selecting previously unselected package netbase.
+#6 8.011 Preparing to unpack .../2-netbase_6.4_all.deb ...
+#6 8.012 Unpacking netbase (6.4) ...
+#6 8.025 Selecting previously unselected package tzdata.
+#6 8.026 Preparing to unpack .../3-tzdata_2026e-0ubuntu0.24.04.1_all.deb ...
+#6 8.027 Unpacking tzdata (2026e-0ubuntu0.24.04.1) ...
+#6 8.115 Selecting previously unselected package readline-common.
+#6 8.116 Preparing to unpack .../4-readline-common_8.2-4build1_all.deb ...
+#6 8.117 Unpacking readline-common (8.2-4build1) ...
+#6 8.130 Selecting previously unselected package libreadline8t64:amd64.
+#6 8.132 Preparing to unpack .../5-libreadline8t64_8.2-4build1_amd64.deb ...
+#6 8.135 Adding 'diversion of /lib/x86_64-linux-gnu/libhistory.so.8 to /lib/x86_64-linux-gnu/libhistory.so.8.usr-is-merged by libreadline8t64'
+#6 8.139 Adding 'diversion of /lib/x86_64-linux-gnu/libhistory.so.8.2 to /lib/x86_64-linux-gnu/libhistory.so.8.2.usr-is-merged by libreadline8t64'
+#6 8.142 Adding 'diversion of /lib/x86_64-linux-gnu/libreadline.so.8 to /lib/x86_64-linux-gnu/libreadline.so.8.usr-is-merged by libreadline8t64'
+#6 8.145 Adding 'diversion of /lib/x86_64-linux-gnu/libreadline.so.8.2 to /lib/x86_64-linux-gnu/libreadline.so.8.2.usr-is-merged by libreadline8t64'
+#6 8.146 Unpacking libreadline8t64:amd64 (8.2-4build1) ...
+#6 8.160 Selecting previously unselected package libsqlite3-0:amd64.
+#6 8.162 Preparing to unpack .../6-libsqlite3-0_3.45.1-1ubuntu2.8_amd64.deb ...
+#6 8.163 Unpacking libsqlite3-0:amd64 (3.45.1-1ubuntu2.8) ...
+#6 8.180 Selecting previously unselected package libpython3.12-stdlib:amd64.
+#6 8.181 Preparing to unpack .../7-libpython3.12-stdlib_3.12.3-1ubuntu0.17_amd64.deb ...
+#6 8.182 Unpacking libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.17) ...
+#6 8.271 Selecting previously unselected package python3.12.
+#6 8.273 Preparing to unpack .../8-python3.12_3.12.3-1ubuntu0.17_amd64.deb ...
+#6 8.274 Unpacking python3.12 (3.12.3-1ubuntu0.17) ...
+#6 8.288 Selecting previously unselected package libpython3-stdlib:amd64.
+#6 8.290 Preparing to unpack .../9-libpython3-stdlib_3.12.3-0ubuntu2.1_amd64.deb ...
+#6 8.290 Unpacking libpython3-stdlib:amd64 (3.12.3-0ubuntu2.1) ...
+#6 8.306 Setting up python3-minimal (3.12.3-0ubuntu2.1) ...
+#6 8.423 Selecting previously unselected package python3.
+#6 8.423 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 5706 files and directories currently installed.)
+#6 8.428 Preparing to unpack .../python3_3.12.3-0ubuntu2.1_amd64.deb ...
+#6 8.431 Unpacking python3 (3.12.3-0ubuntu2.1) ...
+#6 8.446 Setting up media-types (10.1.0) ...
+#6 8.449 Setting up libsqlite3-0:amd64 (3.45.1-1ubuntu2.8) ...
+#6 8.451 Setting up tzdata (2026e-0ubuntu0.24.04.1) ...
+#6 8.511 debconf: unable to initialize frontend: Dialog
+#6 8.511 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#6 8.511 debconf: falling back to frontend: Readline
+#6 8.511 debconf: unable to initialize frontend: Readline
+#6 8.511 debconf: (Can't locate Term/ReadLine.pm in @INC (you may need to install the Term::ReadLine module) (@INC entries checked: /etc/perl /usr/local/lib/x86_64-linux-gnu/perl/5.38.2 /usr/local/share/perl/5.38.2 /usr/lib/x86_64-linux-gnu/perl5/5.38 /usr/share/perl5 /usr/lib/x86_64-linux-gnu/perl-base /usr/lib/x86_64-linux-gnu/perl/5.38 /usr/share/perl/5.38 /usr/local/lib/site_perl) at /usr/share/perl5/Debconf/FrontEnd/Readline.pm line 8.)
+#6 8.511 debconf: falling back to frontend: Teletype
+#6 8.539 Configuring tzdata
+#6 8.539 ------------------
+#6 8.539 
+#6 8.539 Please select the geographic area in which you live. Subsequent configuration
+#6 8.539 questions will narrow this down by presenting a list of cities, representing
+#6 8.539 the time zones in which they are located.
+#6 8.539 
+#6 8.540   1. Africa      4. Arctic    7. Australia  10. Pacific
+#6 8.540   2. America     5. Asia      8. Europe     11. Etc
+#6 8.540   3. Antarctica  6. Atlantic  9. Indian     12. Legacy
+#6 8.540 Geographic area: 
+#6 8.540 Use of uninitialized value $_[1] in join or string at /usr/share/perl5/Debconf/DbDriver/Stack.pm line 112.
+#6 8.545 
+#6 8.545 Current default time zone: '/UTC'
+#6 8.547 Local time is now:      Sun Oct 25 09:36:20 UTC 2026.
+#6 8.547 Universal Time is now:  Sun Oct 25 09:36:20 UTC 2026.
+#6 8.547 Run 'dpkg-reconfigure tzdata' if you wish to change it.
+#6 8.547 
+#6 8.547 Use of uninitialized value $val in substitution (s///) at /usr/share/perl5/Debconf/Format/822.pm line 84, <GEN6> line 4.
+#6 8.547 Use of uninitialized value $val in concatenation (.) or string at /usr/share/perl5/Debconf/Format/822.pm line 85, <GEN6> line 4.
+#6 8.554 Setting up netbase (6.4) ...
+#6 8.560 Setting up readline-common (8.2-4build1) ...
+#6 8.563 Setting up libreadline8t64:amd64 (8.2-4build1) ...
+#6 8.565 Setting up libpython3.12-stdlib:amd64 (3.12.3-1ubuntu0.17) ...
+#6 8.567 Setting up python3.12 (3.12.3-1ubuntu0.17) ...
+#6 9.335 Setting up libpython3-stdlib:amd64 (3.12.3-0ubuntu2.1) ...
+#6 9.337 Setting up python3 (3.12.3-0ubuntu2.1) ...
+#6 9.342 running python rtupdate hooks for python3.12...
+#6 9.342 running python post-rtupdate hooks for python3.12...
+#6 9.417 Processing triggers for libc-bin (2.39-0ubuntu8.9) ...
+#6 DONE 9.5s
+
+#7 [3/3] COPY tree_oracle.py /opt/bench/tree_oracle.py
+#7 DONE 0.0s
+
+#8 exporting to image
+#8 exporting layers
+#8 exporting layers 0.4s done
+#8 writing image sha256:9821302f19b35ca8a1361df7d917eda3b856272a2df6c83a970d485de84c6650
+#8 writing image sha256:9821302f19b35ca8a1361df7d917eda3b856272a2df6c83a970d485de84c6650 done
+#8 naming to docker.io/library/sprig-stress:40181092961 done
+#8 DONE 0.4s
+
+ [33m1 warning found (use docker --debug to expand):
+[0m - InvalidDefaultArgInFrom: Default value for ARG ${BASE_IMAGE} results in empty or invalid base image name (line 5)

@@ -12,7 +12,8 @@ def matrix():
         # Deliberately no reflink/dedup credit: native retained restore trees,
         # plus writable checkpoint generations, plus three initial views.
         logical = p['files'] * p['size']
-        generations = 3 + 2*p['steps']
+        operations = p['steps'] if p['steps'] else 2  # no-op + one changed checkpoint
+        generations = 3 + 2*operations
         rows.append(dict(name=name, stage=stage, fixture=p,
                          logicalBytes=logical,
                          conservativeRetainedLogicalBytes=logical*generations,

@@ -14,3 +14,12 @@ This is a **small correctness/release gate**, not pressure acceptance or statist
 - [Protocol, budgets and phase boundaries](feasibility/STRESS-PLAN.md)
 
 Publication is isolated to the experimental benchmark branch. Benchmark main remains unchanged pending reviewed validation; pressure stays disabled. A separately instrumented writable canary follows at `f09120e3138596c4983371aaccf6f019f395e9fd`; its timings are not primary performance results.
+
+
+## Separate writable diagnostic gate
+
+[Run40181092961](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40181092961), product `f09120e3138596c4983371aaccf6f019f395e9fd`, benchmark `bc901305772cd6a743a04ed0f335c4ce7cb1c292`:1/1 diagnostic record passes15full-tree checks and4historical readbacks, with complete normal cleanup. All54 archived log files passed independent byte/SHA256 verification. The job took3m40s.
+
+227valid trace records were preserved (214CLI stderr,13daemon logs), with zero malformed records. Normal unmount, lease polling and server readiness each have13result-wrapped `ok=true` records; scope-only `ok=null` spans are retained but do not count as successful-phase evidence. This validates actual mounted trace coverage, not a performance improvement. Nested trace spans overlap and cannot be summed into a synthetic task time; this instrumented sample is never pooled into primary comparisons.
+
+[Full unchanged diagnostic artifact](data/stress-20261025/writable-diagnostic/) · [Independent verification](data/stress-20261025/writable-diagnostic/verified.json) · [All-file provenance](data/stress-20261025/diagnostic-provenance.json).

@@ -1,0 +1,3 @@
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":3977672,"ok":true,"phase":"writable.server_readiness","pid":6695,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":6055746,"ok":null,"phase":"writable.server_start","pid":6695,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":6570196,"ok":null,"phase":"writable.mount","pid":6695,"retries":0,"version":1}

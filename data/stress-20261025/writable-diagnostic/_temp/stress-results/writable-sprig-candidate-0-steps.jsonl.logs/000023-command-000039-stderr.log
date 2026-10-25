@@ -1,0 +1,4 @@
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":3596,"ok":true,"phase":"writable.new_generation_sync","pid":6684,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":7253533,"ok":null,"phase":"writable.generation_persist","pid":6684,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":5108445,"ok":true,"phase":"writable.restore_state_publish","pid":6684,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":13073337,"ok":null,"phase":"writable.restore_store","pid":6684,"retries":0,"version":1}

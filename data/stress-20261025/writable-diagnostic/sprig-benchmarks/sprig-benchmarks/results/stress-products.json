@@ -1,0 +1,9 @@
+[
+  {
+    "label": "sprig-candidate",
+    "type": "sprig",
+    "sha": "f09120e3138596c4983371aaccf6f019f395e9fd",
+    "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig/target/release/sprig",
+    "diagnostic": true
+  }
+]

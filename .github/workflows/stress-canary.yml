@@ -1,6 +1,6 @@
 # Canary-only release gate. Pressure cells require a separate reviewed change.
 name: Bounded full-tree stress canary
-run-name: Stress auto ${{ inputs.backend || 'writable' }} ${{ inputs.cell || 'canary' }}
+run-name: Stress auto ${{ inputs.backend || 'all' }} ${{ inputs.cell || 'canary' }}
 on:
   push:
     branches: [stress/canary-validation]
@@ -8,12 +8,12 @@ on:
     inputs:
       sprig_sha:
         type: string
-        default: 'f09120e3138596c4983371aaccf6f019f395e9fd'
+        default: '1bd8793eda1be01dfe35b22abe00c14e5fff4fc9'
         description: Reviewed immutable Sprig source commit; never a branch name
         required: true
       diagnostic:
         type: boolean
-        default: true
+        default: false
         description: Instrumented Sprig-only canary; no primary performance comparison
       cell:
         type: choice
@@ -23,7 +23,7 @@ on:
       backend:
         type: choice
         options: [all, native, projection, writable]
-        default: writable
+        default: all
         required: true
 permissions:
   contents: read
@@ -36,14 +36,14 @@ jobs:
     timeout-minutes: 45
     env:
       CARGO_BUILD_JOBS: '2'
-      SPRIG_SOURCE_SHA: ${{ inputs.sprig_sha || 'f09120e3138596c4983371aaccf6f019f395e9fd' }}
-      STRESS_DIAGNOSTIC: ${{ github.event_name == 'push' && 'true' || (inputs.diagnostic && 'true' || 'false') }}
+      SPRIG_SOURCE_SHA: ${{ inputs.sprig_sha || '1bd8793eda1be01dfe35b22abe00c14e5fff4fc9' }}
+      STRESS_DIAGNOSTIC: ${{ inputs.diagnostic && 'true' || 'false' }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Validate bounded selection before setup
         env:
           CELL: ${{ inputs.cell || 'canary' }}
-          BACKEND: ${{ inputs.backend || 'writable' }}
+          BACKEND: ${{ inputs.backend || 'all' }}
         run: |
           [[ "$SPRIG_SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]
           if [ "$BACKEND" = all ] && [ "$CELL" != canary ]; then exit 2; fi
@@ -132,7 +132,7 @@ jobs:
       - name: One bounded paired cell (canary required before pressure)
         env:
           STRESS_CELL: ${{ inputs.cell || 'canary' }}
-          SPRIG_BACKEND: ${{ inputs.backend || 'writable' }}
+          SPRIG_BACKEND: ${{ inputs.backend || 'all' }}
         run: |
           export STRESS_MEASURE_BUDGET=$((2700 - ($(date +%s) - STRESS_JOB_START) - 300))
           if [ "$STRESS_MEASURE_BUDGET" -gt 1200 ]; then export STRESS_MEASURE_BUDGET=1200; fi
@@ -156,7 +156,7 @@ jobs:
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: stress-${{ inputs.cell || 'canary' }}-${{ inputs.backend || 'writable' }}-measurements
+          name: stress-${{ inputs.cell || 'canary' }}-${{ inputs.backend || 'all' }}-measurements
           path: |
             results/
             ${{ runner.temp }}/stress-results/

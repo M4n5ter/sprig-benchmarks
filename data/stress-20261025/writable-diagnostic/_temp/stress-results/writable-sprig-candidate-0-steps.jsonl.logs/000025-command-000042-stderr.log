@@ -1,0 +1,8 @@
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":1939274,"ok":true,"phase":"writable.normal_unmount","pid":6688,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":25079431,"ok":true,"phase":"writable.lease_poll","pid":6688,"retries":1,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":25154431,"ok":true,"phase":"writable.lease_wait","pid":6688,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":2034121,"ok":true,"phase":"writable.stop_certificate","pid":6688,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":32304567,"ok":null,"phase":"writable.server_stop","pid":6688,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":535411,"ok":null,"phase":"writable.core_open_replay","pid":6688,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":2595,"ok":true,"phase":"writable.replayed_core_sync","pid":6688,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":33160556,"ok":null,"phase":"writable.stop_core","pid":6688,"retries":0,"version":1}

@@ -1,0 +1,95 @@
+{
+  "schema": "sprig-stress-summary-v1",
+  "cell": "canary",
+  "diagnostic": true,
+  "units": "seconds and bytes",
+  "rows": [
+    {
+      "product": "sprig-candidate",
+      "backend": "writable",
+      "round": 0,
+      "wholeSampleSeconds": 1.9643248470000003,
+      "activeWholeFilesystemBytes": 659456,
+      "postHistoryWholeFilesystemBytes": 802816,
+      "activeMinusEmptyBytes": 364544,
+      "postHistoryMinusEmptyBytes": 507904,
+      "changedCheckpoints": 3,
+      "historicalReadbacks": 4,
+      "checkpointTails": {
+        "n": 3,
+        "median": 0.06284034000003658,
+        "maximum": 0.0649453890000018,
+        "total": 0.18898227700000803,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "restoreTails": {
+        "n": 4,
+        "median": 0.02419287799999381,
+        "maximum": 0.02838926999999103,
+        "total": 0.0997993089999909,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historyWindows": [
+        {
+          "window": "early",
+          "firstChangedOrdinal": 1,
+          "lastChangedOrdinal": 1,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.06284034000003658,
+            "maximum": 0.06284034000003658,
+            "total": 0.06284034000003658,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "middle",
+          "firstChangedOrdinal": 2,
+          "lastChangedOrdinal": 2,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.06119654799996965,
+            "maximum": 0.06119654799996965,
+            "total": 0.06119654799996965,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        },
+        {
+          "window": "late",
+          "firstChangedOrdinal": 3,
+          "lastChangedOrdinal": 3,
+          "checkpoint": {
+            "n": 1,
+            "median": 0.0649453890000018,
+            "maximum": 0.0649453890000018,
+            "total": 0.0649453890000018,
+            "quantileMethod": "nearest-rank",
+            "p95": null,
+            "p99": null,
+            "tailCaveat": "descriptive dependent operations, not independent replicates"
+          }
+        }
+      ]
+    }
+  ],
+  "withinPairRatios": [],
+  "caveats": [
+    "Descriptive correlated-operation tails; no independent-sample statistical claim.",
+    "Whole sample subprocess wall is authoritative; nested phase totals are not added to it.",
+    "Whole filesystem includes runtime and all retained generations; runtime differences disclosed.",
+    "Different durability and CLI versus SDK/container transport; no CPU/RAM-equivalence claim.",
+    "New full-metadata stress protocol, not interchangeable with frozen listed-file results."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "verified": true,
+  "comparisonProtocol": "diagnostic-canary",
+  "diagnostic": true,
+  "records": [
+    {
+      "product": "sprig-candidate",
+      "backend": "writable",
+      "round": 0,
+      "fullTreeChecks": 15,
+      "historicalReadbacks": 4,
+      "cleanup": true,
+      "archivedFilesVerified": 54
+    }
+  ],
+  "totalFullTreeChecks": 15,
+  "totalHistoricalReadbacks": 4,
+  "sourcePins": {
+    "sprig-candidate": "f09120e3138596c4983371aaccf6f019f395e9fd"
+  }
+}

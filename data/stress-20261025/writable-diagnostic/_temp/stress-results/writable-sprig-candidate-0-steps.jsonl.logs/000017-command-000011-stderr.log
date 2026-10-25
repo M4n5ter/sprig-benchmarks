@@ -1,0 +1,15 @@
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":272310,"ok":true,"phase":"writable.normal_unmount","pid":6641,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":25074712,"ok":true,"phase":"writable.lease_poll","pid":6641,"retries":1,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":25184778,"ok":true,"phase":"writable.lease_wait","pid":6641,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":2563270,"ok":true,"phase":"writable.stop_certificate","pid":6641,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":31591921,"ok":null,"phase":"writable.server_stop","pid":6641,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":497690,"ok":null,"phase":"writable.core_open_replay","pid":6641,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":3397,"ok":true,"phase":"writable.replayed_core_sync","pid":6641,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":32395632,"ok":null,"phase":"writable.stop_core","pid":6641,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":2465,"ok":true,"phase":"writable.capture_sync","pid":6641,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":271227,"ok":true,"phase":"writable.capture_snapshot","pid":6641,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":3036,"ok":true,"phase":"writable.new_generation_sync","pid":6641,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":5887771,"ok":null,"phase":"writable.generation_persist","pid":6641,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":4342792,"ok":true,"phase":"writable.server_readiness","pid":6641,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":5517378,"ok":null,"phase":"writable.server_start","pid":6641,"retries":0,"version":1}
+SPRIG_LIFECYCLE_TRACE {"elapsed_ns":5948904,"ok":null,"phase":"writable.mount","pid":6641,"retries":0,"version":1}
