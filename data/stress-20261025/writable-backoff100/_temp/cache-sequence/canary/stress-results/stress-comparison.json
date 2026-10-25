@@ -1,0 +1,2742 @@
+{
+  "schema": "sprig-stress-run-v1",
+  "complete": true,
+  "status": "passed",
+  "cell": "canary",
+  "products": [
+    {
+      "label": "baseline",
+      "type": "sprig",
+      "sha": "071036f83691b89bd9e35bb162d34e305e1874b7",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig",
+      "binarySha256": "086801ac765401f9fcd3116bbdf48c72118fd9f7682affd0057121756d2c7b12"
+    },
+    {
+      "label": "backoff",
+      "type": "sprig",
+      "sha": "2c3a7910fe98bf3a8df61f7142cbef740e4ccb2a",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig",
+      "binarySha256": "e9393f24b30f5afaf75aa3e417e165aca20b97bbc3fe842fbcf0f40e8feb28ee"
+    }
+  ],
+  "backends": [
+    "writable"
+  ],
+  "rounds": 1,
+  "records": [
+    {
+      "identity": "writable-baseline-0",
+      "backend": "writable",
+      "product": "baseline",
+      "round": 0,
+      "status": "passed",
+      "correct": true,
+      "productType": "sprig",
+      "mkfs": "btrfs-progs v6.6.3\nSee https://btrfs.readthedocs.io for more information.\n\nNOTE: several default settings have changed in version 5.15, please make sure\n      this does not affect your deployments:\n      - DUP for metadata (-m dup)\n      - enabled no-holes (-O no-holes)\n      - enabled free-space-tree (-R free-space-tree)\n\nLabel:              (null)\nUUID:               817d54a3-7e12-4f10-8326-3fe3ffac7709\nNode size:          16384\nSector size:        4096\nFilesystem size:    2.00GiB\nBlock group profiles:\n  Data:             single            8.00MiB\n  Metadata:         DUP             102.38MiB\n  System:           DUP               8.00MiB\nSSD detected:       no\nZoned device:       no\nIncompat features:  extref, skinny-metadata, no-holes, free-space-tree\nRuntime features:   free-space-tree\nChecksum:           crc32c\nNumber of devices:  1\nDevices:\n   ID        SIZE  PATH                                                                 \n    1     2.00GiB  /home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/store.img\n\n",
+      "emptySpace": {
+        "filesystemUsedBytes": 294912,
+        "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         239861760\n    Device unallocated:\t\t        1907621888\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            294912\n    Free (estimated):\t\t        1916010496\t(min: 962199552)\n    Free (statfs, df):\t\t        1914961920\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:0 (0.00%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:107347968, Used:131072 (0.12%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1907621888\n",
+        "groupsRaw": "Data, single: total=8388608, used=0\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=131072\nGlobalReserve, single: total=5767168, used=0\n",
+        "extentSetRaw": "     Total   Exclusive  Set shared  Filename\n         0           0           0  /home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount\n"
+      },
+      "runtimeReadySpace": {
+        "filesystemUsedBytes": 294912,
+        "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         239861760\n    Device unallocated:\t\t        1907621888\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            294912\n    Free (estimated):\t\t        1916010496\t(min: 962199552)\n    Free (statfs, df):\t\t        1914961920\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:0 (0.00%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:107347968, Used:131072 (0.12%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1907621888\n",
+        "groupsRaw": "Data, single: total=8388608, used=0\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=131072\nGlobalReserve, single: total=5767168, used=0\n",
+        "extentSetRaw": "     Total   Exclusive  Set shared  Filename\n         0           0           0  /home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount\n"
+      },
+      "wholeSampleSubprocessWallSeconds": 1.4915655590000085,
+      "wholeSampleSubprocessWallScope": "authoritative matched sampler process launch through exit, including preparation, verification, accounting, normal cleanup and evidence serialization; excludes external image/runtime/fixture setup",
+      "sampleReturncode": 0,
+      "sample": {
+        "activeSpace": {
+          "filesystemUsedBytes": 610304,
+          "groupsRaw": "Data, single: total=8388608, used=184320\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=196608\nGlobalReserve, single: total=5767168, used=0\n",
+          "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         239861760\n    Device unallocated:\t\t        1907621888\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            610304\n    Free (estimated):\t\t        1915826176\t(min: 962015232)\n    Free (statfs, df):\t\t        1914777600\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:184320 (2.20%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:107347968, Used:196608 (0.18%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1907621888\n"
+        },
+        "allAcknowledgedIdsPresent": true,
+        "backend": "writable",
+        "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig",
+        "binarySha256": "086801ac765401f9fcd3116bbdf48c72118fd9f7682affd0057121756d2c7b12",
+        "binarySourcePinVerifiedBySampler": false,
+        "capacityPreflight": {
+          "filesystemBytes": 2147483648,
+          "reserveBytes": 268435456,
+          "retainedEstimateBytes": 901120,
+          "usedBytes": 294912
+        },
+        "checkpointLatenciesByKind": {
+          "changed": {
+            "checkpoint_cli_seconds": {
+              "maximum": 0.05319840699999645,
+              "median": 0.050888595000003534,
+              "n": 3,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.15489936199998056
+            },
+            "checkpoint_ready_seconds": {
+              "maximum": 0.0021892599999944196,
+              "median": 0.0021059630000195284,
+              "n": 3,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.006355908000017507
+            },
+            "checkpoint_seconds": {
+              "maximum": 0.05538766699999087,
+              "median": 0.05294928000000709,
+              "n": 3,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.16125526999999806
+            },
+            "write_seconds": {
+              "maximum": 0.005771855999995523,
+              "median": 0.0057266869999921255,
+              "n": 3,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.016835512000000108
+            }
+          },
+          "unchanged": {
+            "checkpoint_cli_seconds": {
+              "maximum": 0.047947668999995585,
+              "median": 0.047947668999995585,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.047947668999995585
+            },
+            "checkpoint_ready_seconds": {
+              "maximum": 0.0022090599999842198,
+              "median": 0.0022090599999842198,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.0022090599999842198
+            },
+            "checkpoint_seconds": {
+              "maximum": 0.050156728999979805,
+              "median": 0.050156728999979805,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.050156728999979805
+            },
+            "write_seconds": {
+              "maximum": 0.0,
+              "median": 0.0,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.0
+            }
+          }
+        },
+        "checkpointOperationCount": 4,
+        "checkpoint_seconds": 0.21141199899997787,
+        "checkpoint_steps": [
+          {
+            "base": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+            "checkpoint": {
+              "branch": "work",
+              "committed": true,
+              "previous_head": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+              "revision": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37"
+            },
+            "checkpoint_cli_seconds": 0.047947668999995585,
+            "checkpoint_ready_seconds": 0.0022090599999842198,
+            "checkpoint_seconds": 0.050156728999979805,
+            "editStep": 0,
+            "fullTreeVerified": true,
+            "generation_after": "1792925298648844024-9260-1",
+            "generation_before": "1792925298448728444-9250-1",
+            "noop": true,
+            "revision": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+            "step": 1,
+            "write_seconds": 0.0
+          },
+          {
+            "base": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+            "checkpoint": {
+              "branch": "work",
+              "committed": true,
+              "previous_head": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+              "revision": "acefc5423027ef9e95cfb3e1ffeac87b2da712c69fa196ea0d166a3d7cbc3209"
+            },
+            "checkpoint_cli_seconds": 0.05319840699999645,
+            "checkpoint_ready_seconds": 0.0021892599999944196,
+            "checkpoint_seconds": 0.05538766699999087,
+            "editStep": 1,
+            "fullTreeVerified": true,
+            "generation_after": "1792925298757695369-9268-2",
+            "generation_before": "1792925298648844024-9260-1",
+            "noop": false,
+            "revision": "acefc5423027ef9e95cfb3e1ffeac87b2da712c69fa196ea0d166a3d7cbc3209",
+            "step": 2,
+            "write_seconds": 0.005771855999995523
+          },
+          {
+            "base": "acefc5423027ef9e95cfb3e1ffeac87b2da712c69fa196ea0d166a3d7cbc3209",
+            "checkpoint": {
+              "branch": "work",
+              "committed": true,
+              "previous_head": "acefc5423027ef9e95cfb3e1ffeac87b2da712c69fa196ea0d166a3d7cbc3209",
+              "revision": "8dda885e5b31373080fb031a6eb19275ad689822c83e1f2d0fe7b635b58968a7"
+            },
+            "checkpoint_cli_seconds": 0.050888595000003534,
+            "checkpoint_ready_seconds": 0.0020606850000035593,
+            "checkpoint_seconds": 0.05294928000000709,
+            "editStep": 2,
+            "fullTreeVerified": true,
+            "generation_after": "1792925298861212328-9276-2",
+            "generation_before": "1792925298757695369-9268-2",
+            "noop": false,
+            "revision": "8dda885e5b31373080fb031a6eb19275ad689822c83e1f2d0fe7b635b58968a7",
+            "step": 3,
+            "write_seconds": 0.005336969000012459
+          },
+          {
+            "base": "8dda885e5b31373080fb031a6eb19275ad689822c83e1f2d0fe7b635b58968a7",
+            "checkpoint": {
+              "branch": "work",
+              "committed": true,
+              "previous_head": "8dda885e5b31373080fb031a6eb19275ad689822c83e1f2d0fe7b635b58968a7",
+              "revision": "81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e"
+            },
+            "checkpoint_cli_seconds": 0.05081235999998057,
+            "checkpoint_ready_seconds": 0.0021059630000195284,
+            "checkpoint_seconds": 0.0529183230000001,
+            "editStep": 3,
+            "fullTreeVerified": true,
+            "generation_after": "1792925298960674278-9284-2",
+            "generation_before": "1792925298861212328-9276-2",
+            "noop": false,
+            "revision": "81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e",
+            "step": 4,
+            "write_seconds": 0.0057266869999921255
+          }
+        ],
+        "completeLogArchive": [
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000000-writable-9247-1792925298367420100.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298341909062-9246-1/writable-9247-1792925298367420100.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000001-writable-9250-1792925298457719137.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298341909062-9246-1/writable-9250-1792925298457719137.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000002-writable-9255-1792925298559469185.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298341909062-9246-1/writable-9255-1792925298559469185.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000003-writable-9252-1792925298465150903.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298448728444-9250-1/writable-9252-1792925298465150903.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000004-writable-9257-1792925298568025240.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298549393422-9255-0/writable-9257-1792925298568025240.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000005-writable-9260-1792925298660024587.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298648844024-9260-1/writable-9260-1792925298660024587.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000006-writable-9268-1792925298769189456.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298757695369-9268-2/writable-9268-1792925298769189456.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000007-writable-9276-1792925298871272578.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298861212328-9276-2/writable-9276-1792925298871272578.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000008-writable-9284-1792925298971021802.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298960674278-9284-2/writable-9284-1792925298971021802.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000009-writable-9299-1792925299058079017.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925299046269473-9298-0/writable-9299-1792925299058079017.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000010-writable-9304-1792925299155666252.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925299144006384-9303-0/writable-9304-1792925299155666252.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000011-writable-9309-1792925299254463926.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925299242617867-9308-0/writable-9309-1792925299254463926.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000012-writable-9314-1792925299363969901.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925299350927203-9313-0/writable-9314-1792925299363969901.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000013-lifecycle.jsonl",
+            "bytes": 30185,
+            "sha256": "114e0d12cd723aeb6b0cfff63cf88ce385950bd05b82a0b17a6abfbc1ea55526",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/lifecycle.jsonl"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000014-oracle-000000.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000000.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000015-oracle-000001.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000001.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000016-oracle-000002.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000002.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000017-oracle-000003.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000003.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000018-oracle-000004.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000004.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000019-oracle-000005.json",
+            "bytes": 5135,
+            "sha256": "b0374d599f06f44c08b10dbe3c4964884ba451638dcc82cac95504fa2050bd1a",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000005.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000020-oracle-000006.json",
+            "bytes": 5135,
+            "sha256": "e1b5812f09e09d8980fd5c24755c73f4feaf515eb12ebdd96a1e48a12d85ee9d",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000006.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000021-oracle-000007.json",
+            "bytes": 5135,
+            "sha256": "cc74f1965f19943987a41ae88a94e662e26783205732b75dab862e01356231bc",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000007.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000022-oracle-000008.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000008.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000023-oracle-000009.json",
+            "bytes": 5135,
+            "sha256": "b0374d599f06f44c08b10dbe3c4964884ba451638dcc82cac95504fa2050bd1a",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000009.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000024-oracle-000010.json",
+            "bytes": 5135,
+            "sha256": "e1b5812f09e09d8980fd5c24755c73f4feaf515eb12ebdd96a1e48a12d85ee9d",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000010.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000025-oracle-000011.json",
+            "bytes": 5135,
+            "sha256": "cc74f1965f19943987a41ae88a94e662e26783205732b75dab862e01356231bc",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000011.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000026-oracle-000012.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000012.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000027-oracle-000013.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000013.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl.logs/000028-oracle-000014.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/logs/oracle-000014.json"
+          }
+        ],
+        "complete_sprig_semantics": false,
+        "componentDiagnostics": {},
+        "compressionPolicy": "auto (default init)",
+        "conservativeRetainedLogicalBytes": 901120,
+        "containingFilesystem": {
+          "filesystem": "btrfs",
+          "id": 58,
+          "mountOptions": [
+            "rw",
+            "noatime"
+          ],
+          "mountpoint": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount",
+          "parentId": 27,
+          "root": "/",
+          "source": "/dev/loop0",
+          "superOptions": {
+            "discard": "async",
+            "rw": "",
+            "space_cache": "v2",
+            "ssd": "",
+            "subvol": "/",
+            "subvolid": "5"
+          }
+        },
+        "diagnostic": false,
+        "exactMetadataOracle": true,
+        "expectedCheckpointOperations": 4,
+        "first_fork_seconds": 0.054761208999991595,
+        "first_read_seconds": 0.0465518080000038,
+        "fixtureParameters": {
+          "depth": 4,
+          "files": 16,
+          "links": 4,
+          "pattern": "hot",
+          "size": 4096,
+          "steps": 3,
+          "symlink": true,
+          "width": 4
+        },
+        "fixtureSha256": "5ee99cc00c9856cd5526e998252bec6c0c2d10d9bc312e1692d4f126af190437",
+        "fullHistoricalSnapshotReadbacks": 4,
+        "fullTreeChecks": [
+          {
+            "entries": 31,
+            "label": "source-setup",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.02250493400001119,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "main-initial",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.04294217199998229,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "work-initial",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.0465518080000038,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "second-initial",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.043756722000011905,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "checkpoint-1",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.0476683270000251,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "checkpoint-2",
+            "oracleSha256": "af67019dd1f5b1fafa5d9e7a8587ae82b596406cebbeff4ad611448b25152aa7",
+            "seconds": 0.04310901299999159,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "checkpoint-3",
+            "oracleSha256": "59cde83adac56c679bd9d8fa6a7a8dc53ddfbb5bf5daeaadac8ed24705cc1912",
+            "seconds": 0.04099589900002343,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "checkpoint-4",
+            "oracleSha256": "1c548017ebeaba3433f8a02555ed43a460369eac0a944a60e3833fb922a7e18d",
+            "seconds": 0.040151412000000164,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "restore-1",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.04309509200001571,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "restore-2",
+            "oracleSha256": "af67019dd1f5b1fafa5d9e7a8587ae82b596406cebbeff4ad611448b25152aa7",
+            "seconds": 0.04282768899997791,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "restore-3",
+            "oracleSha256": "59cde83adac56c679bd9d8fa6a7a8dc53ddfbb5bf5daeaadac8ed24705cc1912",
+            "seconds": 0.04285894500000609,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "restore-4",
+            "oracleSha256": "1c548017ebeaba3433f8a02555ed43a460369eac0a944a60e3833fb922a7e18d",
+            "seconds": 0.04465509999999995,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "source-unchanged",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.022678995999996232,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "main-unchanged",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.04105946500001778,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "second-unchanged",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.04065000900001792,
+            "verified": true
+          }
+        ],
+        "historical_restore_steps": [
+          {
+            "cleanup_operation": "CLI unmount-generation",
+            "fullTreeVerified": true,
+            "generation": "1792925299046269473-9298-0",
+            "restore_cleanup_seconds": 0.03691453900000852,
+            "restore_read_seconds": 0.04309509200001571,
+            "restore_seconds": 0.017430140999977084,
+            "revision": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+            "step": 1
+          },
+          {
+            "cleanup_operation": "CLI unmount-generation",
+            "fullTreeVerified": true,
+            "generation": "1792925299144006384-9303-0",
+            "restore_cleanup_seconds": 0.038174382999983436,
+            "restore_read_seconds": 0.04282768899997791,
+            "restore_seconds": 0.017374246999992238,
+            "revision": "acefc5423027ef9e95cfb3e1ffeac87b2da712c69fa196ea0d166a3d7cbc3209",
+            "step": 2
+          },
+          {
+            "cleanup_operation": "CLI unmount-generation",
+            "fullTreeVerified": true,
+            "generation": "1792925299242617867-9308-0",
+            "restore_cleanup_seconds": 0.045813041000002386,
+            "restore_read_seconds": 0.04285894500000609,
+            "restore_seconds": 0.019443706000004113,
+            "revision": "8dda885e5b31373080fb031a6eb19275ad689822c83e1f2d0fe7b635b58968a7",
+            "step": 3
+          },
+          {
+            "cleanup_operation": "CLI unmount-generation",
+            "fullTreeVerified": true,
+            "generation": "1792925299350927203-9313-0",
+            "restore_cleanup_seconds": 0.03731168999999568,
+            "restore_read_seconds": 0.04465509999999995,
+            "restore_seconds": 0.019423395000018218,
+            "revision": "81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e",
+            "step": 4
+          }
+        ],
+        "historyExpectedSteps": 3,
+        "historyWindows": [
+          {
+            "checkpointSeconds": {
+              "maximum": 0.05538766699999087,
+              "median": 0.05538766699999087,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.05538766699999087
+            },
+            "firstEdit": 1,
+            "label": "early",
+            "lastEdit": 1
+          },
+          {
+            "checkpointSeconds": {
+              "maximum": 0.05294928000000709,
+              "median": 0.05294928000000709,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.05294928000000709
+            },
+            "firstEdit": 2,
+            "label": "middle",
+            "lastEdit": 2
+          },
+          {
+            "checkpointSeconds": {
+              "maximum": 0.0529183230000001,
+              "median": 0.0529183230000001,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.0529183230000001
+            },
+            "firstEdit": 3,
+            "label": "late",
+            "lastEdit": 3
+          }
+        ],
+        "history_distinct_revisions": 3,
+        "import": {
+          "backend": {
+            "kind": "writable",
+            "revision": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37"
+          },
+          "base_revision": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+          "branch": "main",
+          "copy_stats": null,
+          "mount_state": "unmounted",
+          "name": "main",
+          "path": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298341909062-9246-1/tree",
+          "pending_conflicts": []
+        },
+        "import_seconds": 0.042907337999992023,
+        "init_seconds": 0.010608257999990656,
+        "initialHead": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+        "initializationIncludedInImport": false,
+        "instrumentation": "off",
+        "latencies": {
+          "checkpoint_cli_seconds": {
+            "maximum": 0.05319840699999645,
+            "median": 0.05085047749999205,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.20284703099997614
+          },
+          "checkpoint_ready_seconds": {
+            "maximum": 0.0022090599999842198,
+            "median": 0.002147611500006974,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.008564968000001727
+          },
+          "checkpoint_seconds": {
+            "maximum": 0.05538766699999087,
+            "median": 0.0529338015000036,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.21141199899997787
+          },
+          "restore_cleanup_seconds": {
+            "maximum": 0.045813041000002386,
+            "median": 0.03774303649998956,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.15821365299999002
+          },
+          "restore_read_seconds": {
+            "maximum": 0.04465509999999995,
+            "median": 0.0429770185000109,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.17343682599999966
+          },
+          "restore_seconds": {
+            "maximum": 0.019443706000004113,
+            "median": 0.01842676799999765,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.07367148899999165
+          },
+          "write_seconds": {
+            "maximum": 0.005771855999995523,
+            "median": 0.005531828000002292,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.016835512000000108
+          }
+        },
+        "latencyScope": "all recorded operations; noop/changed are additionally separated below",
+        "lifecycle": {
+          "activeAfterHistory": {
+            "allRuntimeLogsAndJournalsInsideMeasuredStore": true,
+            "controlProcessesRunning": 3,
+            "fileTreesRetained": true,
+            "foregroundFuseProcesses": [
+              {
+                "argv": [
+                  "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig",
+                  "--store",
+                  "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library",
+                  "__writable-serve",
+                  "--revision",
+                  "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+                  "--generation",
+                  "1792925298341909062-9246-1"
+                ],
+                "backend": "writable",
+                "generation": "1792925298341909062-9246-1",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 57,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298341909062-9246-1/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925298341909062-9246-1:487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "main",
+                "pid": 9256,
+                "revision": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+                "startTimeTicks": 20048,
+                "tree": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298341909062-9246-1/tree"
+              },
+              {
+                "argv": [
+                  "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig",
+                  "--store",
+                  "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library",
+                  "__writable-serve",
+                  "--revision",
+                  "81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e",
+                  "--generation",
+                  "1792925298960674278-9284-2"
+                ],
+                "backend": "writable",
+                "generation": "1792925298960674278-9284-2",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 265,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298960674278-9284-2/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925298960674278-9284-2:81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "work",
+                "pid": 9285,
+                "revision": "81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e",
+                "startTimeTicks": 20089,
+                "tree": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298960674278-9284-2/tree"
+              },
+              {
+                "argv": [
+                  "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig",
+                  "--store",
+                  "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library",
+                  "__writable-serve",
+                  "--revision",
+                  "af556b596830f1a6b0b667c98b2099359ead70f5c07b764b4556aa755e3d7428",
+                  "--generation",
+                  "1792925298549393422-9255-0"
+                ],
+                "backend": "writable",
+                "generation": "1792925298549393422-9255-0",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 274,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298549393422-9255-0/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925298549393422-9255-0:af556b596830f1a6b0b667c98b2099359ead70f5c07b764b4556aa755e3d7428",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "second",
+                "pid": 9258,
+                "revision": "af556b596830f1a6b0b667c98b2099359ead70f5c07b764b4556aa755e3d7428",
+                "startTimeTicks": 20049,
+                "tree": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298549393422-9255-0/tree"
+              }
+            ],
+            "generationDirectories": [
+              "1792925298341909062-9246-1",
+              "1792925298448728444-9250-1",
+              "1792925298549393422-9255-0",
+              "1792925298648844024-9260-1",
+              "1792925298757695369-9268-2",
+              "1792925298861212328-9276-2",
+              "1792925298960674278-9284-2",
+              "1792925299046269473-9298-0",
+              "1792925299144006384-9303-0",
+              "1792925299242617867-9308-0",
+              "1792925299350927203-9313-0"
+            ],
+            "historicalReadbacksComplete": true,
+            "historicalReadbacksCompleted": 4,
+            "historicalReadbacksStarted": true,
+            "measurementBoundary": "after all restores/readbacks and before cleanup",
+            "retainedGenerationCount": 11,
+            "retainedGenerations": {
+              "projection": [],
+              "writable": [
+                "1792925298341909062-9246-1",
+                "1792925298448728444-9250-1",
+                "1792925298549393422-9255-0",
+                "1792925298648844024-9260-1",
+                "1792925298757695369-9268-2",
+                "1792925298861212328-9276-2",
+                "1792925298960674278-9284-2",
+                "1792925299046269473-9298-0",
+                "1792925299144006384-9303-0",
+                "1792925299242617867-9308-0",
+                "1792925299350927203-9313-0"
+              ]
+            },
+            "views": [
+              {
+                "backend": {
+                  "kind": "writable",
+                  "revision": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37"
+                },
+                "base_revision": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+                "generation": "1792925298341909062-9246-1",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 57,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298341909062-9246-1/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925298341909062-9246-1:487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "main",
+                "path": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298341909062-9246-1/tree"
+              },
+              {
+                "backend": {
+                  "kind": "writable",
+                  "revision": "81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e"
+                },
+                "base_revision": "81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e",
+                "generation": "1792925298960674278-9284-2",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 265,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298960674278-9284-2/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925298960674278-9284-2:81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "work",
+                "path": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298960674278-9284-2/tree"
+              },
+              {
+                "backend": {
+                  "kind": "writable",
+                  "revision": "af556b596830f1a6b0b667c98b2099359ead70f5c07b764b4556aa755e3d7428"
+                },
+                "base_revision": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+                "generation": "1792925298549393422-9255-0",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 274,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298549393422-9255-0/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925298549393422-9255-0:af556b596830f1a6b0b667c98b2099359ead70f5c07b764b4556aa755e3d7428",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "second",
+                "path": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298549393422-9255-0/tree"
+              }
+            ]
+          },
+          "activeAtSpace": {
+            "allRuntimeLogsAndJournalsInsideMeasuredStore": true,
+            "controlProcessesRunning": 3,
+            "fileTreesRetained": true,
+            "foregroundFuseProcesses": [
+              {
+                "argv": [
+                  "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig",
+                  "--store",
+                  "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library",
+                  "__writable-serve",
+                  "--revision",
+                  "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+                  "--generation",
+                  "1792925298341909062-9246-1"
+                ],
+                "backend": "writable",
+                "generation": "1792925298341909062-9246-1",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 57,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298341909062-9246-1/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925298341909062-9246-1:487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "main",
+                "pid": 9256,
+                "revision": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+                "startTimeTicks": 20048,
+                "tree": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298341909062-9246-1/tree"
+              },
+              {
+                "argv": [
+                  "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig",
+                  "--store",
+                  "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library",
+                  "__writable-serve",
+                  "--revision",
+                  "81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e",
+                  "--generation",
+                  "1792925298960674278-9284-2"
+                ],
+                "backend": "writable",
+                "generation": "1792925298960674278-9284-2",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 265,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298960674278-9284-2/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925298960674278-9284-2:81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "work",
+                "pid": 9285,
+                "revision": "81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e",
+                "startTimeTicks": 20089,
+                "tree": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298960674278-9284-2/tree"
+              },
+              {
+                "argv": [
+                  "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig",
+                  "--store",
+                  "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library",
+                  "__writable-serve",
+                  "--revision",
+                  "af556b596830f1a6b0b667c98b2099359ead70f5c07b764b4556aa755e3d7428",
+                  "--generation",
+                  "1792925298549393422-9255-0"
+                ],
+                "backend": "writable",
+                "generation": "1792925298549393422-9255-0",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 274,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298549393422-9255-0/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925298549393422-9255-0:af556b596830f1a6b0b667c98b2099359ead70f5c07b764b4556aa755e3d7428",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "second",
+                "pid": 9258,
+                "revision": "af556b596830f1a6b0b667c98b2099359ead70f5c07b764b4556aa755e3d7428",
+                "startTimeTicks": 20049,
+                "tree": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298549393422-9255-0/tree"
+              }
+            ],
+            "historicalReadbacksCompleted": 0,
+            "historicalReadbacksStarted": false,
+            "retainedGenerationCount": 7,
+            "retainedGenerations": {
+              "projection": [],
+              "writable": [
+                "1792925298341909062-9246-1",
+                "1792925298448728444-9250-1",
+                "1792925298549393422-9255-0",
+                "1792925298648844024-9260-1",
+                "1792925298757695369-9268-2",
+                "1792925298861212328-9276-2",
+                "1792925298960674278-9284-2"
+              ]
+            },
+            "views": [
+              {
+                "backend": {
+                  "kind": "writable",
+                  "revision": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37"
+                },
+                "base_revision": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+                "generation": "1792925298341909062-9246-1",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 57,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298341909062-9246-1/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925298341909062-9246-1:487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "main",
+                "path": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298341909062-9246-1/tree"
+              },
+              {
+                "backend": {
+                  "kind": "writable",
+                  "revision": "81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e"
+                },
+                "base_revision": "81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e",
+                "generation": "1792925298960674278-9284-2",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 265,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298960674278-9284-2/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925298960674278-9284-2:81cbfe4b32a1daae13d37122967d24dc9d740bd1a42e8aa202a3a83192cd7b6e",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "work",
+                "path": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298960674278-9284-2/tree"
+              },
+              {
+                "backend": {
+                  "kind": "writable",
+                  "revision": "af556b596830f1a6b0b667c98b2099359ead70f5c07b764b4556aa755e3d7428"
+                },
+                "base_revision": "487facfb42af21cbd579f1c6cd40b1934cced41af738dc4bb48d240bbefa1f37",
+                "generation": "1792925298549393422-9255-0",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 274,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298549393422-9255-0/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925298549393422-9255-0:af556b596830f1a6b0b667c98b2099359ead70f5c07b764b4556aa755e3d7428",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "second",
+                "path": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample/library/native/1792925298549393422-9255-0/tree"
+              }
+            ]
+          },
+          "cleanup": {
+            "attempts": [
+              {
+                "generation": "1792925299046269473-9298-0",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              },
+              {
+                "generation": "1792925299144006384-9303-0",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              },
+              {
+                "generation": "1792925299242617867-9308-0",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              },
+              {
+                "generation": "1792925299350927203-9313-0",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              },
+              {
+                "generation": "1792925298960674278-9284-2",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              },
+              {
+                "generation": "1792925298549393422-9255-0",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              },
+              {
+                "generation": "1792925298341909062-9246-1",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              }
+            ],
+            "blocked": false,
+            "complete": true,
+            "forceOrLazyUnmountUsed": false,
+            "harnessProcessesKilled": false,
+            "processesKilled": null
+          },
+          "daemons": [],
+          "fileTreesRetained": true,
+          "normalUnmountOnly": true,
+          "persistentControlDaemon": false
+        },
+        "lifecycleTraceEvidence": {
+          "archivedBeforeValidation": true,
+          "counts": {
+            "cli": 0,
+            "daemon": 0,
+            "other": 0
+          },
+          "enabled": false,
+          "invalidRecords": [],
+          "phases": {},
+          "present": false,
+          "successfulPhases": {},
+          "validRecords": 0
+        },
+        "logicalBytes": 81920,
+        "measurementNotes": [
+          "New stress protocol, not comparable to frozen listed-file timing without workload qualification.",
+          "All exact path sets, bytes, modes, nanosecond mtimes, symlinks and internal hardlink groups checked.",
+          "Every checkpoint acknowledgement, including unchanged initial revision when selected, is restored and fully checked.",
+          "No-op committed=true retains the same revision; writable still retains/replaces its owned generation.",
+          "Complete public CLI, readiness and normal-unmount costs retained; no processes killed or uncertain mutations retried.",
+          "All source and full-tree oracle checks are setup-warm; no cold-cache, equal crash-durability or CPU/RAM-equivalence claim.",
+          "Direct task wall includes checks/ledger/space diagnostics; additive phase diagnostics do not replace it.",
+          "Budget guard is cooperative at operation boundaries, never a process-killing command timeout.",
+          "Whole filesystem contains all retained trees/generations and runtime logs; no selective cleanup or pruning.",
+          "Source commit comes from verified external checkout/build; recorded binary SHA is independently measured."
+        ],
+        "metadataScope": [
+          "path-set",
+          "type",
+          "bytes",
+          "mode-0777",
+          "mtime-ns",
+          "symlink-target",
+          "internal-hardlink-groups"
+        ],
+        "metadata_branch_available": true,
+        "metadata_branch_probe": "omitted",
+        "metadata_branch_seconds": null,
+        "metadata_branch_unavailable_reason": null,
+        "nativeRestoreCleanup": "0.0 seconds: no unmount operation; native trees retained",
+        "noopCheckpointIncluded": true,
+        "ok": true,
+        "oracleFiles": 20,
+        "originalMainViewUnchanged": true,
+        "originalSecondViewUnchanged": true,
+        "postHistorySpace": {
+          "filesystemUsedBytes": 716800,
+          "groupsRaw": "Data, single: total=8388608, used=258048\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=212992\nGlobalReserve, single: total=5767168, used=0\n",
+          "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         239861760\n    Device unallocated:\t\t        1907621888\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            716800\n    Free (estimated):\t\t        1915752448\t(min: 961941504)\n    Free (statfs, df):\t\t        1914703872\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:258048 (3.08%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:107347968, Used:212992 (0.20%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1907621888\n"
+        },
+        "productionShaSource": "explicit --production-sha supplied by verified checkout/build harness",
+        "production_sha": "071036f83691b89bd9e35bb162d34e305e1874b7",
+        "protocol": "sprig-stress-full-tree-v1",
+        "prototype_only": false,
+        "recordsFile": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-baseline-0-steps.jsonl",
+        "recordsIncludedInActiveSpace": false,
+        "remainingMounts": [],
+        "resourceComparisonAvailable": false,
+        "restoreTimingScope": "100 historical snapshots after active-space accounting; zero for nonhistory",
+        "restore_cleanup_seconds": 0.15821365299999002,
+        "restore_read_seconds": 0.17343682599999966,
+        "restore_seconds": 0.07367148899999165,
+        "root": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount/sample",
+        "runtimeLogs": [],
+        "source": "/home/runner/work/_temp/stress-source-65cf6dig/tree",
+        "sourceUnchanged": true,
+        "status": "passed",
+        "total_import_fork_read_seconds": 0.14422035499998742,
+        "warm_fork_seconds": 0.056286694999982956,
+        "warm_read_seconds": 0.043756722000011905,
+        "warm_total_seconds": 0.10004341699999486,
+        "wholeSampleIncludingSetupCleanupSeconds": 1.4516755859999932,
+        "wholeTaskSeconds": 1.2645493859999988,
+        "wholeTaskTimingScope": "execute: init through post-history space, excluding preparation and final teardown/archive",
+        "workload_only_verification": true,
+        "write_seconds": 0.016835512000000108
+      },
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/store.img",
+        "mount": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "isolatedImageRetained": "/home/runner/work/_temp/stress-writable-baseline-0-q5a8wxiv/store.img"
+    },
+    {
+      "identity": "writable-backoff-0",
+      "backend": "writable",
+      "product": "backoff",
+      "round": 0,
+      "status": "passed",
+      "correct": true,
+      "productType": "sprig",
+      "mkfs": "btrfs-progs v6.6.3\nSee https://btrfs.readthedocs.io for more information.\n\nNOTE: several default settings have changed in version 5.15, please make sure\n      this does not affect your deployments:\n      - DUP for metadata (-m dup)\n      - enabled no-holes (-O no-holes)\n      - enabled free-space-tree (-R free-space-tree)\n\nLabel:              (null)\nUUID:               9a6557a6-00e8-4d56-b764-a9746a39c5c1\nNode size:          16384\nSector size:        4096\nFilesystem size:    2.00GiB\nBlock group profiles:\n  Data:             single            8.00MiB\n  Metadata:         DUP             102.38MiB\n  System:           DUP               8.00MiB\nSSD detected:       no\nZoned device:       no\nIncompat features:  extref, skinny-metadata, no-holes, free-space-tree\nRuntime features:   free-space-tree\nChecksum:           crc32c\nNumber of devices:  1\nDevices:\n   ID        SIZE  PATH                                                                \n    1     2.00GiB  /home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/store.img\n\n",
+      "emptySpace": {
+        "filesystemUsedBytes": 294912,
+        "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         239861760\n    Device unallocated:\t\t        1907621888\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            294912\n    Free (estimated):\t\t        1916010496\t(min: 962199552)\n    Free (statfs, df):\t\t        1914961920\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:0 (0.00%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:107347968, Used:131072 (0.12%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1907621888\n",
+        "groupsRaw": "Data, single: total=8388608, used=0\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=131072\nGlobalReserve, single: total=5767168, used=0\n",
+        "extentSetRaw": "     Total   Exclusive  Set shared  Filename\n         0           0           0  /home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount\n"
+      },
+      "runtimeReadySpace": {
+        "filesystemUsedBytes": 294912,
+        "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         239861760\n    Device unallocated:\t\t        1907621888\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            294912\n    Free (estimated):\t\t        1916010496\t(min: 962199552)\n    Free (statfs, df):\t\t        1914961920\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:0 (0.00%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:107347968, Used:131072 (0.12%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1907621888\n",
+        "groupsRaw": "Data, single: total=8388608, used=0\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=131072\nGlobalReserve, single: total=5767168, used=0\n",
+        "extentSetRaw": "     Total   Exclusive  Set shared  Filename\n         0           0           0  /home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount\n"
+      },
+      "wholeSampleSubprocessWallSeconds": 1.2455456030000107,
+      "wholeSampleSubprocessWallScope": "authoritative matched sampler process launch through exit, including preparation, verification, accounting, normal cleanup and evidence serialization; excludes external image/runtime/fixture setup",
+      "sampleReturncode": 0,
+      "sample": {
+        "activeSpace": {
+          "filesystemUsedBytes": 610304,
+          "groupsRaw": "Data, single: total=8388608, used=184320\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=196608\nGlobalReserve, single: total=5767168, used=0\n",
+          "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         239861760\n    Device unallocated:\t\t        1907621888\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            610304\n    Free (estimated):\t\t        1915826176\t(min: 962015232)\n    Free (statfs, df):\t\t        1914777600\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:184320 (2.20%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:107347968, Used:196608 (0.18%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1907621888\n"
+        },
+        "allAcknowledgedIdsPresent": true,
+        "backend": "writable",
+        "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig",
+        "binarySha256": "e9393f24b30f5afaf75aa3e417e165aca20b97bbc3fe842fbcf0f40e8feb28ee",
+        "binarySourcePinVerifiedBySampler": false,
+        "capacityPreflight": {
+          "filesystemBytes": 2147483648,
+          "reserveBytes": 268435456,
+          "retainedEstimateBytes": 901120,
+          "usedBytes": 294912
+        },
+        "checkpointLatenciesByKind": {
+          "changed": {
+            "checkpoint_cli_seconds": {
+              "maximum": 0.031818238999989035,
+              "median": 0.03143965699999285,
+              "n": 3,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.0943676759999903
+            },
+            "checkpoint_ready_seconds": {
+              "maximum": 0.0025049879999983204,
+              "median": 0.002384634999998525,
+              "n": 3,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.00720241999999871
+            },
+            "checkpoint_seconds": {
+              "maximum": 0.03420287399998756,
+              "median": 0.03394464499999117,
+              "n": 3,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.10157009599998901
+            },
+            "write_seconds": {
+              "maximum": 0.005871643999995513,
+              "median": 0.005803471000007221,
+              "n": 3,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.017284864999993488
+            }
+          },
+          "unchanged": {
+            "checkpoint_cli_seconds": {
+              "maximum": 0.026379177999984904,
+              "median": 0.026379177999984904,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.026379177999984904
+            },
+            "checkpoint_ready_seconds": {
+              "maximum": 0.002033927000013591,
+              "median": 0.002033927000013591,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.002033927000013591
+            },
+            "checkpoint_seconds": {
+              "maximum": 0.028413104999998495,
+              "median": 0.028413104999998495,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.028413104999998495
+            },
+            "write_seconds": {
+              "maximum": 0.0,
+              "median": 0.0,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.0
+            }
+          }
+        },
+        "checkpointOperationCount": 4,
+        "checkpoint_seconds": 0.1299832009999875,
+        "checkpoint_steps": [
+          {
+            "base": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+            "checkpoint": {
+              "branch": "work",
+              "committed": true,
+              "previous_head": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+              "revision": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b"
+            },
+            "checkpoint_cli_seconds": 0.026379177999984904,
+            "checkpoint_ready_seconds": 0.002033927000013591,
+            "checkpoint_seconds": 0.028413104999998495,
+            "editStep": 0,
+            "fullTreeVerified": true,
+            "generation_after": "1792925300126726004-9388-1",
+            "generation_before": "1792925299966789707-9378-1",
+            "noop": true,
+            "revision": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+            "step": 1,
+            "write_seconds": 0.0
+          },
+          {
+            "base": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+            "checkpoint": {
+              "branch": "work",
+              "committed": true,
+              "previous_head": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+              "revision": "692548ba64333b44425339fae56011a78ccd851e4a7bfb0cb6ffc1770413a3a8"
+            },
+            "checkpoint_cli_seconds": 0.031109780000008413,
+            "checkpoint_ready_seconds": 0.002312797000001865,
+            "checkpoint_seconds": 0.03342257700001028,
+            "editStep": 1,
+            "fullTreeVerified": true,
+            "generation_after": "1792925300211187753-9396-2",
+            "generation_before": "1792925300126726004-9388-1",
+            "noop": false,
+            "revision": "692548ba64333b44425339fae56011a78ccd851e4a7bfb0cb6ffc1770413a3a8",
+            "step": 2,
+            "write_seconds": 0.005609749999990754
+          },
+          {
+            "base": "692548ba64333b44425339fae56011a78ccd851e4a7bfb0cb6ffc1770413a3a8",
+            "checkpoint": {
+              "branch": "work",
+              "committed": true,
+              "previous_head": "692548ba64333b44425339fae56011a78ccd851e4a7bfb0cb6ffc1770413a3a8",
+              "revision": "058655f44a476e5e3357c59f7d8704019d8deb3911b0a5591e7d6d649b6e6242"
+            },
+            "checkpoint_cli_seconds": 0.03143965699999285,
+            "checkpoint_ready_seconds": 0.0025049879999983204,
+            "checkpoint_seconds": 0.03394464499999117,
+            "editStep": 2,
+            "fullTreeVerified": true,
+            "generation_after": "1792925300293180911-9404-2",
+            "generation_before": "1792925300211187753-9396-2",
+            "noop": false,
+            "revision": "058655f44a476e5e3357c59f7d8704019d8deb3911b0a5591e7d6d649b6e6242",
+            "step": 3,
+            "write_seconds": 0.005803471000007221
+          },
+          {
+            "base": "058655f44a476e5e3357c59f7d8704019d8deb3911b0a5591e7d6d649b6e6242",
+            "checkpoint": {
+              "branch": "work",
+              "committed": true,
+              "previous_head": "058655f44a476e5e3357c59f7d8704019d8deb3911b0a5591e7d6d649b6e6242",
+              "revision": "898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66"
+            },
+            "checkpoint_cli_seconds": 0.031818238999989035,
+            "checkpoint_ready_seconds": 0.002384634999998525,
+            "checkpoint_seconds": 0.03420287399998756,
+            "editStep": 3,
+            "fullTreeVerified": true,
+            "generation_after": "1792925300376854912-9412-2",
+            "generation_before": "1792925300293180911-9404-2",
+            "noop": false,
+            "revision": "898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66",
+            "step": 4,
+            "write_seconds": 0.005871643999995513
+          }
+        ],
+        "completeLogArchive": [
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000000-writable-9375-1792925299904133978.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925299892802572-9374-1/writable-9375-1792925299904133978.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000001-writable-9378-1792925299975780584.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925299892802572-9374-1/writable-9378-1792925299975780584.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000002-writable-9383-1792925300049410591.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925299892802572-9374-1/writable-9383-1792925300049410591.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000003-writable-9380-1792925299982900400.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925299966789707-9378-1/writable-9380-1792925299982900400.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000004-writable-9385-1792925300070400591.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300039727800-9383-0/writable-9385-1792925300070400591.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000005-writable-9388-1792925300138991549.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300126726004-9388-1/writable-9388-1792925300138991549.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000006-writable-9396-1792925300222206008.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300211187753-9396-2/writable-9396-1792925300222206008.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000007-writable-9404-1792925300303926845.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300293180911-9404-2/writable-9404-1792925300303926845.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000008-writable-9412-1792925300388347032.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300376854912-9412-2/writable-9412-1792925300388347032.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000009-writable-9427-1792925300482279652.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300470386178-9426-0/writable-9427-1792925300482279652.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000010-writable-9432-1792925300562360215.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300550273710-9431-0/writable-9432-1792925300562360215.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000011-writable-9437-1792925300643181465.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300630820115-9436-0/writable-9437-1792925300643181465.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000012-writable-9442-1792925300726914416.log",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300714710253-9441-0/writable-9442-1792925300726914416.log"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000013-lifecycle.jsonl",
+            "bytes": 30200,
+            "sha256": "f61dd120623e824fd7197c50f3090fd991f6349dd07d750a2f66609612be439f",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/lifecycle.jsonl"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000014-oracle-000000.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000000.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000015-oracle-000001.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000001.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000016-oracle-000002.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000002.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000017-oracle-000003.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000003.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000018-oracle-000004.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000004.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000019-oracle-000005.json",
+            "bytes": 5135,
+            "sha256": "b0374d599f06f44c08b10dbe3c4964884ba451638dcc82cac95504fa2050bd1a",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000005.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000020-oracle-000006.json",
+            "bytes": 5135,
+            "sha256": "e1b5812f09e09d8980fd5c24755c73f4feaf515eb12ebdd96a1e48a12d85ee9d",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000006.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000021-oracle-000007.json",
+            "bytes": 5135,
+            "sha256": "cc74f1965f19943987a41ae88a94e662e26783205732b75dab862e01356231bc",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000007.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000022-oracle-000008.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000008.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000023-oracle-000009.json",
+            "bytes": 5135,
+            "sha256": "b0374d599f06f44c08b10dbe3c4964884ba451638dcc82cac95504fa2050bd1a",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000009.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000024-oracle-000010.json",
+            "bytes": 5135,
+            "sha256": "e1b5812f09e09d8980fd5c24755c73f4feaf515eb12ebdd96a1e48a12d85ee9d",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000010.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000025-oracle-000011.json",
+            "bytes": 5135,
+            "sha256": "cc74f1965f19943987a41ae88a94e662e26783205732b75dab862e01356231bc",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000011.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000026-oracle-000012.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000012.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000027-oracle-000013.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000013.json"
+          },
+          {
+            "archived": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl.logs/000028-oracle-000014.json",
+            "bytes": 5135,
+            "sha256": "1f503ab0e868ce2627ae9b5622a1a1dfec9ea633e92cbb513cdebd1f01a255de",
+            "source": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/logs/oracle-000014.json"
+          }
+        ],
+        "complete_sprig_semantics": false,
+        "componentDiagnostics": {},
+        "compressionPolicy": "auto (default init)",
+        "conservativeRetainedLogicalBytes": 901120,
+        "containingFilesystem": {
+          "filesystem": "btrfs",
+          "id": 58,
+          "mountOptions": [
+            "rw",
+            "noatime"
+          ],
+          "mountpoint": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount",
+          "parentId": 27,
+          "root": "/",
+          "source": "/dev/loop0",
+          "superOptions": {
+            "discard": "async",
+            "rw": "",
+            "space_cache": "v2",
+            "ssd": "",
+            "subvol": "/",
+            "subvolid": "5"
+          }
+        },
+        "diagnostic": false,
+        "exactMetadataOracle": true,
+        "expectedCheckpointOperations": 4,
+        "first_fork_seconds": 0.03792797099998779,
+        "first_read_seconds": 0.04195964100000538,
+        "fixtureParameters": {
+          "depth": 4,
+          "files": 16,
+          "links": 4,
+          "pattern": "hot",
+          "size": 4096,
+          "steps": 3,
+          "symlink": true,
+          "width": 4
+        },
+        "fixtureSha256": "5ee99cc00c9856cd5526e998252bec6c0c2d10d9bc312e1692d4f126af190437",
+        "fullHistoricalSnapshotReadbacks": 4,
+        "fullTreeChecks": [
+          {
+            "entries": 31,
+            "label": "source-setup",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.022602382000002308,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "main-initial",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.04072326700000417,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "work-initial",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.04195964100000538,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "second-initial",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.04190782300000251,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "checkpoint-1",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.04442220300001054,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "checkpoint-2",
+            "oracleSha256": "af67019dd1f5b1fafa5d9e7a8587ae82b596406cebbeff4ad611448b25152aa7",
+            "seconds": 0.04240066500000239,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "checkpoint-3",
+            "oracleSha256": "59cde83adac56c679bd9d8fa6a7a8dc53ddfbb5bf5daeaadac8ed24705cc1912",
+            "seconds": 0.04388664600000425,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "checkpoint-4",
+            "oracleSha256": "1c548017ebeaba3433f8a02555ed43a460369eac0a944a60e3833fb922a7e18d",
+            "seconds": 0.043592463000010184,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "restore-1",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.04666840100000513,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "restore-2",
+            "oracleSha256": "af67019dd1f5b1fafa5d9e7a8587ae82b596406cebbeff4ad611448b25152aa7",
+            "seconds": 0.04736622300001159,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "restore-3",
+            "oracleSha256": "59cde83adac56c679bd9d8fa6a7a8dc53ddfbb5bf5daeaadac8ed24705cc1912",
+            "seconds": 0.049121159999998554,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "restore-4",
+            "oracleSha256": "1c548017ebeaba3433f8a02555ed43a460369eac0a944a60e3833fb922a7e18d",
+            "seconds": 0.04378183800000102,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "source-unchanged",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.02322460099998125,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "main-unchanged",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.042640378000015744,
+            "verified": true
+          },
+          {
+            "entries": 31,
+            "label": "second-unchanged",
+            "oracleSha256": "f89b07ef9cb756355832b77984b2bd8a4cd36a7ee82192caa130c6a9464cce3d",
+            "seconds": 0.04363160199997651,
+            "verified": true
+          }
+        ],
+        "historical_restore_steps": [
+          {
+            "cleanup_operation": "CLI unmount-generation",
+            "fullTreeVerified": true,
+            "generation": "1792925300470386178-9426-0",
+            "restore_cleanup_seconds": 0.015222053999991658,
+            "restore_read_seconds": 0.04666840100000513,
+            "restore_seconds": 0.017757396000007475,
+            "revision": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+            "step": 1
+          },
+          {
+            "cleanup_operation": "CLI unmount-generation",
+            "fullTreeVerified": true,
+            "generation": "1792925300550273710-9431-0",
+            "restore_cleanup_seconds": 0.015021791000009443,
+            "restore_read_seconds": 0.04736622300001159,
+            "restore_seconds": 0.017918549000000894,
+            "revision": "692548ba64333b44425339fae56011a78ccd851e4a7bfb0cb6ffc1770413a3a8",
+            "step": 2
+          },
+          {
+            "cleanup_operation": "CLI unmount-generation",
+            "fullTreeVerified": true,
+            "generation": "1792925300630820115-9436-0",
+            "restore_cleanup_seconds": 0.016046185999982754,
+            "restore_read_seconds": 0.049121159999998554,
+            "restore_seconds": 0.018223710000000892,
+            "revision": "058655f44a476e5e3357c59f7d8704019d8deb3911b0a5591e7d6d649b6e6242",
+            "step": 3
+          },
+          {
+            "cleanup_operation": "CLI unmount-generation",
+            "fullTreeVerified": true,
+            "generation": "1792925300714710253-9441-0",
+            "restore_cleanup_seconds": 0.016562114000009842,
+            "restore_read_seconds": 0.04378183800000102,
+            "restore_seconds": 0.01850299100001962,
+            "revision": "898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66",
+            "step": 4
+          }
+        ],
+        "historyExpectedSteps": 3,
+        "historyWindows": [
+          {
+            "checkpointSeconds": {
+              "maximum": 0.03342257700001028,
+              "median": 0.03342257700001028,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.03342257700001028
+            },
+            "firstEdit": 1,
+            "label": "early",
+            "lastEdit": 1
+          },
+          {
+            "checkpointSeconds": {
+              "maximum": 0.03394464499999117,
+              "median": 0.03394464499999117,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.03394464499999117
+            },
+            "firstEdit": 2,
+            "label": "middle",
+            "lastEdit": 2
+          },
+          {
+            "checkpointSeconds": {
+              "maximum": 0.03420287399998756,
+              "median": 0.03420287399998756,
+              "n": 1,
+              "p95": null,
+              "p99": null,
+              "quantileMethod": "nearest-rank",
+              "tailCaveat": "descriptive dependent operations, not independent replicates",
+              "total": 0.03420287399998756
+            },
+            "firstEdit": 3,
+            "label": "late",
+            "lastEdit": 3
+          }
+        ],
+        "history_distinct_revisions": 3,
+        "import": {
+          "backend": {
+            "kind": "writable",
+            "revision": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b"
+          },
+          "base_revision": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+          "branch": "main",
+          "copy_stats": null,
+          "mount_state": "unmounted",
+          "name": "main",
+          "path": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925299892802572-9374-1/tree",
+          "pending_conflicts": []
+        },
+        "import_seconds": 0.029229764999996632,
+        "init_seconds": 0.010619662999999946,
+        "initialHead": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+        "initializationIncludedInImport": false,
+        "instrumentation": "off",
+        "latencies": {
+          "checkpoint_cli_seconds": {
+            "maximum": 0.031818238999989035,
+            "median": 0.03127471850000063,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.1207468539999752
+          },
+          "checkpoint_ready_seconds": {
+            "maximum": 0.0025049879999983204,
+            "median": 0.002348716000000195,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.009236347000012302
+          },
+          "checkpoint_seconds": {
+            "maximum": 0.03420287399998756,
+            "median": 0.033683611000000724,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.1299832009999875
+          },
+          "restore_cleanup_seconds": {
+            "maximum": 0.016562114000009842,
+            "median": 0.015634119999987206,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.0628521449999937
+          },
+          "restore_read_seconds": {
+            "maximum": 0.049121159999998554,
+            "median": 0.04701731200000836,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.1869376220000163
+          },
+          "restore_seconds": {
+            "maximum": 0.01850299100001962,
+            "median": 0.018071129500000893,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.07240264600002888
+          },
+          "write_seconds": {
+            "maximum": 0.005871643999995513,
+            "median": 0.0057066104999989875,
+            "n": 4,
+            "p95": null,
+            "p99": null,
+            "quantileMethod": "nearest-rank",
+            "tailCaveat": "descriptive dependent operations, not independent replicates",
+            "total": 0.017284864999993488
+          }
+        },
+        "latencyScope": "all recorded operations; noop/changed are additionally separated below",
+        "lifecycle": {
+          "activeAfterHistory": {
+            "allRuntimeLogsAndJournalsInsideMeasuredStore": true,
+            "controlProcessesRunning": 3,
+            "fileTreesRetained": true,
+            "foregroundFuseProcesses": [
+              {
+                "argv": [
+                  "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig",
+                  "--store",
+                  "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library",
+                  "__writable-serve",
+                  "--revision",
+                  "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+                  "--generation",
+                  "1792925299892802572-9374-1"
+                ],
+                "backend": "writable",
+                "generation": "1792925299892802572-9374-1",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 57,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925299892802572-9374-1/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925299892802572-9374-1:5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "main",
+                "pid": 9384,
+                "revision": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+                "startTimeTicks": 20197,
+                "tree": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925299892802572-9374-1/tree"
+              },
+              {
+                "argv": [
+                  "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig",
+                  "--store",
+                  "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library",
+                  "__writable-serve",
+                  "--revision",
+                  "898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66",
+                  "--generation",
+                  "1792925300376854912-9412-2"
+                ],
+                "backend": "writable",
+                "generation": "1792925300376854912-9412-2",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 265,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300376854912-9412-2/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925300376854912-9412-2:898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "work",
+                "pid": 9413,
+                "revision": "898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66",
+                "startTimeTicks": 20231,
+                "tree": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300376854912-9412-2/tree"
+              },
+              {
+                "argv": [
+                  "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig",
+                  "--store",
+                  "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library",
+                  "__writable-serve",
+                  "--revision",
+                  "ca89acd5bb72bc337f4c9a55b624366b31a6f323b12599d6f1ebb325ec68c205",
+                  "--generation",
+                  "1792925300039727800-9383-0"
+                ],
+                "backend": "writable",
+                "generation": "1792925300039727800-9383-0",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 274,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300039727800-9383-0/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925300039727800-9383-0:ca89acd5bb72bc337f4c9a55b624366b31a6f323b12599d6f1ebb325ec68c205",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "second",
+                "pid": 9386,
+                "revision": "ca89acd5bb72bc337f4c9a55b624366b31a6f323b12599d6f1ebb325ec68c205",
+                "startTimeTicks": 20199,
+                "tree": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300039727800-9383-0/tree"
+              }
+            ],
+            "generationDirectories": [
+              "1792925299892802572-9374-1",
+              "1792925299966789707-9378-1",
+              "1792925300039727800-9383-0",
+              "1792925300126726004-9388-1",
+              "1792925300211187753-9396-2",
+              "1792925300293180911-9404-2",
+              "1792925300376854912-9412-2",
+              "1792925300470386178-9426-0",
+              "1792925300550273710-9431-0",
+              "1792925300630820115-9436-0",
+              "1792925300714710253-9441-0"
+            ],
+            "historicalReadbacksComplete": true,
+            "historicalReadbacksCompleted": 4,
+            "historicalReadbacksStarted": true,
+            "measurementBoundary": "after all restores/readbacks and before cleanup",
+            "retainedGenerationCount": 11,
+            "retainedGenerations": {
+              "projection": [],
+              "writable": [
+                "1792925299892802572-9374-1",
+                "1792925299966789707-9378-1",
+                "1792925300039727800-9383-0",
+                "1792925300126726004-9388-1",
+                "1792925300211187753-9396-2",
+                "1792925300293180911-9404-2",
+                "1792925300376854912-9412-2",
+                "1792925300470386178-9426-0",
+                "1792925300550273710-9431-0",
+                "1792925300630820115-9436-0",
+                "1792925300714710253-9441-0"
+              ]
+            },
+            "views": [
+              {
+                "backend": {
+                  "kind": "writable",
+                  "revision": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b"
+                },
+                "base_revision": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+                "generation": "1792925299892802572-9374-1",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 57,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925299892802572-9374-1/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925299892802572-9374-1:5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "main",
+                "path": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925299892802572-9374-1/tree"
+              },
+              {
+                "backend": {
+                  "kind": "writable",
+                  "revision": "898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66"
+                },
+                "base_revision": "898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66",
+                "generation": "1792925300376854912-9412-2",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 265,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300376854912-9412-2/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925300376854912-9412-2:898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "work",
+                "path": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300376854912-9412-2/tree"
+              },
+              {
+                "backend": {
+                  "kind": "writable",
+                  "revision": "ca89acd5bb72bc337f4c9a55b624366b31a6f323b12599d6f1ebb325ec68c205"
+                },
+                "base_revision": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+                "generation": "1792925300039727800-9383-0",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 274,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300039727800-9383-0/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925300039727800-9383-0:ca89acd5bb72bc337f4c9a55b624366b31a6f323b12599d6f1ebb325ec68c205",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "second",
+                "path": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300039727800-9383-0/tree"
+              }
+            ]
+          },
+          "activeAtSpace": {
+            "allRuntimeLogsAndJournalsInsideMeasuredStore": true,
+            "controlProcessesRunning": 3,
+            "fileTreesRetained": true,
+            "foregroundFuseProcesses": [
+              {
+                "argv": [
+                  "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig",
+                  "--store",
+                  "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library",
+                  "__writable-serve",
+                  "--revision",
+                  "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+                  "--generation",
+                  "1792925299892802572-9374-1"
+                ],
+                "backend": "writable",
+                "generation": "1792925299892802572-9374-1",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 57,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925299892802572-9374-1/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925299892802572-9374-1:5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "main",
+                "pid": 9384,
+                "revision": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+                "startTimeTicks": 20197,
+                "tree": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925299892802572-9374-1/tree"
+              },
+              {
+                "argv": [
+                  "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig",
+                  "--store",
+                  "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library",
+                  "__writable-serve",
+                  "--revision",
+                  "898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66",
+                  "--generation",
+                  "1792925300376854912-9412-2"
+                ],
+                "backend": "writable",
+                "generation": "1792925300376854912-9412-2",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 265,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300376854912-9412-2/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925300376854912-9412-2:898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "work",
+                "pid": 9413,
+                "revision": "898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66",
+                "startTimeTicks": 20231,
+                "tree": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300376854912-9412-2/tree"
+              },
+              {
+                "argv": [
+                  "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig",
+                  "--store",
+                  "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library",
+                  "__writable-serve",
+                  "--revision",
+                  "ca89acd5bb72bc337f4c9a55b624366b31a6f323b12599d6f1ebb325ec68c205",
+                  "--generation",
+                  "1792925300039727800-9383-0"
+                ],
+                "backend": "writable",
+                "generation": "1792925300039727800-9383-0",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 274,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300039727800-9383-0/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925300039727800-9383-0:ca89acd5bb72bc337f4c9a55b624366b31a6f323b12599d6f1ebb325ec68c205",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "second",
+                "pid": 9386,
+                "revision": "ca89acd5bb72bc337f4c9a55b624366b31a6f323b12599d6f1ebb325ec68c205",
+                "startTimeTicks": 20199,
+                "tree": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300039727800-9383-0/tree"
+              }
+            ],
+            "historicalReadbacksCompleted": 0,
+            "historicalReadbacksStarted": false,
+            "retainedGenerationCount": 7,
+            "retainedGenerations": {
+              "projection": [],
+              "writable": [
+                "1792925299892802572-9374-1",
+                "1792925299966789707-9378-1",
+                "1792925300039727800-9383-0",
+                "1792925300126726004-9388-1",
+                "1792925300211187753-9396-2",
+                "1792925300293180911-9404-2",
+                "1792925300376854912-9412-2"
+              ]
+            },
+            "views": [
+              {
+                "backend": {
+                  "kind": "writable",
+                  "revision": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b"
+                },
+                "base_revision": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+                "generation": "1792925299892802572-9374-1",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 57,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925299892802572-9374-1/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925299892802572-9374-1:5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "main",
+                "path": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925299892802572-9374-1/tree"
+              },
+              {
+                "backend": {
+                  "kind": "writable",
+                  "revision": "898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66"
+                },
+                "base_revision": "898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66",
+                "generation": "1792925300376854912-9412-2",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 265,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300376854912-9412-2/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925300376854912-9412-2:898e877086dc73feebddae0c4fd9cae94deec4e622c15e9a79a6e2c4a7460d66",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "work",
+                "path": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300376854912-9412-2/tree"
+              },
+              {
+                "backend": {
+                  "kind": "writable",
+                  "revision": "ca89acd5bb72bc337f4c9a55b624366b31a6f323b12599d6f1ebb325ec68c205"
+                },
+                "base_revision": "5daa9b54c4ffbbf2d580095919568dcbbae0a3a897eb27e92f2294635511bb3b",
+                "generation": "1792925300039727800-9383-0",
+                "mountInfo": {
+                  "filesystem": "fuse",
+                  "id": 274,
+                  "mountOptions": [
+                    "rw",
+                    "nosuid",
+                    "nodev",
+                    "noatime"
+                  ],
+                  "mountpoint": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300039727800-9383-0/tree",
+                  "parentId": 58,
+                  "root": "/",
+                  "source": "sprig-writable-cas:1792925300039727800-9383-0:ca89acd5bb72bc337f4c9a55b624366b31a6f323b12599d6f1ebb325ec68c205",
+                  "superOptions": {
+                    "default_permissions": "",
+                    "group_id": "0",
+                    "max_read": "1048576",
+                    "rw": "",
+                    "user_id": "0"
+                  }
+                },
+                "name": "second",
+                "path": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample/library/native/1792925300039727800-9383-0/tree"
+              }
+            ]
+          },
+          "cleanup": {
+            "attempts": [
+              {
+                "generation": "1792925300470386178-9426-0",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              },
+              {
+                "generation": "1792925300550273710-9431-0",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              },
+              {
+                "generation": "1792925300630820115-9436-0",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              },
+              {
+                "generation": "1792925300714710253-9441-0",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              },
+              {
+                "generation": "1792925300376854912-9412-2",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              },
+              {
+                "generation": "1792925300039727800-9383-0",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              },
+              {
+                "generation": "1792925299892802572-9374-1",
+                "ok": true,
+                "operation": "CLI unmount-generation"
+              }
+            ],
+            "blocked": false,
+            "complete": true,
+            "forceOrLazyUnmountUsed": false,
+            "harnessProcessesKilled": false,
+            "processesKilled": null
+          },
+          "daemons": [],
+          "fileTreesRetained": true,
+          "normalUnmountOnly": true,
+          "persistentControlDaemon": false
+        },
+        "lifecycleTraceEvidence": {
+          "archivedBeforeValidation": true,
+          "counts": {
+            "cli": 0,
+            "daemon": 0,
+            "other": 0
+          },
+          "enabled": false,
+          "invalidRecords": [],
+          "phases": {},
+          "present": false,
+          "successfulPhases": {},
+          "validRecords": 0
+        },
+        "logicalBytes": 81920,
+        "measurementNotes": [
+          "New stress protocol, not comparable to frozen listed-file timing without workload qualification.",
+          "All exact path sets, bytes, modes, nanosecond mtimes, symlinks and internal hardlink groups checked.",
+          "Every checkpoint acknowledgement, including unchanged initial revision when selected, is restored and fully checked.",
+          "No-op committed=true retains the same revision; writable still retains/replaces its owned generation.",
+          "Complete public CLI, readiness and normal-unmount costs retained; no processes killed or uncertain mutations retried.",
+          "All source and full-tree oracle checks are setup-warm; no cold-cache, equal crash-durability or CPU/RAM-equivalence claim.",
+          "Direct task wall includes checks/ledger/space diagnostics; additive phase diagnostics do not replace it.",
+          "Budget guard is cooperative at operation boundaries, never a process-killing command timeout.",
+          "Whole filesystem contains all retained trees/generations and runtime logs; no selective cleanup or pruning.",
+          "Source commit comes from verified external checkout/build; recorded binary SHA is independently measured."
+        ],
+        "metadataScope": [
+          "path-set",
+          "type",
+          "bytes",
+          "mode-0777",
+          "mtime-ns",
+          "symlink-target",
+          "internal-hardlink-groups"
+        ],
+        "metadata_branch_available": true,
+        "metadata_branch_probe": "omitted",
+        "metadata_branch_seconds": null,
+        "metadata_branch_unavailable_reason": null,
+        "nativeRestoreCleanup": "0.0 seconds: no unmount operation; native trees retained",
+        "noopCheckpointIncluded": true,
+        "ok": true,
+        "oracleFiles": 20,
+        "originalMainViewUnchanged": true,
+        "originalSecondViewUnchanged": true,
+        "postHistorySpace": {
+          "filesystemUsedBytes": 716800,
+          "groupsRaw": "Data, single: total=8388608, used=258048\nSystem, DUP: total=8388608, used=16384\nMetadata, DUP: total=107347968, used=212992\nGlobalReserve, single: total=5767168, used=0\n",
+          "usageRaw": "Overall:\n    Device size:\t\t        2147483648\n    Device allocated:\t\t         239861760\n    Device unallocated:\t\t        1907621888\n    Device missing:\t\t                 0\n    Device slack:\t\t                 0\n    Used:\t\t\t            716800\n    Free (estimated):\t\t        1915752448\t(min: 961941504)\n    Free (statfs, df):\t\t        1914703872\n    Data ratio:\t\t\t              1.00\n    Metadata ratio:\t\t              2.00\n    Global reserve:\t\t           5767168\t(used: 0)\n    Multiple profiles:\t\t                no\n\nData,single: Size:8388608, Used:258048 (3.08%)\n   /dev/loop0\t   8388608\n\nMetadata,DUP: Size:107347968, Used:212992 (0.20%)\n   /dev/loop0\t 214695936\n\nSystem,DUP: Size:8388608, Used:16384 (0.20%)\n   /dev/loop0\t  16777216\n\nUnallocated:\n   /dev/loop0\t1907621888\n"
+        },
+        "productionShaSource": "explicit --production-sha supplied by verified checkout/build harness",
+        "production_sha": "2c3a7910fe98bf3a8df61f7142cbef740e4ccb2a",
+        "protocol": "sprig-stress-full-tree-v1",
+        "prototype_only": false,
+        "recordsFile": "/home/runner/work/_temp/cache-sequence/canary/stress-results/writable-backoff-0-steps.jsonl",
+        "recordsIncludedInActiveSpace": false,
+        "remainingMounts": [],
+        "resourceComparisonAvailable": false,
+        "restoreTimingScope": "100 historical snapshots after active-space accounting; zero for nonhistory",
+        "restore_cleanup_seconds": 0.0628521449999937,
+        "restore_read_seconds": 0.1869376220000163,
+        "restore_seconds": 0.07240264600002888,
+        "root": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount/sample",
+        "runtimeLogs": [],
+        "source": "/home/runner/work/_temp/stress-source-65cf6dig/tree",
+        "sourceUnchanged": true,
+        "status": "passed",
+        "total_import_fork_read_seconds": 0.1091173769999898,
+        "warm_fork_seconds": 0.045297414000003755,
+        "warm_read_seconds": 0.04190782300000251,
+        "warm_total_seconds": 0.08720523700000626,
+        "wholeSampleIncludingSetupCleanupSeconds": 1.2049942360000045,
+        "wholeTaskSeconds": 1.0701190880000127,
+        "wholeTaskTimingScope": "execute: init through post-history space, excluding preparation and final teardown/archive",
+        "workload_only_verification": true,
+        "write_seconds": 0.017284864999993488
+      },
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/store.img",
+        "mount": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "isolatedImageRetained": "/home/runner/work/_temp/stress-writable-backoff-0-qrx2gpxo/store.img"
+    }
+  ],
+  "diagnostic": false,
+  "pairOrder": "forward",
+  "comparisonProtocol": "within-sprig-ab",
+  "measurementBudgetSeconds": 300,
+  "wholeTaskScope": "per-sampler task excludes fixture/runtime setup; phases overlap only as documented",
+  "durability": "Sprig sync enabled; LayerFS Disposable WAL/OFF and MEMORY/OFF are unequal",
+  "cpuMemoryComparison": "unavailable; no partial process RSS/CPU claim",
+  "logicalBytes": 81920,
+  "conservativeRetainedLogicalBytes": 901120,
+  "noopCheckpoint": true,
+  "fixtureSha256": "5ee99cc00c9856cd5526e998252bec6c0c2d10d9bc312e1692d4f126af190437",
+  "elapsedSeconds": 3.331034121000016
+}

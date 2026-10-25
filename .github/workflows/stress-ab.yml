@@ -1,5 +1,5 @@
 name: Same-runner writable lease backoff A/B
-run-name: Writable history100 baseline versus lease backoff, one pair
+run-name: Writable history100 baseline versus lease backoff, one reverse-order pair
 on:
   push:
     branches: [stress/canary-validation]
@@ -8,7 +8,7 @@ on:
       pair_order:
         type: choice
         options: [forward, reverse]
-        default: forward
+        default: reverse
         required: true
 permissions:
   contents: read
@@ -23,7 +23,7 @@ jobs:
       CARGO_BUILD_JOBS: '2'
       BASELINE_SHA: '071036f83691b89bd9e35bb162d34e305e1874b7'
       CANDIDATE_SHA: '2c3a7910fe98bf3a8df61f7142cbef740e4ccb2a'
-      PAIR_ORDER: ${{ inputs.pair_order || 'forward' }}
+      PAIR_ORDER: ${{ inputs.pair_order || 'reverse' }}
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Start bounded targeted experiment budget clock
@@ -71,6 +71,7 @@ jobs:
           test "$(realpath build-target-baseline)" != "$(realpath build-target-candidate)"
           if cmp -s bin/baseline-sprig bin/candidate-sprig; then echo "Unexpected identical variant binaries"; exit 1; fi
           sha256sum bin/*-sprig > results/both-binary-hashes-after-build.txt
+          printf '%s  %s\n' '086801ac765401f9fcd3116bbdf48c72118fd9f7682affd0057121756d2c7b12' 'bin/baseline-sprig' 'e9393f24b30f5afaf75aa3e417e165aca20b97bbc3fe842fbcf0f40e8feb28ee' 'bin/candidate-sprig' | sha256sum -c -
           python3 -m unittest discover -s feasibility -p 'test_stress*.py' -v
       - name: Writable canary then history100 under one remaining budget
         run: |
@@ -89,6 +90,14 @@ jobs:
           Path('results/stress-products.json').write_text(json.dumps(products,indent=2))
           PYCONFIG
           sudo --preserve-env=GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_sequence.py --products "$PWD/results/stress-products.json" --cell history-hot-100 --backend writable --pair-order "$PAIR_ORDER" --budget-seconds "$STRESS_MEASURE_BUDGET" --output "$RUNNER_TEMP/cache-sequence"
+      - name: Verify frozen forward fixture identity
+        run: |
+          python3 - <<'PYFIXTURE'
+          import json,os
+          from pathlib import Path
+          r=json.loads((Path(os.environ['RUNNER_TEMP'])/'cache-sequence/pressure/stress-results/stress-comparison.json').read_text())
+          assert r['fixtureSha256']=='c3a77e606e84bc8fcba1625c675c75dadecea007f0346fa7363202ebd7f2def0'
+          PYFIXTURE
       - name: Summarize only complete exact paired records
         run: python3 feasibility/stress_summarize.py "$RUNNER_TEMP/cache-sequence/pressure/stress-results/stress-comparison.json" --output results/stress-summary.json
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
