@@ -42,7 +42,7 @@ jobs:
       - name: Fetch fixed production CLI
         run: |
           git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig
-          git -C sprig checkout 8513529e904ba06dd384c8d5e4a2f0117bc64845
+          git -C sprig checkout 70307d3480239e96a24552d8595ec537927d9301
           rustup toolchain install stable --profile minimal
           rustc +stable --version > results/projection-rust-version.txt
           find sprig/src sprig/tests -type f -not -path '*/target/*' -print0 | sort -z | xargs -0 sha256sum > results/production-source-hashes.txt
@@ -119,13 +119,13 @@ jobs:
       - name: Actual incremental0 paired acceptance within2GiB ceiling
         env:
           STRESS_CARGO_INCREMENTAL: '0'
-          SPRIG_STRESS_SHA: '8513529e904ba06dd384c8d5e4a2f0117bc64845'
+          SPRIG_STRESS_SHA: '70307d3480239e96a24552d8595ec537927d9301'
         run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,LAYERFS_DAEMON,STRESS_CARGO_INCREMENTAL,SPRIG_STRESS_SHA,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
       - name: Actual incremental1 only after complete incremental0 gate
         if: inputs.run_incremental1
         env:
           STRESS_CARGO_INCREMENTAL: '1'
-          SPRIG_STRESS_SHA: '8513529e904ba06dd384c8d5e4a2f0117bc64845'
+          SPRIG_STRESS_SHA: '70307d3480239e96a24552d8595ec537927d9301'
           STRESS_CARGO_PREVIOUS_GATE: '${{ github.workspace }}/results/stress-cargo-comparison-0.json'
         run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,LAYERFS_DAEMON,STRESS_CARGO_INCREMENTAL,SPRIG_STRESS_SHA,STRESS_CARGO_PREVIOUS_GATE,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02

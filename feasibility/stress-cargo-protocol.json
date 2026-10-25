@@ -21,7 +21,7 @@
     "stress-app"
   ],
   "commands": {
-    "build": "cargo build --offline --locked --verbose --workspace --jobs 1",
+    "build": "cargo build --offline --locked --verbose --workspace --jobs 2",
     "program": "./target/debug/stress-app",
     "edit": "python3 -B - <<'SPRIG_CARGO_PY'\nfrom pathlib import Path\nPath(\"node000/src/lib.rs\").write_text('include!(concat!(env!(\"OUT_DIR\"), \"/generated.rs\"));\\npub fn value()->u64 { 1u64.wrapping_add(100).wrapping_add(BUILD_VALUE) }\\npub fn generic_0<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(0) }\\npub fn generic_1<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(1) }\\npub fn generic_2<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(2) }\\npub fn generic_3<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(3) }\\npub fn generic_4<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(4) }\\npub fn generic_5<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(5) }\\npub fn generic_6<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(6) }\\npub fn generic_7<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(7) }\\npub fn generic_8<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(8) }\\npub fn generic_9<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(9) }\\npub fn generic_10<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(10) }\\npub fn generic_11<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(11) }\\npub fn generic_12<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(12) }\\npub fn generic_13<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(13) }\\npub fn generic_14<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(14) }\\npub fn generic_15<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(15) }\\npub fn generic_16<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(16) }\\npub fn generic_17<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(17) }\\npub fn generic_18<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(18) }\\npub fn generic_19<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(19) }\\npub fn generic_20<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(20) }\\npub fn generic_21<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(21) }\\npub fn generic_22<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(22) }\\npub fn generic_23<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(23) }\\npub fn generic_24<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(24) }\\npub fn generic_25<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(25) }\\npub fn generic_26<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(26) }\\npub fn generic_27<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(27) }\\npub fn generic_28<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(28) }\\npub fn generic_29<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(29) }\\npub fn generic_30<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(30) }\\npub fn generic_31<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(31) }\\n')\nPath(\"node000/build-input.txt\").write_text(\"2\\n\")\nSPRIG_CARGO_PY",
     "probe": "python3 -B - <<'SPRIG_CARGO_PY'\nimport os\nfrom pathlib import Path\np=Path('target/restore-probe');p.mkdir()\nf=p/'original';f.write_bytes(b'cargo checkpoint hardlink probe\\n');f.chmod(0o640)\nos.link(f,p/'hardlink');os.symlink('original',p/'symlink')\nos.utime(f,ns=(1700000000123456789,1700000000123456789))\nSPRIG_CARGO_PY",
@@ -30,5 +30,75 @@
   },
   "leafBefore": "include!(concat!(env!(\"OUT_DIR\"), \"/generated.rs\"));\npub fn value()->u64 { 1u64.wrapping_add(0).wrapping_add(BUILD_VALUE) }\npub fn generic_0<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(0) }\npub fn generic_1<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(1) }\npub fn generic_2<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(2) }\npub fn generic_3<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(3) }\npub fn generic_4<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(4) }\npub fn generic_5<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(5) }\npub fn generic_6<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(6) }\npub fn generic_7<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(7) }\npub fn generic_8<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(8) }\npub fn generic_9<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(9) }\npub fn generic_10<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(10) }\npub fn generic_11<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(11) }\npub fn generic_12<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(12) }\npub fn generic_13<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(13) }\npub fn generic_14<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(14) }\npub fn generic_15<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(15) }\npub fn generic_16<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(16) }\npub fn generic_17<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(17) }\npub fn generic_18<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(18) }\npub fn generic_19<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(19) }\npub fn generic_20<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(20) }\npub fn generic_21<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(21) }\npub fn generic_22<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(22) }\npub fn generic_23<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(23) }\npub fn generic_24<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(24) }\npub fn generic_25<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(25) }\npub fn generic_26<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(26) }\npub fn generic_27<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(27) }\npub fn generic_28<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(28) }\npub fn generic_29<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(29) }\npub fn generic_30<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(30) }\npub fn generic_31<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(31) }\n",
   "leafAfter": "include!(concat!(env!(\"OUT_DIR\"), \"/generated.rs\"));\npub fn value()->u64 { 1u64.wrapping_add(100).wrapping_add(BUILD_VALUE) }\npub fn generic_0<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(0) }\npub fn generic_1<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(1) }\npub fn generic_2<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(2) }\npub fn generic_3<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(3) }\npub fn generic_4<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(4) }\npub fn generic_5<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(5) }\npub fn generic_6<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(6) }\npub fn generic_7<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(7) }\npub fn generic_8<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(8) }\npub fn generic_9<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(9) }\npub fn generic_10<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(10) }\npub fn generic_11<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(11) }\npub fn generic_12<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(12) }\npub fn generic_13<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(13) }\npub fn generic_14<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(14) }\npub fn generic_15<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(15) }\npub fn generic_16<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(16) }\npub fn generic_17<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(17) }\npub fn generic_18<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(18) }\npub fn generic_19<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(19) }\npub fn generic_20<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(20) }\npub fn generic_21<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(21) }\npub fn generic_22<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(22) }\npub fn generic_23<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(23) }\npub fn generic_24<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(24) }\npub fn generic_25<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(25) }\npub fn generic_26<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(26) }\npub fn generic_27<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(27) }\npub fn generic_28<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(28) }\npub fn generic_29<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(29) }\npub fn generic_30<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(30) }\npub fn generic_31<T: Into<u64>>(v:T)->u64 { v.into().wrapping_add(31) }\n",
-  "buildScript": "use std::{env,fs,path::PathBuf};\nfn main() {\n    println!(\"cargo:rerun-if-changed=build-input.txt\");\n    let text=fs::read_to_string(\"build-input.txt\").unwrap();\n    let value:u64=text.trim().parse().unwrap();\n    fs::write(PathBuf::from(env::var_os(\"OUT_DIR\").unwrap()).join(\"generated.rs\"),\n        format!(\"pub const BUILD_VALUE: u64 = {};\\n\",value)).unwrap();\n}\n"
+  "buildScript": "use std::{env,fs,path::PathBuf};\nfn main() {\n    println!(\"cargo:rerun-if-changed=build-input.txt\");\n    let text=fs::read_to_string(\"build-input.txt\").unwrap();\n    let value:u64=text.trim().parse().unwrap();\n    fs::write(PathBuf::from(env::var_os(\"OUT_DIR\").unwrap()).join(\"generated.rs\"),\n        format!(\"pub const BUILD_VALUE: u64 = {};\\n\",value)).unwrap();\n}\n",
+  "dependencies": [
+    [],
+    [
+      0
+    ],
+    [
+      0
+    ],
+    [
+      0
+    ],
+    [
+      0
+    ],
+    [
+      0,
+      1,
+      2
+    ],
+    [
+      0,
+      2,
+      3
+    ],
+    [
+      0,
+      3,
+      4
+    ],
+    [
+      0,
+      1,
+      4
+    ],
+    [
+      0,
+      5,
+      6
+    ],
+    [
+      0,
+      6,
+      7
+    ],
+    [
+      0,
+      7,
+      8
+    ],
+    [
+      0,
+      5,
+      8
+    ],
+    [
+      0,
+      9,
+      10
+    ],
+    [
+      0,
+      11,
+      12
+    ],
+    [
+      0,
+      13,
+      14
+    ]
+  ]
 }

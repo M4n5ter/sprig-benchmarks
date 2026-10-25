@@ -8,10 +8,10 @@ import {BUILD,PROGRAM,loadCommands,validateProtocol,verifyCargoPackages,oracleCo
 const hash=x=>createHash('sha256').update(x).digest('hex');
 assert.equal(hash(fs.readFileSync(new URL('./cargo_layerfs.mjs',import.meta.url))),'ed6811f90294684c07b1de2019331e06f54572950df3a257f3e1d020f3030f4b','frozen adapter changed');
 const identity=loadCommands(), packages=Array.from({length:16},(_,i)=>'node'+String(i).padStart(3,'0')).concat('stress-app');
-const expected=leaf=>{const v=[leaf];for(let i=1;i<16;i++)v.push(i+1+[...new Set([i-1,Math.floor(i/2),0])].reduce((s,j)=>s+v[j],0));return String(v.at(-1))+'\n';};
-const manifest={schema:'sprig-stress-cargo-v2',crates:16,totalPackages:17,packages,expectedStdoutBefore:expected(2),expectedStdoutAfter:expected(103),buildScriptBefore:'pub const BUILD_VALUE: u64 = 1;\n',buildScriptAfter:'pub const BUILD_VALUE: u64 = 2;\n',protocolSha256:identity.sha256,lockfileSha256:'a'.repeat(64)};
+const expected=leaf=>{const v=[leaf];for(let i=1;i<16;i++)v.push(i+1+identity.dependencies[i].reduce((s,j)=>s+v[j],0));return String(v.at(-1))+'\n';};
+const manifest={schema:'sprig-stress-cargo-v2',crates:16,totalPackages:17,packages,dependencies:identity.dependencies,expectedStdoutBefore:expected(2),expectedStdoutAfter:expected(103),buildScriptBefore:'pub const BUILD_VALUE: u64 = 1;\n',buildScriptAfter:'pub const BUILD_VALUE: u64 = 2;\n',protocolSha256:identity.sha256,lockfileSha256:'a'.repeat(64)};
 validateProtocol(manifest);
-for(const patch of [{crates:64},{totalPackages:16},{packages:packages.slice(1)},{protocolSha256:'0'.repeat(64)},{expectedStdoutAfter:'2\n'},{buildScriptAfter:manifest.buildScriptBefore}])assert.throws(()=>validateProtocol({...manifest,...patch}));
+for(const patch of [{dependencies:identity.dependencies.slice(1)},{crates:64},{totalPackages:16},{packages:packages.slice(1)},{protocolSha256:'0'.repeat(64)},{expectedStdoutAfter:'2\n'},{buildScriptAfter:manifest.buildScriptBefore}])assert.throws(()=>validateProtocol({...manifest,...patch}));
 const statuses=kind=>packages.map(p=>`       ${kind} ${p} v0.1.0 (/work/${p})`).join('\n');
 for(const phase of ['clean_build','edit_build'])assert.equal(verifyCargoPackages(statuses('Compiling'),packages,phase).allExpectedPackages,true);
 for(const phase of ['noop_build','restored_rebuild'])assert.equal(verifyCargoPackages(statuses('Fresh'),packages,phase).freshPackages.length,17);

@@ -22,13 +22,17 @@ Both adapters load identical scripts from `stress-cargo-protocol.json`, whose
 SHA256 is bound into the manifest/report. Build is exactly:
 
 ```
-cargo build --offline --locked --verbose --workspace --jobs 1
+cargo build --offline --locked --verbose --workspace --jobs 2
 ```
 
 Clean and shared-leaf/build-input edit builds require exactly the17 known
 packages to report Compiling; noop and restored builds require all17 Fresh and
 no Compiling. Missing, duplicate, unknown or differently-versioned package lines
-fail. Clean executable output is777; after source+build input edits it is14109.
+fail. The current fan-out/fan-in executable output is269; after source+build input edits it is3400.
+The graph has four independent siblings after shared node000, two further four-node
+join tiers, two joins, then node015 and the app. Every package depends transitively
+on node000; both products and the capacity pilot use jobs2. Algebraically the
+app result is31*leaf+207, where leaf changes2→103.
 Both generated.rs content and executable outputs are verified, not inferred from
 exit status alone.
 
@@ -145,7 +149,15 @@ measured-allocation and pinned-software requirements.
 
 Local Rust1.99.1 sanity (not1.90 acceptance) compiled both incremental settings:
 all17 Compiling clean/edit; all17 Fresh noop and another same-path postedit noop;
-real generated.rs/probe checks passed; program777→14109. Local target allocated
+real generated.rs/probe checks passed; program777→14109 (superseded serialized-graph sanity; not validation of the current branching graph). Local target allocated
 bytes were10,465,280 (incremental0) and18,952,192 (incremental1). These local sizes
 are illustrative only and cannot admit CI; the CI common-image pilot is required.
 No local product restore/FUSE/container acceptance is asserted.
+
+The forward branching-graph/jobs2 sanity uses a fresh output directory and the same
+local Rust1.99.1 only: clean/edit17 Compiling, both same-path noops17 Fresh,
+build-script and hardlink/mtime probes pass, executable269→3400. Target allocated
+bytes:10,465,280 (incremental0),18,837,504 (incremental1). These figures are not
+pinned1.90 capacity admission or product restore results. The graph exposes four
+ready siblings; jobs2 bounds compiler concurrency, without asserting a measured
+overlap duration from Cargo verbose output.

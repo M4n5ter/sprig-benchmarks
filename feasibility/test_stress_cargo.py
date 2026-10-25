@@ -15,7 +15,7 @@ from stress_cargo_prepare import PROTOCOL,PROTOCOL_SHA,generate,freeze,expected,
 def manifest(initial):
     return dict(schema='sprig-stress-cargo-v2',crates=16,totalPackages=17,
                 packages=PROTOCOL['packages'],protocolSha256=PROTOCOL_SHA,
-                expectedStdoutBefore=expected(2),expectedStdoutAfter=expected(103),initial=initial)
+                dependencies=PROTOCOL['dependencies'],expectedStdoutBefore=expected(2),expectedStdoutAfter=expected(103),initial=initial)
 
 
 class MockStress(StressCargoSample,MockSample):
@@ -92,6 +92,27 @@ class Tests(unittest.TestCase):
         with patch.object(sample,'runtime',return_value=json.dumps(altered)),self.assertRaises(transport.SampleError):
             sample.oracle('/work',expected=expected,purpose='restore_verify')
 
+    def test_parallel_topology_and_shared_leaf_reach_every_package(self):
+        graph=PROTOCOL['dependencies']
+        self.assertEqual(len(graph),16)
+        self.assertEqual([i for i in range(1,16) if graph[i]==[0]],[1,2,3,4])
+        reached={0}
+        for i,deps in enumerate(graph[1:],1):
+            self.assertTrue(all(0<=d<i for d in deps))
+            if any(d in reached for d in deps):reached.add(i)
+        self.assertEqual(reached,set(range(16))) # app depends on node015
+        # Independent algebra: node015 = 31*leaf + 207, including every branch.
+        self.assertEqual(expected(2),'269\n')
+        self.assertEqual(expected(103),'3400\n')
+        for leaf in (0,1,17):self.assertEqual(expected(leaf),str(31*leaf+207)+'\n')
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)/'source';generate(root)
+            import tomllib
+            for i,deps in enumerate(graph):
+                actual=tomllib.loads((root/f'node{i:03}/Cargo.toml').read_text())['dependencies']
+                self.assertEqual(sorted(actual),[f'node{d:03}' for d in deps])
+            self.assertEqual(list(tomllib.loads((root/'app/Cargo.toml').read_text())['dependencies']),['node015'])
+
     def test_exact_package_cache_acceptance(self):
         fresh=''.join(f'       Fresh {p} v0.1.0 (/work/{p})\n' for p in PROTOCOL['packages'])
         self.assertTrue(build_observation(fresh,'restored_rebuild')['allPackagesVerified'])
@@ -131,7 +152,7 @@ class Tests(unittest.TestCase):
         for key in ('edit','probe','verifyBefore','verifyAfter'):
             code=PROTOCOL['commands'][key].split('\n',1)[1].rsplit('\n',1)[0]
             compile(code,key,'exec')
-        self.assertEqual(PROTOCOL['commands']['build'],'cargo build --offline --locked --verbose --workspace --jobs 1')
+        self.assertEqual(PROTOCOL['commands']['build'],'cargo build --offline --locked --verbose --workspace --jobs 2')
         self.assertEqual(len(PROTOCOL['packages']),17)
 
 if __name__=='__main__':unittest.main()

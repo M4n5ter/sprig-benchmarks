@@ -12,7 +12,7 @@ class Tests(unittest.TestCase):
         for phase,value in [('clean_artifacts',1),('edit_artifacts',2)]:row['commands'].append(dict(purpose=phase,returncode=0,stdout=json.dumps(dict(ok=True,buildValue=value,hardlinkProbe=True,exactMtime=True,generatedFiles=['target/generated.rs'])),stderr=''))
         return row
     def test_script_syntax(self):
-        script=pilot_script();compile(script.split('\n',1)[1].rsplit('\n',1)[0],'pilot','exec')
+        script=pilot_script();self.assertIn('--workspace --jobs 2',script);self.assertNotIn('--jobs 1',script);compile(script.split('\n',1)[1].rsplit('\n',1)[0],'pilot','exec')
     def test_valid_measured_pilot(self):
         row=validate_pilot(self.row(),{'expectedStdoutBefore':expected(2),'expectedStdoutAfter':expected(103)})
         self.assertTrue(row['commands'][0]['packageAcceptance']['allPackagesVerified'])

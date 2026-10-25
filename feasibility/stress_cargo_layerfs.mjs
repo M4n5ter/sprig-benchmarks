@@ -7,7 +7,7 @@ import {performance} from 'node:perf_hooks';
 import {createHash, randomUUID} from 'node:crypto';
 
 export const SOURCE_SHA='9f97a7ec95b662e9cb288704afa165feff132cfa';
-export const BUILD='cargo build --offline --locked --verbose --workspace --jobs 1';
+export const BUILD='cargo build --offline --locked --verbose --workspace --jobs 2';
 export const PROGRAM='./target/debug/stress-app';
 const PREFIX='unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; ';
 const ORACLE='/opt/bench/tree_oracle.py';
@@ -68,7 +68,7 @@ export function loadCommands(){
  const value=JSON.parse(raw);require(value.schema==='sprig-stress-cargo-protocol-v2','invalid shared command schema');const commands=value.commands;
  require(commands.build===BUILD&&commands.program===PROGRAM,'shared offline Cargo commands differ');
  for(const key of ['edit','probe','verifyBefore','verifyAfter'])require(typeof commands[key]==='string'&&commands[key].length>0,'missing shared command '+key);
- return {commands,sha256:sha(raw)};
+ return {commands,dependencies:value.dependencies,sha256:sha(raw)};
 }
 
 export function validateProtocol(value, commandIdentity=loadCommands()){
@@ -76,7 +76,8 @@ export function validateProtocol(value, commandIdentity=loadCommands()){
  require(value?.schema==='sprig-stress-cargo-v2'&&value.crates===16&&value.totalPackages===17,'requires DAG16 protocol v2');
  require(JSON.stringify(value.packages)===JSON.stringify(packages),'requires exactly all 17 deterministic package names');
  for(const key of ['expectedStdoutBefore','expectedStdoutAfter','buildScriptBefore','buildScriptAfter'])require(typeof value[key]==='string'&&value[key].endsWith('\n'), 'invalid protocol '+key);
- const expected=leaf=>{const values=[BigInt(leaf)];for(let i=1;i<16;i++){const deps=[...new Set([i-1,Math.floor(i/2),0])];values.push(BigInt.asUintN(64,BigInt(i+1)+deps.reduce((sum,j)=>sum+values[j],0n)));}return String(values.at(-1))+'\n';};
+ require(JSON.stringify(value.dependencies)===JSON.stringify(commandIdentity.dependencies),'DAG topology binding mismatch');
+ const expected=leaf=>{const values=[BigInt(leaf)];for(let i=1;i<16;i++){const deps=commandIdentity.dependencies[i];values.push(BigInt.asUintN(64,BigInt(i+1)+deps.reduce((sum,j)=>sum+values[j],0n)));}return String(values.at(-1))+'\n';};
  require(value.expectedStdoutBefore===expected(2)&&value.expectedStdoutAfter===expected(103),'DAG executable expectations mismatch');
  require(value.buildScriptBefore==='pub const BUILD_VALUE: u64 = 1;\n'&&value.buildScriptAfter==='pub const BUILD_VALUE: u64 = 2;\n','build script expectations differ from frozen shared verifier');
  require(/^[a-f0-9]{64}$/.test(value.lockfileSha256??''),'invalid frozen lockfile identity');

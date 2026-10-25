@@ -17,7 +17,7 @@ PROTOCOL_SHA = hashlib.sha256(PROTOCOL_PATH.read_bytes()).hexdigest()
 def expected(leaf):
     values = [leaf]
     for i in range(1, 16):
-        deps = sorted({max(0, i-1), i//2, 0})
+        deps = PROTOCOL['dependencies'][i]
         values.append((i+1+sum(values[d] for d in deps)) % 2**64)
     return str(values[-1])+'\n'
 
@@ -25,6 +25,17 @@ def expected(leaf):
 def generate(root):
     generate_v1(root,16)
     root = Path(root)
+    # v2 intentionally supersedes the old serialized graph, without editing it.
+    for i, deps in enumerate(PROTOCOL['dependencies']):
+        name = f'node{i:03}'
+        crate = root/name
+        toml = f'[package]\nname = "{name}"\nversion = "0.1.0"\nedition = "2021"\n\n[dependencies]\n'
+        toml += ''.join(f'node{d:03} = {{ path = "../node{d:03}" }}\n' for d in deps)
+        (crate/'Cargo.toml').write_text(toml)
+        if i:
+            old = (crate/'src/lib.rs').read_text().split('\n', 1)[1]
+            expr = f'{i+1}u64'+''.join(f'.wrapping_add(node{d:03}::value())' for d in deps)
+            (crate/'src/lib.rs').write_text(f'pub fn value()->u64 {{ {expr} }}\n'+old)
     (root/'node000/src/lib.rs').write_text(PROTOCOL['leafBefore'])
     (root/'node000/build.rs').write_text(PROTOCOL['buildScript'])
     (root/'node000/build-input.txt').write_text('1\n')
@@ -48,7 +59,7 @@ def freeze(root):
         raise ValueError('DAG source differs from fixed v2 protocol')
     normalize_source(root)
     return {'schema':'sprig-stress-cargo-v2','crates':16,'totalPackages':17,
-            'packages':PROTOCOL['packages'],'protocolSha256':PROTOCOL_SHA,
+            'packages':PROTOCOL['packages'],'dependencies':PROTOCOL['dependencies'],'protocolSha256':PROTOCOL_SHA,
             'expectedStdoutBefore':expected(2),'expectedStdoutAfter':expected(103),
             'buildScriptBefore':'pub const BUILD_VALUE: u64 = 1;\n',
             'buildScriptAfter':'pub const BUILD_VALUE: u64 = 2;\n',
@@ -62,6 +73,8 @@ def validate_manifest(document):
         raise ValueError('requires v2 16-library/17-package DAG')
     if document.get('packages')!=PROTOCOL['packages'] or document.get('protocolSha256')!=PROTOCOL_SHA:
         raise ValueError('DAG package/protocol binding mismatch')
+    if document.get('dependencies')!=PROTOCOL['dependencies']:
+        raise ValueError('DAG topology binding mismatch')
     if document.get('expectedStdoutBefore')!=expected(2) or document.get('expectedStdoutAfter')!=expected(103):
         raise ValueError('DAG expected executable values mismatch')
     if document.get('buildScriptBefore')!='pub const BUILD_VALUE: u64 = 1;\n' or document.get('buildScriptAfter')!='pub const BUILD_VALUE: u64 = 2;\n':
