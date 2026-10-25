@@ -1,8 +1,6 @@
 name: Cargo DAG16 incremental0 acceptance
 run-name: Cargo DAG16 incremental0, fixed query and backoff candidate
 on:
-  push:
-    branches: [stress/canary-validation]
   workflow_dispatch:
 permissions:
   contents: read

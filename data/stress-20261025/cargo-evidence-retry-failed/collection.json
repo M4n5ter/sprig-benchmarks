@@ -1,0 +1,130 @@
+{
+  "schema": "sprig-cargo-artifact-copy-v1",
+  "files": [
+    {
+      "path": "results/cargo-image-build.txt",
+      "bytes": 43153,
+      "sha256": "fb07dc19d7e4c15c2d077d6aa274610bb43897ab992766ad35a4ed0a1bf9b174"
+    },
+    {
+      "path": "results/cargo-image-capacity.txt",
+      "bytes": 104,
+      "sha256": "d6b2890de2156145cd0bb39f4f3086dd373a48568c513ef3944f735783cb5a3d"
+    },
+    {
+      "path": "results/cargo-image.json",
+      "bytes": 2025,
+      "sha256": "4868b8165f86ba0042c6f7225e81671aab8eff866316279073f54ee0f34ae865"
+    },
+    {
+      "path": "results/cargo-software-identity.txt",
+      "bytes": 21117,
+      "sha256": "66b72a036ede09c5cd598bf048cafe033e226f8f7e0966dd758002ceb0c22176"
+    },
+    {
+      "path": "results/cargo-toolchain-capacity.txt",
+      "bytes": 253,
+      "sha256": "9a717e16287903c502d6a4aed126e1cfe861368cb2219c50db128ca733345a9b"
+    },
+    {
+      "path": "results/current-writable-contract.json",
+      "bytes": 8310,
+      "sha256": "affc02ef6405877d67db261046d9c94de85a2c432c9927091dff23c74678b5fb"
+    },
+    {
+      "path": "results/docker-updated.txt",
+      "bytes": 769,
+      "sha256": "f4920363d6463240eaf4be2038cb9afd539b60ea1ee9139926372db35a80b049"
+    },
+    {
+      "path": "results/environment.txt",
+      "bytes": 4196,
+      "sha256": "d63bf35412e0cad5b92ad7ed633f37e580d9bc63cda223b93aad3a059a8f44d8"
+    },
+    {
+      "path": "results/production-binary-hash.txt",
+      "bytes": 93,
+      "sha256": "4b99acd298ec009d44ff9b129460a40c24fda4e19df7a2be9bf455c13c02161f"
+    },
+    {
+      "path": "results/production-kernel-contract.json",
+      "bytes": 412,
+      "sha256": "da85d5f1af7b7df7d3881fe32c9423baa6e37edca9c4e6fd9fe6444f52add4d9"
+    },
+    {
+      "path": "results/production-source-hashes.txt",
+      "bytes": 3531,
+      "sha256": "0a53c2f9117bb1a1635d717e035090c3b4e92ee780942050ecd22af50bf61836"
+    },
+    {
+      "path": "results/projection-rust-version.txt",
+      "bytes": 36,
+      "sha256": "55cd0529c005d3f62869ea6e2271bfa9d5196f56dc65a8be00a371af114a4a98"
+    },
+    {
+      "path": "results/runtime-image.json",
+      "bytes": 1531,
+      "sha256": "cd4a1e1ea8d7e59ddeac198801e2ec90ebf81db6d9d3e8b7b82c863ed420168f"
+    },
+    {
+      "path": "results/script-hashes.txt",
+      "bytes": 1596,
+      "sha256": "b87d7b911a76523d8f43e928d7427c4e020c45a89b576903e65007ed0de38b8e"
+    },
+    {
+      "path": "results/stress-cargo-capacity-status.json",
+      "bytes": 301,
+      "sha256": "01efa79b568f92cf629ddc7534a608e5b6749d92b460ae4ccc06f3ad802ad083"
+    },
+    {
+      "path": "results/stress-cargo-capacity.json",
+      "bytes": 63438,
+      "sha256": "163a7387bd1e9c9619189141f8a3067eaaa575f59ad2797e3e916b5bf262f826"
+    },
+    {
+      "path": "results/stress-cargo-comparison-0.json",
+      "bytes": 57114,
+      "sha256": "2270fd9a158ec05666f04002372a2eabef086af8bc452e1eaefb20b3ffbd32cf"
+    },
+    {
+      "path": "results/stress-cargo-generated.json",
+      "bytes": 163,
+      "sha256": "0e11e6ecb2fed512ed5ac2899c8cb3b3f2fa0cd63e58ec833d8d261c0526e1d4"
+    },
+    {
+      "path": "results/stress-cargo-lock-generation.txt",
+      "bytes": 36,
+      "sha256": "5f9bdc5e0a6960db4a3cc66e9b3ae15bad5b9b506e8b7c49739c88dc5355c3f1"
+    },
+    {
+      "path": "results/stress-cargo-manifest.json",
+      "bytes": 12002,
+      "sha256": "70310e765d81880f2e888ce914e508ded52b22f2dec6519d4f837d38e7616194"
+    },
+    {
+      "path": "results/stress-cargo-oracle.json",
+      "bytes": 11116,
+      "sha256": "e32cdf4f337cb6ecb88a1be8611cff3d4900736a7ee588ab981b5690eec0791f"
+    },
+    {
+      "path": "capacity/inc0.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "capacity/inc0.stdout",
+      "bytes": 27580,
+      "sha256": "922d573539fc8cb267de02484a22aa7dfb23a9eb67ddcc5e91e589bac8df6629"
+    },
+    {
+      "path": "capacity/inc1.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "capacity/inc1.stdout",
+      "bytes": 29192,
+      "sha256": "6cf9a98b0d98cd249fe6ee7a2aec0e6aa7c44d3b24c88ceda904f558d43ac02e"
+    }
+  ]
+}
