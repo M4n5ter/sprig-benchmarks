@@ -55,7 +55,7 @@ def validate_binary_identity(proof, expected):
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--products',type=Path,required=True)
-    p.add_argument('--cell',choices=['cache-history-repeated-300','files-10000','history-hot-100'],required=True)
+    p.add_argument('--cell',choices=['cache-history-repeated-300','files-10000','files-4096','history-hot-100'],required=True)
     p.add_argument('--backend',choices=['native','writable'],default='native')
     p.add_argument('--pair-order',choices=['forward','reverse'],default='forward')
     p.add_argument('--budget-seconds',type=int,required=True)

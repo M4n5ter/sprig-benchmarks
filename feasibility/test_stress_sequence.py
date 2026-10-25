@@ -4,6 +4,11 @@ from pathlib import Path
 from stress_sequence import phase_budget,validate_native_canary,validate_binary_identity,validate_canary,validate_backend
 
 class SequenceTests(unittest.TestCase):
+    def test_under_capacity_control_recipe(self):
+        from stress_run import cell_parameters
+        p,noop=cell_parameters("files-4096")
+        self.assertEqual((p["files"],p["size"],p["steps"],p["width"]),(4096,4096,1,1))
+        self.assertTrue(noop)
     def test_pressure_backend(self):
         proof=dict(records=[dict(backend="writable")]*2)
         validate_backend(proof,"writable")

@@ -22,7 +22,7 @@ def matrix():
                          sampleTimeoutSeconds=600, imageGiB=2,
                          capacityReviewRequired=logical*generations > 1024*MiB,
                          priorityPilot=name in ('files-10000','depth-128','history-random-300')))
-    for n in (1000, 10000, 50000):
+    for n in (1000, 4096, 10000, 50000):
         add(f'files-{n}', stage=1 if n < 50000 else 2, files=n, width=1)
     for n in (64, 256):
         add(f'bytes-{n}MiB', stage=1 if n == 64 else 2, files=n, size=MiB)

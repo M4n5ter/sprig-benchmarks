@@ -271,3 +271,10 @@ edits, pruned generations or weakened oracles. Conservative native retention is
 A separate fresh-store unique10k4KiB negative pair is mandatory before any
 cache-threshold promotion. “Cold” refers to empty product file cache, not OS
 page-cache eviction. A favorable repeated-history result alone is insufficient.
+
+The explicit `files-4096` control uses the same unique4KiB recipe, one no-op
+and one64-byte changed checkpoint as unique10k, but fits the cache's4096entry
+limit per snapshot. The changed revision introduces one additional content key
+across the retained-history union while each snapshot still has4096files.
+It tests cold-fit admission and the next revision's capacity-bound transition,
+not just the favorable reused-history case. Existing cells unchanged.
