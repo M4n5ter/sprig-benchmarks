@@ -1,0 +1,14 @@
+[
+  {
+    "label": "baseline",
+    "type": "sprig",
+    "sha": "071036f83691b89bd9e35bb162d34e305e1874b7",
+    "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig"
+  },
+  {
+    "label": "backoff",
+    "type": "sprig",
+    "sha": "2c3a7910fe98bf3a8df61f7142cbef740e4ccb2a",
+    "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig"
+  }
+]

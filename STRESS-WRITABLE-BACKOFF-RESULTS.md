@@ -40,3 +40,38 @@ Canaries contribute30full-tree checks/8historical restores; pressure414checks/20
 Each product retains103writable generations at primary space and203after100historical restores, exactly3+100+100. The three live views are independently checked; every old/restored generation remains retained and charged, normal unmount only, no force/lazy unmount, no killed daemon, zero mounts/owned servers after normal final cleanup. The ownership/lease proof was not replaced by a sleep estimate. Primary and post-history wholeFSUsed charge complete product/runtime state, not just referenced files; no pruning or selective cleanup.
 
 Sequence97.277seconds within one shared1,200second ceiling; full job4m35s under45minutes. No CPU/memory savings were measured. Frozen binaries: baseline `086801ac765401f9fcd3116bbdf48c72118fd9f7682affd0057121756d2c7b12`, backoff `e9393f24b30f5afaf75aa3e417e165aca20b97bbc3fe842fbcf0f40e8feb28ee`. Config/binary hashes are checked before both phases and matched to measured proofs. Raw evidence and provenance: `data/stress-20261025/writable-backoff100` and matching manifest.
+
+## Reverse-order confirmation
+
+[Run40186608442](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40186608442), benchmark `fcc7839a7bd64067329044777c5c1357938c0188`, runs backoff before baseline on another runner. Exact forward binary hashes and fixture hash are enforced by workflow assertions, not assumed from paths. Protocol/fixture/source pins unchanged.
+
+| Metric | Baseline | Backoff |
+|---|---:|---:|
+| Whole sampler wall, s | 80.9162 | 65.8386 |
+| Init, s | 0.0343 | 0.0109 |
+| Import, s | 0.2500 | 0.0494 |
+| First Fork, s | 0.1578 | 0.0423 |
+| First Read, s | 0.1845 | 0.1830 |
+| Warm Fork, s | 0.1418 | 0.0401 |
+| Warm Read, s | 0.1936 | 0.1798 |
+| Write, s | 2.9622 | 3.6679 |
+| Checkpoint, s | 15.0168 | 10.1271 |
+| Restore, s | 9.6741 | 5.2271 |
+| Restore Read, s | 18.6867 | 18.8282 |
+| Restore Cleanup, s | 11.8562 | 6.0205 |
+| activeSpace wholeFSUsed, bytes | 11,284,480 | 11,284,480 |
+| postHistorySpace wholeFSUsed, bytes | 19,046,400 | 19,152,896 |
+
+Whole wall is18.63%lower, checkpoint total32.56%lower and normal restore cleanup49.22%lower. Both orders favor backoff for these aggregate measures. **The reverse runner is substantially noisier**, with large write/fsync/restore outliers affecting both binaries. Do not attribute every observed difference to lease waits or compare cross-run absolute times. Writes are23.82%slower and restored reads0.76%slower for the candidate in this pair; post-history space is106,496bytes higher.
+
+| Dependent operation latency, ms | Baseline median / p95 / p99 / max | Backoff median / p95 / p99 / max |
+|---|---:|---:|
+| checkpoint_seconds | 74.721 / 428.286 / 625.732 / 886.702 | 52.672 / 348.258 / 694.170 / 697.628 |
+| restore_seconds | 31.124 / 271.695 / 545.126 / 630.400 | 25.430 / 189.763 / 305.409 / 359.969 |
+| restore_read_seconds | 184.864 / 200.765 / 204.460 / 219.302 | 187.021 / 200.146 / 220.338 / 224.254 |
+| restore_cleanup_seconds | 64.133 / 343.977 / 551.519 / 1059.013 | 24.018 / 200.370 / 327.771 / 914.133 |
+| write_seconds | 6.774 / 131.753 / 193.630 / 234.258 | 7.222 / 150.916 / 259.786 / 317.315 |
+
+Checkpoint p99 is worse625.732→694.170ms despite lower median74.721→52.672ms. Other tail directions differ from the first runner; neither pair supports a universal tail-latency guarantee. Two matched runner groups remain limited evidence, not200independent replications per variant.
+
+Again444full-tree checks/208historical restores and884archived log hashes pass;103primary/203post-history generations retained per product, normal cleanup complete, trace disabled. Sequence152.776seconds; full job6m45s. Raw reverse evidence and provenance are retained in `data/stress-20261025/writable-backoff-reverse`. This confirms the aggregate fixed-wait hypothesis in both tested orders while preserving the adverse tails and unrelated phase variation.
