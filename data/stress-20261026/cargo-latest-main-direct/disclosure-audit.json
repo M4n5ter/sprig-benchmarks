@@ -1,0 +1,21 @@
+{
+  "files": 1429,
+  "bytes": 32380397,
+  "originalArtifactFiles": 1416,
+  "otherFiles": "Six exact committed helpers, one changed public LayerFS source file, six public CI/provenance/source-tree JSON records",
+  "provenance": "All artifact members byte-match original public Actions40327569055; helpers match02dfe69; changed source matchesad789 Git blob; metadata/audits describe these exact public inputs. No user files, credentials or credential configuration included.",
+  "secretPatternCounts": {
+    "private-key": 0,
+    "github-token": 0,
+    "aws-key": 0,
+    "slack-token": 0,
+    "openai-key": 0,
+    "authorization-bearer": 0,
+    "credential-url": 0,
+    "google-oauth": 0
+  },
+  "printedMatches": false,
+  "archiveRoundTripEveryMember": true,
+  "archiveBytes": 3672554,
+  "archiveSha256": "a05804ca35a7c2e3112a833fc05c7d6e123742a77f9094ed615c2c4641140878"
+}
