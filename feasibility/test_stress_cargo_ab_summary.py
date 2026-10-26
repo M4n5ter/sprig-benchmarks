@@ -95,6 +95,48 @@ def change_sample(paths, mode, index, change):
         other = json.loads(paths[1].read_text()); other['previousGate']['sha256'] = hashlib.sha256(paths[0].read_bytes()).hexdigest(); dump(paths[1], other)
 
 
+def enable_pressure(paths,archives):
+    from stress_cargo_pressure import SPEC, SCHEMA as PRESSURE_SCHEMA, pressure_identity
+    from stress_cargo_ab_summary import digest
+    for mode,path in enumerate(paths):
+        report=json.loads(path.read_text())
+        report['experimentSpec']={**copy.deepcopy(EXPERIMENT),'profile':SPEC['profile'],'pressure':pressure_identity()}
+        for row in report['records']:
+            label=row['product'];round_=row['round'];raw_path=path.parent/Path(row['rawReportPath']).name
+            sample=json.loads(raw_path.read_text())
+            pressure=dict(schema=PRESSURE_SCHEMA,profile=SPEC['profile'],spec=SPEC,ok=True,allWitnessesVerified=True,workerLifetimeOverlapNs=90,
+                          workers=[dict(worker=w,startedNs=w*10,finishedNs=100+w*10,completedIterations=128,
+                                        samplesNanoseconds={name:[w+1]*(256 if name=='rename' else 128) for name in ('rename','write','read','metadata')}) for w in (0,1)])
+            output=json.dumps(pressure,sort_keys=True)+'\n'
+            sample.update(normalPressure=pressure,normalPressureScriptSha256=pressure_identity()['scriptSha256'],normalPressureRawSha256=digest(output.encode()))
+            sample['phase_seconds']['normal_pressure']=1.0
+            oracle=sample['checkpointTreeOracle']
+            def entry(name,**extra):
+                return dict(path=name,type='file',mode=420,mtime_ns=int(SPEC['witnessMtimeNs']),size=64,sha256='e'*64,**extra)
+            oracle['entries'].append(entry('pressure-rename2/observations.json'))
+            oracle['entries'][-1]['sha256']=digest(output.encode())
+            for worker in (0,1):
+                base=f'pressure-rename2/worker-{worker}'
+                oracle['entries'] += [entry(base+f'/unrelated/{i:04d}') for i in range(1024)]
+                for name in ('witness','witness-link'):
+                    value=entry(base+'/active/'+name);value['mode']=0o640;oracle['entries'].append(value)
+                value=entry(base+'/active/symlink');value.update(type='symlink',target='witness');oracle['entries'].append(value)
+                oracle['hardlink_groups'].append([base+'/active/witness',base+'/active/witness-link'])
+            log_dir=archives/f'inc{mode}'/f'{label}-{round_}.jsonl.logs'
+            for command in sample['commands']:
+                command['stdout']=json.dumps(oracle)+'\n'
+                item=next(item for item in sample['completeLogArchive'] if item['source']==command['stdoutPath'])
+                body=command['stdout'].encode();(log_dir/Path(item['archived']).name).write_bytes(body)
+                item.update(bytes=len(body),sha256=digest(body))
+            source=f'/original/{mode}/{label}/{round_}/pressure.stdout';name='000002-normal_pressure.stdout'
+            (log_dir/name).write_text(output)
+            sample['completeLogArchive'].append(dict(source=source,archived=f'/original/stress-cargo-records/inc{mode}/{label}-{round_}.jsonl.logs/{name}',bytes=len(output.encode()),sha256=digest(output.encode())))
+            sample['commands'].append(dict(purpose='normal_pressure',returncode=0,stdout=output,stdoutPath=source,stdinSha256=pressure_identity()['scriptSha256']))
+            row['sample']=sample;row['rawReportSha256']=dump(raw_path,sample)
+        dump(path,report)
+    report=json.loads(paths[1].read_text());report['previousGate']['sha256']=digest(paths[0].read_bytes());dump(paths[1],report)
+
+
 class SummaryTests(unittest.TestCase):
     def test_all16_strict_paired_statistics_and_regressions(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -189,6 +231,29 @@ class SummaryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             paths, archives = fixture(Path(temp)); paths[1].write_text('{')
             result = summarize(paths, archives); self.assertFalse(result['complete']); self.assertEqual(len(result['records']), 8)
+
+    def test_separate_pressure_profile_has_dependent_operation_tails_not_whole_task_tails(self):
+        with tempfile.TemporaryDirectory() as temp:
+            paths,archives=fixture(Path(temp));enable_pressure(paths,archives)
+            result=summarize(paths,archives)
+            self.assertTrue(result['complete'],result['errors'])
+            self.assertEqual(result['experimentSpec']['profile'],'normal-rename2-v1')
+            operations=result['records'][0]['normalPressureOperations']
+            self.assertEqual(operations['rename']['n'],512)
+            self.assertEqual(operations['read']['n'],256)
+            self.assertIsNotNone(operations['rename']['p99'])
+            self.assertIsNone(result['comparisons']['inc0']['wholeSamplerSeconds']['baseline']['p99'])
+            self.assertIn('pressure.rename.p99Seconds',result['comparisons']['inc0'])
+            # Immutable helper/profile changes cannot be pooled into this run.
+            change_report(paths,1,lambda r:r.update(experimentSpec=copy.deepcopy(EXPERIMENT)))
+            blocked=summarize(paths,archives);self.assertFalse(blocked['complete']);self.assertIsNone(blocked['comparisons'])
+
+    def test_pressure_observation_witness_and_helper_identity_are_required(self):
+        with tempfile.TemporaryDirectory() as temp:
+            paths,archives=fixture(Path(temp));enable_pressure(paths,archives)
+            change_sample(paths,0,0,lambda s:s.update(normalPressureRawSha256='0'*64))
+            result=summarize(paths,archives);self.assertFalse(result['complete'])
+            self.assertTrue(any('raw pressure timing evidence' in error for error in result['errors']))
 
     def test_json_nonfinite_and_duplicate_keys_rejected(self):
         for body in ('{"x":NaN}', '{"x":Infinity}', '{"x":1,"x":2}'):

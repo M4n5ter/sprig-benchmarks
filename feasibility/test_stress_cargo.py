@@ -72,6 +72,20 @@ class Tests(unittest.TestCase):
                 self.assertLess(phases.index('restore_verify'),phases.index('restored_execute'))
                 self.assertEqual(sample.report['remainingMounts'],[])
 
+    def test_opt_in_pressure_is_a_separate_phase_after_cargo_before_complete_oracle(self):
+        with tempfile.TemporaryDirectory() as root:
+            sample=MockStress(Path(root));sample.pressure_profile='normal-rename2-v1'
+            sample.normal_pressure=lambda tree:sample.app_calls.append(('normal_pressure','work','mock ordinary positive stage',None))
+            with TransportTests().patches(sample),patch('stress_cargo_sample.fixture_inventory',lambda *a:None):
+                sample.execute();sample.cleanup()
+            phases=[row[0] for row in sample.app_calls]
+            self.assertLess(phases.index('edit_execute'),phases.index('normal_pressure'))
+            self.assertLess(phases.index('normal_pressure'),phases.index('pre_checkpoint_oracle'))
+            self.assertLess(phases.index('restore_verify'),phases.index('restored_execute'))
+            self.assertIn('normal_pressure',sample.report['phase_seconds'])
+            self.assertEqual(len(sample.report['compilerSessions']),4)
+            self.assertTrue(sample.report['ok'])
+
     def test_uncertain_exit_still_blocks_product_checkpoint_and_cleanup(self):
         with tempfile.TemporaryDirectory() as root:
             sample=MockStress(Path(root),failure='marker_uncertain')

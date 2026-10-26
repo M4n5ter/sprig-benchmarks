@@ -142,6 +142,19 @@ class RepeatedOwnABTests(unittest.TestCase):
         self.assertFalse(allowed('results',('stress-cargo-layerfs-inc1-3.json',)))
         self.assertFalse(allowed('records',('inc1','sprig-writable-3.jsonl')))
 
+    def test_explicit_pressure_identity_is_collected_separately(self):
+        from stress_cargo_collect import ORDINARY_EXPERIMENT
+        from stress_cargo_pressure import SPEC,pressure_identity
+        with tempfile.TemporaryDirectory() as tmp:
+            base=Path(tmp);temporary=base/'temp';temporary.mkdir();results=base/'results';results.mkdir()
+            report=dict(schema='sprig-stress-cargo-own-ab-v2',incremental=0,rounds=4,records=[],complete=False,
+                        experimentSpec={**ORDINARY_EXPERIMENT,'profile':SPEC['profile'],'pressure':pressure_identity()})
+            (results/'stress-cargo-own-ab-0.json').write_text(json.dumps(report))
+            collect(results,temporary,base/'out',os.getuid(),os.getgid())
+            report['experimentSpec']['pressure']['scriptSha256']='0'*64
+            (results/'stress-cargo-own-ab-0.json').write_text(json.dumps(report))
+            with self.assertRaisesRegex(ValueError,'completeness failed'):collect(results,temporary,base/'bad',os.getuid(),os.getgid())
+
     def test_fourth_round_archive_and_fixed_experiment_identity(self):
         from stress_cargo_collect import ORDINARY_EXPERIMENT
         for failure in (None,'wrong_profile','legacy','wrong_rounds','missing_file'):

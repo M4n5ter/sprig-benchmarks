@@ -6,7 +6,7 @@ import {pathToFileURL} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import {performance} from 'node:perf_hooks';
 import {createHash} from 'node:crypto';
-import {AB_SCHEMA,AB_REPEATED_SCHEMA,ORDINARY_EXPERIMENT,validateProducts,sampleOrder,validateOwnPreviousGate} from './stress_cargo_own_ab.mjs';
+import {AB_SCHEMA,AB_REPEATED_SCHEMA,experimentSpec,validatePressureSample,validateProducts,sampleOrder,validateOwnPreviousGate} from './stress_cargo_own_ab.mjs';
 import {SOURCE_SHA,loadCommands,verifyCargoPackages} from './stress_cargo_layerfs.mjs';
 // Cargo-only resource revision: fixed4GiB first, no automatic fallback/resizing.
 export const IMAGE_BYTES=4*1024**3;
@@ -29,13 +29,14 @@ export function budgetAdmission({startedEpochSeconds,deadlineEpochSeconds,nowEpo
 export function admitSampler(record,admitBudget){
  record.postRuntimeBudgetAdmission=admitBudget();
 }
-export function capacityGuard({availableBytes,deviceBytes,targetAllocatedBytes,fixtureLogicalBytes}){
+export function capacityGuard({availableBytes,deviceBytes,targetAllocatedBytes,fixtureLogicalBytes,pressureReserveBytes=0}){
+ assert.ok([0,128*MIB].includes(pressureReserveBytes),'only reviewed normal pressure capacity reserve allowed');
  for(const [key,value]of Object.entries({availableBytes,deviceBytes,targetAllocatedBytes,fixtureLogicalBytes}))assert.ok(Number.isSafeInteger(value)&&value>=0,`invalid ${key}`);
  assert.equal(deviceBytes,IMAGE_BYTES,'measured filesystem must remain exactly 4GiB');
  assert.ok(targetAllocatedBytes>0,'capacity requires a real measured target allocation');
- const requiredBytes=Math.max(512*MIB,4*targetAllocatedBytes+8*fixtureLogicalBytes+256*MIB);assert.ok(Number.isSafeInteger(requiredBytes),'capacity arithmetic exceeds safe integer range');
+ const requiredBytes=Math.max(512*MIB,4*targetAllocatedBytes+8*fixtureLogicalBytes+256*MIB)+pressureReserveBytes;assert.ok(Number.isSafeInteger(requiredBytes),'capacity arithmetic exceeds safe integer range');
  if(availableBytes<requiredBytes)throw new CapacityBlocked(`capacity blocked: available ${availableBytes}, required ${requiredBytes}; 4GiB Cargo resource bound`);
- return {availableBytes,requiredBytes,deviceBytes,targetAllocatedBytes,fixtureLogicalBytes,admitted:true};
+ return {availableBytes,requiredBytes,deviceBytes,targetAllocatedBytes,fixtureLogicalBytes,pressureReserveBytes,admitted:true};
 }
 export function validateCapacity(document,identity,incremental){
  assert.equal(document.schema,'sprig-stress-cargo-capacity-v1');
@@ -105,6 +106,7 @@ function validateSample(sample,product,identity,incremental){
  for(const phase of ['clean_artifacts','noop_artifacts','edit_artifacts','restored_artifacts','restored_rebuild_artifacts']){const found=artifacts.filter(x=>x.phase===phase);assert.equal(found.length,1);assert.equal(found[0].ok,true);assert.equal(found[0].hardlinkProbe,true);assert.equal(found[0].exactMtime,true);assert.ok(found[0].generatedFiles.length>0);assert.equal(found[0].buildValue,['clean_artifacts','noop_artifacts'].includes(phase)?1:2);}
  for(const key of ['preflight','init','import','fork','fixture_verify','cargo_setup','toolchain_verify','clean_build','target_probe','clean_artifacts','clean_execute','noop_build','noop_artifacts','noop_execute','edit','edit_build','edit_artifacts','edit_execute','pre_checkpoint_oracle','checkpoint_cli','checkpoint_readiness','checkpoint','restore','restore_verify','restored_artifacts','restored_execute','restored_rebuild','restored_rebuild_artifacts','restored_rebuild_execute','retained_input_verify','space','cleanup'])assert.ok(Number.isFinite(sample.phase_seconds[key])&&sample.phase_seconds[key]>=0,key);
  assert.ok(Number.isFinite(sample.full_task_seconds)&&sample.full_task_seconds>=0);assert.ok(Math.abs(sample.phase_seconds.checkpoint-sample.phase_seconds.checkpoint_cli-sample.phase_seconds.checkpoint_readiness)<1e-6);
+ if(identity.experimentSpec)validatePressureSample(sample,identity.experimentSpec);
  assert.ok(Number.isFinite(sample.activeSpace.filesystemUsedBytes)&&sample.activeSpace.filesystemUsedBytes>=0);verifyArchive(sample);
 }
 export async function main(){
@@ -117,6 +119,8 @@ export async function main(){
  const incremental=Number(process.env.STRESS_CARGO_INCREMENTAL),rounds=Number(process.env.STRESS_CARGO_ROUNDS??'1');
  const ownAB=process.env.STRESS_CARGO_AB_PRODUCTS!==undefined;
  assert.ok((ownAB?[1,4]:[1,3]).includes(rounds),'only original or bounded balanced rounds allowed');
+ const profile=process.env.STRESS_CARGO_PROFILE??'ordinary';assert.ok(['ordinary','normal-rename2-v1'].includes(profile));
+ if(profile!=='ordinary')assert.ok(ownAB&&rounds===4,'normal pressure requires balanced own A/B');
  const cwd=process.cwd(),productionSha=process.env.SPRIG_STRESS_SHA,comparatorSha=SOURCE_SHA,image=process.env.CARGO_IMAGE,archive=process.env.CARGO_IMAGE_ARCHIVE;
  if(!ownAB)assert.match(productionSha??'',/^[a-f0-9]{40}$/);assert.match(image??'',/^sha256:[a-f0-9]{64}$/);assert.ok(path.isAbsolute(archive??''));
  let abBytes=null,abProducts=null;
@@ -138,7 +142,7 @@ export async function main(){
  const source=path.join(cwd,'fixtures/stress-cargo'),oracle=path.join(cwd,'results/stress-cargo-oracle.json'),manifestPath=path.join(cwd,'results/stress-cargo-manifest.json');
  const manifestRaw=fs.readFileSync(manifestPath),manifest=JSON.parse(manifestRaw),protocolSha256=loadCommands().sha256,fixtureManifestSha256=sha(manifestRaw);
  const identity={image,productionSha,comparatorSha,protocolSha256,fixtureManifestSha256,imageBytes:IMAGE_BYTES,resourceProtocol:RESOURCE_PROTOCOL};
- if(ownAB&&rounds===4)identity.experimentSpec=ORDINARY_EXPERIMENT;
+ if(ownAB&&rounds===4)identity.experimentSpec=experimentSpec(profile);
  if(ownAB){delete identity.productionSha;delete identity.comparatorSha;Object.assign(identity,{abProducts,abManifestSha256:sha(abBytes),sharedJobBudget});}assert.equal(manifest.protocolSha256,protocolSha256);
  const capacity=JSON.parse(fs.readFileSync('results/stress-cargo-capacity.json','utf8')),pilot=validateCapacity(capacity,identity,incremental);
  const fixtureFiles=manifest.initial.entries.filter(x=>x.type==='file');assert.ok(fixtureFiles.every(x=>Number.isSafeInteger(x.size)&&x.size>=0));const fixtureLogicalBytes=fixtureFiles.reduce((sum,x)=>sum+x.size,0);assert.ok(Number.isSafeInteger(fixtureLogicalBytes));
@@ -149,6 +153,7 @@ export async function main(){
  const report={schema:ownAB?(rounds===4?AB_REPEATED_SCHEMA:AB_SCHEMA):'sprig-stress-cargo-comparison-v2',status:'running',complete:false,incremental,rounds,expectedRecords:rounds*2,...identity,previousGate,capacityPilot:pilot,imageBytes:IMAGE_BYTES,records,notes:['Cargo-only resource revision: fresh symmetric4GiB images, not pooled with2GiB capacity failures; no automatic8GiB retry.', 'New DAG16 protocol; never pooled with frozen tiny Cargo results.','Whole Used includes immutable image, runtime state, target/cache/logs/history; runtime setup separately timed but baseline bytes never subtracted from primary space.','WholeSampleSubprocessWallSeconds is matched sampler process launch-through-exit including evidence serialization and normal cleanup; internal phases overlap, not additive.','Both products use identical image; Sprig compiler lifetime remains generation-scoped, LayerFS UID501 SDK transport is persistent; no equal durability claim.']};
  report.sharedJobBudget=sharedJobBudget;
  if(ownAB)report.notes[4]=rounds===4?'Within-Sprig ordinary positive workloads; four balanced paired rounds per mode, independent fresh images, same sampler/transport/durability. Small N: report every pair, phase, negative and descriptive range; no significant gain or tail claim.':'Within-Sprig ordinary positive workloads; same sampler/transport/durability, fixed distinct source and binary identities. One pair per mode, no statistical claim.';
+ if(profile!=='ordinary')report.notes.push('Separate normal two-worker pressure profile: Cargo build timers exclude the pressure stage; stressed whole wall/space are not directly comparable with unstressed runs. All pressure files/observations remain in the full checkpoint oracle.');
  const save=()=>atomicReport(reportPath,report);save();
  try{
   for(let round=0;round<rounds;round++)for(const product of ownAB?sampleOrder(abProducts,incremental,round).map(p=>p.label):(round%2?['layerfs','sprig-writable']:['sprig-writable','layerfs'])){
@@ -166,10 +171,11 @@ export async function main(){
     const stat=fs.lstatSync(imagePath);r.filesystem.imageIdentity={dev:String(stat.dev),ino:String(stat.ino)};assert.equal(stat.size,IMAGE_BYTES);
     r.mkfs=command('mkfs.btrfs',['-d','single','-m','dup',imagePath]);command('mount',['-o','loop,noatime',imagePath,mount]);mounted=true;r.emptySpace=physicalSpace(mount);
     runtimeAttempted=true;const setup=performance.now();r.runtime=JSON.parse(command('/usr/bin/python3',['feasibility/stress_runtime_storage.py','enter','--state',runtimeStatePath,'--mount',mount,'--archive',archive,'--image',image]));runtimeReady=true;r.runtimeSetupSeconds=(performance.now()-setup)/1000;r.runtimeReadySpace=physicalSpace(mount);
-    r.capacityAdmission=capacityGuard({availableBytes:r.runtimeReadySpace.availableBytes,deviceBytes:r.runtimeReadySpace.deviceBytes,targetAllocatedBytes:pilot.targetAllocatedBytes,fixtureLogicalBytes});
+    r.capacityAdmission=capacityGuard({availableBytes:r.runtimeReadySpace.availableBytes,deviceBytes:r.runtimeReadySpace.deviceBytes,targetAllocatedBytes:pilot.targetAllocatedBytes,fixtureLogicalBytes,pressureReserveBytes:identity.experimentSpec?.pressure?.availableReserveBytes??0});
     const root=path.join(mount,'sample'),ledger=path.join(recordDir,`${product}-${round}.jsonl`),rawPath=`results/stress-cargo-${product}-inc${incremental}-${round}.json`;
     let args;if(ownAB||product==='sprig-writable')args=['/usr/bin/python3','feasibility/stress_cargo_sample.py','run','--root',root,'--source',source,'--oracle',oracle,'--manifest',manifestPath,'--binary',ownAB?variant.binary:path.join(cwd,'sprig/target/release/sprig'),'--backend','writable','--production-sha',ownAB?variant.sha:productionSha,'--incremental',String(incremental),'--image',image,'--records',ledger];
     else{const options={root,measuredMount:mount,source,oraclePath:oracle,manifestPath,layerfsSdkPath:path.join(cwd,'layerfs/api/agent/sdk/src/index.js'),daemonPath:process.env.LAYERFS_DAEMON,image,incremental,recordsPath:ledger};const optionsPath=path.join(recordDir,`${product}-${round}-options.json`);atomicReport(optionsPath,options);args=['node','feasibility/stress_cargo_layerfs.mjs',optionsPath];}
+    if(profile!=='ordinary')args.push('--pressure-profile',profile,'--pressure-script-sha256',identity.experimentSpec.pressure.scriptSha256);
     admitSampler(r,admitBudget);
     sampleStarted=true;const start=performance.now();let raw;try{raw=command(args[0],args.slice(1));r.sampleReturncode=0;}catch(e){raw=e.stdout?.toString()??'';r.sampleReturncode=e.status;r.failureStderr=e.stderr?.toString();}finally{r.wholeSampleSubprocessWallSeconds=(performance.now()-start)/1000;}
     fs.writeFileSync(rawPath,raw,ownAB?{flag:'wx'}:undefined);r.rawReportPath=rawPath;r.rawReportSha256=sha(raw);r.sample=JSON.parse(raw);assert.equal(r.sampleReturncode,0);

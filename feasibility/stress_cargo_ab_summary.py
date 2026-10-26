@@ -15,6 +15,7 @@ import statistics
 import sys
 
 from stress_stats import latency_summary
+from stress_cargo_pressure import SPEC as PRESSURE_SPEC, pressure_identity, validate_report as validate_pressure_report
 
 SCHEMA = 'sprig-stress-cargo-own-ab-v2'
 PINS = {'sprig-baseline': '4ef4a90d7ccf5f305416c5374bfc81038f5ca46e',
@@ -68,7 +69,9 @@ def digest(body):
 
 def validate_identity(report):
     require(report.get('schema') == SCHEMA, 'requires repeated own-AB v2 schema')
-    require(report.get('experimentSpec') == EXPERIMENT, 'requires exact ordinary repeated experiment')
+    spec=report.get('experimentSpec')
+    wanted=EXPERIMENT if isinstance(spec,dict) and spec.get('profile')=='ordinary' else {**EXPERIMENT,'profile':PRESSURE_SPEC['profile'],'pressure':pressure_identity()}
+    require(spec==wanted,'requires exact reviewed repeated experiment')
     require(type(report.get('rounds')) is int and report['rounds'] == 4, 'requires four rounds')
     require(type(report.get('expectedRecords')) is int and report['expectedRecords'] == 8, 'requires eight expected records per mode')
     require(report.get('imageBytes') == 4 * 1024**3 and type(report['imageBytes']) is int, 'requires symmetric 4GiB')
@@ -171,7 +174,46 @@ def validate_sample(sample, report, product, incremental, round_, archive_root):
         row = rows[0]
         require(isinstance(row.get('stdout'), str) and contents.get(row.get('stdoutPath')) == row['stdout'].encode(), 'oracle raw stdout not archived exactly')
         require(strict_json(row['stdout']) == expected, 'exact-ns full restored tree mismatch')
+    validate_pressure_evidence(sample,report,contents)
     return len(contents)
+
+
+def validate_pressure_evidence(sample,report,contents):
+    spec=report['experimentSpec']
+    if spec['profile']=='ordinary':
+        require('normalPressure' not in sample and 'normal_pressure' not in sample['phase_seconds'],'ordinary sample contains pressure')
+        return
+    pressure=validate_pressure_report(sample.get('normalPressure'))
+    require(sample.get('normalPressureScriptSha256')==spec['pressure']['scriptSha256'],'pressure helper identity mismatch')
+    finite(sample['phase_seconds'].get('normal_pressure'),'normal pressure phase')
+    commands=[row for row in sample.get('commands',[]) if row.get('purpose')=='normal_pressure']
+    require(len(commands)==1 and commands[0].get('returncode')==0,'missing successful pressure command')
+    command=commands[0];raw=command.get('stdout')
+    require(isinstance(raw,str) and contents.get(command.get('stdoutPath'))==raw.encode(),'raw pressure stdout not archived exactly')
+    require(command.get('stdinSha256')==spec['pressure']['scriptSha256'],'pressure executed helper differs')
+    require(strict_json(raw)==pressure and digest(raw.encode())==sample.get('normalPressureRawSha256'),'raw pressure timing evidence differs')
+    observations=[entry for entry in sample['checkpointTreeOracle']['entries'] if entry.get('path')=='pressure-rename2/observations.json']
+    require(len(observations)==1 and observations[0].get('sha256')==sample['normalPressureRawSha256'],'pressure observations not retained in full restored oracle')
+    # Every file and witness participates in the same exact-byte/mtime/hardlink oracle.
+    entries={entry['path']:entry for entry in sample['checkpointTreeOracle']['entries']}
+    for worker in range(2):
+        base=f'pressure-rename2/worker-{worker}'
+        require(sum(name.startswith(base+'/unrelated/') for name in entries)==1024,'pressure unrelated-file witness count mismatch')
+        witness=entries.get(base+'/active/witness',{})
+        require(witness.get('mode')==0o640 and witness.get('mtime_ns')==int(PRESSURE_SPEC['witnessMtimeNs']),'pressure exact-metadata witness mismatch')
+        require([base+'/active/witness',base+'/active/witness-link'] in sample['checkpointTreeOracle']['hardlink_groups'],'pressure hardlink group mismatch')
+        require(entries.get(base+'/active/symlink',{}).get('target')=='witness','pressure symlink witness mismatch')
+
+
+def pressure_operation_summaries(sample):
+    pressure=sample.get('normalPressure')
+    if pressure is None:return None
+    result={}
+    for name in ('rename','write','read','metadata'):
+        values=[value/1e9 for row in pressure['workers'] for value in row['samplesNanoseconds'][name]]
+        result[name]={**latency_summary(values),'valuesSeconds':values,'minimum':min(values),
+                      'tailCaveat':'Dependent concurrent operations in ONE sample; descriptive nearest-rank p95/p99, not independent trials or whole-task tails.'}
+    return result
 
 
 def distribution(values):
@@ -209,7 +251,9 @@ def summarize(paths, archive_root):
                         'Standalone sampler JSON and archived oracle stdout retain exact integer nanoseconds; embedded JS oracle is not authoritative.',
                         'Four runner-local pairs per mode are descriptive small-N repeats, not independent multi-host trials or statistical significance.',
                         'No per-sample p95/p99 inference; phase/composite timers overlap and cannot be summed or subtracted from whole wall.',
-                        'Modes and experiment profiles remain separate; historical one-pair runs are never pooled.']}
+                        'Modes and experiment profiles remain separate; historical one-pair runs are never pooled.',
+                        'Pressure-operation p95/p99, when present, describe dependent operations within one sample; four-repeat distributions are NOT end-to-end latency tails.',
+                        'Cargo phases exclude the separate normal_pressure stage; stressed whole-task wall/space are not directly comparable with unstressed runs.']}
     loaded = []
     for expected_mode, path in enumerate(paths):
         info = {'path': str(path), 'incremental': expected_mode}
@@ -265,6 +309,12 @@ def summarize(paths, archive_root):
                            'fullTaskSeconds': sample['full_task_seconds'], 'wholeFilesystemUsedBytes': sample['activeSpace']['filesystemUsedBytes']}
                 for group, prefix in (('phase_seconds', 'phase.'), ('convenience_seconds', 'convenience.')):
                     for key, value in sample[group].items(): metrics[prefix+key] = finite(value, prefix+key)
+                operations=pressure_operation_summaries(sample)
+                if operations is not None:
+                    audit['normalPressureOperations']=operations
+                    for operation,stats in operations.items():
+                        for statistic in ('median','maximum','p95','p99'):
+                            metrics[f'pressure.{operation}.{statistic}Seconds']=stats[statistic]
                 audit['metrics'] = metrics
             except (OSError, ValueError, KeyError, TypeError, AttributeError, StopIteration) as error:
                 audit['validationError'] = str(error)
@@ -272,7 +322,7 @@ def summarize(paths, archive_root):
     if not result['errors']:
         try:
             result['comparisons'] = {f'inc{mode}': paired_metrics([r for r in result['records'] if r['incremental'] == mode]) for mode in (0, 1)}
-            result.update(complete=True, status='passed', experimentSpec=EXPERIMENT, identity={key: loaded[0][1][key] for key in IDENTITY})
+            result.update(complete=True, status='passed', experimentSpec=loaded[0][1]['experimentSpec'], identity={key: loaded[0][1][key] for key in IDENTITY})
         except (ValueError, KeyError, TypeError, IndexError) as error:
             result['errors'].append('statistics blocked: ' + str(error)); result['comparisons'] = None
     return result

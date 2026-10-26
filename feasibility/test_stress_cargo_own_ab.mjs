@@ -29,3 +29,19 @@ assert.equal(validateOwnPreviousGate(repeated,repeatedIdentity,validate),true);
 for(const mutate of [g=>g.records.reverse(),g=>g.records.pop(),g=>g.records[2].round=0,g=>g.rounds=3,g=>g.schema=AB_SCHEMA,g=>g.experimentSpec.profile='pressure',g=>g.records[0].rawReportSha256=null,g=>g.records[0].correct=false,g=>g.records[0].sample.archiveVerified=false]){const g=copy(repeated);mutate(g);assert.throws(()=>validateOwnPreviousGate(g,repeatedIdentity,validate));}
 assert.throws(()=>validateOwnPreviousGate(gate,repeatedIdentity,validate));
 console.log('PASS: four bounded rounds; same-mode AB/BA balance; exact complete repeated prerequisite; no legacy/pressure gate pooling.');
+const {experimentSpec,validateExperimentSpec,validatePressureSample,PRESSURE_SPEC}=await import('./stress_cargo_own_ab.mjs');
+const pressureExperiment=experimentSpec('normal-rename2-v1');
+assert.equal(pressureExperiment.pressure.availableReserveBytes,128*1024**2);
+assert.equal(validateExperimentSpec(pressureExperiment),pressureExperiment);
+assert.throws(()=>experimentSpec('unreviewed'));
+const pressure={schema:'sprig-cargo-normal-pressure-v1',profile:PRESSURE_SPEC.profile,spec:PRESSURE_SPEC,ok:true,allWitnessesVerified:true,workerLifetimeOverlapNs:90,
+ workers:[0,1].map(worker=>({worker,startedNs:worker*10,finishedNs:100+worker*10,completedIterations:128,samplesNanoseconds:{rename:Array(256).fill(1),write:Array(128).fill(2),read:Array(128).fill(3),metadata:Array(128).fill(4)}}))};
+const pressureSample={normalPressure:pressure,normalPressureScriptSha256:pressureExperiment.pressure.scriptSha256,normalPressureRawSha256:'f'.repeat(64),phase_seconds:{normal_pressure:1},checkpointTreeOracle:{entries:[{path:'pressure-rename2/observations.json',sha256:'f'.repeat(64)}]}};
+assert.equal(validatePressureSample(pressureSample,pressureExperiment),true);
+assert.throws(()=>validatePressureSample(pressureSample,ORDINARY_EXPERIMENT));
+assert.equal(validatePressureSample({},ORDINARY_EXPERIMENT),true);
+for(const mutate of [s=>s.normalPressure.workers[0].samplesNanoseconds.rename.pop(),s=>s.normalPressure.workers[1].worker=0,s=>s.normalPressure.workerLifetimeOverlapNs=0,s=>s.normalPressureScriptSha256='0'.repeat(64),s=>s.checkpointTreeOracle.entries=[],s=>s.normalPressure.allWitnessesVerified=false,s=>s.normalPressure.workers[0].samplesNanoseconds.read[0]=NaN]){const s=copy(pressureSample);mutate(s);assert.throws(()=>validatePressureSample(s,pressureExperiment));}
+const pressureGate={...copy(repeated),experimentSpec:pressureExperiment};
+assert.equal(validateOwnPreviousGate(pressureGate,{...repeatedIdentity,experimentSpec:pressureExperiment},validate),true);
+assert.throws(()=>validateOwnPreviousGate(pressureGate,repeatedIdentity,validate));
+console.log('PASS: explicit separate normal pressure profile and helper identity; fixed operation counts/overlap/retained observation witness; no ordinary pooling.');

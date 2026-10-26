@@ -57,3 +57,7 @@ assert.equal(launch,false);assert.equal(record.postRuntimeBudgetAdmission,undefi
 admitSampler(record,()=>budgetAdmission({...budget,nowEpochSeconds:2500}));
 assert.equal(record.postRuntimeBudgetAdmission.remainingSeconds,900);
 console.log('PASS: actual post-runtime admission hook refuses launch after consumed budget; no stale per-invocation deadline reference.');
+assert.equal(capacityGuard({...admitted,pressureReserveBytes:128*MiB}).requiredBytes,capacityGuard(admitted).requiredBytes+128*MiB);
+assert.throws(()=>capacityGuard({...admitted,pressureReserveBytes:1}));
+assert.throws(()=>capacityGuard({...admitted,availableBytes:600*MiB,pressureReserveBytes:128*MiB}),CapacityBlocked);
+console.log('PASS: normal pressure adds128MiB available reserve without widening4GiB geometry or weakening base capacity guard.');

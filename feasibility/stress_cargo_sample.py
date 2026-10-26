@@ -14,6 +14,7 @@ from cargo_transport_sample import CargoTransportSample, transport_report
 from cargo_sample import fixture_inventory, ORACLE
 from cas_sample import Parser, require, HEX64
 from stress_cargo_prepare import PROTOCOL, PROTOCOL_SHA, validate_manifest
+from stress_cargo_pressure import SPEC as PRESSURE_SPEC, validate_report as validate_pressure_report
 
 
 def stress_report():
@@ -51,6 +52,7 @@ class StressCargoSample(CargoTransportSample):
     def __init__(self,report):
         super().__init__(report)
         self.pending_command_logs=[]
+        self.pressure_profile='ordinary'
 
     def flush_command_logs(self):
         if not self.logs:
@@ -85,6 +87,14 @@ class StressCargoSample(CargoTransportSample):
     def prepare(self,args):
         for key in ("DOCKER_HOST","DOCKER_CONTEXT","DOCKER_TLS_VERIFY","DOCKER_CERT_PATH","DOCKER_TLS","SPRIG_LIFECYCLE_TRACE"):
             require(not os.environ.get(key), "unexpected inherited routing/diagnostic setting",variable=key)
+        self.pressure_profile=getattr(args,'pressure_profile','ordinary')
+        require(self.pressure_profile in ('ordinary',PRESSURE_SPEC['profile']),'unknown pressure profile')
+        if self.pressure_profile!='ordinary':
+            self.pressure_source=Path(__file__).with_name('stress_cargo_pressure.py').read_bytes()
+            self.report['normalPressureScriptSha256']=hashlib.sha256(self.pressure_source).hexdigest()
+            require(self.report['normalPressureScriptSha256']==args.pressure_script_sha256,'pressure source identity mismatch')
+        else:
+            require(not getattr(args,'pressure_script_sha256',None),'ordinary profile cannot claim pressure identity')
         self.manifest=validate_manifest(json.loads(Path(args.manifest).read_text()))
         super().prepare(args)
         self.flush_command_logs()
@@ -132,6 +142,12 @@ class StressCargoSample(CargoTransportSample):
                 and data.get("buildValue")== (1 if state=="before" else 2) and data.get("generatedFiles"),"build artifact acceptance failed",result=data)
         self.report["artifactChecks"].append({"phase":purpose,**data})
 
+    def normal_pressure(self,tree):
+        raw=self.runtime(tree,'python3 -B - /work',input_data=self.pressure_source.decode(),purpose='normal_pressure')
+        pressure=validate_pressure_report(json.loads(raw))
+        self.report['normalPressure']=pressure
+        self.report['normalPressureRawSha256']=hashlib.sha256(raw.encode()).hexdigest()
+
     def preserve_logs(self):
         self.flush_command_logs()
         super().preserve_logs()
@@ -174,6 +190,8 @@ class StressCargoSample(CargoTransportSample):
         self.timed("edit_build", lambda: self.build(first["merged"], "edit_build"))
         self.timed("edit_artifacts", lambda: self.artifacts(first["merged"], "after", "edit_artifacts"))
         self.timed("edit_execute", lambda: self.program(first["merged"], "after", "edit_execute"))
+        if getattr(self,'pressure_profile','ordinary')!='ordinary':
+            self.timed('normal_pressure',lambda:self.normal_pressure(first['merged']))
         self.require_session_inventory()
         expected = self.timed("pre_checkpoint_oracle", lambda: self.oracle(first["merged"], purpose="pre_checkpoint_oracle"))
         self.report["checkpointTreeOracle"] = expected
@@ -216,6 +234,8 @@ def main():
         run.add_argument("--backend", required=True, choices=["native", "projection", "writable"])
         run.add_argument("--incremental", required=True, type=int, choices=[0, 1])
         run.add_argument("--records")
+        run.add_argument("--pressure-profile",choices=["ordinary",PRESSURE_SPEC["profile"]],default="ordinary")
+        run.add_argument("--pressure-script-sha256")
         run.add_argument("--production-sha", required=True)
         args = parser.parse_args()
         sample.timed("preflight", lambda: sample.prepare(args))
