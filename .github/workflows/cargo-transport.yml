@@ -1,71 +1,84 @@
-name: Generation-scoped Cargo paired lifecycle
-run-name: Cargo generation transport ${{ inputs.mode }}
+name: Finite writable wall and CPU diagnostic canary
+run-name: Writable73a single-ELF off/on,on/off inc0 diagnostic,4GiB
 on:
   workflow_dispatch:
-    inputs:
-      mode:
-        type: choice
-        options: [smoke, full]
-        default: smoke
-        required: true
 permissions:
   contents: read
+concurrency:
+  group: sprig-stress-pilot
+  cancel-in-progress: false
 jobs:
-  paired:
+  diagnostic:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
       CARGO_BUILD_JOBS: '2'
+      DIAGNOSTIC_SHA: 73a462885c7b5bc88d64764152ab8fab08eba055
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Record paired environment and install official tools
+      - name: Original absolute admission clock includes all setup and capacity pilots
         run: |
-          mkdir -p results
+          started=$(date +%s)
+          echo "STRESS_CARGO_JOB_STARTED_EPOCH=$started" >> "$GITHUB_ENV"
+          echo "STRESS_CARGO_JOB_DEADLINE_EPOCH=$((started + 40 * 60))" >> "$GITHUB_ENV"
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Official tools, environment and synthetic offline harness tests
+        run: |
+          mkdir results
           sudo apt-get update
           sudo apt-get install -y btrfs-progs python3-btrfsutil
-          { uname -a; lscpu; free -h; df -h; findmnt -T "$PWD"; btrfs version; /usr/bin/python3 --version; dpkg-query -W btrfs-progs python3-btrfsutil; } > results/environment.txt
-          sha256sum feasibility/cargo_sample.py feasibility/test_cargo_transport_mock.py feasibility/CARGO-TRANSPORT-CONTRACT.md feasibility/cargo_transport_sample.py feasibility/cargo_layerfs.mjs feasibility/cargo_transport_compare.mjs feasibility/tree_oracle.py feasibility/prepare_cargo_fixture.py feasibility/current_sample.py feasibility/cas_sample.py feasibility/runtime_storage.py feasibility/CARGO-IMAGE-CONTRACT.md feasibility/CARGO-MEASUREMENT-BOUNDARIES.md feasibility/Cargo.Dockerfile > results/script-hashes.txt
-      - name: Fetch fixed comparator
+          { uname -a; lscpu; free -h; df -h; findmnt -T "$PWD"; btrfs version; /usr/bin/python3 --version; } > results/environment.txt
+          sha256sum feasibility/stress_writable_diagnostic* feasibility/stress_cargo* feasibility/stress-cargo-protocol.json feasibility/cargo_transport_sample.py feasibility/cargo_sample.py feasibility/current_sample.py feasibility/cas_sample.py feasibility/tree_oracle.py feasibility/runtime_storage.py feasibility/stress_runtime_storage.py feasibility/Cargo.Dockerfile > results/script-hashes.txt
+          python3 -m unittest discover -s feasibility -p 'test_stress_writable_diagnostic*.py' -v
+          python3 feasibility/test_stress_cargo.py
+          python3 feasibility/test_stress_cargo_capacity.py
+          python3 feasibility/test_stress_runtime_storage.py
+          python3 feasibility/test_stress_cargo_collect.py
+          python3 feasibility/test_stress_cargo_ab_summary.py
+          python3 feasibility/test_stress_cargo_pressure_long.py
+          node feasibility/test_stress_writable_diagnostic_run.mjs
+          node feasibility/test_stress_cargo_compare.mjs
+          node feasibility/test_stress_cargo_own_ab.mjs
+          node feasibility/test_stress_cargo_pressure_long.mjs
+      - name: Fetch one immutable b300-derived diagnostic source
         run: |
-          git clone --filter=blob:none --no-checkout https://github.com/Ephemeral-AI-Lab/layerfs.git layerfs
-          git -C layerfs sparse-checkout init --cone
-          git -C layerfs sparse-checkout set core/crates core/vendor api .cargo
-          git -C layerfs checkout 9f97a7ec95b662e9cb288704afa165feff132cfa
-      - name: Fetch fixed production CLI
-        run: |
-          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig
-          git -C sprig checkout 2a01fe445b8057ca49b4e8284fdd5583bbb4185c
           rustup toolchain install stable --profile minimal
-          rustc +stable --version > results/projection-rust-version.txt
-          find sprig/src sprig/tests -type f -not -path '*/target/*' -print0 | sort -z | xargs -0 sha256sum > results/production-source-hashes.txt
+          rustc +stable -Vv > results/projection-rust-version.txt
+          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig-diagnostic
+          git -C sprig-diagnostic checkout "$DIAGNOSTIC_SHA"
+          test "$(git -C sprig-diagnostic rev-parse HEAD)" = "$DIAGNOSTIC_SHA"
+          test "$(git -C sprig-diagnostic rev-parse HEAD^)" = 0f00ac4afbfc42b76c63a31833eabb07b82152f2
+          git -C sprig-diagnostic merge-base --is-ancestor b300693e01c652c1a9631c61b7a439892d8f75cd HEAD
+          git -C sprig-diagnostic log -2 --format='%H %P %s' > results/diagnostic-source-ancestry.txt
+          find sprig-diagnostic/src sprig-diagnostic/tests -type f -print0 | sort -z | xargs -0 sha256sum > results/diagnostic-source-hashes.txt
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-            layerfs/core/target
-            sprig/target
-          key: combined-ubuntu24-2a01fe4-9f97a7-v1
-      - name: Build fixed comparator
+          key: stress-cargo-registry-ubuntu24-v2
+      - name: Ordinary unit gates then ONE release ELF; no historical fault harness
         run: |
-          rustup toolchain install 1.85.1 --profile minimal
-          (cd layerfs && cargo +1.85.1 fetch --manifest-path core/Cargo.toml --locked)
-          (cd layerfs && npm --prefix api install --offline --ignore-scripts --no-audit --no-fund && npm --prefix api run build:native)
-          (cd layerfs && cargo +1.85.1 build --manifest-path core/Cargo.toml --locked --offline --release -p layerfs-daemon)
-      - name: Build and verify real production CLI
-        run: |
-          export CARGO_TARGET_DIR="$PWD/sprig/target"
-          cargo +stable test --locked --features projection --manifest-path sprig/Cargo.toml
-          cargo +stable build --release --locked --features projection --manifest-path sprig/Cargo.toml
-          sha256sum sprig/target/release/sprig > results/production-binary-hash.txt
-      - name: Verify production kernel lifecycle contract
-        run: |
-          mkdir "$RUNNER_TEMP/production-kernel-gate"
-          sudo env TMPDIR="$RUNNER_TEMP/production-kernel-gate" /usr/bin/python3 sprig/tests/projection_workflow.py --binary "$PWD/sprig/target/release/sprig" > results/production-kernel-contract.json
-      - name: Verify owned writable kernel lifecycle contract
-        run: |
-          mkdir "$RUNNER_TEMP/current-writable-gate"
-          sudo env PATH="$PATH" RUSTUP_HOME="$HOME/.rustup" CARGO_HOME="$HOME/.cargo" TMPDIR="$RUNNER_TEMP/current-writable-gate" /usr/bin/python3 sprig/tests/writable_workflow.py --binary "$PWD/sprig/target/release/sprig" > results/current-writable-contract.json
+          set -o pipefail
+          mkdir bin
+          export CARGO_TARGET_DIR="$PWD/build-target-diagnostic"
+          test ! -e "$CARGO_TARGET_DIR"
+          cargo +stable test --locked --features projection --manifest-path sprig-diagnostic/Cargo.toml 2>&1 | tee results/diagnostic-tests.txt
+          cargo +stable build --release --locked --features projection --manifest-path sprig-diagnostic/Cargo.toml -vv > results/diagnostic-release-build.log 2>&1
+          grep -F 'Compiling sprig ' results/diagnostic-release-build.log
+          grep -F "$PWD/sprig-diagnostic" results/diagnostic-release-build.log
+          install -m 0755 "$CARGO_TARGET_DIR/release/sprig" bin/diagnostic-sprig
+          sha256sum bin/diagnostic-sprig > results/diagnostic-binary-hash.txt
+          python3 - <<'PYIDENTITY'
+          import hashlib,json,sys
+          from pathlib import Path
+          sys.path.insert(0,'feasibility')
+          from stress_writable_diagnostic_sample import SOURCE_SHA,PARENT_SHA,ALGORITHM_BASE,PRESSURE_SHA
+          from stress_writable_diagnostic_audit import validate_identity,MANIFEST_SCHEMA
+          root=Path.cwd();binary=root/'bin/diagnostic-sprig'
+          value=dict(schema=MANIFEST_SCHEMA,sha=SOURCE_SHA,parent=PARENT_SHA,algorithmBase=ALGORITHM_BASE,binary=str(binary),binarySha256=hashlib.sha256(binary.read_bytes()).hexdigest(),sourcePath=str(root/'sprig-diagnostic'),pressureScriptSha256=PRESSURE_SHA)
+          validate_identity(value)
+          with Path('results/writable-diagnostic-identity.json').open('x') as out:json.dump(value,out,indent=2)
+          PYIDENTITY
       - name: Prepare official container runtime and frozen fixture
         run: |
           sudo install -m 0755 -d /etc/apt/keyrings
@@ -78,7 +91,6 @@ jobs:
           docker version > results/docker-updated.txt
           docker pull ubuntu:24.04
           echo "LAYERFS_IMAGE=$(docker image inspect --format '{{.Id}}' ubuntu:24.04)" >> "$GITHUB_ENV"
-          echo "LAYERFS_DAEMON=$PWD/layerfs/core/target/release/layerfs-daemon" >> "$GITHUB_ENV"
           docker image inspect ubuntu:24.04 > results/runtime-image.json
           docker save ubuntu:24.04 -o "$RUNNER_TEMP/fixed-runtime-image.tar"
           echo "LAYERFS_IMAGE_ARCHIVE=$RUNNER_TEMP/fixed-runtime-image.tar" >> "$GITHUB_ENV"
@@ -88,6 +100,7 @@ jobs:
           rustup toolchain install 1.90.0 --profile minimal
           TOOLCHAIN="$(rustup run 1.90.0 rustc --print sysroot)"
           test -x "$TOOLCHAIN/bin/rustc"
+          { rustup component list --toolchain 1.90.0 --installed; du -sB1 "$TOOLCHAIN"; du -sB1 "$TOOLCHAIN/share/doc" 2>/dev/null || true; } > results/cargo-toolchain-capacity.txt
           CONTEXT="$(mktemp -d "$RUNNER_TEMP/cargo-image-context.XXXXXX")"
           mkdir "$CONTEXT/toolchain"
           cp -a "$TOOLCHAIN/." "$CONTEXT/toolchain/"
@@ -100,19 +113,29 @@ jobs:
           echo "CARGO_IMAGE=$CARGO_IMAGE" >> "$GITHUB_ENV"
           echo "CARGO_IMAGE_ARCHIVE=$RUNNER_TEMP/cargo-runtime-image.tar" >> "$GITHUB_ENV"
           docker image inspect "$CARGO_IMAGE" > results/cargo-image.json
+          docker image inspect --format '{{.Size}}' "$CARGO_IMAGE" > results/cargo-image-capacity.txt
           docker save "sprig-cargo-fixture:$GITHUB_RUN_ID" -o "$RUNNER_TEMP/cargo-runtime-image.tar"
+          stat --printf='archive logical bytes: %s\n' "$RUNNER_TEMP/cargo-runtime-image.tar" >> results/cargo-image-capacity.txt
+          du -B1 "$RUNNER_TEMP/cargo-runtime-image.tar" >> results/cargo-image-capacity.txt
           docker run --rm --pull=never "$CARGO_IMAGE" /bin/bash -c 'set -eu; rustc -Vv; cargo -V; cc --version; dpkg-query -W; sha256sum /usr/bin/cc /usr/bin/ld; find /opt/rust -type f -print0 | sort -z | xargs -0 sha256sum' > results/cargo-software-identity.txt
           mkdir -p fixtures
-          python3 feasibility/prepare_cargo_fixture.py --template feasibility/cargo-fixture-template --oracle feasibility/cargo-fixture-oracle.json --output fixtures/cargo > results/cargo-fixture-generation.json
-          python3 -B feasibility/tree_oracle.py verify fixtures/cargo < feasibility/cargo-fixture-oracle.json > results/cargo-fixture-verified.json
-      - name: Real Cargo lifecycle paired series
-        env:
-          CARGO_MODE: ${{ inputs.mode }}
-        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,LAYERFS_DAEMON,CARGO_MODE,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/cargo_transport_compare.mjs
+          python3 feasibility/stress_cargo_prepare.py generate fixtures/stress-cargo > results/stress-cargo-generated.json
+          # Lock generation uses container-local CARGO_HOME, never a hidden source cache.
+          docker run --rm --pull=never --mount "type=bind,source=$PWD/fixtures/stress-cargo,target=/work" --workdir /work --entrypoint /bin/bash "$CARGO_IMAGE" -c 'set -eu; cargo -V; test "$(cargo -V | cut -d" " -f2)" = 1.90.0; CARGO_HOME=/tmp/lock-home cargo generate-lockfile --offline' > results/stress-cargo-lock-generation.txt
+          sudo python3 feasibility/stress_cargo_prepare.py freeze fixtures/stress-cargo --oracle results/stress-cargo-oracle.json > results/stress-cargo-manifest.json
+      - name: Common external capacity pilot (not product results or reusable cache)
+        run: |
+          sudo env GITHUB_ACTIONS=true RUNNER_TEMP="$RUNNER_TEMP" /usr/bin/python3 feasibility/stress_cargo_capacity.py --source "$PWD/fixtures/stress-cargo" --manifest "$PWD/results/stress-cargo-manifest.json" --image "$CARGO_IMAGE" --root "$RUNNER_TEMP/stress-cargo-capacity-pilot" --output "$PWD/results/stress-cargo-capacity.json" > results/stress-cargo-capacity-status.json
+      - name: Four inc0 product samples only; stop at first gate failure
+        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_writable_diagnostic_run.mjs
+      - name: Audit all four raw samples or suppress all paired comparisons
+        if: always()
+        run: sudo python3 feasibility/stress_writable_diagnostic_audit.py summary --report results/writable-diagnostic-canary.json --manifest results/writable-diagnostic-identity.json --archive-root "$RUNNER_TEMP/stress-writable-diagnostic-records" --output results/writable-diagnostic-summary.json
+      - name: Preserve complete named evidence and verify actual1GiB artifact budget
+        if: always()
+        run: sudo env GITHUB_ACTIONS=true python3 feasibility/stress_writable_diagnostic_collect.py collect --results "$PWD/results" --temporary "$RUNNER_TEMP" --destination "$PWD/diagnostic-artifacts" --uid "$(id -u)" --gid "$(id -g)"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: cargo-transport-measurements
-          path: |
-            results/
-            ${{ runner.temp }}/cargo-transport-records/
+          name: writable-wall-cpu-four-sample-canary
+          path: diagnostic-artifacts/
