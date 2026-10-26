@@ -1,8 +1,14 @@
-name: Bounded three-pin native cache screen
-run-name: Native cache three-pin Latin screen ${{ inputs.cell }}, 2GiB, no promotion
+name: Bounded three-pin native cache experiments
+run-name: Native cache ${{ inputs.series || 'admission-screen-v1' }} ${{ inputs.cell }}, 2GiB, no promotion
 on:
   workflow_dispatch:
     inputs:
+      series:
+        type: choice
+        options: [admission-screen-v1, inventory-reverse-v1]
+        default: admission-screen-v1
+        description: Separate fixed-pin series; reverse inventory accepts only the eligible64KiB cell
+        required: true
       cell:
         type: choice
         options: [files-4096, files-10000, cache-history-repeated-300, cache-independent-1k-x2, cache-independent-1k-x8, cache-independent-4k-x2, cache-independent-4k-x8, cache-alias-only-1k, cache-alias-only-4k, cache-independent-over4096, cache-large-64k-1024]
@@ -20,12 +26,29 @@ jobs:
     timeout-minutes: 45
     env:
       CARGO_BUILD_JOBS: '2'
+      STRESS_CACHE_SERIES: ${{ inputs.series || 'admission-screen-v1' }}
+      CELL: ${{ inputs.cell }}
       MAIN_SHA: b300693e01c652c1a9631c61b7a439892d8f75cd
       INVENTORY_SHA: c392d45079314cdcf9813371ec9120d78be7bcd6
       ADMISSION_SHA: f481aaba987d960bf119e95b68f5b38da56e1581
+      PORTABLE_SHA: 4eb0f4d7afdb19bf22d9667dc520ede8b162c737
     steps:
       - name: Start original job admission clock
         run: |
+          case "$STRESS_CACHE_SERIES" in
+            admission-screen-v1)
+              echo 'THIRD_VARIANT=admission' >> "$GITHUB_ENV"
+              echo 'STAGE_FLAG=--ablation-stage' >> "$GITHUB_ENV"
+              echo 'MEASURE_STAGE=forward-latin' >> "$GITHUB_ENV"
+              echo 'SUMMARY_SCRIPT=feasibility/stress_cache_summary.py' >> "$GITHUB_ENV" ;;
+            inventory-reverse-v1)
+              test "$CELL" = cache-large-64k-1024
+              echo 'THIRD_VARIANT=portable' >> "$GITHUB_ENV"
+              echo 'STAGE_FLAG=--inventory-confirmation-stage' >> "$GITHUB_ENV"
+              echo 'MEASURE_STAGE=reverse-latin' >> "$GITHUB_ENV"
+              echo 'SUMMARY_SCRIPT=feasibility/stress_cache_inventory_summary.py' >> "$GITHUB_ENV" ;;
+            *) echo 'Unreviewed native series' >&2; exit 2 ;;
+          esac
           started=$(date +%s)
           echo "STRESS_CACHE_JOB_STARTED_EPOCH=$started" >> "$GITHUB_ENV"
           echo "STRESS_CACHE_JOB_DEADLINE_EPOCH=$((started + 40 * 60))" >> "$GITHUB_ENV"
@@ -36,7 +59,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y btrfs-progs python3-btrfsutil
           { uname -a; lscpu; free -h; df -h; findmnt -T "$PWD"; btrfs version; /usr/bin/python3 --version; } > results/environment.txt
-          sha256sum feasibility/stress_cache*.py feasibility/stress_run.py feasibility/stress_sample.py feasibility/stress_fixture.py feasibility/tree_oracle.py > results/script-hashes.txt
+          sha256sum feasibility/stress_cache*.py feasibility/stress_run.py feasibility/stress_sample.py feasibility/stress_fixture.py feasibility/tree_oracle.py feasibility/cache-inventory-prerequisite/*.json > results/script-hashes.txt
           python3 -m unittest discover -s feasibility -p 'test_stress_cache*.py' -v
           python3 -m unittest discover -s feasibility -p 'test_stress_run.py' -v
           python3 -m unittest discover -s feasibility -p 'test_stress_sample.py' -v
@@ -46,7 +69,7 @@ jobs:
           rustup toolchain install stable --profile minimal
           rustc +stable -Vv > results/rust-version.txt
           cargo +stable -V >> results/rust-version.txt
-          for variant in main inventory admission; do
+          for variant in main inventory "$THIRD_VARIANT"; do
             key="${variant^^}_SHA"; pin="${!key}"
             git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git "sprig-$variant"
             git -C "sprig-$variant" checkout "$pin"
@@ -62,7 +85,7 @@ jobs:
       - name: Build three separate targets serially; ordinary native canaries follow
         run: |
           set -o pipefail
-          for variant in main inventory admission; do
+          for variant in main inventory "$THIRD_VARIANT"; do
             export CARGO_TARGET_DIR="$PWD/build-target-$variant"
             test ! -e "$CARGO_TARGET_DIR"
             cargo +stable test --locked --features projection --manifest-path "sprig-$variant/Cargo.toml" 2>&1 | tee "results/$variant-tests.txt"
@@ -76,11 +99,23 @@ jobs:
           import hashlib,json,os
           from pathlib import Path
           root=Path.cwd();products=[]
-          for variant in ('main','inventory','admission'):
+          for variant in ('main','inventory',os.environ['THIRD_VARIANT']):
               binary=root/'bin'/f'{variant}-sprig'
               products.append(dict(label=variant,type='sprig',sha=os.environ[variant.upper()+'_SHA'],sourcePath=str(root/f'sprig-{variant}'),binary=str(binary),binarySha256=hashlib.sha256(binary.read_bytes()).hexdigest()))
           with Path('results/cache-products.json').open('x') as out:json.dump(products,out,indent=2)
           PYCONFIG
+          python3 - <<'PYVERIFY'
+          import json,os,sys
+          from pathlib import Path
+          sys.path.insert(0,'feasibility')
+          import stress_cache_ablation as admission
+          import stress_cache_inventory as inventory
+          products=json.loads(Path('results/cache-products.json').read_text())
+          if os.environ['STRESS_CACHE_SERIES']=='inventory-reverse-v1':
+              inventory.verify_products(products)
+              Path('results/inventory-confirmation-identity.json').write_text(json.dumps(inventory.identity(products),indent=2)+'\n')
+          else:admission.verify_products(products)
+          PYVERIFY
       - name: One shared 1200-second measurement clock after build; no reset after canaries
         run: |
           started=$(date +%s)
@@ -91,19 +126,17 @@ jobs:
           echo "STRESS_CACHE_MEASURE_DEADLINE_EPOCH=$deadline" >> "$GITHUB_ENV"
       - name: All three full-tree native canaries on separate fresh 2GiB images
         run: |
-          sudo --preserve-env=STRESS_CACHE_JOB_STARTED_EPOCH,STRESS_CACHE_JOB_DEADLINE_EPOCH,STRESS_CACHE_MEASURE_STARTED_EPOCH,STRESS_CACHE_MEASURE_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/cache-products.json" --cell canary --backend native --rounds 1 --ablation-stage canary --budget-seconds 1200 --output "$RUNNER_TEMP/cache-canary/stress-results" > results/cache-canary-driver.stdout 2> results/cache-canary-driver.stderr
-      - name: Exactly nine native screen samples, ABC then BCA then CAB
-        env:
-          CELL: ${{ inputs.cell }}
+          sudo --preserve-env=STRESS_CACHE_JOB_STARTED_EPOCH,STRESS_CACHE_JOB_DEADLINE_EPOCH,STRESS_CACHE_MEASURE_STARTED_EPOCH,STRESS_CACHE_MEASURE_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/cache-products.json" --cell canary --backend native --rounds 1 "$STAGE_FLAG" canary --budget-seconds 1200 --output "$RUNNER_TEMP/cache-canary/stress-results" > results/cache-canary-driver.stdout 2> results/cache-canary-driver.stderr
+      - name: Exactly nine selected-series Latin samples; no mixed pins or orders
         run: |
-          sudo --preserve-env=STRESS_CACHE_JOB_STARTED_EPOCH,STRESS_CACHE_JOB_DEADLINE_EPOCH,STRESS_CACHE_MEASURE_STARTED_EPOCH,STRESS_CACHE_MEASURE_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/cache-products.json" --cell "$CELL" --backend native --rounds 3 --ablation-stage forward-latin --ablation-canary "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --budget-seconds 1200 --output "$RUNNER_TEMP/cache-screen/stress-results" > results/cache-screen-driver.stdout 2> results/cache-screen-driver.stderr
+          sudo --preserve-env=STRESS_CACHE_JOB_STARTED_EPOCH,STRESS_CACHE_JOB_DEADLINE_EPOCH,STRESS_CACHE_MEASURE_STARTED_EPOCH,STRESS_CACHE_MEASURE_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/cache-products.json" --cell "$CELL" --backend native --rounds 3 "$STAGE_FLAG" "$MEASURE_STAGE" --ablation-canary "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --budget-seconds 1200 --output "$RUNNER_TEMP/cache-screen/stress-results" > results/cache-screen-driver.stdout 2> results/cache-screen-driver.stderr
       - name: Audit all nine or suppress ratios; retain failures and incomplete cells
         if: always()
-        run: sudo /usr/bin/python3 feasibility/stress_cache_summary.py "$RUNNER_TEMP/cache-screen/stress-results/stress-comparison.json" --canary-report "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --output "$PWD/results/cache-screen-summary.json"
+        run: sudo /usr/bin/python3 "$SUMMARY_SCRIPT" "$RUNNER_TEMP/cache-screen/stress-results/stress-comparison.json" --canary-report "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --output "$PWD/results/cache-screen-summary.json"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: native-cache-screen-${{ inputs.cell }}
+          name: native-cache-${{ inputs.series || 'admission-screen-v1' }}-${{ inputs.cell }}
           path: |
             results/
             ${{ runner.temp }}/cache-canary/stress-results/

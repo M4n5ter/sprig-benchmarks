@@ -108,9 +108,9 @@ def validate_sample(sample,product,fixture,noop,fixture_sha,results,identity,ori
         require(digest(canonical(snapshots[index]))==expected[check['label']],'raw exact-ns/content/hardlink oracle mismatch')
     return {'fullTreeChecks':len(checks),'historicalReadbacks':operations,'archivedFilesVerified':len(archive)}
 
-def validate_canary(path,products,budget):
+def validate_canary(path,products,budget,*,schema=SCHEMA):
     path=regular(path);raw=path.read_bytes();report=json.loads(raw)
-    require(report.get('schema')==SCHEMA and report.get('ablationStage')=='canary' and report.get('cell')=='canary','exact ablation canary required')
+    require(report.get('schema')==schema and report.get('ablationStage')=='canary' and report.get('cell')=='canary','exact ablation canary required')
     require(report.get('complete') is True and report.get('status')=='passed' and report.get('rounds')==1 and report.get('backends')==['native'],'native canary incomplete')
     require(report.get('products')==products,'canary source/binary identities differ')
     require(report.get('noopCheckpoint') is True and report.get('expectedRecords')==3,'canary exact no-op/count contract changed')
