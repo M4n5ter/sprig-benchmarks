@@ -1,0 +1,32 @@
+{
+  "schema": "sprig-cache-posthoc-analysis-v1",
+  "run": 40294193428,
+  "runConclusion": "failure",
+  "measurementSource": "afacf84f0c6c80014c0e7c3cc00fac348357afbe",
+  "analysisStatus": "passed-after-reviewed-schema-correction",
+  "productRerun": false,
+  "rawSamplesModified": false,
+  "originalSummarySha256": "cde0a3390735f157cbe19c87c988a8b4f3a5a1cfb057a1ca3de611401f906e35",
+  "posthocSummarySha256": "bc16b5a9651717864fa7922df7fdbc183b34d2c1a449e05fc0e631a7a3f65dfa",
+  "originalSummaryToolSha256": "60c5d970c8944a23c3e57f41d8128bd372fa0a00451a2d30ce65f7f2ce6c3323",
+  "correctedSummaryToolSha256": "0446c7082cc402613d665fc2cc5bb370f90aa7d0e17f58045cb10c26024041a4",
+  "artifactManifestSha256": "b4f363389f85ceafccf93bb98edea4c6f465ae5afa8fcb4224e37e1bbfcd63ac",
+  "originalErrors": [
+    "record0: invalid measured metric",
+    "record1: invalid measured metric",
+    "record2: invalid measured metric",
+    "record3: invalid measured metric",
+    "record4: invalid measured metric",
+    "record5: invalid measured metric",
+    "record6: invalid measured metric",
+    "record7: invalid measured metric",
+    "record8: invalid measured metric"
+  ],
+  "rootOfflineTests": "22/22 PASS; syntax/diff PASS, session10687",
+  "sampleCounts": {
+    "canary": 3,
+    "screen": 9
+  },
+  "originalArtifactFiles": 217,
+  "analysisCommit": "ad7bfdd873a79bd03ee33f1525a5b08303addf4f"
+}

@@ -1,0 +1,15 @@
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	﻿2026-10-26T08:52:14.7279723Z ##[group]Run sudo /usr/bin/python3 feasibility/stress_cache_summary.py "$RUNNER_TEMP/cache-screen/stress-results/stress-comparison.json" --canary-report "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --output "$PWD/results/cache-screen-summary.json"
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:14.7281709Z [36;1msudo /usr/bin/python3 feasibility/stress_cache_summary.py "$RUNNER_TEMP/cache-screen/stress-results/stress-comparison.json" --canary-report "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --output "$PWD/results/cache-screen-summary.json"[0m
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:14.7346692Z shell: /usr/bin/bash -e {0}
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:14.7346976Z env:
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:14.7347180Z   CARGO_BUILD_JOBS: 2
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:14.7347432Z   MAIN_SHA: b300693e01c652c1a9631c61b7a439892d8f75cd
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:14.7347781Z   INVENTORY_SHA: c392d45079314cdcf9813371ec9120d78be7bcd6
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:14.7348138Z   ADMISSION_SHA: f481aaba987d960bf119e95b68f5b38da56e1581
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:14.7348464Z   STRESS_CACHE_JOB_STARTED_EPOCH: 1793004183
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:14.7349169Z   STRESS_CACHE_JOB_DEADLINE_EPOCH: 1793006583
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:14.7349495Z   STRESS_CACHE_MEASURE_STARTED_EPOCH: 1793004519
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:14.7349805Z   STRESS_CACHE_MEASURE_DEADLINE_EPOCH: 1793005719
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:14.7350103Z ##[endgroup]
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:17.0892433Z {"complete": false, "status": "incomplete", "records": 9, "errors": ["record0: invalid measured metric", "record1: invalid measured metric", "record2: invalid measured metric", "record3: invalid measured metric", "record4: invalid measured metric", "record5: invalid measured metric", "record6: invalid measured metric", "record7: invalid measured metric", "record8: invalid measured metric"]}
+native-screen	Audit all nine or suppress ratios; retain failures and incomplete cells	2026-10-26T08:52:17.1009613Z ##[error]Process completed with exit code 1.

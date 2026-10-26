@@ -1,0 +1,36 @@
+{
+  "ok": true,
+  "complete": false,
+  "run": 40294193428,
+  "head": "afacf84f0c6c80014c0e7c3cc00fac348357afbe",
+  "artifactFiles": 217,
+  "artifactBytes": 82807547,
+  "canarySamples": 3,
+  "screenSamples": 9,
+  "sourceFileCounts": {
+    "main": 40,
+    "inventory": 40,
+    "admission": 40
+  },
+  "benchmarkScriptHashesVerified": 7,
+  "recordedBinaryHashes": {
+    "main": "95e3f068205a9fea634a06537adc84d9170b5834ca4030c690fa1b6b1f847bdc",
+    "inventory": "f11ce532061c65a11139e225cabe83902fe5c811a37f4c7bfa1a85864bbfed43",
+    "admission": "dced32f943becd1b897e886f910d3b515b1d49f2ea87205912866328329232da"
+  },
+  "binaryExecutableBytesArchived": false,
+  "serverSummaryMatches": true,
+  "canaryReport": "native-cache-screen-cache-independent-4k-x8/_temp/cache-canary/stress-results/stress-comparison.json",
+  "screenReport": "native-cache-screen-cache-independent-4k-x8/_temp/cache-screen/stress-results/stress-comparison.json",
+  "errors": [
+    "record0: invalid measured metric",
+    "record1: invalid measured metric",
+    "record2: invalid measured metric",
+    "record3: invalid measured metric",
+    "record4: invalid measured metric",
+    "record5: invalid measured metric",
+    "record6: invalid measured metric",
+    "record7: invalid measured metric",
+    "record8: invalid measured metric"
+  ]
+}

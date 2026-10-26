@@ -1,0 +1,2594 @@
+{
+  "schema": "sprig-stress-cache-ablation-summary-v1",
+  "complete": true,
+  "status": "passed",
+  "expectedSamples": 9,
+  "records": [
+    {
+      "index": 0,
+      "identity": "native-main-0",
+      "product": "main",
+      "round": 0,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-main-0-1fuwxey3/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-main-0-1fuwxey3/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-main-0-1fuwxey3/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "notMeasured": {
+        "metadata_branch_seconds": {
+          "value": null,
+          "reason": "production metadata_branch_probe explicitly omitted"
+        }
+      },
+      "metrics": {
+        "wholeSampleSeconds": 23.58183453500004,
+        "activeWholeFilesystemBytes": 37728256,
+        "postHistoryWholeFilesystemBytes": 84795392,
+        "checkpoint_seconds": 0.49172896000004584,
+        "first_fork_seconds": 3.065303838000034,
+        "first_read_seconds": 0.4749194339999576,
+        "import_seconds": 4.9566917749999675,
+        "init_seconds": 0.013100865000012618,
+        "restore_cleanup_seconds": 0.0,
+        "restore_read_seconds": 0.39177792699996417,
+        "restore_seconds": 8.64992687399996,
+        "total_import_fork_read_seconds": 8.496915046999959,
+        "warm_fork_seconds": 3.170732960999999,
+        "warm_read_seconds": 0.5081532570000036,
+        "warm_total_seconds": 3.6788862180000024,
+        "write_seconds": 0.005565756000009969
+      },
+      "checkpoint_stepsDescriptiveTails": {
+        "n": 1,
+        "median": 0.2526871430000597,
+        "maximum": 0.2526871430000597,
+        "total": 0.2526871430000597,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historical_restore_stepsDescriptiveTails": {
+        "n": 2,
+        "median": 4.32496343699998,
+        "maximum": 4.391851067999994,
+        "total": 8.64992687399996,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      }
+    },
+    {
+      "index": 1,
+      "identity": "native-inventory-0",
+      "product": "inventory",
+      "round": 0,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-inventory-0-k2rzup4x/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-inventory-0-k2rzup4x/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-inventory-0-k2rzup4x/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "notMeasured": {
+        "metadata_branch_seconds": {
+          "value": null,
+          "reason": "production metadata_branch_probe explicitly omitted"
+        }
+      },
+      "metrics": {
+        "wholeSampleSeconds": 23.874982731000046,
+        "activeWholeFilesystemBytes": 37789696,
+        "postHistoryWholeFilesystemBytes": 84922368,
+        "checkpoint_seconds": 0.5000012890000676,
+        "first_fork_seconds": 3.1725091430000134,
+        "first_read_seconds": 0.5086519999999837,
+        "import_seconds": 4.919631299000002,
+        "init_seconds": 0.013631365999970058,
+        "restore_cleanup_seconds": 0.0,
+        "restore_read_seconds": 0.39258684100002483,
+        "restore_seconds": 8.743164066999952,
+        "total_import_fork_read_seconds": 8.600792442,
+        "warm_fork_seconds": 3.258369298000048,
+        "warm_read_seconds": 0.4887671729999852,
+        "warm_total_seconds": 3.747136471000033,
+        "write_seconds": 0.005289930000003551
+      },
+      "checkpoint_stepsDescriptiveTails": {
+        "n": 1,
+        "median": 0.2567504620000136,
+        "maximum": 0.2567504620000136,
+        "total": 0.2567504620000136,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historical_restore_stepsDescriptiveTails": {
+        "n": 2,
+        "median": 4.371582033499976,
+        "maximum": 4.495099335999953,
+        "total": 8.743164066999952,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      }
+    },
+    {
+      "index": 2,
+      "identity": "native-admission-0",
+      "product": "admission",
+      "round": 0,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-admission-0-2el27u3i/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-admission-0-2el27u3i/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-admission-0-2el27u3i/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "notMeasured": {
+        "metadata_branch_seconds": {
+          "value": null,
+          "reason": "production metadata_branch_probe explicitly omitted"
+        }
+      },
+      "metrics": {
+        "wholeSampleSeconds": 21.950743801999977,
+        "activeWholeFilesystemBytes": 37728256,
+        "postHistoryWholeFilesystemBytes": 53374976,
+        "checkpoint_seconds": 0.49217943499996863,
+        "first_fork_seconds": 3.1046506829999885,
+        "first_read_seconds": 0.49978125399997,
+        "import_seconds": 4.914626547000012,
+        "init_seconds": 0.014365027999986069,
+        "restore_cleanup_seconds": 0.0,
+        "restore_read_seconds": 0.9543470890000094,
+        "restore_seconds": 6.533750688999987,
+        "total_import_fork_read_seconds": 8.51905848399997,
+        "warm_fork_seconds": 3.0609112019999998,
+        "warm_read_seconds": 0.5230327680000073,
+        "warm_total_seconds": 3.583943970000007,
+        "write_seconds": 0.0053830279999829145
+      },
+      "checkpoint_stepsDescriptiveTails": {
+        "n": 1,
+        "median": 0.255034792999993,
+        "maximum": 0.255034792999993,
+        "total": 0.255034792999993,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historical_restore_stepsDescriptiveTails": {
+        "n": 2,
+        "median": 3.2668753444999936,
+        "maximum": 3.8020524629999954,
+        "total": 6.533750688999987,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      }
+    },
+    {
+      "index": 3,
+      "identity": "native-inventory-1",
+      "product": "inventory",
+      "round": 1,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-inventory-1-tv2vy7c6/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-inventory-1-tv2vy7c6/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-inventory-1-tv2vy7c6/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "notMeasured": {
+        "metadata_branch_seconds": {
+          "value": null,
+          "reason": "production metadata_branch_probe explicitly omitted"
+        }
+      },
+      "metrics": {
+        "wholeSampleSeconds": 22.495862880000004,
+        "activeWholeFilesystemBytes": 37761024,
+        "postHistoryWholeFilesystemBytes": 84828160,
+        "checkpoint_seconds": 0.4953207379999185,
+        "first_fork_seconds": 2.9418542739999793,
+        "first_read_seconds": 0.5197485360000087,
+        "import_seconds": 4.629390479999984,
+        "init_seconds": 0.01354384299997946,
+        "restore_cleanup_seconds": 0.0,
+        "restore_read_seconds": 0.40205775600003335,
+        "restore_seconds": 8.077473074000011,
+        "total_import_fork_read_seconds": 8.090993289999972,
+        "warm_fork_seconds": 3.0347082279999995,
+        "warm_read_seconds": 0.5080960140000457,
+        "warm_total_seconds": 3.542804242000045,
+        "write_seconds": 0.0054364769999892815
+      },
+      "checkpoint_stepsDescriptiveTails": {
+        "n": 1,
+        "median": 0.25461186899991617,
+        "maximum": 0.25461186899991617,
+        "total": 0.25461186899991617,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historical_restore_stepsDescriptiveTails": {
+        "n": 2,
+        "median": 4.0387365370000055,
+        "maximum": 4.042697513999997,
+        "total": 8.077473074000011,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      }
+    },
+    {
+      "index": 4,
+      "identity": "native-admission-1",
+      "product": "admission",
+      "round": 1,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-admission-1-qbcxczw1/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-admission-1-qbcxczw1/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-admission-1-qbcxczw1/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "notMeasured": {
+        "metadata_branch_seconds": {
+          "value": null,
+          "reason": "production metadata_branch_probe explicitly omitted"
+        }
+      },
+      "metrics": {
+        "wholeSampleSeconds": 21.941753931999983,
+        "activeWholeFilesystemBytes": 37826560,
+        "postHistoryWholeFilesystemBytes": 53342208,
+        "checkpoint_seconds": 0.508376142999964,
+        "first_fork_seconds": 2.940089009000019,
+        "first_read_seconds": 0.49914856899999904,
+        "import_seconds": 4.730916927999999,
+        "init_seconds": 0.015486831000032453,
+        "restore_cleanup_seconds": 0.0,
+        "restore_read_seconds": 0.9995755900000063,
+        "restore_seconds": 6.7575459820000106,
+        "total_import_fork_read_seconds": 8.170154506000017,
+        "warm_fork_seconds": 3.104611153999997,
+        "warm_read_seconds": 0.5177335980000066,
+        "warm_total_seconds": 3.6223447520000036,
+        "write_seconds": 0.005468772000028821
+      },
+      "checkpoint_stepsDescriptiveTails": {
+        "n": 1,
+        "median": 0.26818338399999675,
+        "maximum": 0.26818338399999675,
+        "total": 0.26818338399999675,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historical_restore_stepsDescriptiveTails": {
+        "n": 2,
+        "median": 3.3787729910000053,
+        "maximum": 3.9313552350000123,
+        "total": 6.7575459820000106,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      }
+    },
+    {
+      "index": 5,
+      "identity": "native-main-1",
+      "product": "main",
+      "round": 1,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-main-1-755aocpf/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-main-1-755aocpf/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-main-1-755aocpf/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "notMeasured": {
+        "metadata_branch_seconds": {
+          "value": null,
+          "reason": "production metadata_branch_probe explicitly omitted"
+        }
+      },
+      "metrics": {
+        "wholeSampleSeconds": 23.242569099000036,
+        "activeWholeFilesystemBytes": 37724160,
+        "postHistoryWholeFilesystemBytes": 84824064,
+        "checkpoint_seconds": 0.4879662469998607,
+        "first_fork_seconds": 3.047374089000016,
+        "first_read_seconds": 0.5257310700000062,
+        "import_seconds": 4.922889468999983,
+        "init_seconds": 0.013324761999967905,
+        "restore_cleanup_seconds": 0.0,
+        "restore_read_seconds": 0.3911792060000039,
+        "restore_seconds": 8.559380464999947,
+        "total_import_fork_read_seconds": 8.495994628000005,
+        "warm_fork_seconds": 2.9514089930000296,
+        "warm_read_seconds": 0.4904812539999739,
+        "warm_total_seconds": 3.4418902470000035,
+        "write_seconds": 0.005042346999971414
+      },
+      "checkpoint_stepsDescriptiveTails": {
+        "n": 1,
+        "median": 0.2513995599999248,
+        "maximum": 0.2513995599999248,
+        "total": 0.2513995599999248,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historical_restore_stepsDescriptiveTails": {
+        "n": 2,
+        "median": 4.2796902324999735,
+        "maximum": 4.312441109999952,
+        "total": 8.559380464999947,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      }
+    },
+    {
+      "index": 6,
+      "identity": "native-admission-2",
+      "product": "admission",
+      "round": 2,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-admission-2-d29jggq9/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-admission-2-d29jggq9/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-admission-2-d29jggq9/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "notMeasured": {
+        "metadata_branch_seconds": {
+          "value": null,
+          "reason": "production metadata_branch_probe explicitly omitted"
+        }
+      },
+      "metrics": {
+        "wholeSampleSeconds": 22.63128201799998,
+        "activeWholeFilesystemBytes": 37728256,
+        "postHistoryWholeFilesystemBytes": 53309440,
+        "checkpoint_seconds": 0.4942871869998271,
+        "first_fork_seconds": 3.123801209000021,
+        "first_read_seconds": 0.47831949500005067,
+        "import_seconds": 5.051759157999982,
+        "init_seconds": 0.013614759000006416,
+        "restore_cleanup_seconds": 0.0,
+        "restore_read_seconds": 0.9537852559999465,
+        "restore_seconds": 6.827649899999983,
+        "total_import_fork_read_seconds": 8.653879862000053,
+        "warm_fork_seconds": 3.350785694000024,
+        "warm_read_seconds": 0.48790478900002654,
+        "warm_total_seconds": 3.8386904830000503,
+        "write_seconds": 0.005175788999963515
+      },
+      "checkpoint_stepsDescriptiveTails": {
+        "n": 1,
+        "median": 0.2539963469998838,
+        "maximum": 0.2539963469998838,
+        "total": 0.2539963469998838,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historical_restore_stepsDescriptiveTails": {
+        "n": 2,
+        "median": 3.4138249499999915,
+        "maximum": 3.986454180999999,
+        "total": 6.827649899999983,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      }
+    },
+    {
+      "index": 7,
+      "identity": "native-main-2",
+      "product": "main",
+      "round": 2,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-main-2-bt0b1z5p/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-main-2-bt0b1z5p/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-main-2-bt0b1z5p/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "notMeasured": {
+        "metadata_branch_seconds": {
+          "value": null,
+          "reason": "production metadata_branch_probe explicitly omitted"
+        }
+      },
+      "metrics": {
+        "wholeSampleSeconds": 23.786721806999935,
+        "activeWholeFilesystemBytes": 37695488,
+        "postHistoryWholeFilesystemBytes": 84762624,
+        "checkpoint_seconds": 0.4876041619999114,
+        "first_fork_seconds": 3.280975828999999,
+        "first_read_seconds": 0.5100528849999364,
+        "import_seconds": 4.958560122999984,
+        "init_seconds": 0.013344545999984803,
+        "restore_cleanup_seconds": 0.0,
+        "restore_read_seconds": 0.3943925820001368,
+        "restore_seconds": 8.507445503999975,
+        "total_import_fork_read_seconds": 8.74958883699992,
+        "warm_fork_seconds": 3.2495091729999785,
+        "warm_read_seconds": 0.5258466630000385,
+        "warm_total_seconds": 3.775355836000017,
+        "write_seconds": 0.005143091999912031
+      },
+      "checkpoint_stepsDescriptiveTails": {
+        "n": 1,
+        "median": 0.25200230399991597,
+        "maximum": 0.25200230399991597,
+        "total": 0.25200230399991597,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historical_restore_stepsDescriptiveTails": {
+        "n": 2,
+        "median": 4.253722751999987,
+        "maximum": 4.331882188999998,
+        "total": 8.507445503999975,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      }
+    },
+    {
+      "index": 8,
+      "identity": "native-inventory-2",
+      "product": "inventory",
+      "round": 2,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-inventory-2-m4iikf1h/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-inventory-2-m4iikf1h/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-inventory-2-m4iikf1h/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "notMeasured": {
+        "metadata_branch_seconds": {
+          "value": null,
+          "reason": "production metadata_branch_probe explicitly omitted"
+        }
+      },
+      "metrics": {
+        "wholeSampleSeconds": 22.52282445000003,
+        "activeWholeFilesystemBytes": 37695488,
+        "postHistoryWholeFilesystemBytes": 84762624,
+        "checkpoint_seconds": 0.49292018000005555,
+        "first_fork_seconds": 2.9023886630000106,
+        "first_read_seconds": 0.5079001709999602,
+        "import_seconds": 4.75398025100003,
+        "init_seconds": 0.013041197000006832,
+        "restore_cleanup_seconds": 0.0,
+        "restore_read_seconds": 0.39173882299996876,
+        "restore_seconds": 8.020636109999941,
+        "total_import_fork_read_seconds": 8.164269085,
+        "warm_fork_seconds": 3.073251844000083,
+        "warm_read_seconds": 0.5098012999999355,
+        "warm_total_seconds": 3.5830531440000186,
+        "write_seconds": 0.0051735660000531425
+      },
+      "checkpoint_stepsDescriptiveTails": {
+        "n": 1,
+        "median": 0.2544927870000038,
+        "maximum": 0.2544927870000038,
+        "total": 0.2544927870000038,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      },
+      "historical_restore_stepsDescriptiveTails": {
+        "n": 2,
+        "median": 4.010318054999971,
+        "maximum": 4.048599967999962,
+        "total": 8.020636109999941,
+        "quantileMethod": "nearest-rank",
+        "p95": null,
+        "p99": null,
+        "tailCaveat": "descriptive dependent operations, not independent replicates"
+      }
+    }
+  ],
+  "errors": [],
+  "comparisons": {
+    "main-to-inventory": {
+      "activeWholeFilesystemBytes": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 37728256,
+            "candidate": 37789696,
+            "candidateOverBaseline": 1.0016284876777766,
+            "percentChange": 0.1628487677776569
+          },
+          {
+            "round": 1,
+            "baseline": 37724160,
+            "candidate": 37761024,
+            "candidateOverBaseline": 1.0009771986970684,
+            "percentChange": 0.097719869706836
+          },
+          {
+            "round": 2,
+            "baseline": 37695488,
+            "candidate": 37695488,
+            "candidateOverBaseline": 1.0,
+            "percentChange": 0.0
+          }
+        ],
+        "medianPairedRatio": 1.0009771986970684,
+        "geometricMeanPairedRatio": 1.0008683383472297,
+        "baselineValues": [
+          37728256,
+          37724160,
+          37695488
+        ],
+        "candidateValues": [
+          37789696,
+          37761024,
+          37695488
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "checkpoint_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.49172896000004584,
+            "candidate": 0.5000012890000676,
+            "candidateOverBaseline": 1.016822944493692,
+            "percentChange": 1.6822944493692038
+          },
+          {
+            "round": 1,
+            "baseline": 0.4879662469998607,
+            "candidate": 0.4953207379999185,
+            "candidateOverBaseline": 1.0150717207292002,
+            "percentChange": 1.5071720729200155
+          },
+          {
+            "round": 2,
+            "baseline": 0.4876041619999114,
+            "candidate": 0.49292018000005555,
+            "candidateOverBaseline": 1.0109023228561882,
+            "percentChange": 1.0902322856188196
+          }
+        ],
+        "medianPairedRatio": 1.0150717207292002,
+        "geometricMeanPairedRatio": 1.0142626202289657,
+        "baselineValues": [
+          0.49172896000004584,
+          0.4879662469998607,
+          0.4876041619999114
+        ],
+        "candidateValues": [
+          0.5000012890000676,
+          0.4953207379999185,
+          0.49292018000005555
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "first_fork_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 3.065303838000034,
+            "candidate": 3.1725091430000134,
+            "candidateOverBaseline": 1.0349737940072936,
+            "percentChange": 3.4973794007293613
+          },
+          {
+            "round": 1,
+            "baseline": 3.047374089000016,
+            "candidate": 2.9418542739999793,
+            "candidateOverBaseline": 0.9653735275295123,
+            "percentChange": -3.462647247048767
+          },
+          {
+            "round": 2,
+            "baseline": 3.280975828999999,
+            "candidate": 2.9023886630000106,
+            "candidateOverBaseline": 0.884611412661526,
+            "percentChange": -11.538858733847402
+          }
+        ],
+        "medianPairedRatio": 0.9653735275295123,
+        "geometricMeanPairedRatio": 0.9596784860570616,
+        "baselineValues": [
+          3.065303838000034,
+          3.047374089000016,
+          3.280975828999999
+        ],
+        "candidateValues": [
+          3.1725091430000134,
+          2.9418542739999793,
+          2.9023886630000106
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "first_read_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.4749194339999576,
+            "candidate": 0.5086519999999837,
+            "candidateOverBaseline": 1.0710279756629817,
+            "percentChange": 7.102797566298169
+          },
+          {
+            "round": 1,
+            "baseline": 0.5257310700000062,
+            "candidate": 0.5197485360000087,
+            "candidateOverBaseline": 0.9886205431990212,
+            "percentChange": -1.1379456800978849
+          },
+          {
+            "round": 2,
+            "baseline": 0.5100528849999364,
+            "candidate": 0.5079001709999602,
+            "candidateOverBaseline": 0.995779429813486,
+            "percentChange": -0.42205701865140055
+          }
+        ],
+        "medianPairedRatio": 0.995779429813486,
+        "geometricMeanPairedRatio": 1.0178048876595738,
+        "baselineValues": [
+          0.4749194339999576,
+          0.5257310700000062,
+          0.5100528849999364
+        ],
+        "candidateValues": [
+          0.5086519999999837,
+          0.5197485360000087,
+          0.5079001709999602
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "import_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 4.9566917749999675,
+            "candidate": 4.919631299000002,
+            "candidateOverBaseline": 0.9925231429182491,
+            "percentChange": -0.7476857081750943
+          },
+          {
+            "round": 1,
+            "baseline": 4.922889468999983,
+            "candidate": 4.629390479999984,
+            "candidateOverBaseline": 0.9403807477603962,
+            "percentChange": -5.961925223960385
+          },
+          {
+            "round": 2,
+            "baseline": 4.958560122999984,
+            "candidate": 4.75398025100003,
+            "candidateOverBaseline": 0.9587420809821339,
+            "percentChange": -4.125791901786613
+          }
+        ],
+        "medianPairedRatio": 0.9587420809821339,
+        "geometricMeanPairedRatio": 0.963641260580108,
+        "baselineValues": [
+          4.9566917749999675,
+          4.922889468999983,
+          4.958560122999984
+        ],
+        "candidateValues": [
+          4.919631299000002,
+          4.629390479999984,
+          4.75398025100003
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "init_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.013100865000012618,
+            "candidate": 0.013631365999970058,
+            "candidateOverBaseline": 1.0404935857255935,
+            "percentChange": 4.049358572559347
+          },
+          {
+            "round": 1,
+            "baseline": 0.013324761999967905,
+            "candidate": 0.01354384299997946,
+            "candidateOverBaseline": 1.016441644512081,
+            "percentChange": 1.6441644512080966
+          },
+          {
+            "round": 2,
+            "baseline": 0.013344545999984803,
+            "candidate": 0.013041197000006832,
+            "candidateOverBaseline": 0.9772679415261999,
+            "percentChange": -2.273205847380011
+          }
+        ],
+        "medianPairedRatio": 1.016441644512081,
+        "geometricMeanPairedRatio": 1.0110636650171079,
+        "baselineValues": [
+          0.013100865000012618,
+          0.013324761999967905,
+          0.013344545999984803
+        ],
+        "candidateValues": [
+          0.013631365999970058,
+          0.01354384299997946,
+          0.013041197000006832
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "postHistoryWholeFilesystemBytes": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 84795392,
+            "candidate": 84922368,
+            "candidateOverBaseline": 1.001497439860883,
+            "percentChange": 0.14974398608829098
+          },
+          {
+            "round": 1,
+            "baseline": 84824064,
+            "candidate": 84828160,
+            "candidateOverBaseline": 1.0000482881838815,
+            "percentChange": 0.004828818388147305
+          },
+          {
+            "round": 2,
+            "baseline": 84762624,
+            "candidate": 84762624,
+            "candidateOverBaseline": 1.0,
+            "percentChange": 0.0
+          }
+        ],
+        "medianPairedRatio": 1.0000482881838815,
+        "geometricMeanPairedRatio": 1.0005150015123834,
+        "baselineValues": [
+          84795392,
+          84824064,
+          84762624
+        ],
+        "candidateValues": [
+          84922368,
+          84828160,
+          84762624
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "restore_cleanup_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.0,
+            "candidate": 0.0,
+            "candidateOverBaseline": null,
+            "percentChange": null
+          },
+          {
+            "round": 1,
+            "baseline": 0.0,
+            "candidate": 0.0,
+            "candidateOverBaseline": null,
+            "percentChange": null
+          },
+          {
+            "round": 2,
+            "baseline": 0.0,
+            "candidate": 0.0,
+            "candidateOverBaseline": null,
+            "percentChange": null
+          }
+        ],
+        "medianPairedRatio": null,
+        "geometricMeanPairedRatio": null,
+        "baselineValues": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "candidateValues": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "restore_read_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.39177792699996417,
+            "candidate": 0.39258684100002483,
+            "candidateOverBaseline": 1.0020647258161146,
+            "percentChange": 0.20647258161146098
+          },
+          {
+            "round": 1,
+            "baseline": 0.3911792060000039,
+            "candidate": 0.40205775600003335,
+            "candidateOverBaseline": 1.0278096326010473,
+            "percentChange": 2.7809632601047296
+          },
+          {
+            "round": 2,
+            "baseline": 0.3943925820001368,
+            "candidate": 0.39173882299996876,
+            "candidateOverBaseline": 0.9932712755734154,
+            "percentChange": -0.6728724426584565
+          }
+        ],
+        "medianPairedRatio": 1.0020647258161146,
+        "geometricMeanPairedRatio": 1.0076091705260155,
+        "baselineValues": [
+          0.39177792699996417,
+          0.3911792060000039,
+          0.3943925820001368
+        ],
+        "candidateValues": [
+          0.39258684100002483,
+          0.40205775600003335,
+          0.39173882299996876
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "restore_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 8.64992687399996,
+            "candidate": 8.743164066999952,
+            "candidateOverBaseline": 1.0107789573667088,
+            "percentChange": 1.0778957366708752
+          },
+          {
+            "round": 1,
+            "baseline": 8.559380464999947,
+            "candidate": 8.077473074000011,
+            "candidateOverBaseline": 0.9436983327274098,
+            "percentChange": -5.630166727259023
+          },
+          {
+            "round": 2,
+            "baseline": 8.507445503999975,
+            "candidate": 8.020636109999941,
+            "candidateOverBaseline": 0.9427784293450779,
+            "percentChange": -5.7221570654922065
+          }
+        ],
+        "medianPairedRatio": 0.9436983327274098,
+        "geometricMeanPairedRatio": 0.9652348765155871,
+        "baselineValues": [
+          8.64992687399996,
+          8.559380464999947,
+          8.507445503999975
+        ],
+        "candidateValues": [
+          8.743164066999952,
+          8.077473074000011,
+          8.020636109999941
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "total_import_fork_read_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 8.496915046999959,
+            "candidate": 8.600792442,
+            "candidateOverBaseline": 1.0122253069997114,
+            "percentChange": 1.222530699971136
+          },
+          {
+            "round": 1,
+            "baseline": 8.495994628000005,
+            "candidate": 8.090993289999972,
+            "candidateOverBaseline": 0.9523303208472752,
+            "percentChange": -4.766967915272479
+          },
+          {
+            "round": 2,
+            "baseline": 8.74958883699992,
+            "candidate": 8.164269085,
+            "candidateOverBaseline": 0.933103170571314,
+            "percentChange": -6.689682942868602
+          }
+        ],
+        "medianPairedRatio": 0.9523303208472752,
+        "geometricMeanPairedRatio": 0.9653055933803978,
+        "baselineValues": [
+          8.496915046999959,
+          8.495994628000005,
+          8.74958883699992
+        ],
+        "candidateValues": [
+          8.600792442,
+          8.090993289999972,
+          8.164269085
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "warm_fork_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 3.170732960999999,
+            "candidate": 3.258369298000048,
+            "candidateOverBaseline": 1.027639141510173,
+            "percentChange": 2.7639141510173104
+          },
+          {
+            "round": 1,
+            "baseline": 2.9514089930000296,
+            "candidate": 3.0347082279999995,
+            "candidateOverBaseline": 1.0282235485483489,
+            "percentChange": 2.8223548548348854
+          },
+          {
+            "round": 2,
+            "baseline": 3.2495091729999785,
+            "candidate": 3.073251844000083,
+            "candidateOverBaseline": 0.9457587839836215,
+            "percentChange": -5.424121601637855
+          }
+        ],
+        "medianPairedRatio": 1.027639141510173,
+        "geometricMeanPairedRatio": 0.9997763420668412,
+        "baselineValues": [
+          3.170732960999999,
+          2.9514089930000296,
+          3.2495091729999785
+        ],
+        "candidateValues": [
+          3.258369298000048,
+          3.0347082279999995,
+          3.073251844000083
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "warm_read_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.5081532570000036,
+            "candidate": 0.4887671729999852,
+            "candidateOverBaseline": 0.9618499267042615,
+            "percentChange": -3.8150073295738496
+          },
+          {
+            "round": 1,
+            "baseline": 0.4904812539999739,
+            "candidate": 0.5080960140000457,
+            "candidateOverBaseline": 1.035913217592762,
+            "percentChange": 3.5913217592761892
+          },
+          {
+            "round": 2,
+            "baseline": 0.5258466630000385,
+            "candidate": 0.5098012999999355,
+            "candidateOverBaseline": 0.9694866124878275,
+            "percentChange": -3.0513387512172474
+          }
+        ],
+        "medianPairedRatio": 0.9694866124878275,
+        "geometricMeanPairedRatio": 0.9885322347646789,
+        "baselineValues": [
+          0.5081532570000036,
+          0.4904812539999739,
+          0.5258466630000385
+        ],
+        "candidateValues": [
+          0.4887671729999852,
+          0.5080960140000457,
+          0.5098012999999355
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "warm_total_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 3.6788862180000024,
+            "candidate": 3.747136471000033,
+            "candidateOverBaseline": 1.0185518792796844,
+            "percentChange": 1.855187927968438
+          },
+          {
+            "round": 1,
+            "baseline": 3.4418902470000035,
+            "candidate": 3.542804242000045,
+            "candidateOverBaseline": 1.0293193529596127,
+            "percentChange": 2.9319352959612743
+          },
+          {
+            "round": 2,
+            "baseline": 3.775355836000017,
+            "candidate": 3.5830531440000186,
+            "candidateOverBaseline": 0.9490636908536434,
+            "percentChange": -5.093630914635661
+          }
+        ],
+        "medianPairedRatio": 1.0185518792796844,
+        "geometricMeanPairedRatio": 0.9983348162235606,
+        "baselineValues": [
+          3.6788862180000024,
+          3.4418902470000035,
+          3.775355836000017
+        ],
+        "candidateValues": [
+          3.747136471000033,
+          3.542804242000045,
+          3.5830531440000186
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "wholeSampleSeconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 23.58183453500004,
+            "candidate": 23.874982731000046,
+            "candidateOverBaseline": 1.0124311022352783,
+            "percentChange": 1.2431102235278324
+          },
+          {
+            "round": 1,
+            "baseline": 23.242569099000036,
+            "candidate": 22.495862880000004,
+            "candidateOverBaseline": 0.967873335524163,
+            "percentChange": -3.212666447583701
+          },
+          {
+            "round": 2,
+            "baseline": 23.786721806999935,
+            "candidate": 22.52282445000003,
+            "candidateOverBaseline": 0.9468654248679208,
+            "percentChange": -5.31345751320792
+          }
+        ],
+        "medianPairedRatio": 0.967873335524163,
+        "geometricMeanPairedRatio": 0.9753431107849068,
+        "baselineValues": [
+          23.58183453500004,
+          23.242569099000036,
+          23.786721806999935
+        ],
+        "candidateValues": [
+          23.874982731000046,
+          22.495862880000004,
+          22.52282445000003
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "write_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.005565756000009969,
+            "candidate": 0.005289930000003551,
+            "candidateOverBaseline": 0.9504423118789389,
+            "percentChange": -4.955768812106109
+          },
+          {
+            "round": 1,
+            "baseline": 0.005042346999971414,
+            "candidate": 0.0054364769999892815,
+            "candidateOverBaseline": 1.0781639978407083,
+            "percentChange": 7.816399784070827
+          },
+          {
+            "round": 2,
+            "baseline": 0.005143091999912031,
+            "candidate": 0.0051735660000531425,
+            "candidateOverBaseline": 1.005925229442062,
+            "percentChange": 0.5925229442061974
+          }
+        ],
+        "medianPairedRatio": 1.005925229442062,
+        "geometricMeanPairedRatio": 1.0101644861519754,
+        "baselineValues": [
+          0.005565756000009969,
+          0.005042346999971414,
+          0.005143091999912031
+        ],
+        "candidateValues": [
+          0.005289930000003551,
+          0.0054364769999892815,
+          0.0051735660000531425
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      }
+    },
+    "inventory-to-admission": {
+      "activeWholeFilesystemBytes": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 37789696,
+            "candidate": 37728256,
+            "candidateOverBaseline": 0.9983741599826577,
+            "percentChange": -0.16258400173423393
+          },
+          {
+            "round": 1,
+            "baseline": 37761024,
+            "candidate": 37826560,
+            "candidateOverBaseline": 1.0017355461546806,
+            "percentChange": 0.1735546154680634
+          },
+          {
+            "round": 2,
+            "baseline": 37695488,
+            "candidate": 37728256,
+            "candidateOverBaseline": 1.0008692817559492,
+            "percentChange": 0.08692817559492472
+          }
+        ],
+        "medianPairedRatio": 1.0008692817559492,
+        "geometricMeanPairedRatio": 1.0003253138546104,
+        "baselineValues": [
+          37789696,
+          37761024,
+          37695488
+        ],
+        "candidateValues": [
+          37728256,
+          37826560,
+          37728256
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "checkpoint_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.5000012890000676,
+            "candidate": 0.49217943499996863,
+            "candidateOverBaseline": 0.9843563323291795,
+            "percentChange": -1.5643667670820482
+          },
+          {
+            "round": 1,
+            "baseline": 0.4953207379999185,
+            "candidate": 0.508376142999964,
+            "candidateOverBaseline": 1.0263574770819461,
+            "percentChange": 2.6357477081946135
+          },
+          {
+            "round": 2,
+            "baseline": 0.49292018000005555,
+            "candidate": 0.4942871869998271,
+            "candidateOverBaseline": 1.002773282683966,
+            "percentChange": 0.27732826839659275
+          }
+        ],
+        "medianPairedRatio": 1.002773282683966,
+        "geometricMeanPairedRatio": 1.0043488379938184,
+        "baselineValues": [
+          0.5000012890000676,
+          0.4953207379999185,
+          0.49292018000005555
+        ],
+        "candidateValues": [
+          0.49217943499996863,
+          0.508376142999964,
+          0.4942871869998271
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "first_fork_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 3.1725091430000134,
+            "candidate": 3.1046506829999885,
+            "candidateOverBaseline": 0.9786104761432284,
+            "percentChange": -2.138952385677162
+          },
+          {
+            "round": 1,
+            "baseline": 2.9418542739999793,
+            "candidate": 2.940089009000019,
+            "candidateOverBaseline": 0.9993999481838507,
+            "percentChange": -0.060005181614930514
+          },
+          {
+            "round": 2,
+            "baseline": 2.9023886630000106,
+            "candidate": 3.123801209000021,
+            "candidateOverBaseline": 1.0762863185150229,
+            "percentChange": 7.628631851502288
+          }
+        ],
+        "medianPairedRatio": 0.9993999481838507,
+        "geometricMeanPairedRatio": 1.017245243027749,
+        "baselineValues": [
+          3.1725091430000134,
+          2.9418542739999793,
+          2.9023886630000106
+        ],
+        "candidateValues": [
+          3.1046506829999885,
+          2.940089009000019,
+          3.123801209000021
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "first_read_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.5086519999999837,
+            "candidate": 0.49978125399997,
+            "candidateOverBaseline": 0.982560284831252,
+            "percentChange": -1.7439715168747982
+          },
+          {
+            "round": 1,
+            "baseline": 0.5197485360000087,
+            "candidate": 0.49914856899999904,
+            "candidateOverBaseline": 0.9603655122176057,
+            "percentChange": -3.963448778239431
+          },
+          {
+            "round": 2,
+            "baseline": 0.5079001709999602,
+            "candidate": 0.47831949500005067,
+            "candidateOverBaseline": 0.9417588776517426,
+            "percentChange": -5.824112234825741
+          }
+        ],
+        "medianPairedRatio": 0.9603655122176057,
+        "geometricMeanPairedRatio": 0.9614170686125428,
+        "baselineValues": [
+          0.5086519999999837,
+          0.5197485360000087,
+          0.5079001709999602
+        ],
+        "candidateValues": [
+          0.49978125399997,
+          0.49914856899999904,
+          0.47831949500005067
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "import_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 4.919631299000002,
+            "candidate": 4.914626547000012,
+            "candidateOverBaseline": 0.9989826977478967,
+            "percentChange": -0.10173022521032804
+          },
+          {
+            "round": 1,
+            "baseline": 4.629390479999984,
+            "candidate": 4.730916927999999,
+            "candidateOverBaseline": 1.0219308456347833,
+            "percentChange": 2.1930845634783314
+          },
+          {
+            "round": 2,
+            "baseline": 4.75398025100003,
+            "candidate": 5.051759157999982,
+            "candidateOverBaseline": 1.0626378090101052,
+            "percentChange": 6.263780901010518
+          }
+        ],
+        "medianPairedRatio": 1.0219308456347833,
+        "geometricMeanPairedRatio": 1.0275151788751198,
+        "baselineValues": [
+          4.919631299000002,
+          4.629390479999984,
+          4.75398025100003
+        ],
+        "candidateValues": [
+          4.914626547000012,
+          4.730916927999999,
+          5.051759157999982
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "init_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.013631365999970058,
+            "candidate": 0.014365027999986069,
+            "candidateOverBaseline": 1.0538216052608098,
+            "percentChange": 5.382160526080981
+          },
+          {
+            "round": 1,
+            "baseline": 0.01354384299997946,
+            "candidate": 0.015486831000032453,
+            "candidateOverBaseline": 1.1434591349040253,
+            "percentChange": 14.345913490402529
+          },
+          {
+            "round": 2,
+            "baseline": 0.013041197000006832,
+            "candidate": 0.013614759000006416,
+            "candidateOverBaseline": 1.0439807787582138,
+            "percentChange": 4.398077875821382
+          }
+        ],
+        "medianPairedRatio": 1.0538216052608098,
+        "geometricMeanPairedRatio": 1.0795101988151168,
+        "baselineValues": [
+          0.013631365999970058,
+          0.01354384299997946,
+          0.013041197000006832
+        ],
+        "candidateValues": [
+          0.014365027999986069,
+          0.015486831000032453,
+          0.013614759000006416
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "postHistoryWholeFilesystemBytes": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 84922368,
+            "candidate": 53374976,
+            "candidateOverBaseline": 0.6285149278927314,
+            "percentChange": -37.148507210726855
+          },
+          {
+            "round": 1,
+            "baseline": 84828160,
+            "candidate": 53342208,
+            "candidateOverBaseline": 0.6288266537904394,
+            "percentChange": -37.11733462095606
+          },
+          {
+            "round": 2,
+            "baseline": 84762624,
+            "candidate": 53309440,
+            "candidateOverBaseline": 0.6289262588189813,
+            "percentChange": -37.107374118101866
+          }
+        ],
+        "medianPairedRatio": 0.6288266537904394,
+        "geometricMeanPairedRatio": 0.6287559224194342,
+        "baselineValues": [
+          84922368,
+          84828160,
+          84762624
+        ],
+        "candidateValues": [
+          53374976,
+          53342208,
+          53309440
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "restore_cleanup_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.0,
+            "candidate": 0.0,
+            "candidateOverBaseline": null,
+            "percentChange": null
+          },
+          {
+            "round": 1,
+            "baseline": 0.0,
+            "candidate": 0.0,
+            "candidateOverBaseline": null,
+            "percentChange": null
+          },
+          {
+            "round": 2,
+            "baseline": 0.0,
+            "candidate": 0.0,
+            "candidateOverBaseline": null,
+            "percentChange": null
+          }
+        ],
+        "medianPairedRatio": null,
+        "geometricMeanPairedRatio": null,
+        "baselineValues": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "candidateValues": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "restore_read_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.39258684100002483,
+            "candidate": 0.9543470890000094,
+            "candidateOverBaseline": 2.430919708284234,
+            "percentChange": 143.09197082842343
+          },
+          {
+            "round": 1,
+            "baseline": 0.40205775600003335,
+            "candidate": 0.9995755900000063,
+            "candidateOverBaseline": 2.4861492536408707,
+            "percentChange": 148.61492536408707
+          },
+          {
+            "round": 2,
+            "baseline": 0.39173882299996876,
+            "candidate": 0.9537852559999465,
+            "candidateOverBaseline": 2.4347478472921806,
+            "percentChange": 143.47478472921807
+          }
+        ],
+        "medianPairedRatio": 2.4347478472921806,
+        "geometricMeanPairedRatio": 2.4504768323248114,
+        "baselineValues": [
+          0.39258684100002483,
+          0.40205775600003335,
+          0.39173882299996876
+        ],
+        "candidateValues": [
+          0.9543470890000094,
+          0.9995755900000063,
+          0.9537852559999465
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "restore_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 8.743164066999952,
+            "candidate": 6.533750688999987,
+            "candidateOverBaseline": 0.747298190784371,
+            "percentChange": -25.2701809215629
+          },
+          {
+            "round": 1,
+            "baseline": 8.077473074000011,
+            "candidate": 6.7575459820000106,
+            "candidateOverBaseline": 0.8365915825521453,
+            "percentChange": -16.34084174478547
+          },
+          {
+            "round": 2,
+            "baseline": 8.020636109999941,
+            "candidate": 6.827649899999983,
+            "candidateOverBaseline": 0.8512603995944198,
+            "percentChange": -14.873960040558021
+          }
+        ],
+        "medianPairedRatio": 0.8365915825521453,
+        "geometricMeanPairedRatio": 0.8103823072237426,
+        "baselineValues": [
+          8.743164066999952,
+          8.077473074000011,
+          8.020636109999941
+        ],
+        "candidateValues": [
+          6.533750688999987,
+          6.7575459820000106,
+          6.827649899999983
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "total_import_fork_read_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 8.600792442,
+            "candidate": 8.51905848399997,
+            "candidateOverBaseline": 0.9904969270504773,
+            "percentChange": -0.9503072949522684
+          },
+          {
+            "round": 1,
+            "baseline": 8.090993289999972,
+            "candidate": 8.170154506000017,
+            "candidateOverBaseline": 1.0097838686997658,
+            "percentChange": 0.9783868699765774
+          },
+          {
+            "round": 2,
+            "baseline": 8.164269085,
+            "candidate": 8.653879862000053,
+            "candidateOverBaseline": 1.0599699461032712,
+            "percentChange": 5.996994610327122
+          }
+        ],
+        "medianPairedRatio": 1.0097838686997658,
+        "geometricMeanPairedRatio": 1.0196670156591277,
+        "baselineValues": [
+          8.600792442,
+          8.090993289999972,
+          8.164269085
+        ],
+        "candidateValues": [
+          8.51905848399997,
+          8.170154506000017,
+          8.653879862000053
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "warm_fork_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 3.258369298000048,
+            "candidate": 3.0609112019999998,
+            "candidateOverBaseline": 0.939399718711674,
+            "percentChange": -6.060028128832595
+          },
+          {
+            "round": 1,
+            "baseline": 3.0347082279999995,
+            "candidate": 3.104611153999997,
+            "candidateOverBaseline": 1.02303448000537,
+            "percentChange": 2.3034480005369895
+          },
+          {
+            "round": 2,
+            "baseline": 3.073251844000083,
+            "candidate": 3.350785694000024,
+            "candidateOverBaseline": 1.0903062502156375,
+            "percentChange": 9.030625021563754
+          }
+        ],
+        "medianPairedRatio": 1.02303448000537,
+        "geometricMeanPairedRatio": 1.0156944193404172,
+        "baselineValues": [
+          3.258369298000048,
+          3.0347082279999995,
+          3.073251844000083
+        ],
+        "candidateValues": [
+          3.0609112019999998,
+          3.104611153999997,
+          3.350785694000024
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "warm_read_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.4887671729999852,
+            "candidate": 0.5230327680000073,
+            "candidateOverBaseline": 1.0701061709805604,
+            "percentChange": 7.010617098056038
+          },
+          {
+            "round": 1,
+            "baseline": 0.5080960140000457,
+            "candidate": 0.5177335980000066,
+            "candidateOverBaseline": 1.0189680370134926,
+            "percentChange": 1.896803701349259
+          },
+          {
+            "round": 2,
+            "baseline": 0.5098012999999355,
+            "candidate": 0.48790478900002654,
+            "candidateOverBaseline": 0.9570489306325587,
+            "percentChange": -4.295106936744131
+          }
+        ],
+        "medianPairedRatio": 1.0189680370134926,
+        "geometricMeanPairedRatio": 1.0143173574093742,
+        "baselineValues": [
+          0.4887671729999852,
+          0.5080960140000457,
+          0.5098012999999355
+        ],
+        "candidateValues": [
+          0.5230327680000073,
+          0.5177335980000066,
+          0.48790478900002654
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "warm_total_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 3.747136471000033,
+            "candidate": 3.583943970000007,
+            "candidateOverBaseline": 0.956448743657187,
+            "percentChange": -4.355125634281299
+          },
+          {
+            "round": 1,
+            "baseline": 3.542804242000045,
+            "candidate": 3.6223447520000036,
+            "candidateOverBaseline": 1.0224512856389307,
+            "percentChange": 2.245128563893073
+          },
+          {
+            "round": 2,
+            "baseline": 3.5830531440000186,
+            "candidate": 3.8386904830000503,
+            "candidateOverBaseline": 1.0713462314752735,
+            "percentChange": 7.1346231475273525
+          }
+        ],
+        "medianPairedRatio": 1.0224512856389307,
+        "geometricMeanPairedRatio": 1.0156515233131795,
+        "baselineValues": [
+          3.747136471000033,
+          3.542804242000045,
+          3.5830531440000186
+        ],
+        "candidateValues": [
+          3.583943970000007,
+          3.6223447520000036,
+          3.8386904830000503
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "wholeSampleSeconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 23.874982731000046,
+            "candidate": 21.950743801999977,
+            "candidateOverBaseline": 0.9194035467719281,
+            "percentChange": -8.059645322807185
+          },
+          {
+            "round": 1,
+            "baseline": 22.495862880000004,
+            "candidate": 21.941753931999983,
+            "candidateOverBaseline": 0.975368406584099,
+            "percentChange": -2.4631593415901043
+          },
+          {
+            "round": 2,
+            "baseline": 22.52282445000003,
+            "candidate": 22.63128201799998,
+            "candidateOverBaseline": 1.0048154514652778,
+            "percentChange": 0.48154514652778424
+          }
+        ],
+        "medianPairedRatio": 0.975368406584099,
+        "geometricMeanPairedRatio": 0.965873804920589,
+        "baselineValues": [
+          23.874982731000046,
+          22.495862880000004,
+          22.52282445000003
+        ],
+        "candidateValues": [
+          21.950743801999977,
+          21.941753931999983,
+          22.63128201799998
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "write_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.005289930000003551,
+            "candidate": 0.0053830279999829145,
+            "candidateOverBaseline": 1.0175990986609087,
+            "percentChange": 1.7599098660908696
+          },
+          {
+            "round": 1,
+            "baseline": 0.0054364769999892815,
+            "candidate": 0.005468772000028821,
+            "candidateOverBaseline": 1.005940427971939,
+            "percentChange": 0.5940427971939055
+          },
+          {
+            "round": 2,
+            "baseline": 0.0051735660000531425,
+            "candidate": 0.005175788999963515,
+            "candidateOverBaseline": 1.0004296842662006,
+            "percentChange": 0.042968426620060285
+          }
+        ],
+        "medianPairedRatio": 1.005940427971939,
+        "geometricMeanPairedRatio": 1.00796437256076,
+        "baselineValues": [
+          0.005289930000003551,
+          0.0054364769999892815,
+          0.0051735660000531425
+        ],
+        "candidateValues": [
+          0.0053830279999829145,
+          0.005468772000028821,
+          0.005175788999963515
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      }
+    },
+    "main-to-admission": {
+      "activeWholeFilesystemBytes": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 37728256,
+            "candidate": 37728256,
+            "candidateOverBaseline": 1.0,
+            "percentChange": 0.0
+          },
+          {
+            "round": 1,
+            "baseline": 37724160,
+            "candidate": 37826560,
+            "candidateOverBaseline": 1.00271444082519,
+            "percentChange": 0.2714440825190012
+          },
+          {
+            "round": 2,
+            "baseline": 37695488,
+            "candidate": 37728256,
+            "candidateOverBaseline": 1.0008692817559492,
+            "percentChange": 0.08692817559492472
+          }
+        ],
+        "medianPairedRatio": 1.0008692817559492,
+        "geometricMeanPairedRatio": 1.0011939346843348,
+        "baselineValues": [
+          37728256,
+          37724160,
+          37695488
+        ],
+        "candidateValues": [
+          37728256,
+          37826560,
+          37728256
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "checkpoint_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.49172896000004584,
+            "candidate": 0.49217943499996863,
+            "candidateOverBaseline": 1.0009161042699677,
+            "percentChange": 0.0916104269967688
+          },
+          {
+            "round": 1,
+            "baseline": 0.4879662469998607,
+            "candidate": 0.508376142999964,
+            "candidateOverBaseline": 1.0418264503448518,
+            "percentChange": 4.182645034485177
+          },
+          {
+            "round": 2,
+            "baseline": 0.4876041619999114,
+            "candidate": 0.4942871869998271,
+            "candidateOverBaseline": 1.0137058407633464,
+            "percentChange": 1.3705840763346355
+          }
+        ],
+        "medianPairedRatio": 1.0137058407633464,
+        "geometricMeanPairedRatio": 1.0186734840475271,
+        "baselineValues": [
+          0.49172896000004584,
+          0.4879662469998607,
+          0.4876041619999114
+        ],
+        "candidateValues": [
+          0.49217943499996863,
+          0.508376142999964,
+          0.4942871869998271
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "first_fork_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 3.065303838000034,
+            "candidate": 3.1046506829999885,
+            "candidateOverBaseline": 1.012836197349241,
+            "percentChange": 1.2836197349241019
+          },
+          {
+            "round": 1,
+            "baseline": 3.047374089000016,
+            "candidate": 2.940089009000019,
+            "candidateOverBaseline": 0.9647942533910557,
+            "percentChange": -3.5205746608944266
+          },
+          {
+            "round": 2,
+            "baseline": 3.280975828999999,
+            "candidate": 3.123801209000021,
+            "candidateOverBaseline": 0.9520951606498477,
+            "percentChange": -4.790483935015233
+          }
+        ],
+        "medianPairedRatio": 0.9647942533910557,
+        "geometricMeanPairedRatio": 0.976228374777618,
+        "baselineValues": [
+          3.065303838000034,
+          3.047374089000016,
+          3.280975828999999
+        ],
+        "candidateValues": [
+          3.1046506829999885,
+          2.940089009000019,
+          3.123801209000021
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "first_read_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.4749194339999576,
+            "candidate": 0.49978125399997,
+            "candidateOverBaseline": 1.0523495528296587,
+            "percentChange": 5.23495528296587
+          },
+          {
+            "round": 1,
+            "baseline": 0.5257310700000062,
+            "candidate": 0.49914856899999904,
+            "candidateOverBaseline": 0.9494370743581755,
+            "percentChange": -5.056292564182452
+          },
+          {
+            "round": 2,
+            "baseline": 0.5100528849999364,
+            "candidate": 0.47831949500005067,
+            "candidateOverBaseline": 0.9377841182098408,
+            "percentChange": -6.221588179015924
+          }
+        ],
+        "medianPairedRatio": 0.9494370743581755,
+        "geometricMeanPairedRatio": 0.978534991513186,
+        "baselineValues": [
+          0.4749194339999576,
+          0.5257310700000062,
+          0.5100528849999364
+        ],
+        "candidateValues": [
+          0.49978125399997,
+          0.49914856899999904,
+          0.47831949500005067
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "import_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 4.9566917749999675,
+            "candidate": 4.914626547000012,
+            "candidateOverBaseline": 0.9915134468896937,
+            "percentChange": -0.8486553110306327
+          },
+          {
+            "round": 1,
+            "baseline": 4.922889468999983,
+            "candidate": 4.730916927999999,
+            "candidateOverBaseline": 0.9610040927774516,
+            "percentChange": -3.899590722254842
+          },
+          {
+            "round": 2,
+            "baseline": 4.958560122999984,
+            "candidate": 5.051759157999982,
+            "candidateOverBaseline": 1.0187955843406435,
+            "percentChange": 1.8795584340643545
+          }
+        ],
+        "medianPairedRatio": 0.9915134468896937,
+        "geometricMeanPairedRatio": 0.9901560222364156,
+        "baselineValues": [
+          4.9566917749999675,
+          4.922889468999983,
+          4.958560122999984
+        ],
+        "candidateValues": [
+          4.914626547000012,
+          4.730916927999999,
+          5.051759157999982
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "init_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.013100865000012618,
+            "candidate": 0.014365027999986069,
+            "candidateOverBaseline": 1.096494620772921,
+            "percentChange": 9.649462077292092
+          },
+          {
+            "round": 1,
+            "baseline": 0.013324761999967905,
+            "candidate": 0.015486831000032453,
+            "candidateOverBaseline": 1.1622594835142088,
+            "percentChange": 16.225948351420882
+          },
+          {
+            "round": 2,
+            "baseline": 0.013344545999984803,
+            "candidate": 0.013614759000006416,
+            "candidateOverBaseline": 1.0202489466499587,
+            "percentChange": 2.024894664995869
+          }
+        ],
+        "medianPairedRatio": 1.096494620772921,
+        "geometricMeanPairedRatio": 1.0914535380373587,
+        "baselineValues": [
+          0.013100865000012618,
+          0.013324761999967905,
+          0.013344545999984803
+        ],
+        "candidateValues": [
+          0.014365027999986069,
+          0.015486831000032453,
+          0.013614759000006416
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "postHistoryWholeFilesystemBytes": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 84795392,
+            "candidate": 53374976,
+            "candidateOverBaseline": 0.629456091198918,
+            "percentChange": -37.0543908801082
+          },
+          {
+            "round": 1,
+            "baseline": 84824064,
+            "candidate": 53342208,
+            "candidateOverBaseline": 0.6288570186875272,
+            "percentChange": -37.11429813124728
+          },
+          {
+            "round": 2,
+            "baseline": 84762624,
+            "candidate": 53309440,
+            "candidateOverBaseline": 0.6289262588189813,
+            "percentChange": -37.107374118101866
+          }
+        ],
+        "medianPairedRatio": 0.6289262588189813,
+        "geometricMeanPairedRatio": 0.6290797326704003,
+        "baselineValues": [
+          84795392,
+          84824064,
+          84762624
+        ],
+        "candidateValues": [
+          53374976,
+          53342208,
+          53309440
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "restore_cleanup_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.0,
+            "candidate": 0.0,
+            "candidateOverBaseline": null,
+            "percentChange": null
+          },
+          {
+            "round": 1,
+            "baseline": 0.0,
+            "candidate": 0.0,
+            "candidateOverBaseline": null,
+            "percentChange": null
+          },
+          {
+            "round": 2,
+            "baseline": 0.0,
+            "candidate": 0.0,
+            "candidateOverBaseline": null,
+            "percentChange": null
+          }
+        ],
+        "medianPairedRatio": null,
+        "geometricMeanPairedRatio": null,
+        "baselineValues": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "candidateValues": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "restore_read_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.39177792699996417,
+            "candidate": 0.9543470890000094,
+            "candidateOverBaseline": 2.4359388909628303,
+            "percentChange": 143.59388909628302
+          },
+          {
+            "round": 1,
+            "baseline": 0.3911792060000039,
+            "candidate": 0.9995755900000063,
+            "candidateOverBaseline": 2.5552881509759913,
+            "percentChange": 155.52881509759914
+          },
+          {
+            "round": 2,
+            "baseline": 0.3943925820001368,
+            "candidate": 0.9537852559999465,
+            "candidateOverBaseline": 2.4183650999795314,
+            "percentChange": 141.83650999795313
+          }
+        ],
+        "medianPairedRatio": 2.4359388909628303,
+        "geometricMeanPairedRatio": 2.4691229284120206,
+        "baselineValues": [
+          0.39177792699996417,
+          0.3911792060000039,
+          0.3943925820001368
+        ],
+        "candidateValues": [
+          0.9543470890000094,
+          0.9995755900000063,
+          0.9537852559999465
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "restore_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 8.64992687399996,
+            "candidate": 6.533750688999987,
+            "candidateOverBaseline": 0.7553532861230542,
+            "percentChange": -24.46467138769458
+          },
+          {
+            "round": 1,
+            "baseline": 8.559380464999947,
+            "candidate": 6.7575459820000106,
+            "candidateOverBaseline": 0.7894900816282446,
+            "percentChange": -21.050991837175538
+          },
+          {
+            "round": 2,
+            "baseline": 8.507445503999975,
+            "candidate": 6.827649899999983,
+            "candidateOverBaseline": 0.8025499424932906,
+            "percentChange": -19.74500575067094
+          }
+        ],
+        "medianPairedRatio": 0.7894900816282446,
+        "geometricMeanPairedRatio": 0.7822092662435258,
+        "baselineValues": [
+          8.64992687399996,
+          8.559380464999947,
+          8.507445503999975
+        ],
+        "candidateValues": [
+          6.533750688999987,
+          6.7575459820000106,
+          6.827649899999983
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "total_import_fork_read_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 8.496915046999959,
+            "candidate": 8.51905848399997,
+            "candidateOverBaseline": 1.00260605606594,
+            "percentChange": 0.2606056065939999
+          },
+          {
+            "round": 1,
+            "baseline": 8.495994628000005,
+            "candidate": 8.170154506000017,
+            "candidateOverBaseline": 0.9616477956652507,
+            "percentChange": -3.8352204334749285
+          },
+          {
+            "round": 2,
+            "baseline": 8.74958883699992,
+            "candidate": 8.653879862000053,
+            "candidateOverBaseline": 0.9890613174192672,
+            "percentChange": -1.0938682580732828
+          }
+        ],
+        "medianPairedRatio": 0.9890613174192672,
+        "geometricMeanPairedRatio": 0.9842902736012537,
+        "baselineValues": [
+          8.496915046999959,
+          8.495994628000005,
+          8.74958883699992
+        ],
+        "candidateValues": [
+          8.51905848399997,
+          8.170154506000017,
+          8.653879862000053
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "warm_fork_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 3.170732960999999,
+            "candidate": 3.0609112019999998,
+            "candidateOverBaseline": 0.9653639204717628,
+            "percentChange": -3.463607952823722
+          },
+          {
+            "round": 1,
+            "baseline": 2.9514089930000296,
+            "candidate": 3.104611153999997,
+            "candidateOverBaseline": 1.0519081433184363,
+            "percentChange": 5.1908143318436295
+          },
+          {
+            "round": 2,
+            "baseline": 3.2495091729999785,
+            "candidate": 3.350785694000024,
+            "candidateOverBaseline": 1.0311667133736835,
+            "percentChange": 3.1166713373683486
+          }
+        ],
+        "medianPairedRatio": 1.0311667133736835,
+        "geometricMeanPairedRatio": 1.0154672512258665,
+        "baselineValues": [
+          3.170732960999999,
+          2.9514089930000296,
+          3.2495091729999785
+        ],
+        "candidateValues": [
+          3.0609112019999998,
+          3.104611153999997,
+          3.350785694000024
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "warm_read_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.5081532570000036,
+            "candidate": 0.5230327680000073,
+            "candidateOverBaseline": 1.02928154212343,
+            "percentChange": 2.9281542123430038
+          },
+          {
+            "round": 1,
+            "baseline": 0.4904812539999739,
+            "candidate": 0.5177335980000066,
+            "candidateOverBaseline": 1.0555624578468277,
+            "percentChange": 5.556245784682767
+          },
+          {
+            "round": 2,
+            "baseline": 0.5258466630000385,
+            "candidate": 0.48790478900002654,
+            "candidateOverBaseline": 0.9278461257440571,
+            "percentChange": -7.2153874255942885
+          }
+        ],
+        "medianPairedRatio": 1.02928154212343,
+        "geometricMeanPairedRatio": 1.0026854040804922,
+        "baselineValues": [
+          0.5081532570000036,
+          0.4904812539999739,
+          0.5258466630000385
+        ],
+        "candidateValues": [
+          0.5230327680000073,
+          0.5177335980000066,
+          0.48790478900002654
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "warm_total_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 3.6788862180000024,
+            "candidate": 3.583943970000007,
+            "candidateOverBaseline": 0.974192665286721,
+            "percentChange": -2.5807334713279007
+          },
+          {
+            "round": 1,
+            "baseline": 3.4418902470000035,
+            "candidate": 3.6223447520000036,
+            "candidateOverBaseline": 1.0524288957665884,
+            "percentChange": 5.242889576658838
+          },
+          {
+            "round": 2,
+            "baseline": 3.775355836000017,
+            "candidate": 3.8386904830000503,
+            "candidateOverBaseline": 1.0167758086260648,
+            "percentChange": 1.6775808626064759
+          }
+        ],
+        "medianPairedRatio": 1.0167758086260648,
+        "geometricMeanPairedRatio": 1.0139602768740423,
+        "baselineValues": [
+          3.6788862180000024,
+          3.4418902470000035,
+          3.775355836000017
+        ],
+        "candidateValues": [
+          3.583943970000007,
+          3.6223447520000036,
+          3.8386904830000503
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "wholeSampleSeconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 23.58183453500004,
+            "candidate": 21.950743801999977,
+            "candidateOverBaseline": 0.9308327462573275,
+            "percentChange": -6.916725374267251
+          },
+          {
+            "round": 1,
+            "baseline": 23.242569099000036,
+            "candidate": 21.941753931999983,
+            "candidateOverBaseline": 0.9440330730454398,
+            "percentChange": -5.596692695456018
+          },
+          {
+            "round": 2,
+            "baseline": 23.786721806999935,
+            "candidate": 22.63128201799998,
+            "candidateOverBaseline": 0.951425009365522,
+            "percentChange": -4.857499063447801
+          }
+        ],
+        "medianPairedRatio": 0.9440330730454398,
+        "geometricMeanPairedRatio": 0.9420583615169015,
+        "baselineValues": [
+          23.58183453500004,
+          23.242569099000036,
+          23.786721806999935
+        ],
+        "candidateValues": [
+          21.950743801999977,
+          21.941753931999983,
+          22.63128201799998
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      },
+      "write_seconds": {
+        "pairs": [
+          {
+            "round": 0,
+            "baseline": 0.005565756000009969,
+            "candidate": 0.0053830279999829145,
+            "candidateOverBaseline": 0.9671692398971986,
+            "percentChange": -3.2830760102801393
+          },
+          {
+            "round": 1,
+            "baseline": 0.005042346999971414,
+            "candidate": 0.005468772000028821,
+            "candidateOverBaseline": 1.0845687534118187,
+            "percentChange": 8.456875341181869
+          },
+          {
+            "round": 2,
+            "baseline": 0.005143091999912031,
+            "candidate": 0.005175788999963515,
+            "candidateOverBaseline": 1.0063574596861273,
+            "percentChange": 0.6357459686127331
+          }
+        ],
+        "medianPairedRatio": 1.0063574596861273,
+        "geometricMeanPairedRatio": 1.0182098124673384,
+        "baselineValues": [
+          0.005565756000009969,
+          0.005042346999971414,
+          0.005143091999912031
+        ],
+        "candidateValues": [
+          0.0053830279999829145,
+          0.005468772000028821,
+          0.005175788999963515
+        ],
+        "n": 3,
+        "p95": null,
+        "p99": null
+      }
+    }
+  },
+  "notes": [
+    "Three Latin rounds are a small-N screen, not significance or promotion; reverse-Latin confirmation is separately reviewed.",
+    "Each source pin appears once per round and once per position; compare main\u2192inventory, inventory\u2192admission and main\u2192admission separately.",
+    "Whole Used includes retained trees/cache/history; no empty-image subtraction. Timers overlap and must not be added.",
+    "History p95/p99 describe dependent operations within one sample, not independent trial counts. All samples and regressions retained."
+  ],
+  "reportSha256": "532f15f5b1e6881ca4f2a5f82cf2f2bbd6f94f6ca166b3c42c68fd00cb9aef99",
+  "sourceStatus": "passed",
+  "sourceError": null,
+  "cell": "cache-independent-4k-x8",
+  "products": [
+    {
+      "label": "main",
+      "type": "sprig",
+      "sha": "b300693e01c652c1a9631c61b7a439892d8f75cd",
+      "sourcePath": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig-main",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/main-sprig",
+      "binarySha256": "95e3f068205a9fea634a06537adc84d9170b5834ca4030c690fa1b6b1f847bdc"
+    },
+    {
+      "label": "inventory",
+      "type": "sprig",
+      "sha": "c392d45079314cdcf9813371ec9120d78be7bcd6",
+      "sourcePath": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig-inventory",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/inventory-sprig",
+      "binarySha256": "f11ce532061c65a11139e225cabe83902fe5c811a37f4c7bfa1a85864bbfed43"
+    },
+    {
+      "label": "admission",
+      "type": "sprig",
+      "sha": "f481aaba987d960bf119e95b68f5b38da56e1581",
+      "sourcePath": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig-admission",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/admission-sprig",
+      "binarySha256": "dced32f943becd1b897e886f910d3b515b1d49f2ea87205912866328329232da"
+    }
+  ]
+}

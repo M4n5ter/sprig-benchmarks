@@ -286,3 +286,11 @@ These are overlapping descriptive timers, not additive costs or isolated rename 
 ## 2026-10-26 normal concurrency pressure
 
 [All 16 normal-pressure samples](STRESS-CARGO-NORMAL-PRESSURE-RESULTS.md) pass full correctness and evidence gates. Rename medians improve about 51–54%, but per-sample dependent-operation rename p99 worsens +8.84%/+22.87%; incremental1 write/metadata/read p99 also worsen. These are not end-to-end p99 or statistical significance. Every pair, tail negative and raw witness is retained separately from ordinary Cargo.
+
+## 2026-10-26：独立重复4KiB×8原生三版本筛查（保留原CI失败）
+
+[run40294193428](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40294193428)
+的3个原生canary和9个Latin样本成功，但原汇总把明确未测的metadata分支探针null误判为坏计时，CI结论仍是failure。
+单独修复分析schema后重审同一批未修改原始数据，没有重跑产品：inventory→admission的restore配对中位数−16.34%（3对均快），whole中位数−2.46%（一对+0.48%）；main→admission的restore中位数−21.05%、whole−5.60%。
+这是一个预期复用场景的小样本正向筛查，不是整体胜利或合入依据。unique/alias/超限/history负控、≥64KiB实际inventory路径和反向确认仍需逐项验证；warm-fork/checkpoint负面与原9条汇总错误全部保留。
+完整每对每阶段、失败说明和217个原始artifact文件见 [三版本筛查结果](STRESS-CACHE-INDEPENDENT-4K-X8-RESULTS.md)。

@@ -1,0 +1,290 @@
+{
+  "schema": "sprig-stress-cache-ablation-summary-v1",
+  "complete": false,
+  "status": "incomplete",
+  "expectedSamples": 9,
+  "records": [
+    {
+      "index": 0,
+      "identity": "native-main-0",
+      "product": "main",
+      "round": 0,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-main-0-1fuwxey3/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-main-0-1fuwxey3/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-main-0-1fuwxey3/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "validationError": "invalid measured metric"
+    },
+    {
+      "index": 1,
+      "identity": "native-inventory-0",
+      "product": "inventory",
+      "round": 0,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-inventory-0-k2rzup4x/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-inventory-0-k2rzup4x/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-inventory-0-k2rzup4x/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "validationError": "invalid measured metric"
+    },
+    {
+      "index": 2,
+      "identity": "native-admission-0",
+      "product": "admission",
+      "round": 0,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-admission-0-2el27u3i/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-admission-0-2el27u3i/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-admission-0-2el27u3i/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "validationError": "invalid measured metric"
+    },
+    {
+      "index": 3,
+      "identity": "native-inventory-1",
+      "product": "inventory",
+      "round": 1,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-inventory-1-tv2vy7c6/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-inventory-1-tv2vy7c6/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-inventory-1-tv2vy7c6/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "validationError": "invalid measured metric"
+    },
+    {
+      "index": 4,
+      "identity": "native-admission-1",
+      "product": "admission",
+      "round": 1,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-admission-1-qbcxczw1/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-admission-1-qbcxczw1/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-admission-1-qbcxczw1/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "validationError": "invalid measured metric"
+    },
+    {
+      "index": 5,
+      "identity": "native-main-1",
+      "product": "main",
+      "round": 1,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-main-1-755aocpf/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-main-1-755aocpf/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-main-1-755aocpf/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "validationError": "invalid measured metric"
+    },
+    {
+      "index": 6,
+      "identity": "native-admission-2",
+      "product": "admission",
+      "round": 2,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-admission-2-d29jggq9/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-admission-2-d29jggq9/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-admission-2-d29jggq9/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "validationError": "invalid measured metric"
+    },
+    {
+      "index": 7,
+      "identity": "native-main-2",
+      "product": "main",
+      "round": 2,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-main-2-bt0b1z5p/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-main-2-bt0b1z5p/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-main-2-bt0b1z5p/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "validationError": "invalid measured metric"
+    },
+    {
+      "index": 8,
+      "identity": "native-inventory-2",
+      "product": "inventory",
+      "round": 2,
+      "correct": true,
+      "status": "passed",
+      "sampleReturncode": 0,
+      "recoveryMetadata": {
+        "image": "/home/runner/work/_temp/stress-native-inventory-2-m4iikf1h/store.img",
+        "mount": "/home/runner/work/_temp/stress-native-inventory-2-m4iikf1h/mount",
+        "runtimeState": "/home/runner/work/_temp/stress-native-inventory-2-m4iikf1h/runtime-state.json",
+        "samplerStarted": true,
+        "runtimeReady": false,
+        "cleanupAdmissionBlocked": null,
+        "runtimeStateExists": false,
+        "runtimeRestored": null,
+        "instruction": "On uncertainty retain state; no automatic restart, service stop, forced unmount or retry. Ephemeral runner termination is external to harness."
+      },
+      "proof": {
+        "fullTreeChecks": 11,
+        "historicalReadbacks": 2,
+        "archivedFilesVerified": 12
+      },
+      "validationError": "invalid measured metric"
+    }
+  ],
+  "errors": [
+    "record0: invalid measured metric",
+    "record1: invalid measured metric",
+    "record2: invalid measured metric",
+    "record3: invalid measured metric",
+    "record4: invalid measured metric",
+    "record5: invalid measured metric",
+    "record6: invalid measured metric",
+    "record7: invalid measured metric",
+    "record8: invalid measured metric"
+  ],
+  "comparisons": null,
+  "notes": [
+    "Three Latin rounds are a small-N screen, not significance or promotion; reverse-Latin confirmation is separately reviewed.",
+    "Each source pin appears once per round and once per position; compare main\u2192inventory, inventory\u2192admission and main\u2192admission separately.",
+    "Whole Used includes retained trees/cache/history; no empty-image subtraction. Timers overlap and must not be added.",
+    "History p95/p99 describe dependent operations within one sample, not independent trial counts. All samples and regressions retained."
+  ],
+  "reportSha256": "532f15f5b1e6881ca4f2a5f82cf2f2bbd6f94f6ca166b3c42c68fd00cb9aef99",
+  "sourceStatus": "passed",
+  "sourceError": null,
+  "cell": "cache-independent-4k-x8",
+  "products": [
+    {
+      "label": "main",
+      "type": "sprig",
+      "sha": "b300693e01c652c1a9631c61b7a439892d8f75cd",
+      "sourcePath": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig-main",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/main-sprig",
+      "binarySha256": "95e3f068205a9fea634a06537adc84d9170b5834ca4030c690fa1b6b1f847bdc"
+    },
+    {
+      "label": "inventory",
+      "type": "sprig",
+      "sha": "c392d45079314cdcf9813371ec9120d78be7bcd6",
+      "sourcePath": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig-inventory",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/inventory-sprig",
+      "binarySha256": "f11ce532061c65a11139e225cabe83902fe5c811a37f4c7bfa1a85864bbfed43"
+    },
+    {
+      "label": "admission",
+      "type": "sprig",
+      "sha": "f481aaba987d960bf119e95b68f5b38da56e1581",
+      "sourcePath": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig-admission",
+      "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/admission-sprig",
+      "binarySha256": "dced32f943becd1b897e886f910d3b515b1d49f2ea87205912866328329232da"
+    }
+  ]
+}
