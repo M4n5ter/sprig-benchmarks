@@ -1,0 +1,20 @@
+{
+  "id": 12643565991,
+  "node_id": "MDg6QXJ0aWZhY3QxMjY0MzU2NTk5MQ==",
+  "name": "stress-cargo-own-ab-normal-rename2-1024-v2-balanced",
+  "size_in_bytes": 61937244,
+  "url": "https://api.github.com/repos/M4n5ter/sprig-benchmarks/actions/artifacts/12643565991",
+  "archive_download_url": "https://api.github.com/repos/M4n5ter/sprig-benchmarks/actions/artifacts/12643565991/zip",
+  "expired": false,
+  "digest": "sha256:d4358ed38fb169d05f6fd352e35a06a2bad1d75a74364911f6eadde1dfbf0587",
+  "created_at": "2026-10-26T10:25:10Z",
+  "updated_at": "2026-10-26T10:25:10Z",
+  "expires_at": "2027-01-24T10:06:54Z",
+  "workflow_run": {
+    "id": 40304840409,
+    "repository_id": 1429426376,
+    "head_repository_id": 1429426376,
+    "head_branch": "stress/canary-validation",
+    "head_sha": "c42b2a22ebc65a9711454c4649cc546539d4a923"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "run": 40302159760,
+  "benchmarkCommit": "93ce3366204a34eeefdd95ebc92aad1b2d976468",
+  "archive": "run-40302159760.tar.gz",
+  "archiveBytes": 5175890,
+  "archiveSha256": "d61cfa66d37c228244138e789f32906dd0a1925525e39b5c03fa610617a1650f",
+  "manifest": "prepared-archive-files.json",
+  "manifestSha256": "e4d8aea489259524935bcfdbc3fa427fd7c4970886bed2f6f662629a40079d33",
+  "memberFiles": 232,
+  "memberDirectories": 23,
+  "uncompressedFileBytes": 22975710,
+  "originalArtifactFiles": 217,
+  "roundTripEveryMemberVerified": true,
+  "sourceBytesRecheckedAfterArchive": true,
+  "elapsedSeconds": 0.500030517578125,
+  "publicationStatus": "prepared and fully verified, NOT published in this report-only batch",
+  "archiveBlobIncluded": false,
+  "archiveDraftReportCaveat": "Authored report snapshots inside the prepared archive predate the public evidence-link updates; source artifacts are unchanged."
+}

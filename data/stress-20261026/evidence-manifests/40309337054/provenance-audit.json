@@ -1,0 +1,26 @@
+{
+  "ok": true,
+  "complete": true,
+  "run": 40309337054,
+  "head": "c65e6e2c34455a55832844369b4630d7446dd053",
+  "artifactFiles": 218,
+  "artifactBytes": 22786750,
+  "canarySamples": 3,
+  "confirmationSamples": 9,
+  "sourceFileCounts": {
+    "main": 40,
+    "inventory": 40,
+    "portable": 40
+  },
+  "benchmarkScriptHashesVerified": 13,
+  "recordedBinaryHashes": {
+    "main": "95e3f068205a9fea634a06537adc84d9170b5834ca4030c690fa1b6b1f847bdc",
+    "inventory": "f11ce532061c65a11139e225cabe83902fe5c811a37f4c7bfa1a85864bbfed43",
+    "portable": "886089df03f2bbe5d6d0faf811e70e62217fa7011d58d2026a33f90fc3ccd2ed"
+  },
+  "binaryExecutableBytesArchived": false,
+  "serverSummaryMatches": true,
+  "canaryReport": "_temp/cache-canary/stress-results/stress-comparison.json",
+  "screenReport": "_temp/cache-screen/stress-results/stress-comparison.json",
+  "errors": []
+}

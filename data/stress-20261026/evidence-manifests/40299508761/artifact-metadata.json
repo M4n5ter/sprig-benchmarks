@@ -1,0 +1,20 @@
+{
+  "id": 12640441654,
+  "node_id": "MDg6QXJ0aWZhY3QxMjY0MDQ0MTY1NA==",
+  "name": "native-cache-screen-files-10000",
+  "size_in_bytes": 43679726,
+  "url": "https://api.github.com/repos/M4n5ter/sprig-benchmarks/actions/artifacts/12640441654",
+  "archive_download_url": "https://api.github.com/repos/M4n5ter/sprig-benchmarks/actions/artifacts/12640441654/zip",
+  "expired": false,
+  "digest": "sha256:ec72466f53d1cd849c8c70014f5146fcbf958007ddbee57b84451709b8d1edd4",
+  "created_at": "2026-10-26T09:38:14Z",
+  "updated_at": "2026-10-26T09:38:14Z",
+  "expires_at": "2027-01-24T09:26:07Z",
+  "workflow_run": {
+    "id": 40299508761,
+    "repository_id": 1429426376,
+    "head_repository_id": 1429426376,
+    "head_branch": "stress/canary-validation",
+    "head_sha": "93ce3366204a34eeefdd95ebc92aad1b2d976468"
+  }
+}

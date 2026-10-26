@@ -1,0 +1,20 @@
+{
+  "id": 12644626148,
+  "node_id": "MDg6QXJ0aWZhY3QxMjY0NDYyNjE0OA==",
+  "name": "native-cache-inventory-reverse-v1-cache-large-64k-1024",
+  "size_in_bytes": 4891390,
+  "url": "https://api.github.com/repos/M4n5ter/sprig-benchmarks/actions/artifacts/12644626148",
+  "archive_download_url": "https://api.github.com/repos/M4n5ter/sprig-benchmarks/actions/artifacts/12644626148/zip",
+  "expired": false,
+  "digest": "sha256:ad2cbc240a9400f162571412628fd39a35e0d4939a039daa162383e1ac51278a",
+  "created_at": "2026-10-26T10:46:46Z",
+  "updated_at": "2026-10-26T10:46:46Z",
+  "expires_at": "2027-01-24T10:41:15Z",
+  "workflow_run": {
+    "id": 40309337054,
+    "repository_id": 1429426376,
+    "head_repository_id": 1429426376,
+    "head_branch": "stress/canary-validation",
+    "head_sha": "c65e6e2c34455a55832844369b4630d7446dd053"
+  }
+}

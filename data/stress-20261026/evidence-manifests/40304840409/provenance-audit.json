@@ -1,0 +1,20 @@
+{
+  "ok": true,
+  "collectionFilesVerified": 4364,
+  "declaredArchiveVerification": {
+    "ok": true,
+    "sampleDeclarations": 32,
+    "verifiedUniqueFiles": 4298,
+    "errors": []
+  },
+  "sourceFileCounts": {
+    "sprig-baseline": 40,
+    "sprig-candidate": 40
+  },
+  "recordedBinaryHashes": {
+    "sprig-baseline": "95e3f068205a9fea634a06537adc84d9170b5834ca4030c690fa1b6b1f847bdc",
+    "sprig-candidate": "8460b69be57ff31a56b60854f115766ece06e9f610f0e84be4420a6225214324"
+  },
+  "benchmarkScriptHashesVerified": 21,
+  "binaryExecutableBytesArchived": false
+}

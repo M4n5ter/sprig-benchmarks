@@ -1,0 +1,88 @@
+{
+  "ok": true,
+  "complete": true,
+  "run": 40315552913,
+  "head": "7c5011621db953ac78d0bf0fa8e3a08cb479935c",
+  "artifactFiles": 217,
+  "artifactBytes": 22485238,
+  "canarySamples": 3,
+  "calibrationSamples": 9,
+  "sourceFileCounts": {
+    "main": 40,
+    "portable": 40
+  },
+  "benchmarkScriptHashesVerified": 15,
+  "recordedBinaryHashes": {
+    "main": "95e3f068205a9fea634a06537adc84d9170b5834ca4030c690fa1b6b1f847bdc",
+    "copy1": "886089df03f2bbe5d6d0faf811e70e62217fa7011d58d2026a33f90fc3ccd2ed",
+    "copy2": "886089df03f2bbe5d6d0faf811e70e62217fa7011d58d2026a33f90fc3ccd2ed"
+  },
+  "binaryExecutableBytesArchived": false,
+  "serverSummaryMatches": true,
+  "singleBuildProofSha256": "a03981c51ec44258f6fc99d9486a1aae4b7c9a6f920e6e08e695a72d7300244e",
+  "candidateCopiesHaveIdenticalRecordedHashes": true,
+  "calibrationAssessment": {
+    "noiseMedianGatePassed": true,
+    "eachSharedBaselineArmMedianGate": {
+      "main-to-copy1": true,
+      "main-to-copy2": true
+    },
+    "benefitBothArmsMedianGatePassed": true,
+    "allNoisePairsWithinMedianBand": false,
+    "sharedBaselineIndependentRounds": 3,
+    "automaticRerun": false,
+    "automaticPromotion": false,
+    "interpretation": "identity median gate passed; inspect every pair/scatter and all off-path negatives before any stability claim",
+    "noisePairs": {
+      "wholeSampleSeconds": [
+        {
+          "round": 0,
+          "baseline": 8.042746292999993,
+          "candidate": 7.846387579000009,
+          "candidateOverBaseline": 0.9755856138131715,
+          "percentChange": -2.441438618682845
+        },
+        {
+          "round": 1,
+          "baseline": 7.896193811999979,
+          "candidate": 7.648667950999993,
+          "candidateOverBaseline": 0.9686525094376716,
+          "percentChange": -3.134749056232844
+        },
+        {
+          "round": 2,
+          "baseline": 7.739954041999965,
+          "candidate": 7.69215072999998,
+          "candidateOverBaseline": 0.9938238248262734,
+          "percentChange": -0.6176175173726595
+        }
+      ],
+      "restore_seconds": [
+        {
+          "round": 0,
+          "baseline": 3.045438700000034,
+          "candidate": 3.0372058650000326,
+          "candidateOverBaseline": 0.9972966669793744,
+          "percentChange": -0.27033330206256423
+        },
+        {
+          "round": 1,
+          "baseline": 2.8622705149999774,
+          "candidate": 3.050413450999997,
+          "candidateOverBaseline": 1.0657320595709037,
+          "percentChange": 6.573205957090367
+        },
+        {
+          "round": 2,
+          "baseline": 2.988385249999965,
+          "candidate": 3.005543702999944,
+          "candidateOverBaseline": 1.005741713857,
+          "percentChange": 0.5741713856999953
+        }
+      ]
+    }
+  },
+  "canaryReport": "native-cache-inventory-identical-binary-v1-cache-large-64k-1024/_temp/cache-canary/stress-results/stress-comparison.json",
+  "screenReport": "native-cache-inventory-identical-binary-v1-cache-large-64k-1024/_temp/cache-screen/stress-results/stress-comparison.json",
+  "errors": []
+}
