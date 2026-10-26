@@ -208,4 +208,121 @@ class LatestDirectTests(unittest.TestCase):
                     collect(r,t,b/'out',os.getuid(),os.getgid())
                     self.assertEqual(json.loads((b/'out/results/stress-cargo-comparison-0.json').read_text()),report)
 
+class DirectoryABCTests(unittest.TestCase):
+    def test_new_six_round_allowlist_is_explicit_not_legacy_relaxation(self):
+        for product in ('sprig-baseline','sprig-count','sprig-narrow'):
+            for round_ in (4,5):
+                name=f'stress-cargo-{product}-inc1-{round_}.json'
+                self.assertFalse(allowed('results',(name,)))
+                self.assertTrue(allowed('results',(name,),abc=True))
+                self.assertTrue(allowed('records',('inc1',f'{product}-{round_}.jsonl.logs','0001.stderr'),abc=True))
+            self.assertFalse(allowed('results',(f'stress-cargo-{product}-inc1-6.json',),abc=True))
+        self.assertFalse(allowed('results',('stress-cargo-sprig-candidate-inc0-4.json',),abc=True))
+        self.assertFalse(allowed('results',('stress-cargo-layerfs-inc0-3.json',),abc=True))
+    def test_abc_preserves_last_round_raw_and_archives_on_success_or_failure(self):
+        from stress_cargo_collect import ABC_EXPERIMENT
+        for failure in (None,'wrong_round','wrong_schema','wrong_expected','pressure','missing'):
+            with self.subTest(failure=failure),tempfile.TemporaryDirectory() as tmp:
+                b=Path(tmp);r=b/'results';r.mkdir();t=b/'temporary';t.mkdir()
+                d=t/'stress-cargo-records/inc1/sprig-narrow-5.jsonl.logs';d.mkdir(parents=True)
+                p=d/'0001.stderr';data=b'complete retained final round\n'
+                if failure!='missing':p.write_bytes(data)
+                sample={'ok':True,'completeLogArchive':[{'archived':str(p),'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}]}
+                value={'schema':'sprig-stress-cargo-directory-abc-v1','incremental':1,'rounds':6,'expectedRecords':18,'abcExperiment':dict(ABC_EXPERIMENT),'complete':False,'records':[{'product':'sprig-narrow','round':5,'sample':sample}]}
+                if failure=='wrong_round':value['records'][0]['round']=6
+                if failure=='wrong_schema':value['schema']='sprig-stress-cargo-own-ab-v2'
+                if failure=='wrong_expected':value['expectedRecords']=12
+                if failure=='pressure':value['abcExperiment']['pressure']={}
+                (r/'stress-cargo-directory-abc-1.json').write_text(json.dumps(value))
+                (r/'stress-cargo-sprig-narrow-inc1-5.json').write_text(json.dumps(sample))
+                if failure:
+                    with self.assertRaisesRegex(ValueError,'completeness failed'):collect(r,t,b/'out',os.getuid(),os.getgid())
+                else:
+                    collect(r,t,b/'out',os.getuid(),os.getgid())
+                    self.assertEqual((b/'out/records/inc1/sprig-narrow-5.jsonl.logs/0001.stderr').read_bytes(),data)
+                    self.assertFalse(json.loads((b/'out/results/stress-cargo-directory-abc-1.json').read_text())['complete'])
+    def test_abc_named_provenance_files_only(self):
+        for label in ('baseline','count','narrow'):
+            for suffix in ('source-hashes.txt','binary-hash.txt','release-build.log','tests.txt'):
+                self.assertTrue(allowed('results',(f'abc-{label}-{suffix}',)))
+                self.assertFalse(allowed('results',(f'abc-{label}-{suffix}.bak',)))
+        self.assertFalse(allowed('results',('abc-token.json',)))
+
+class DirectoryABCBudgetTests(unittest.TestCase):
+    def test_explicit_abc_caps_early_setup_failure_without_identity_files(self):
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as tmp:
+            base=Path(tmp);r=base/'results';r.mkdir();t=base/'temporary';t.mkdir()
+            source=r/'environment.txt';source.write_bytes(b'x'*32768)
+            with patch('stress_cargo_collect.ABC_EVIDENCE_CAP',16384),patch('stress_cargo_collect.ABC_MANIFEST_RESERVE',4096):
+                with self.assertRaisesRegex(ValueError,'no archive copied'):
+                    collect(r,t,base/'oversize',os.getuid(),os.getgid(),abc=True)
+            self.assertFalse((base/'oversize').exists());self.assertEqual(source.stat().st_size,32768)
+            collect(r,t,base/'valid',os.getuid(),os.getgid(),abc=True)
+            receipt=json.loads((base/'valid/collection.json').read_text())
+            self.assertEqual(receipt['budgetBytes'],1024**3);self.assertTrue(receipt['complete'])
+        with tempfile.TemporaryDirectory() as tmp:
+            base=Path(tmp);t=base/'temporary';t.mkdir()
+            collect(base/'absent-results',t,base/'empty',os.getuid(),os.getgid(),abc=True)
+            receipt=json.loads((base/'empty/collection.json').read_text())
+            self.assertEqual(receipt['files'],[]);self.assertEqual(receipt['budgetBytes'],1024**3)
+    def setup_paths(self, base):
+        results=base/'results';results.mkdir();temporary=base/'temporary';temporary.mkdir()
+        (results/'stress-cargo-directory-abc-products.json').write_text('[]')
+        return results,temporary,base/'out'
+    def test_sparse_oversize_full_plan_is_rejected_before_destination_or_copies(self):
+        from unittest.mock import patch
+        with tempfile.TemporaryDirectory() as tmp:
+            base=Path(tmp);r,t,out=self.setup_paths(base)
+            source=r/'abc-baseline-release-build.log'
+            with source.open('wb') as stream:stream.truncate(256*1024)
+            before=source.stat()
+            with patch('stress_cargo_collect.ABC_EVIDENCE_CAP',128*1024),patch('stress_cargo_collect.ABC_MANIFEST_RESERVE',16*1024):
+                with self.assertRaisesRegex(ValueError,'no archive copied'):collect(r,t,out,os.getuid(),os.getgid())
+            self.assertFalse(out.exists());self.assertEqual(source.stat().st_size,before.st_size)
+            self.assertEqual(source.stat().st_ino,before.st_ino)
+    def test_manifest_and_directory_allocations_are_charged_before_promotion(self):
+        from stress_cargo_collect import evidence_charge,ABC_EVIDENCE_CAP
+        from types import SimpleNamespace
+        self.assertEqual(evidence_charge(SimpleNamespace(st_size=1,st_blocks=8)),4096)
+        self.assertEqual(evidence_charge(SimpleNamespace(st_size=8192,st_blocks=0)),8192)
+        with tempfile.TemporaryDirectory() as tmp:
+            base=Path(tmp);r,t,out=self.setup_paths(base)
+            (r/'environment.txt').write_text('all bytes retained')
+            collect(r,t,out,os.getuid(),os.getgid())
+            receipt=json.loads((out/'collection.json').read_text())
+            self.assertTrue(receipt['complete']);self.assertTrue(receipt['sourceFilesRetained'])
+            actual=sum(evidence_charge(p.stat()) for p in [out,*out.rglob('*')])
+            self.assertLessEqual(actual,ABC_EVIDENCE_CAP)
+            self.assertGreater(receipt['plannedBytesWithReserve'],actual)
+            self.assertTrue(all('allocatedBytes' in row for row in receipt['files']))
+            self.assertFalse((out/'collection.pending.json').exists())
+    def test_failed_archive_validation_never_publishes_complete_subset(self):
+        from stress_cargo_collect import ABC_EXPERIMENT
+        with tempfile.TemporaryDirectory() as tmp:
+            base=Path(tmp);r,t,out=self.setup_paths(base)
+            report={'schema':'sprig-stress-cargo-directory-abc-v1','incremental':0,'rounds':6,
+                    'expectedRecords':18,'abcExperiment':ABC_EXPERIMENT,'records':[
+                    {'product':'sprig-baseline','round':0,'sample':{'ok':True,'completeLogArchive':[]}}]}
+            source=r/'stress-cargo-directory-abc-0.json';source.write_text(json.dumps(report));before=source.read_bytes()
+            with self.assertRaisesRegex(ValueError,'completeness failed'):collect(r,t,out,os.getuid(),os.getgid())
+            self.assertEqual(source.read_bytes(),before)
+            receipt=json.loads((out/'collection.json').read_text());self.assertFalse(receipt['complete'])
+            self.assertTrue(receipt['sourceFilesRetained']);self.assertFalse(receipt['declaredArchiveVerification']['ok'])
+    def test_late_budget_failure_leaves_authoritative_incomplete_receipt(self):
+        from unittest.mock import patch
+        import stress_cargo_collect as collector
+        with tempfile.TemporaryDirectory() as tmp:
+            base=Path(tmp);r,t,out=self.setup_paths(base);(r/'environment.txt').write_text('preserved')
+            original=collector.verify_declared_archives
+            def overflow(*args,**kwargs):
+                result=original(*args,**kwargs)
+                # Simulate allocation changing after copy, before PASS promotion.
+                collector.ABC_EVIDENCE_CAP=1
+                return result
+            with patch.object(collector,'ABC_EVIDENCE_CAP',collector.ABC_EVIDENCE_CAP),patch.object(collector,'verify_declared_archives',side_effect=overflow):
+                with self.assertRaisesRegex(ValueError,'budget exceeded'):collect(r,t,out,os.getuid(),os.getgid())
+            self.assertFalse(json.loads((out/'collection.json').read_text())['complete'])
+            self.assertEqual((r/'environment.txt').read_text(),'preserved')
+
 if __name__=='__main__':unittest.main()
