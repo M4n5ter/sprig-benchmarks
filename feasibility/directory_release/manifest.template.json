@@ -1,0 +1,503 @@
+{
+  "schema": "sprig-directory-counts-release-manifest-v1",
+  "status": "frozen-preparation-pending-root-execution-approval",
+  "approvedForExecution": false,
+  "label": "Unmounted release core microbenchmark; not mounted Cargo/LayerFS/task-p99 evidence",
+  "variants": {
+    "baseline": {
+      "productionCommit": "4eb0f4d7afdb19bf22d9667dc520ede8b162c737",
+      "expectedTests": [
+        "content::tests::preserves_native_link_topology_and_inode_continuity",
+        "content::tests::validates_paths_addresses_and_root_syntax",
+        "copy_tree::tests::copy_report_tracks_each_node_and_preserves_link_isolation",
+        "copy_tree::tests::identity_capture_rejects_non_utf8_names_without_changing_raw_copy",
+        "copy_tree::tests::identity_validation_rejects_bad_paths_topology_and_times",
+        "copy_tree::tests::validates_root_syntax_and_clone_error_classification",
+        "file_cache::tests::cache_is_disposable_bounded_verified_and_never_a_mutable_alias",
+        "file_cache::tests::failed_fill_retains_reservation_and_disables_session_without_deleting_evidence",
+        "file_cache::tests::ineligible_files_never_initialize_the_cache",
+        "file_cache::tests::lease_inventory_reserves_without_rescanning_and_bounds_eviction",
+        "manifest_pages::tests::canonical_emission_insert_delete_rename_and_wrong_partitions",
+        "manifest_pages::tests::encoded_envelope_rejects_before_object_reads",
+        "manifest_pages::tests::oversized_entry_fragments_reset_without_moving_later_groups",
+        "manifest_pages::tests::path_groups_ignore_id_seeds_and_value_edits",
+        "manifest_pages::tests::path_page_caps_and_bounded_canonical_sink",
+        "manifest_pages::tests::roundtrip_corruption_and_limits",
+        "merge::tests::hardlink_payload_namespace_and_conflict_closure",
+        "merge::tests::identity_text_units_and_structural_resolution",
+        "observations::tests::budgets_charge_actual_distinct_refs_not_declared_lengths",
+        "observations::tests::orphan_inspection_and_encoded_work_are_bounded_and_configurable",
+        "observations::tests::publication_faults_preserve_only_safe_orphans_and_retry_verifies_them",
+        "observations::tests::rejects_corruption_extra_frames_trailing_bytes_and_preserves_existing",
+        "observations::tests::rejects_noncanonical_maps_fields_and_invalid_paths",
+        "observations::tests::rejects_oversized_codec_window_and_unsafe_leaf_types",
+        "observations::tests::roundtrip_empty_wide_identity_and_semantic_dedup",
+        "observations::tests::verification_cache_is_not_shared_between_locations_or_descriptors",
+        "packed::tests::compaction_failpoints_preserve_old_payload_and_published_index_outcomes",
+        "packed::tests::compaction_keeps_reader_generations_and_reclaims_only_under_both_locks",
+        "packed::tests::compressed_payloads_keep_plain_addresses_and_bound_decoding",
+        "packed::tests::packed_batches_preserve_snapshots_verify_dedup_and_reject_damage",
+        "projection::capture::tests::mount_binding_is_exact_and_metacopy_is_not_assumed",
+        "projection::capture::tests::production_chunk_boundaries_match_and_existing_corruption_is_rejected",
+        "projection::capture::tests::same_path_identity_wins_and_origin_duplicates_get_fresh_ids",
+        "projection::capture::tests::upper_absence_never_follows_symlinks_or_accepts_permission_errors",
+        "projection::lifecycle::tests::mount_binding_and_parser_fail_closed",
+        "projection::tree::tests::bounded_cache_and_invalid_store_contract",
+        "projection::tree::tests::projection_roundtrip_and_readonly_contract",
+        "store::lifecycle_tests::copied_pending_rename_merges_with_original_path_edit",
+        "store::lifecycle_tests::native_fork_copies_identity_without_publishing_uncommitted_content",
+        "store::lifecycle_tests::query_operations_decode_each_reference_once_without_cross_operation_cache",
+        "store::lifecycle_tests::restore_reuses_one_verified_revision_and_rechecks_next_operation",
+        "store::lifecycle_tests::stopped_owned_core_is_reused_with_lease_and_failure_checks_intact",
+        "store::observation_roots::tests::retained_backup_evidence_and_dependencies_protect_older_good_backups",
+        "store::observation_roots::tests::same_length_inventory_tamper_stales_plan_and_unknown_files_survive",
+        "store::observation_tests::explicit_writable_recovery_does_not_heal_broken_source_observations",
+        "store::observation_tests::observation_backup_only_root_and_recovery_preserve_missing_current_evidence",
+        "store::observation_tests::observation_gc_protects_backups_staging_and_rejects_changed_evidence",
+        "store::observation_tests::observation_publication_failure_keeps_exact_authoritative_state",
+        "store::observation_tests::observation_recovery_and_collection_faults_never_erase_published_roots",
+        "store::observation_tests::observation_resolution_is_explicit_budgeted_and_missing_is_not_empty",
+        "writable::directory_benchmark::ordinary_directory_attribute_pressure",
+        "writable::directory_lifecycle_benchmark::ordinary_directory_lifecycle_pressure",
+        "writable::tests::writable_generation_namespace_content_recovery_and_checkpoint",
+        "writable::tests::writable_hardlinks_share_inodes_and_replay_namespace_topology",
+        "writable::tests::writable_rename_ranges_preserve_namespace_handles_and_replay",
+        "writable_lifecycle::tests::lease_backoff_fatal_error_is_returned_unchanged_without_sleep",
+        "writable_lifecycle::tests::lease_backoff_immediate_release_never_sleeps",
+        "writable_lifecycle::tests::lease_backoff_interrupted_acquisition_sleeps_and_rechecks_lock",
+        "writable_lifecycle::tests::lease_backoff_late_release_caps_sleep_and_keeps_original_deadline",
+        "writable_lifecycle::tests::lease_backoff_never_release_times_out_without_oversleep_or_spin",
+        "writable_lifecycle::tests::lease_backoff_preserves_acquisition_before_timeout_after_scheduler_delay",
+        "writable_lifecycle::tests::lease_backoff_prompt_release_requires_actual_acquisition",
+        "writable_lifecycle::tests::lease_backoff_scheduler_delay_does_not_reset_timeout",
+        "writable_lifecycle::tests::writable_binding_requires_one_exact_restrictive_mount",
+        "writable_session::tests::session_phases_reject_corruption_stale_certificates_and_remaining_markers"
+      ]
+    },
+    "count": {
+      "productionCommit": "104497aefcadc41b1528d7263039c977b77305f8",
+      "expectedTests": [
+        "content::tests::preserves_native_link_topology_and_inode_continuity",
+        "content::tests::validates_paths_addresses_and_root_syntax",
+        "copy_tree::tests::copy_report_tracks_each_node_and_preserves_link_isolation",
+        "copy_tree::tests::identity_capture_rejects_non_utf8_names_without_changing_raw_copy",
+        "copy_tree::tests::identity_validation_rejects_bad_paths_topology_and_times",
+        "copy_tree::tests::validates_root_syntax_and_clone_error_classification",
+        "file_cache::tests::cache_is_disposable_bounded_verified_and_never_a_mutable_alias",
+        "file_cache::tests::failed_fill_retains_reservation_and_disables_session_without_deleting_evidence",
+        "file_cache::tests::ineligible_files_never_initialize_the_cache",
+        "file_cache::tests::lease_inventory_reserves_without_rescanning_and_bounds_eviction",
+        "manifest_pages::tests::canonical_emission_insert_delete_rename_and_wrong_partitions",
+        "manifest_pages::tests::encoded_envelope_rejects_before_object_reads",
+        "manifest_pages::tests::oversized_entry_fragments_reset_without_moving_later_groups",
+        "manifest_pages::tests::path_groups_ignore_id_seeds_and_value_edits",
+        "manifest_pages::tests::path_page_caps_and_bounded_canonical_sink",
+        "manifest_pages::tests::roundtrip_corruption_and_limits",
+        "merge::tests::hardlink_payload_namespace_and_conflict_closure",
+        "merge::tests::identity_text_units_and_structural_resolution",
+        "observations::tests::budgets_charge_actual_distinct_refs_not_declared_lengths",
+        "observations::tests::orphan_inspection_and_encoded_work_are_bounded_and_configurable",
+        "observations::tests::publication_faults_preserve_only_safe_orphans_and_retry_verifies_them",
+        "observations::tests::rejects_corruption_extra_frames_trailing_bytes_and_preserves_existing",
+        "observations::tests::rejects_noncanonical_maps_fields_and_invalid_paths",
+        "observations::tests::rejects_oversized_codec_window_and_unsafe_leaf_types",
+        "observations::tests::roundtrip_empty_wide_identity_and_semantic_dedup",
+        "observations::tests::verification_cache_is_not_shared_between_locations_or_descriptors",
+        "packed::tests::compaction_failpoints_preserve_old_payload_and_published_index_outcomes",
+        "packed::tests::compaction_keeps_reader_generations_and_reclaims_only_under_both_locks",
+        "packed::tests::compressed_payloads_keep_plain_addresses_and_bound_decoding",
+        "packed::tests::packed_batches_preserve_snapshots_verify_dedup_and_reject_damage",
+        "projection::capture::tests::mount_binding_is_exact_and_metacopy_is_not_assumed",
+        "projection::capture::tests::production_chunk_boundaries_match_and_existing_corruption_is_rejected",
+        "projection::capture::tests::same_path_identity_wins_and_origin_duplicates_get_fresh_ids",
+        "projection::capture::tests::upper_absence_never_follows_symlinks_or_accepts_permission_errors",
+        "projection::lifecycle::tests::mount_binding_and_parser_fail_closed",
+        "projection::tree::tests::bounded_cache_and_invalid_store_contract",
+        "projection::tree::tests::projection_roundtrip_and_readonly_contract",
+        "store::lifecycle_tests::copied_pending_rename_merges_with_original_path_edit",
+        "store::lifecycle_tests::native_fork_copies_identity_without_publishing_uncommitted_content",
+        "store::lifecycle_tests::query_operations_decode_each_reference_once_without_cross_operation_cache",
+        "store::lifecycle_tests::restore_reuses_one_verified_revision_and_rechecks_next_operation",
+        "store::lifecycle_tests::stopped_owned_core_is_reused_with_lease_and_failure_checks_intact",
+        "store::observation_roots::tests::retained_backup_evidence_and_dependencies_protect_older_good_backups",
+        "store::observation_roots::tests::same_length_inventory_tamper_stales_plan_and_unknown_files_survive",
+        "store::observation_tests::explicit_writable_recovery_does_not_heal_broken_source_observations",
+        "store::observation_tests::observation_backup_only_root_and_recovery_preserve_missing_current_evidence",
+        "store::observation_tests::observation_gc_protects_backups_staging_and_rejects_changed_evidence",
+        "store::observation_tests::observation_publication_failure_keeps_exact_authoritative_state",
+        "store::observation_tests::observation_recovery_and_collection_faults_never_erase_published_roots",
+        "store::observation_tests::observation_resolution_is_explicit_budgeted_and_missing_is_not_empty",
+        "writable::directory_benchmark::ordinary_directory_attribute_pressure",
+        "writable::directory_lifecycle_benchmark::ordinary_directory_lifecycle_pressure",
+        "writable::tests::writable_directory_counts_preserve_alias_parent_and_unique_node_semantics",
+        "writable::tests::writable_directory_counts_preserve_root_aliases_self_parents_and_tombstones",
+        "writable::tests::writable_directory_counts_track_mutations_and_replay",
+        "writable::tests::writable_generation_namespace_content_recovery_and_checkpoint",
+        "writable::tests::writable_hardlinks_share_inodes_and_replay_namespace_topology",
+        "writable::tests::writable_rename_ranges_preserve_namespace_handles_and_replay",
+        "writable_lifecycle::tests::lease_backoff_fatal_error_is_returned_unchanged_without_sleep",
+        "writable_lifecycle::tests::lease_backoff_immediate_release_never_sleeps",
+        "writable_lifecycle::tests::lease_backoff_interrupted_acquisition_sleeps_and_rechecks_lock",
+        "writable_lifecycle::tests::lease_backoff_late_release_caps_sleep_and_keeps_original_deadline",
+        "writable_lifecycle::tests::lease_backoff_never_release_times_out_without_oversleep_or_spin",
+        "writable_lifecycle::tests::lease_backoff_preserves_acquisition_before_timeout_after_scheduler_delay",
+        "writable_lifecycle::tests::lease_backoff_prompt_release_requires_actual_acquisition",
+        "writable_lifecycle::tests::lease_backoff_scheduler_delay_does_not_reset_timeout",
+        "writable_lifecycle::tests::writable_binding_requires_one_exact_restrictive_mount",
+        "writable_session::tests::session_phases_reject_corruption_stale_certificates_and_remaining_markers"
+      ]
+    },
+    "narrow": {
+      "productionCommit": "5ef2539af3f07b0a2fc87b3d02f7324a827e8798",
+      "expectedTests": [
+        "content::tests::preserves_native_link_topology_and_inode_continuity",
+        "content::tests::validates_paths_addresses_and_root_syntax",
+        "copy_tree::tests::copy_report_tracks_each_node_and_preserves_link_isolation",
+        "copy_tree::tests::identity_capture_rejects_non_utf8_names_without_changing_raw_copy",
+        "copy_tree::tests::identity_validation_rejects_bad_paths_topology_and_times",
+        "copy_tree::tests::validates_root_syntax_and_clone_error_classification",
+        "file_cache::tests::cache_is_disposable_bounded_verified_and_never_a_mutable_alias",
+        "file_cache::tests::failed_fill_retains_reservation_and_disables_session_without_deleting_evidence",
+        "file_cache::tests::ineligible_files_never_initialize_the_cache",
+        "file_cache::tests::lease_inventory_reserves_without_rescanning_and_bounds_eviction",
+        "manifest_pages::tests::canonical_emission_insert_delete_rename_and_wrong_partitions",
+        "manifest_pages::tests::encoded_envelope_rejects_before_object_reads",
+        "manifest_pages::tests::oversized_entry_fragments_reset_without_moving_later_groups",
+        "manifest_pages::tests::path_groups_ignore_id_seeds_and_value_edits",
+        "manifest_pages::tests::path_page_caps_and_bounded_canonical_sink",
+        "manifest_pages::tests::roundtrip_corruption_and_limits",
+        "merge::tests::hardlink_payload_namespace_and_conflict_closure",
+        "merge::tests::identity_text_units_and_structural_resolution",
+        "observations::tests::budgets_charge_actual_distinct_refs_not_declared_lengths",
+        "observations::tests::orphan_inspection_and_encoded_work_are_bounded_and_configurable",
+        "observations::tests::publication_faults_preserve_only_safe_orphans_and_retry_verifies_them",
+        "observations::tests::rejects_corruption_extra_frames_trailing_bytes_and_preserves_existing",
+        "observations::tests::rejects_noncanonical_maps_fields_and_invalid_paths",
+        "observations::tests::rejects_oversized_codec_window_and_unsafe_leaf_types",
+        "observations::tests::roundtrip_empty_wide_identity_and_semantic_dedup",
+        "observations::tests::verification_cache_is_not_shared_between_locations_or_descriptors",
+        "packed::tests::compaction_failpoints_preserve_old_payload_and_published_index_outcomes",
+        "packed::tests::compaction_keeps_reader_generations_and_reclaims_only_under_both_locks",
+        "packed::tests::compressed_payloads_keep_plain_addresses_and_bound_decoding",
+        "packed::tests::packed_batches_preserve_snapshots_verify_dedup_and_reject_damage",
+        "projection::capture::tests::mount_binding_is_exact_and_metacopy_is_not_assumed",
+        "projection::capture::tests::production_chunk_boundaries_match_and_existing_corruption_is_rejected",
+        "projection::capture::tests::same_path_identity_wins_and_origin_duplicates_get_fresh_ids",
+        "projection::capture::tests::upper_absence_never_follows_symlinks_or_accepts_permission_errors",
+        "projection::lifecycle::tests::mount_binding_and_parser_fail_closed",
+        "projection::tree::tests::bounded_cache_and_invalid_store_contract",
+        "projection::tree::tests::projection_roundtrip_and_readonly_contract",
+        "store::lifecycle_tests::copied_pending_rename_merges_with_original_path_edit",
+        "store::lifecycle_tests::native_fork_copies_identity_without_publishing_uncommitted_content",
+        "store::lifecycle_tests::query_operations_decode_each_reference_once_without_cross_operation_cache",
+        "store::lifecycle_tests::restore_reuses_one_verified_revision_and_rechecks_next_operation",
+        "store::lifecycle_tests::stopped_owned_core_is_reused_with_lease_and_failure_checks_intact",
+        "store::observation_roots::tests::retained_backup_evidence_and_dependencies_protect_older_good_backups",
+        "store::observation_roots::tests::same_length_inventory_tamper_stales_plan_and_unknown_files_survive",
+        "store::observation_tests::explicit_writable_recovery_does_not_heal_broken_source_observations",
+        "store::observation_tests::observation_backup_only_root_and_recovery_preserve_missing_current_evidence",
+        "store::observation_tests::observation_gc_protects_backups_staging_and_rejects_changed_evidence",
+        "store::observation_tests::observation_publication_failure_keeps_exact_authoritative_state",
+        "store::observation_tests::observation_recovery_and_collection_faults_never_erase_published_roots",
+        "store::observation_tests::observation_resolution_is_explicit_budgeted_and_missing_is_not_empty",
+        "writable::directory_benchmark::ordinary_directory_attribute_pressure",
+        "writable::directory_lifecycle_benchmark::ordinary_directory_lifecycle_pressure",
+        "writable::tests::writable_directory_counts_preserve_alias_parent_and_unique_node_semantics",
+        "writable::tests::writable_directory_counts_preserve_root_aliases_self_parents_and_tombstones",
+        "writable::tests::writable_directory_counts_track_mutations_and_replay",
+        "writable::tests::writable_generation_namespace_content_recovery_and_checkpoint",
+        "writable::tests::writable_hardlinks_share_inodes_and_replay_namespace_topology",
+        "writable::tests::writable_narrow_parents_reject_large_checksummed_replay_identifiers",
+        "writable::tests::writable_narrow_parents_reject_large_public_identifiers_without_mutation",
+        "writable::tests::writable_rename_ranges_preserve_namespace_handles_and_replay",
+        "writable_lifecycle::tests::lease_backoff_fatal_error_is_returned_unchanged_without_sleep",
+        "writable_lifecycle::tests::lease_backoff_immediate_release_never_sleeps",
+        "writable_lifecycle::tests::lease_backoff_interrupted_acquisition_sleeps_and_rechecks_lock",
+        "writable_lifecycle::tests::lease_backoff_late_release_caps_sleep_and_keeps_original_deadline",
+        "writable_lifecycle::tests::lease_backoff_never_release_times_out_without_oversleep_or_spin",
+        "writable_lifecycle::tests::lease_backoff_preserves_acquisition_before_timeout_after_scheduler_delay",
+        "writable_lifecycle::tests::lease_backoff_prompt_release_requires_actual_acquisition",
+        "writable_lifecycle::tests::lease_backoff_scheduler_delay_does_not_reset_timeout",
+        "writable_lifecycle::tests::writable_binding_requires_one_exact_restrictive_mount",
+        "writable_session::tests::session_phases_reject_corruption_stale_certificates_and_remaining_markers"
+      ]
+    }
+  },
+  "variantOrder": [
+    "baseline",
+    "count",
+    "narrow"
+  ],
+  "toolchain": {
+    "requested": "1.99.1",
+    "requireSameExactCompiler": true
+  },
+  "instrumentationSha256": {
+    "writable_directory_benchmark.rs": "68fc060a91ca5c28b7d45f986c9755faf54c856a385067ddb6129f3628ed32b0",
+    "writable_directory_lifecycle_benchmark.rs": "b61bc612d4e1de5345e608db55bc40c3acf3a6096560661d1ae5b9e166c2db84"
+  },
+  "appendOnlySuffixSha256": "41f7a6959872da9705584a263ad8e25c117c3dea9a150078a2a8999e22c340c0",
+  "validatorSha256": "dfab5e0c62e79a03460254aa187536b9192b109eef16bc2615f4c51a1b33e3d5",
+  "profiles": {
+    "attr": [
+      [
+        "nested-empty",
+        0,
+        0,
+        "nested",
+        64,
+        1
+      ],
+      [
+        "nested-2048",
+        2048,
+        0,
+        "nested",
+        64,
+        1
+      ],
+      [
+        "nested-16384",
+        16384,
+        0,
+        "nested",
+        64,
+        1
+      ],
+      [
+        "flat-root",
+        2048,
+        0,
+        "flat-root",
+        64,
+        1
+      ],
+      [
+        "aliases-root",
+        2048,
+        0,
+        "hardlinks-root",
+        64,
+        1
+      ],
+      [
+        "aliases-nested",
+        2048,
+        0,
+        "hardlinks-nested",
+        64,
+        1
+      ],
+      [
+        "retired-heavy",
+        128,
+        2048,
+        "nested",
+        64,
+        1
+      ],
+      [
+        "true-tiny",
+        0,
+        0,
+        "nested",
+        0,
+        1
+      ],
+      [
+        "below-guard-255",
+        250,
+        0,
+        "nested",
+        0,
+        1
+      ],
+      [
+        "at-guard-256",
+        251,
+        0,
+        "nested",
+        0,
+        1
+      ],
+      [
+        "above-guard-257",
+        252,
+        0,
+        "nested",
+        0,
+        1
+      ],
+      [
+        "budget4-at",
+        248,
+        0,
+        "nested",
+        0,
+        4
+      ],
+      [
+        "budget4-over",
+        247,
+        0,
+        "nested",
+        0,
+        5
+      ],
+      [
+        "budget8-at",
+        500,
+        0,
+        "nested",
+        0,
+        8
+      ],
+      [
+        "budget8-over",
+        499,
+        0,
+        "nested",
+        0,
+        9
+      ],
+      [
+        "cap64-at",
+        4028,
+        0,
+        "nested",
+        0,
+        64
+      ],
+      [
+        "cap64-over",
+        4027,
+        0,
+        "nested",
+        0,
+        65
+      ],
+      [
+        "aliases-above-guard",
+        2048,
+        128,
+        "hardlinks-nested",
+        64,
+        1
+      ]
+    ],
+    "lifecycle": [
+      [
+        "tiny",
+        0,
+        0,
+        0
+      ],
+      [
+        "file-heavy",
+        2048,
+        0,
+        0
+      ],
+      [
+        "directory-heavy",
+        0,
+        512,
+        0
+      ],
+      [
+        "retired-history",
+        128,
+        0,
+        128
+      ]
+    ]
+  },
+  "canary": {
+    "attr": [
+      "nested-2048",
+      "true-tiny",
+      "budget4-over"
+    ],
+    "lifecycle": [
+      "tiny",
+      "retired-history"
+    ],
+    "orders": [
+      [
+        "baseline",
+        "count",
+        "narrow"
+      ]
+    ]
+  },
+  "fullOrders": [
+    [
+      "baseline",
+      "count",
+      "narrow"
+    ],
+    [
+      "narrow",
+      "count",
+      "baseline"
+    ],
+    [
+      "count",
+      "baseline",
+      "narrow"
+    ],
+    [
+      "narrow",
+      "baseline",
+      "count"
+    ],
+    [
+      "baseline",
+      "narrow",
+      "count"
+    ],
+    [
+      "count",
+      "narrow",
+      "baseline"
+    ]
+  ],
+  "expectedProcessCounts": {
+    "canary": 15,
+    "full": 396,
+    "total": 411
+  },
+  "limits": {
+    "jobSeconds": 2700,
+    "admissionSeconds": 2400,
+    "processSeconds": 120,
+    "cleanupReserveSeconds": 10,
+    "finalizeReserveSeconds": 60,
+    "minimumFreeBytes": 1610612736,
+    "maximumEvidenceBytes": 1073741824,
+    "evidenceFinalizeReserveBytes": 8388608,
+    "maximumReportBytes": 1048576,
+    "cargoBuildJobs": 2
+  },
+  "clockContract": "Persist startedMonotonic and bootId before checkout/fetch/toolchain/setup; same host for entire job; no phase resets",
+  "interpretation": "Keep raw batches, all six paired ratios and order positions, absolute per-process medians, actual Node size/alignment and untimed RSS/HWM. No pooled debug/release/canary results. No acceptance or source promotion from core-only results.",
+  "instrumentationFiles": {
+    "writable_directory_benchmark.rs": "writable_directory_benchmark.rs",
+    "writable_directory_lifecycle_benchmark.rs": "writable_directory_lifecycle_benchmark.rs"
+  },
+  "moduleSuffix": "\n#[cfg(test)]\n#[path = \"writable_directory_benchmark.rs\"]\nmod directory_benchmark;\n\n#[cfg(test)]\n#[path = \"writable_directory_lifecycle_benchmark.rs\"]\nmod directory_lifecycle_benchmark;\n",
+  "runnerSha256": {
+    "build_release.py": "d18569a41d1adcd3b44d1e450d4df8a9550850c08ce8d7c4575e433f3f790873",
+    "run_release.py": "2dbc9703fa785543d9d8a07efe535b4b6dca5c8553a903aeefb4a716f06c5963",
+    "test_build_release.py": "7de4af0a797dc4982af819ac040c22305e0d967fc30a2783d9eb2fadf1485161",
+    "test_run_release.py": "94f597b843ea8baac10fd2097a31d6a9b863f9c1e2fded9de95f8e6677140769"
+  },
+  "instrumentationDifferenceFromDebug": {
+    "scope": "Exactly three untimed parent ID widening lines; no fixture/timed code/sample changes",
+    "originalSha256": {
+      "writable_directory_benchmark.rs": "74c46c05a42d845c1885677fd38a49b999ec7602fed2e7198aa89b7f7c64a49a",
+      "writable_directory_lifecycle_benchmark.rs": "617d42a9abb2615264a06a39f2e7d38a0599d9b740ecb34ecae8fe9c8fbd3681"
+    },
+    "diffSha256": "3bc91b45e1e6b1220140b872c6d707f79c883dfba96deb0e8a458a5bc2ce3b11"
+  }
+}

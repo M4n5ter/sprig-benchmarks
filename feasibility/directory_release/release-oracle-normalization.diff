@@ -1,0 +1,31 @@
+--- original-debug/writable_directory_benchmark.rs
++++ release-normalized/writable_directory_benchmark.rs
+@@ -34,7 +34,7 @@
+                 .iter()
+                 .filter(|(i, n)| {
+                     **i != ROOT_INODE
+-                        && n.parent == *inode
++                        && u64::from(n.parent) == *inode
+                         && !n.links.is_empty()
+                         && matches!(n.entry.kind, EntryKind::Directory)
+                 })
+--- original-debug/writable_directory_lifecycle_benchmark.rs
++++ release-normalized/writable_directory_lifecycle_benchmark.rs
+@@ -19,7 +19,7 @@
+             .iter()
+             .filter(|(i, n)| {
+                 **i != ROOT_INODE
+-                    && n.parent == inode
++                    && u64::from(n.parent) == inode
+                     && !n.links.is_empty()
+                     && matches!(n.entry.kind, EntryKind::Directory)
+             })
+@@ -88,7 +88,7 @@
+         .map(|(inode, node)| {
+             (
+                 *inode,
+-                node.parent,
++                u64::from(node.parent),
+                 node.entry.id.clone(),
+                 node.entry.link_group.clone(),
+                 node.entry.mode,

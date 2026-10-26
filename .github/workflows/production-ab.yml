@@ -1,68 +1,145 @@
-name: Same-runner production synchronization A-B
+name: Three-variant unmounted release-core directory comparison
+run-name: Sprig 4eb0 vs 1044 vs 5ef2 release core; canary15 then full396
 on:
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: sprig-stress-pilot
+  cancel-in-progress: false
 jobs:
-  paired:
+  release-core:
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 45
     env:
       CARGO_BUILD_JOBS: '2'
+      RELEASE_TOOLCHAIN: '1.99.1'
+      RELEASE_MANIFEST_SHA: 855fab3312627f34dd85c6738c2ecb7635a16c62d21eefaad0dc718e04ca6b54
     steps:
+      - name: Create one same-boot setup-inclusive clock before checkout or tools
+        run: |
+          python3 - <<'PY'
+          import json,os,time
+          from pathlib import Path
+          started=time.monotonic()
+          work=Path(os.environ['RUNNER_TEMP'])/'sprig-directory-release-core'
+          work.mkdir(exist_ok=False)
+          evidence=work/'evidence';evidence.mkdir();(evidence/'workflow').mkdir()
+          clock=evidence/'clock.json'
+          clock.write_text(json.dumps({'startedMonotonic':started,'bootId':Path('/proc/sys/kernel/random/boot_id').read_text().strip(),'admissionSeconds':2400},indent=2)+'\n')
+          with open(os.environ['GITHUB_ENV'],'a') as f:
+              f.write(f'RELEASE_WORK_ROOT={work}\nRELEASE_EVIDENCE={evidence}\nRELEASE_CLOCK={clock}\n')
+          PY
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Record environment and install official tools
+      - name: Record host and frozen unmounted protocol; run inert harness checks
         run: |
-          mkdir results
-          sudo apt-get update
-          sudo apt-get install -y btrfs-progs python3-btrfsutil
-          { uname -a; lscpu; free -h; df -h; findmnt -T "$PWD"; btrfs version; python3 --version; } > results/environment.txt
-          sha256sum feasibility/production_ab.py feasibility/production_ab_sample.py feasibility/production_sample.py feasibility/cas_sample.py feasibility/production_ab_small.py feasibility/summarize_production_ab.py fixtures.py history_recipe.py > results/script-hashes.txt
-      - name: Fetch two immutable production revisions
+          { uname -a; lscpu; free -h; df -h; findmnt -T "$RELEASE_WORK_ROOT"; python3 --version; } > "$RELEASE_EVIDENCE/workflow/environment.txt"
+          git rev-parse HEAD > "$RELEASE_EVIDENCE/workflow/benchmark-sha.txt"
+          cp -R feasibility/directory_release "$RELEASE_EVIDENCE/protocol"
+          sha256sum feasibility/directory_release/* .github/workflows/production-ab.yml > "$RELEASE_EVIDENCE/workflow/script-hashes.txt"
+          echo "$RELEASE_MANIFEST_SHA  feasibility/directory_release/manifest.json" | sha256sum -c -
+          PYTHONDONTWRITEBYTECODE=1 python3 feasibility/directory_release/test_build_release.py > "$RELEASE_EVIDENCE/workflow/build-helper-tests.stdout" 2> "$RELEASE_EVIDENCE/workflow/build-helper-tests.stderr"
+          PYTHONDONTWRITEBYTECODE=1 python3 feasibility/directory_release/test_run_release.py > "$RELEASE_EVIDENCE/workflow/runner-tests.stdout" 2> "$RELEASE_EVIDENCE/workflow/runner-tests.stderr"
+      - name: Install the exact shared Rust toolchain and fetch three immutable sources
         run: |
-          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig-baseline
-          git -C sprig-baseline checkout 46f96341498ef040280720d8f97c17de82db4419
-          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig-candidate
-          git -C sprig-candidate checkout 17130154de38f3c30be6eae620ad0c0b6d404d48
-          rustup toolchain install stable --profile minimal
-          rustc +stable --version > results/rust-version.txt
-          for label in baseline candidate; do
-            find "sprig-$label/src" "sprig-$label/tests" -type f -print0 | sort -z | xargs -0 sha256sum > "results/$label-source-hashes.txt"
-          done
+          PYTHONDONTWRITEBYTECODE=1 python3 - <<'PYSETUP'
+          import json,os,sys
+          from pathlib import Path
+          sys.path.insert(0,str(Path('feasibility/directory_release').resolve()))
+          import build_release as b
+          work=Path(os.environ['RELEASE_WORK_ROOT']);evidence=Path(os.environ['RELEASE_EVIDENCE'])
+          budget=b.Budget(Path(os.environ['RELEASE_CLOCK']),work,evidence,b.LIMITS)
+          receipt={'schema':'sprig-release-core-setup-v1','ok':False};ready=False
+          def run(argv,name):
+              return b.command(argv,Path.cwd(),os.environ.copy(),evidence/'workflow'/(name+'.log'),budget,maximum_log_bytes=33554432)
+          try:
+              run(['rustup','toolchain','install',os.environ['RELEASE_TOOLCHAIN'],'--profile','minimal'],'toolchain-install')
+              cargo=run(['rustup','which','--toolchain',os.environ['RELEASE_TOOLCHAIN'],'cargo'],'cargo-path').decode().strip()
+              rustc=run(['rustup','which','--toolchain',os.environ['RELEASE_TOOLCHAIN'],'rustc'],'rustc-path').decode().strip()
+              run([cargo,'-Vv'],'cargo-version');run([rustc,'-Vv'],'rustc-version')
+              with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'RELEASE_CARGO={cargo}\nRELEASE_RUSTC={rustc}\n')
+              run(['git','clone','--filter=blob:none','--no-checkout','https://github.com/M4n5ter/sprig.git',str(work/'source-objects')],'source-fetch')
+              m=json.loads(Path('feasibility/directory_release/manifest.json').read_text())
+              (work/'sources').mkdir()
+              for label in ['baseline','count','narrow']:
+                  pin=m['variants'][label]['productionCommit'];source=work/'sources'/label
+                  run(['git','-C',str(work/'source-objects'),'worktree','add','--detach',str(source),pin],'worktree-'+label)
+                  assert run(['git','-C',str(source),'rev-parse','HEAD'],'head-'+label).decode().strip()==pin
+              (work/'cargo-home').mkdir()
+              budget.check();ready=True
+          except BaseException as error:receipt['error']=f'{type(error).__name__}: {error}'
+          finally:
+              receipt['budget']=budget.snapshot()
+              b.checked_publish(evidence/'workflow/setup.json',receipt,ready,lambda extra=0:budget.check(extra=extra,final=True),1048576)
+          if not receipt['ok']:raise SystemExit('bounded setup failed; retain complete available logs')
+          PYSETUP
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-          key: production-ab-registry-46f9634-17130154-v1
-      - name: Build test and gate both revisions
+            ${{ env.RELEASE_WORK_ROOT }}/cargo-home/registry
+            ${{ env.RELEASE_WORK_ROOT }}/cargo-home/git
+          key: sprig-release-core-registry-ubuntu24-rust1991-v1
+      - name: Build three fresh release-only test artifacts serially; no historical kernel gate
         run: |
-          for label in baseline candidate; do
-            cargo +stable test --locked --features projection --manifest-path "sprig-$label/Cargo.toml"
-            cargo +stable build --release --locked --features projection --manifest-path "sprig-$label/Cargo.toml"
-            mkdir "$RUNNER_TEMP/production-ab-gate-$label"
-            sudo env TMPDIR="$RUNNER_TEMP/production-ab-gate-$label" /usr/bin/python3 "sprig-$label/tests/projection_workflow.py" --binary "$PWD/sprig-$label/target/release/sprig" > "results/$label-kernel-contract.json"
+          for variant in baseline count narrow; do
+            PYTHONDONTWRITEBYTECODE=1 python3 feasibility/directory_release/build_release.py --execute \
+              --variant "$variant" --manifest "$PWD/feasibility/directory_release/manifest.json" \
+              --manifest-sha256 "$RELEASE_MANIFEST_SHA" --source "$RELEASE_WORK_ROOT/sources/$variant" \
+              --work-root "$RELEASE_WORK_ROOT" --evidence-root "$RELEASE_EVIDENCE" --clock-json "$RELEASE_CLOCK" \
+              --cargo "$RELEASE_CARGO" --rustc "$RELEASE_RUSTC" \
+              > "$RELEASE_EVIDENCE/workflow/build-$variant.stdout" 2> "$RELEASE_EVIDENCE/workflow/build-$variant.stderr"
           done
-          python3 - <<'PY'
-          import hashlib,json,pathlib,subprocess
-          builds={}
-          for label in ['baseline','candidate']:
-              root=pathlib.Path('sprig-'+label)
-              builds[label]={'sha':subprocess.check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip(),'binarySha256':hashlib.sha256((root/'target/release/sprig').read_bytes()).hexdigest()}
-          pathlib.Path('results/ab-builds.json').write_text(json.dumps(builds,indent=2)+'\n')
-          PY
-      - name: Generate frozen recipes and separate small-tree control
-        run: |
-          python3 fixtures.py fixtures 100 > results/fixture-generation.txt
-          python3 feasibility/production_ab_small.py fixtures/history-small-control > results/small-control-generation.json
-      - name: Run five fixed same-runner pairs
-        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/production_ab.py
-      - name: Validate completeness and summarize paired ratios
-        run: python3 feasibility/summarize_production_ab.py results/production-ab.json
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      - name: Predeclare all 411 positions; gate full396 on all15 canary records
         if: always()
+        run: |
+          PYTHONDONTWRITEBYTECODE=1 python3 feasibility/directory_release/run_release.py --execute \
+            --manifest "$PWD/feasibility/directory_release/manifest.json" --manifest-sha256 "$RELEASE_MANIFEST_SHA" \
+            --work-root "$RELEASE_WORK_ROOT" --evidence-root "$RELEASE_EVIDENCE" --clock-json "$RELEASE_CLOCK" \
+            > "$RELEASE_EVIDENCE/workflow/paired-runner.stdout" 2> "$RELEASE_EVIDENCE/workflow/paired-runner.stderr"
+      - name: Bind the complete regular-file evidence tree on success or failure
+        id: evidence
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import hashlib,json,os,shutil,stat,sys,time
+          from pathlib import Path
+          sys.path.insert(0,str(Path('feasibility/directory_release').resolve()))
+          import build_release as b
+          root=Path(os.environ['RELEASE_EVIDENCE'])
+          rows=[];charged=0;logical=0
+          for folder,dirs,files in os.walk(root,followlinks=False):
+              d=Path(folder);charged+=d.stat().st_blocks*512
+              for name in dirs:
+                  if (d/name).is_symlink():raise SystemExit('unsafe evidence directory link; do not follow/upload')
+              for name in sorted(files):
+                  p=d/name;s=p.lstat()
+                  if not stat.S_ISREG(s.st_mode) or s.st_nlink!=1:raise SystemExit('nonregular/shared evidence entry; do not follow/upload')
+                  h=hashlib.sha256()
+                  with p.open('rb') as f:
+                      for block in iter(lambda:f.read(1024*1024),b''):h.update(block)
+                  after=p.lstat()
+                  if (s.st_dev,s.st_ino,s.st_size,s.st_mtime_ns)!=(after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns):raise SystemExit('evidence changed while hashing')
+                  charged+=max(s.st_size,s.st_blocks*512);logical+=s.st_size
+                  rows.append({'path':str(p.relative_to(root)),'bytes':s.st_size,'sha256':h.hexdigest()})
+          summary=root/'release-core/summary.json'
+          benchmark_complete=False
+          if summary.is_file():
+              result=json.loads(summary.read_text());benchmark_complete=result.get('ok') is True and result.get('complete') is True
+          clock=json.loads(Path(os.environ['RELEASE_CLOCK']).read_text())
+          value={'schema':'sprig-release-core-evidence-v1','ok':False,'complete':False,'files':sorted(rows,key=lambda x:x['path']),'payloadLogicalBytes':logical,'payloadChargedBytes':charged,'benchmarkComplete':benchmark_complete,'manifestSha256':os.environ['RELEASE_MANIFEST_SHA'],'maximumEvidenceBytes':1073741824,'mountedWorkload':False}
+          def check(extra=0):
+              if shutil.disk_usage(root).free<1610612736+extra:raise ValueError('final collection disk floor / pending write reservation exhausted')
+              if b.evidence_size(root)+extra>1073741824:raise ValueError('complete evidence exceeds fixed 1 GiB cap')
+              if time.monotonic()>clock['startedMonotonic']+2400:raise ValueError('setup-inclusive collection deadline exceeded')
+          complete=b.checked_publish(root/'collection.json',value,True,check,8388608)
+          # Even a non-passing collection receipt may be uploaded, but only when
+          # the complete regular-file tree still fits; never select a subset.
+          if b.evidence_size(root)<=1073741824:
+              with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('safe_for_upload=true\n')
+          if not complete:raise SystemExit('collection incomplete; original evidence retained')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always() && steps.evidence.outputs.safe_for_upload == 'true'
         with:
-          name: production-ab-measurements
-          path: |
-            results/
-            ${{ runner.temp }}/production-ab-records/
+          name: sprig-three-variant-release-core-411-records
+          path: ${{ env.RELEASE_EVIDENCE }}/
