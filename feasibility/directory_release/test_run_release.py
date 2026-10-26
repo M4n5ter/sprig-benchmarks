@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest import mock
 
 HERE=Path(__file__).resolve().parent
 spec=importlib.util.spec_from_file_location('run_release',HERE/'run_release.py')
@@ -34,6 +35,15 @@ def receipts(m):
 
 
 class ReleaseProtocolTests(unittest.TestCase):
+    def test_final_accounting_uses_strict_shared_audit(self):
+        helper=mock.Mock()
+        helper.evidence_size.return_value=17
+        with mock.patch.object(r,'accounting_helper',return_value=helper):
+            self.assertEqual(r.allocated(Path('/owned/evidence')),17)
+        helper.evidence_size.assert_called_once_with(Path('/owned/evidence'))
+        source=(HERE/'run_release.py').read_text()
+        self.assertIn("live_cleanup_root=fixture if suite=='lifecycle' else None",source)
+
     def test_pending_template_is_not_executable(self):
         with self.assertRaisesRegex(ValueError,'approved'):
             r.validate_manifest(json.loads((HERE/'manifest.template.json').read_text()))

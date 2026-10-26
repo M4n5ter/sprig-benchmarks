@@ -7,6 +7,7 @@ work. The workflow must create the common clock BEFORE checkout and setup.
 """
 
 import argparse
+import errno
 import fcntl
 import hashlib
 import json
@@ -32,6 +33,10 @@ EXPECTED_SUFFIX = ("\n#[cfg(test)]\n#[path = \"writable_directory_benchmark.rs\"
                    "mod directory_benchmark;\n\n#[cfg(test)]\n"
                    "#[path = \"writable_directory_lifecycle_benchmark.rs\"]\n"
                    "mod directory_lifecycle_benchmark;\n")
+LIVE_GENERATIONS = frozenset(("create-oracle", "replay-history",
+    "directory-create", "directory-remove", "directory-rename-same-parent",
+    "directory-rename-cross-parent", "directory-overwrite", "directory-subtree-rename",
+    "file-create", "file-hardlink", *(f"create-{index:02}" for index in range(8))))
 LIMITS = {"jobSeconds": 2700, "admissionSeconds": 2400,
           "processSeconds": 120,
           "cleanupReserveSeconds": 10, "finalizeReserveSeconds": 60,
@@ -79,14 +84,60 @@ def make_dir(path, root, fresh=False):
     return path
 
 
-def evidence_size(root):
+def evidence_size(root, live_cleanup_root=None):
+    """Strict complete audit by default; narrowly tolerate live owned cleanup.
+
+    Only ENOENT below the active lifecycle fixture's disposable generation
+    names may disappear between enumeration and lstat/scandir. Objects, logs,
+    reports, receipts, other samples and all unsafe entry types stay strict.
+    """
+    root = Path(root)
+    if live_cleanup_root is not None:
+        live_cleanup_root = safe_path(live_cleanup_root, root, exists=False)
+        require(live_cleanup_root.name == "fixture" and
+                live_cleanup_root.parent.parent == root / "release-core",
+                "live cleanup scope must be one owned sample fixture")
+
+    def disappearing(error, path):
+        if not isinstance(error, FileNotFoundError) or error.errno != errno.ENOENT or live_cleanup_root is None:
+            return False
+        try:
+            relative = Path(path).relative_to(live_cleanup_root)
+        except ValueError:
+            return False
+        return bool(relative.parts) and relative.parts[0] in LIVE_GENERATIONS
+
+    def inspect(path, directory):
+        try:
+            info = path.lstat()
+        except FileNotFoundError as error:
+            if disappearing(error, path):
+                return None
+            raise
+        require(stat.S_ISDIR(info.st_mode) if directory else stat.S_ISREG(info.st_mode),
+                f"unsafe non-{'directory' if directory else 'regular'} evidence entry: {path}")
+        require(directory or info.st_nlink == 1, f"shared hardlink forbidden: {path}")
+        return info
+
+    def walk_error(error):
+        if not disappearing(error, error.filename):
+            raise error
+
+    inspect(root, True)
     total = 0
-    for directory, dirs, files in os.walk(root, followlinks=False):
-        total += Path(directory).stat().st_blocks * 512
-        for name in dirs:
-            require(not (Path(directory) / name).is_symlink(), "symlink in evidence tree")
+    for directory, dirs, files in os.walk(root, followlinks=False, onerror=walk_error):
+        info = inspect(Path(directory), True)
+        if info is None:
+            dirs[:] = []
+            continue
+        total += info.st_blocks * 512
+        for name in list(dirs):
+            if inspect(Path(directory) / name, True) is None:
+                dirs.remove(name)
         for name in files:
-            info = regular(Path(directory) / name, single_link=True)
+            info = inspect(Path(directory) / name, False)
+            if info is None:
+                continue
             # Bound both filesystem usage and uncompressed artifact content;
             # sparse files must not evade the complete-evidence cap.
             total += max(info.st_size, info.st_blocks * 512)
@@ -143,12 +194,13 @@ class Budget:
         self.commands = []
         self.check()
 
-    def check(self, extra=0, final=False):
+    def check(self, extra=0, final=False, live_cleanup_root=None):
         require(digest(self.clock_path) == self.clock_sha, "common setup clock changed")
         free = shutil.disk_usage(self.work).free
         self.minimum_free = min(self.minimum_free, free)
         require(free >= self.limits["minimumFreeBytes"] + extra, "disk floor / pending write reservation exhausted")
-        size = evidence_size(self.evidence)
+        require(not final or live_cleanup_root is None, "final accounting must be strict")
+        size = evidence_size(self.evidence, live_cleanup_root=live_cleanup_root)
         self.maximum_evidence = max(self.maximum_evidence, size)
         reserve = 0 if final else self.limits["evidenceFinalizeReserveBytes"]
         require(size + extra <= self.limits["maximumEvidenceBytes"] - reserve, "evidence cap / finalization reserve exhausted")
@@ -200,7 +252,7 @@ def check_log_quota(retained_bytes, incoming_bytes, maximum_bytes):
             "bounded subprocess log capture overflow")
 
 
-def command(argv, cwd, env, log, budget, seconds=None, maximum_log_bytes=None):
+def command(argv, cwd, env, log, budget, seconds=None, maximum_log_bytes=None, live_cleanup_root=None):
     """Drain bounded pipes ourselves so a subprocess cannot overrun evidence cap."""
     budget.check()
     started = time.monotonic()
@@ -216,7 +268,8 @@ def command(argv, cwd, env, log, budget, seconds=None, maximum_log_bytes=None):
                                        stdout=subprocess.PIPE, stderr=subprocess.STDOUT, start_new_session=True)
             selector.register(process.stdout, selectors.EVENT_READ)
             while selector.get_map():
-                budget.check()
+                active_cleanup = live_cleanup_root if process.poll() is None else None
+                budget.check(live_cleanup_root=active_cleanup)
                 require(time.monotonic() < deadline, "command deadline exhausted")
                 for key, _ in selector.select(timeout=0.2):
                     data = os.read(key.fileobj.fileno(), 65536)
@@ -224,7 +277,8 @@ def command(argv, cwd, env, log, budget, seconds=None, maximum_log_bytes=None):
                         selector.unregister(key.fileobj)
                         continue
                     check_log_quota(retained_bytes, len(data), maximum_log_bytes)
-                    budget.check(extra=len(data))
+                    active_cleanup = live_cleanup_root if process.poll() is None else None
+                    budget.check(extra=len(data), live_cleanup_root=active_cleanup)
                     stream.write(data)
                     stream.flush()
                     retained_bytes += len(data)

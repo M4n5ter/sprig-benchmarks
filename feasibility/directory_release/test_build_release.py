@@ -5,6 +5,7 @@ This file and the helper were NOT executed by the preparing agent.
 """
 
 import copy
+import errno
 import importlib.util
 import json
 import os
@@ -35,6 +36,78 @@ def manifest():
 
 
 class BuildReleaseTests(unittest.TestCase):
+    def test_live_cleanup_allows_only_known_generation_enoent(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)/'evidence';fixture=root/'release-core'/'sample'/'fixture'
+            generation=fixture/'create-01';generation.mkdir(parents=True)
+            file=generation/'journal';file.write_bytes(b'fixture')
+            original=Path.lstat
+            for disappearing in [generation,file]:
+                def raced(path,*args,**kwargs):
+                    if path==disappearing:raise FileNotFoundError(errno.ENOENT,'concurrent cleanup',str(path))
+                    return original(path,*args,**kwargs)
+                with mock.patch.object(Path,'lstat',raced):
+                    self.assertGreaterEqual(HELPER.evidence_size(root,fixture),0)
+                    with self.assertRaises(FileNotFoundError):HELPER.evidence_size(root)
+
+    def test_live_scandir_enoent_allowed_but_final_audit_is_strict(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)/'evidence';fixture=root/'release-core'/'sample'/'fixture'
+            generation=fixture/'create-01';generation.mkdir(parents=True)
+            original=os.scandir
+            def raced(path):
+                if Path(path)==generation:raise FileNotFoundError(errno.ENOENT,'concurrent cleanup',str(path))
+                return original(path)
+            with mock.patch.object(os,'scandir',raced):
+                self.assertGreaterEqual(HELPER.evidence_size(root,fixture),0)
+                with self.assertRaises(FileNotFoundError):HELPER.evidence_size(root)
+
+    def test_live_cleanup_does_not_hide_stable_or_other_sample_disappearance(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)/'evidence';fixture=root/'release-core'/'sample'/'fixture'
+            fixture.mkdir(parents=True)
+            paths=[root/'receipt.json',fixture/'report.json',fixture/'objects',fixture/'create-08',
+                   root/'release-core'/'other'/'fixture'/'create-01']
+            for path in paths:path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes(b'x')
+            original=Path.lstat
+            for disappearing in paths:
+                def raced(path,*args,**kwargs):
+                    if path==disappearing:raise FileNotFoundError(errno.ENOENT,'not disposable',str(path))
+                    return original(path,*args,**kwargs)
+                with mock.patch.object(Path,'lstat',raced):
+                    with self.assertRaises(FileNotFoundError):HELPER.evidence_size(root,fixture)
+
+    def test_live_cleanup_keeps_unsafe_entries_and_other_errors_fatal(self):
+        for kind in ['symlink','hardlink','fifo','permission','not-directory']:
+            with tempfile.TemporaryDirectory() as directory:
+                root=Path(directory)/'evidence';fixture=root/'release-core'/'sample'/'fixture'
+                generation=fixture/'create-01';generation.mkdir(parents=True)
+                file=generation/'unsafe';original=Path.lstat
+                if kind=='symlink':file.symlink_to(generation/'absent')
+                elif kind=='hardlink':
+                    target=generation/'target';target.write_bytes(b'x');os.link(target,file)
+                elif kind=='fifo':os.mkfifo(file)
+                else:file.write_bytes(b'x')
+                def inspected(path,*args,**kwargs):
+                    if path==file and kind=='permission':raise PermissionError(errno.EACCES,'denied',str(path))
+                    if path==file and kind=='not-directory':raise NotADirectoryError(errno.ENOTDIR,'unsafe replacement',str(path))
+                    return original(path,*args,**kwargs)
+                with mock.patch.object(Path,'lstat',inspected):
+                    with self.assertRaises((ValueError,PermissionError,NotADirectoryError)):
+                        HELPER.evidence_size(root,fixture)
+
+    def test_scandir_other_errors_are_never_silently_skipped(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)/'evidence';fixture=root/'release-core'/'sample'/'fixture'
+            generation=fixture/'create-01';generation.mkdir(parents=True)
+            original=os.scandir
+            def denied(path):
+                if Path(path)==generation:raise PermissionError(errno.EACCES,'denied',str(path))
+                return original(path)
+            with mock.patch.object(os,'scandir',denied):
+                for scope in [None,fixture]:
+                    with self.assertRaises(PermissionError):HELPER.evidence_size(root,scope)
+
     def test_checked_publication_never_gates_after_canonical_pass(self):
         with tempfile.TemporaryDirectory() as directory:
             path=Path(directory)/'receipt.json'

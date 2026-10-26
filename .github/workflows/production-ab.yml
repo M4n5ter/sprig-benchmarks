@@ -14,7 +14,7 @@ jobs:
     env:
       CARGO_BUILD_JOBS: '2'
       RELEASE_TOOLCHAIN: '1.99.1'
-      RELEASE_MANIFEST_SHA: 855fab3312627f34dd85c6738c2ecb7635a16c62d21eefaad0dc718e04ca6b54
+      RELEASE_MANIFEST_SHA: c0b765e481d2564061aefda9dcf6d85bed260c58489a0f865cc239ad00bb618b
     steps:
       - name: Create one same-boot setup-inclusive clock before checkout or tools
         run: |
@@ -142,4 +142,5 @@ jobs:
         if: always() && steps.evidence.outputs.safe_for_upload == 'true'
         with:
           name: sprig-three-variant-release-core-411-records
+          include-hidden-files: true
           path: ${{ env.RELEASE_EVIDENCE }}/

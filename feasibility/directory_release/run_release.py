@@ -23,6 +23,7 @@ TESTS = {
     'attr': 'writable::directory_benchmark::ordinary_directory_attribute_pressure',
     'lifecycle': 'writable::directory_lifecycle_benchmark::ordinary_directory_lifecycle_pressure',
 }
+_ACCOUNTING = None
 
 
 def digest(path):
@@ -102,18 +103,19 @@ def validate_clock(clock, now, boot_id):
     return start + 2400
 
 
+def accounting_helper():
+    global _ACCOUNTING
+    if _ACCOUNTING is None:
+        spec=importlib.util.spec_from_file_location('sprig_release_publication',Path(__file__).with_name('build_release.py'))
+        _ACCOUNTING=importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(_ACCOUNTING)
+    return _ACCOUNTING
+
+
 def allocated(root):
-    total = 0
-    for folder, dirs, files in os.walk(root, followlinks=False):
-        for name in dirs + files:
-            path = Path(folder) / name
-            if path.is_symlink():
-                raise ValueError(f'evidence may not contain symlinks: {path}')
-        total += Path(folder).stat().st_blocks * 512
-        for name in files:
-            info=(Path(folder) / name).stat()
-            total += max(info.st_size,info.st_blocks * 512)
-    return total
+    # Progress/final scans run outside a child and are always strict. Reuse the
+    # same lstat/type/error audit as the builder; never suppress walk errors.
+    return accounting_helper().evidence_size(root)
 
 
 def make_schedule(manifest):
@@ -248,9 +250,7 @@ def main():
     if m['runnerSha256'].get(Path(__file__).name) != digest(Path(__file__)):
         raise SystemExit('paired runner not frozen in manifest')
     validator = load_validator(m, manifest_path.parent)
-    publication_spec=importlib.util.spec_from_file_location('sprig_release_publication',manifest_path.parent/'build_release.py')
-    publication=importlib.util.module_from_spec(publication_spec)
-    publication_spec.loader.exec_module(publication)
+    publication=accounting_helper()
     work = args.work_root.resolve()
     if work != args.work_root or not work.is_dir() or str(work) in {'/','/tmp','/home','/workspace'}:
         raise SystemExit('exact existing isolated work root required')
@@ -349,7 +349,8 @@ def main():
             prior_commands=len(command_budget.commands)
             try:
                 publication.command(command,work,env,log_path,command_budget,
-                                    seconds=limits['processSeconds'],maximum_log_bytes=limits['maximumReportBytes'])
+                                    seconds=limits['processSeconds'],maximum_log_bytes=limits['maximumReportBytes'],
+                                    live_cleanup_root=fixture if suite=='lifecycle' else None)
             except BaseException as error:
                 reason=f'{type(error).__name__}: {error}'
             captured=command_budget.commands[-1] if len(command_budget.commands)>prior_commands else {}
