@@ -1,0 +1,151 @@
+{
+  "complete": false,
+  "errors": [
+    "driver incomplete/failed (remaining records retained)"
+  ],
+  "expectedHistoricalReadbacks": 200,
+  "expectedRecords": 4,
+  "limitations": [
+    "Fixed listed-file bytes and 100 historical states per product only; NOT exact metadata or hardlink parity.",
+    "One pair per case is descriptive only: not balanced, not a performance estimate, no p99/statistics/promotion.",
+    "Native execute and LayerFS full-adapter scopes are unmatched and have no whole-task ratio.",
+    "Native whole-sample scope includes harness setup/logging/cleanup; it is not product-only.",
+    "Original active Used and post-history Used remain distinct; runtime overhead is separate.",
+    "No equal durability claim; do not pool with historical combined or Cargo series."
+  ],
+  "ratios": null,
+  "records": [
+    {
+      "archivedFilesVerified": 62,
+      "case": "identical",
+      "errors": [],
+      "historicalReadbacks": 0,
+      "id": "sprig-native-identical",
+      "metrics": {
+        "activeUsedBytes": 106909696,
+        "checkpointMs": 0,
+        "firstForkMs": 103.18290100002514,
+        "firstReadMs": 111.45836200000758,
+        "historicalCleanupMs": 0,
+        "historicalReadMs": 0,
+        "historyWriteMs": 0,
+        "importForkReadMs": 704.2082260000484,
+        "importMs": 489.5669630000157,
+        "initInclusiveImportForkReadMs": 720.8023720000369,
+        "initMs": 16.59414599998854,
+        "postHistoryUsedBytes": 106987520,
+        "restoreMs": 0,
+        "warmForkMs": 111.468479999985,
+        "warmForkReadMs": 223.27917199999092,
+        "warmReadMs": 111.81069200000593
+      },
+      "position": 0,
+      "product": "sprig-native",
+      "rawReportAuthoritative": true,
+      "runtimeOverhead": {
+        "emptyUsedBytes": 294912,
+        "runtimeReadyUsedBytes": null,
+        "separateFromProductMetrics": true
+      },
+      "status": "passed",
+      "unmatchedScopes": {
+        "nativeExecuteIncludingPostHistorySeconds": 1.2707271950000063,
+        "nativeWholeSampleIncludingSetupCleanupSeconds": 1.3818012109999813
+      },
+      "verified": true
+    },
+    {
+      "archivedFilesVerified": 47,
+      "case": "identical",
+      "errors": [],
+      "historicalReadbacks": 0,
+      "id": "layerfs-identical",
+      "metrics": {
+        "activeUsedBytes": 100200448,
+        "checkpointMs": 0,
+        "firstForkMs": 4.501035000000229,
+        "firstReadMs": 188.99571000000014,
+        "historicalCleanupMs": 0,
+        "historicalReadMs": 0,
+        "historyWriteMs": 0,
+        "importForkReadMs": 473.3207680000005,
+        "importMs": 279.8240230000001,
+        "initInclusiveImportForkReadMs": 507.9953090000008,
+        "initMs": 34.67454100000032,
+        "postHistoryUsedBytes": 100278272,
+        "restoreMs": 0,
+        "warmForkMs": 6.5142210000003615,
+        "warmForkReadMs": 181.2884120000008,
+        "warmReadMs": 174.77419100000043
+      },
+      "position": 1,
+      "product": "layerfs",
+      "rawReportAuthoritative": true,
+      "runtimeOverhead": {
+        "emptyUsedBytes": 294912,
+        "runtimeReadyUsedBytes": 86269952,
+        "separateFromProductMetrics": true
+      },
+      "status": "passed",
+      "unmatchedScopes": {
+        "layerfsFullAdapterIncludingSetupCleanupSeconds": 1.5657757270000001
+      },
+      "verified": true
+    },
+    {
+      "archivedFilesVerified": 1066,
+      "case": "history-distributed",
+      "errors": [],
+      "historicalReadbacks": 100,
+      "id": "sprig-native-history-distributed",
+      "metrics": {
+        "activeUsedBytes": 8171520,
+        "checkpointMs": 3978.5124560000327,
+        "firstForkMs": 296.2505489999785,
+        "firstReadMs": 12.325272999987646,
+        "historicalCleanupMs": 0,
+        "historicalReadMs": 804.8294370004214,
+        "historyWriteMs": 506.3303779995749,
+        "importForkReadMs": 726.1140349999664,
+        "importMs": 417.53821300000027,
+        "initInclusiveImportForkReadMs": 741.4330099999802,
+        "initMs": 15.31897500001378,
+        "postHistoryUsedBytes": 167198720,
+        "restoreMs": 26594.99829400062,
+        "warmForkMs": 316.97900000000345,
+        "warmForkReadMs": 328.961210999978,
+        "warmReadMs": 11.98221099997454
+      },
+      "position": 2,
+      "product": "sprig-native",
+      "rawReportAuthoritative": true,
+      "runtimeOverhead": {
+        "emptyUsedBytes": 294912,
+        "runtimeReadyUsedBytes": null,
+        "separateFromProductMetrics": true
+      },
+      "status": "passed",
+      "unmatchedScopes": {
+        "nativeExecuteIncludingPostHistorySeconds": 33.714917051999976,
+        "nativeWholeSampleIncludingSetupCleanupSeconds": 35.302276708999955
+      },
+      "verified": true
+    },
+    {
+      "case": "history-distributed",
+      "errors": [
+        "sample failed: {'message': 'Expected values to be strictly equal:\\n\\nfalse !== true\\n', 'stack': 'AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\\n\\nfalse !== true\\n\\n    at validateSample (file:///home/runner/work/sprig-benchmarks/sprig-benchmarks/feasibility/latest_combined_compare.mjs:36:9)\\n    at main (file:///home/runner/work/sprig-benchmarks/sprig-benchmarks/feasibility/latest_combined_compare.mjs:100:130)\\n    at async file:///home/runner/work/sprig-benchmarks/sprig-benchmarks/feasibility/latest_combined_compare.mjs:119:89', 'outerUncertain': False}"
+      ],
+      "id": "layerfs-history-distributed",
+      "position": 3,
+      "product": "layerfs",
+      "status": "failed",
+      "verified": false
+    }
+  ],
+  "schema": "sprig-latest-combined-native-summary-v1",
+  "scope": "One Sprig Native/LayerFS pair per fixed case; smoke correctness/coverage only.",
+  "status": "failed",
+  "verifiedHistoricalReadbacks": 100,
+  "verifiedRecords": 3
+}

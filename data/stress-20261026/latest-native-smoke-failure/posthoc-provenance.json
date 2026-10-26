@@ -1,0 +1,20 @@
+{
+  "schema": "sprig-native-smoke-posthoc-analysis-v1",
+  "run": 40338242966,
+  "originalBenchmarkSha": "af859651150e8a2835cf3fd4e0e5dcb07914b34e",
+  "originalSummarySha256": "8b2ab022c101a93ad31240f944b383bb8a00b4169298724a0e7c1338d4397c4d",
+  "correctedHelperSha256": "73af895dc0000c5696c313c344db0fd765240d43348bce2b82a073fbe7df01b9",
+  "posthocSummarySha256": "ef070feabc991b250c7481c030894a18319d29800e041ed29a79126c01539218",
+  "rootTestsPassed": 37,
+  "originalOfflineAcceptedRecords": 2,
+  "posthocAcceptedRecords": 3,
+  "posthocAcceptedHistoricalReadbacks": 100,
+  "failedRecord": "layerfs-history-distributed",
+  "complete": false,
+  "ratios": null,
+  "runtimeRerun": false,
+  "runtimeCodeChanged": false,
+  "originalArtifactFilesRehashed": 2008,
+  "originalEvidenceModified": false,
+  "classificationChange": "Successful LayerFS identical void-close event now accepted; failed history still has no postHistorySpace/known cleanup; actual captured pagination supported without waiver"
+}
