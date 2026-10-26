@@ -1,177 +1,176 @@
-name: Bounded three-pin native cache experiments
-run-name: Native cache ${{ inputs.series || 'admission-screen-v1' }} ${{ inputs.cell }}, 2GiB, no promotion
+name: Pinned LayerFS source-only encoder discriminator
+run-name: LayerFS ad789 source-only encoder proof; no mounted benchmark
 on:
   workflow_dispatch:
-    inputs:
-      series:
-        type: choice
-        options: [admission-screen-v1, inventory-reverse-v1, inventory-identical-binary-v1]
-        default: admission-screen-v1
-        description: Separate fixed-pin series; reverse inventory accepts only the eligible64KiB cell
-        required: true
-      cell:
-        type: choice
-        options: [files-4096, files-10000, cache-history-repeated-300, cache-independent-1k-x2, cache-independent-1k-x8, cache-independent-4k-x2, cache-independent-4k-x8, cache-alias-only-1k, cache-alias-only-4k, cache-independent-over4096, cache-large-64k-1024]
-        default: files-4096
-        description: Exactly one reviewed cell; three Latin rounds after all three native canaries
-        required: true
 permissions:
   contents: read
 concurrency:
   group: sprig-stress-pilot
   cancel-in-progress: false
 jobs:
-  native-screen:
+  encoder-proof:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
       CARGO_BUILD_JOBS: '2'
-      STRESS_CACHE_SERIES: ${{ inputs.series || 'admission-screen-v1' }}
-      CELL: ${{ inputs.cell }}
-      MAIN_SHA: b300693e01c652c1a9631c61b7a439892d8f75cd
-      INVENTORY_SHA: c392d45079314cdcf9813371ec9120d78be7bcd6
-      ADMISSION_SHA: f481aaba987d960bf119e95b68f5b38da56e1581
-      PORTABLE_SHA: 4eb0f4d7afdb19bf22d9667dc520ede8b162c737
+      LAYERFS_PROOF_SHA: ad78914e36b258b360daf13aec164b5655814689
     steps:
-      - name: Start original job admission clock
+      - name: Establish setup-inclusive 40-minute admission deadline
         run: |
-          case "$STRESS_CACHE_SERIES" in
-            admission-screen-v1)
-              echo 'THIRD_VARIANT=admission' >> "$GITHUB_ENV"
-              echo 'SOURCE_VARIANTS=main inventory admission' >> "$GITHUB_ENV"
-              echo 'STAGE_FLAG=--ablation-stage' >> "$GITHUB_ENV"
-              echo 'MEASURE_STAGE=forward-latin' >> "$GITHUB_ENV"
-              echo 'SUMMARY_SCRIPT=feasibility/stress_cache_summary.py' >> "$GITHUB_ENV" ;;
-            inventory-reverse-v1)
-              test "$CELL" = cache-large-64k-1024
-              echo 'THIRD_VARIANT=portable' >> "$GITHUB_ENV"
-              echo 'SOURCE_VARIANTS=main inventory portable' >> "$GITHUB_ENV"
-              echo 'STAGE_FLAG=--inventory-confirmation-stage' >> "$GITHUB_ENV"
-              echo 'MEASURE_STAGE=reverse-latin' >> "$GITHUB_ENV"
-              echo 'SUMMARY_SCRIPT=feasibility/stress_cache_inventory_summary.py' >> "$GITHUB_ENV" ;;
-            inventory-identical-binary-v1)
-              test "$CELL" = cache-large-64k-1024
-              echo 'SOURCE_VARIANTS=main portable' >> "$GITHUB_ENV"
-              echo 'STAGE_FLAG=--inventory-calibration-stage' >> "$GITHUB_ENV"
-              echo 'MEASURE_STAGE=reverse-latin' >> "$GITHUB_ENV"
-              echo 'SUMMARY_SCRIPT=feasibility/stress_cache_calibration_summary.py' >> "$GITHUB_ENV" ;;
-            *) echo 'Unreviewed native series' >&2; exit 2 ;;
-          esac
           started=$(date +%s)
-          echo "STRESS_CACHE_JOB_STARTED_EPOCH=$started" >> "$GITHUB_ENV"
-          echo "STRESS_CACHE_JOB_DEADLINE_EPOCH=$((started + 40 * 60))" >> "$GITHUB_ENV"
+          echo "ENCODER_STARTED_EPOCH=$started" >> "$GITHUB_ENV"
+          echo "ENCODER_DEADLINE_EPOCH=$((started + 40 * 60))" >> "$GITHUB_ENV"
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Official native tools, environment and offline harness checks
+      - name: Record ordinary environment and frozen proof inputs
         run: |
-          mkdir results bin
-          sudo apt-get update
-          sudo apt-get install -y btrfs-progs python3-btrfsutil
-          { uname -a; lscpu; free -h; df -h; findmnt -T "$PWD"; btrfs version; /usr/bin/python3 --version; } > results/environment.txt
-          sha256sum feasibility/stress_cache*.py feasibility/stress_run.py feasibility/stress_sample.py feasibility/stress_fixture.py feasibility/tree_oracle.py feasibility/cache-inventory-prerequisite/*.json > results/script-hashes.txt
-          python3 -m unittest discover -s feasibility -p 'test_stress_cache*.py' -v
-          python3 -m unittest discover -s feasibility -p 'test_stress_run.py' -v
-          python3 -m unittest discover -s feasibility -p 'test_stress_sample.py' -v
-          python3 -m unittest discover -s feasibility -p 'test_stress.py' -v
-      - name: Fetch exactly the selected immutable sources
+          mkdir results
+          { uname -a; lscpu; free -h; df -h; python3 --version; } > results/environment.txt
+          test "$(df -PB1 "$RUNNER_TEMP" | awk 'NR==2 {print $4}')" -ge 8589934592
+          cp -R feasibility/layerfs_encoder_inputs results/inputs
+          sha256sum feasibility/layerfs_encoder_proof.py feasibility/test_layerfs_encoder_proof.py feasibility/layerfs_encoder_capture.py feasibility/test_layerfs_encoder_capture.py .github/workflows/native-fork-ab.yml > results/script-hashes.txt
+          python3 feasibility/test_layerfs_encoder_proof.py > results/inert-tests.stdout 2> results/inert-tests.stderr
+          python3 feasibility/test_layerfs_encoder_capture.py > results/capture-inert-tests.stdout 2> results/capture-inert-tests.stderr
+      - name: Fetch the exact failed-run source without executing a product
         run: |
-          rustup toolchain install stable --profile minimal
-          rustc +stable -Vv > results/rust-version.txt
-          cargo +stable -V >> results/rust-version.txt
-          read -r -a variants <<< "$SOURCE_VARIANTS"
-          for variant in "${variants[@]}"; do
-            key="${variant^^}_SHA"; pin="${!key}"
-            git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git "sprig-$variant"
-            git -C "sprig-$variant" checkout "$pin"
-            test "$(git -C "sprig-$variant" rev-parse HEAD)" = "$pin"
-            find "sprig-$variant/src" "sprig-$variant/tests" -type f -print0 | sort -z | xargs -0 sha256sum > "results/$variant-source-hashes.txt"
-          done
+          git clone --filter=blob:none --no-checkout https://github.com/Ephemeral-AI-Lab/layerfs.git layerfs
+          git -C layerfs sparse-checkout init --cone
+          git -C layerfs sparse-checkout set core/crates core/vendor api .cargo
+          git -C layerfs checkout "$LAYERFS_PROOF_SHA"
+          test "$(git -C layerfs rev-parse HEAD)" = "$LAYERFS_PROOF_SHA"
+          test -z "$(git -C layerfs status --porcelain)"
+          rustup toolchain install 1.85.1 --profile minimal
+          rustc +1.85.1 -Vv > results/rustc-version.txt
+          cargo +1.85.1 -Vv > results/cargo-version.txt
+          target="$RUNNER_TEMP/layerfs-encoder-proof-target"
+          test ! -e "$target"
+          mkdir "$target"
+          echo "CARGO_TARGET_DIR=$target" >> "$GITHUB_ENV"
+          python3 feasibility/layerfs_encoder_proof.py preflight \
+            --source "$PWD/layerfs" --target "$target" \
+            --inputs "$PWD/feasibility/layerfs_encoder_inputs" \
+            --source-manifest "$PWD/feasibility/layerfs_encoder_inputs/captured-source-hashes.txt" \
+            --output results/preflight.json > results/preflight.stdout 2> results/preflight.stderr
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-          key: stress-cache-registry-ubuntu24-v3
-      - name: Build selected sources once each; calibration copies ONE candidate build
+          key: stress-cargo-registry-ubuntu24-v2
+      - name: Fetch exact locked build dependencies within the shared deadline
         run: |
-          set -o pipefail
-          read -r -a variants <<< "$SOURCE_VARIANTS"
-          for variant in "${variants[@]}"; do
-            export CARGO_TARGET_DIR="$PWD/build-target-$variant"
-            test ! -e "$CARGO_TARGET_DIR"
-            cargo +stable test --locked --features projection --manifest-path "sprig-$variant/Cargo.toml" 2>&1 | tee "results/$variant-tests.txt"
-            cargo +stable build --release --locked --features projection --manifest-path "sprig-$variant/Cargo.toml" -vv > "results/$variant-release-build.log" 2>&1
-            grep -F 'Compiling sprig ' "results/$variant-release-build.log"
-            grep -F "$PWD/sprig-$variant" "results/$variant-release-build.log"
-            install -m 0755 "$CARGO_TARGET_DIR/release/sprig" "bin/$variant-sprig"
-            sha256sum "bin/$variant-sprig" > "results/$variant-binary-hash.txt"
-          done
-          if [ "$STRESS_CACHE_SERIES" = inventory-identical-binary-v1 ]; then
-            install -m 0755 bin/portable-sprig bin/copy1-sprig
-            install -m 0755 bin/portable-sprig bin/copy2-sprig
-            cmp -s bin/portable-sprig bin/copy1-sprig
-            cmp -s bin/portable-sprig bin/copy2-sprig
-            sha256sum bin/copy1-sprig > results/copy1-binary-hash.txt
-            sha256sum bin/copy2-sprig > results/copy2-binary-hash.txt
-          fi
-          python3 - <<'PYCONFIG'
-          import hashlib,json,os
+          remaining=$((ENCODER_DEADLINE_EPOCH - $(date +%s) - 120))
+          test "$remaining" -gt 0
+          python3 - <<'PY'
+          import json
           from pathlib import Path
-          root=Path.cwd();products=[]
-          selected=([('main','main'),('copy1','portable'),('copy2','portable')] if os.environ['STRESS_CACHE_SERIES']=='inventory-identical-binary-v1' else [(v,v) for v in ('main','inventory',os.environ['THIRD_VARIANT'])])
-          for label,source in selected:
-              binary=root/'bin'/f'{label}-sprig'
-              products.append(dict(label=label,type='sprig',sha=os.environ[source.upper()+'_SHA'],sourcePath=str(root/f'sprig-{source}'),binary=str(binary),binarySha256=hashlib.sha256(binary.read_bytes()).hexdigest()))
-          with Path('results/cache-products.json').open('x') as out:json.dump(products,out,indent=2)
-          PYCONFIG
-          python3 - <<'PYVERIFY'
-          import hashlib,json,os,sys
+          Path('results/fetch-command.json').write_text(json.dumps(['cargo','+1.85.1','fetch','--manifest-path','core/Cargo.toml','--locked'])+'\n')
+          PY
+          python3 feasibility/layerfs_encoder_capture.py --stage fetch \
+            --argv-json results/fetch-command.json --cwd "$PWD/layerfs" \
+            --stdout results/cargo-fetch.stdout --stderr results/cargo-fetch.stderr \
+            --receipt results/cargo-fetch-capture.json --seconds "$remaining" \
+            > results/cargo-fetch-driver.stdout 2> results/cargo-fetch-driver.stderr
+      - name: Build the same production daemon closure; never run the daemon
+        run: |
+          python3 - <<'PY'
+          import json
           from pathlib import Path
-          sys.path.insert(0,'feasibility')
-          import stress_cache_ablation as admission
-          import stress_cache_inventory as inventory
-          import stress_cache_calibration as calibration
-          products=json.loads(Path('results/cache-products.json').read_text())
-          if os.environ['STRESS_CACHE_SERIES']=='inventory-identical-binary-v1':
-              root=Path.cwd();origin=root/'bin/portable-sprig';log=root/'results/portable-release-build.log'
-              proof=dict(schema=calibration.PROOF_SCHEMA,source=dict(sha=products[1]['sha'],path=products[1]['sourcePath']),builtBinary=dict(path=str(origin),sha256=hashlib.sha256(origin.read_bytes()).hexdigest()),releaseBuildLog=dict(path=str(log),bytes=log.stat().st_size,sha256=hashlib.sha256(log.read_bytes()).hexdigest()),copies=[dict(label=p['label'],path=p['binary'],sha256=p['binarySha256']) for p in products[1:]],releaseBuildCount=1,copyMethod='install -m 0755 from one built binary')
-              proof_path=root/'results/cache-identical-build.json'
-              with proof_path.open('x') as out:json.dump(proof,out,indent=2)
-              calibration.verify_products(products,proof_path)
-              Path('results/inventory-calibration-identity.json').write_text(json.dumps(calibration.identity(products,calibration.load_build_evidence(proof_path,products,live=True)),indent=2)+'\n')
-          elif os.environ['STRESS_CACHE_SERIES']=='inventory-reverse-v1':
-              inventory.verify_products(products)
-              Path('results/inventory-confirmation-identity.json').write_text(json.dumps(inventory.identity(products),indent=2)+'\n')
-          else:admission.verify_products(products)
-          PYVERIFY
-      - name: One shared 1200-second measurement clock after build; no reset after canaries
+          command=['cargo','+1.85.1','build','--manifest-path','core/Cargo.toml','--locked','--offline','--release','-p','layerfs-daemon','--message-format=json','-vv']
+          Path('results/build-command.json').write_text(json.dumps(command)+'\n')
+          PY
+          remaining=$((ENCODER_DEADLINE_EPOCH - $(date +%s) - 120))
+          test "$remaining" -gt 0
+          test "$(df -PB1 "$RUNNER_TEMP" | awk 'NR==2 {print $4}')" -ge 8589934592
+          python3 feasibility/layerfs_encoder_capture.py --stage build \
+            --argv-json results/build-command.json --cwd "$PWD/layerfs" \
+            --stdout results/cargo-build.jsonl --stderr results/cargo-build.stderr \
+            --receipt results/cargo-build-capture.json --seconds "$remaining" \
+            > results/cargo-build-driver.stdout 2> results/cargo-build-driver.stderr
+          rc=$(python3 -c 'import json; print(json.load(open("results/cargo-build-capture.json"))["processReturncode"])')
+          python3 feasibility/layerfs_encoder_proof.py linkage \
+            --preflight results/preflight.json --cargo-json results/cargo-build.jsonl \
+            --cargo-stderr results/cargo-build.stderr --build-exit-code "$rc" \
+            --build-command results/build-command.json \
+            --rustc-version results/rustc-version.txt --cargo-version results/cargo-version.txt \
+            --output results/linkage.json > results/linkage.stdout 2> results/linkage.stderr
+      - name: Link and execute only the inert public-encoder proof
         run: |
-          started=$(date +%s)
-          deadline=$((started + 1200))
-          if [ "$deadline" -gt "$STRESS_CACHE_JOB_DEADLINE_EPOCH" ]; then deadline="$STRESS_CACHE_JOB_DEADLINE_EPOCH"; fi
-          test "$deadline" -gt "$((started + 180))"
-          echo "STRESS_CACHE_MEASURE_STARTED_EPOCH=$started" >> "$GITHUB_ENV"
-          echo "STRESS_CACHE_MEASURE_DEADLINE_EPOCH=$deadline" >> "$GITHUB_ENV"
-      - name: All three full-tree native canaries on separate fresh 2GiB images
-        run: |
-          extra=()
-          if [ "$STRESS_CACHE_SERIES" = inventory-identical-binary-v1 ]; then extra=(--inventory-calibration-build-proof "$PWD/results/cache-identical-build.json"); fi
-          sudo --preserve-env=STRESS_CACHE_JOB_STARTED_EPOCH,STRESS_CACHE_JOB_DEADLINE_EPOCH,STRESS_CACHE_MEASURE_STARTED_EPOCH,STRESS_CACHE_MEASURE_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/cache-products.json" --cell canary --backend native --rounds 1 "$STAGE_FLAG" canary "${extra[@]}" --budget-seconds 1200 --output "$RUNNER_TEMP/cache-canary/stress-results" > results/cache-canary-driver.stdout 2> results/cache-canary-driver.stderr
-      - name: Exactly nine selected-series Latin samples; no mixed pins or orders
-        run: |
-          extra=()
-          if [ "$STRESS_CACHE_SERIES" = inventory-identical-binary-v1 ]; then extra=(--inventory-calibration-build-proof "$PWD/results/cache-identical-build.json"); fi
-          sudo --preserve-env=STRESS_CACHE_JOB_STARTED_EPOCH,STRESS_CACHE_JOB_DEADLINE_EPOCH,STRESS_CACHE_MEASURE_STARTED_EPOCH,STRESS_CACHE_MEASURE_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/cache-products.json" --cell "$CELL" --backend native --rounds 3 "$STAGE_FLAG" "$MEASURE_STAGE" "${extra[@]}" --ablation-canary "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --budget-seconds 1200 --output "$RUNNER_TEMP/cache-screen/stress-results" > results/cache-screen-driver.stdout 2> results/cache-screen-driver.stderr
-      - name: Audit all nine or suppress ratios; retain failures and incomplete cells
+          remaining=$((ENCODER_DEADLINE_EPOCH - $(date +%s) - 120))
+          test "$remaining" -ge 120
+          rlib=$(python3 -c 'import json; print(json.load(open("results/linkage.json"))["bridge"]["path"])')
+          proof="$RUNNER_TEMP/layerfs-encoder-proof"
+          test ! -e "$proof"
+          printf '%s\n' "$proof" > results/proof-binary-path.txt
+          python3 - "$rlib" "$proof" <<'PY'
+          import json,sys
+          from pathlib import Path
+          rlib,proof=sys.argv[1:]
+          command=['rustc','+1.85.1','--edition=2021',str(Path('feasibility/layerfs_encoder_inputs/proof.rs').resolve()),'--extern','layerfs_bridge='+rlib,'-L','dependency='+str(Path(rlib).parent),'-o',proof]
+          Path('results/proof-compile-command.json').write_text(json.dumps(command)+'\n')
+          Path('results/proof-command.json').write_text(json.dumps([proof])+'\n')
+          PY
+          python3 feasibility/layerfs_encoder_capture.py --stage compile \
+            --argv-json results/proof-compile-command.json --cwd "$PWD" \
+            --stdout results/proof-compile.stdout --stderr results/proof-compile.stderr \
+            --receipt results/proof-compile-capture.json --seconds 60 \
+            > results/proof-compile-driver.stdout 2> results/proof-compile-driver.stderr
+          compile_rc=$(python3 -c 'import json; print(json.load(open("results/proof-compile-capture.json"))["processReturncode"])')
+          sha256sum "$proof" > results/proof-binary-before.sha256
+          python3 feasibility/layerfs_encoder_capture.py --stage proof \
+            --argv-json results/proof-command.json --cwd "$PWD" \
+            --stdout results/proof.stdout --stderr results/proof.stderr \
+            --receipt results/proof-capture.json --seconds 60 \
+            > results/proof-driver.stdout 2> results/proof-driver.stderr
+          proof_rc=$(python3 -c 'import json; print(json.load(open("results/proof-capture.json"))["processReturncode"])')
+          python3 feasibility/layerfs_encoder_proof.py finalize \
+            --preflight results/preflight.json --linkage results/linkage.json \
+            --proof-stdout results/proof.stdout --proof-stderr results/proof.stderr \
+            --proof-exit-code "$proof_rc" --compile-exit-code "$compile_rc" \
+            --proof-binary "$proof" --proof-binary-before results/proof-binary-before.sha256 \
+            --output results/encoder-proof-summary.json > results/finalize.stdout 2> results/finalize.stderr
+      - name: Preserve all source-only evidence on success or failure
         if: always()
         run: |
-          extra=()
-          if [ "$STRESS_CACHE_SERIES" = inventory-identical-binary-v1 ]; then extra=(--build-proof "$PWD/results/cache-identical-build.json"); fi
-          sudo /usr/bin/python3 "$SUMMARY_SCRIPT" "$RUNNER_TEMP/cache-screen/stress-results/stress-comparison.json" --canary-report "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --output "$PWD/results/cache-screen-summary.json" "${extra[@]}"
+          mkdir -p results
+          df -h > results/final-disk.txt
+          if test -d layerfs/.git; then
+            git -C layerfs rev-parse HEAD > results/final-source-head.txt
+            git -C layerfs status --porcelain > results/final-source-status.txt
+          fi
+          python3 - <<'PY'
+          import hashlib,json,os,stat
+          from pathlib import Path
+          root=Path('results')
+          rows=[]
+          for p in sorted(root.rglob('*')):
+              st=p.lstat()
+              if stat.S_ISDIR(st.st_mode):
+                  continue
+              if not stat.S_ISREG(st.st_mode):
+                  raise SystemExit('nonregular source-only evidence entry')
+              h=hashlib.sha256()
+              with p.open('rb') as f:
+                  for block in iter(lambda:f.read(1024*1024),b''):
+                      h.update(block)
+              rows.append({'path':str(p.relative_to(root)),'bytes':st.st_size,'sha256':h.hexdigest()})
+          total=sum(r['bytes'] for r in rows)
+          summary=root/'encoder-proof-summary.json'
+          complete=summary.exists() and json.loads(summary.read_text()).get('complete') is True
+          value={'schema':'layerfs-source-only-encoder-evidence-v1','files':rows,'payloadBytes':total,'manifestBytes':0,'totalBytes':total,'artifactBudgetBytes':1073741824,'withinBudget':False,'proofComplete':complete,'benchmarkRun':40338242966,'benchmarkStatus':'failed','capturedDaemonReceipt':False,'mountedRerun':False,'buildArtifacts':'hash-only; ephemeral binaries and rlibs are not uploaded'}
+          for _ in range(10):
+              encoded=(json.dumps(value,indent=2)+'\n').encode()
+              size=len(encoded)
+              if value['manifestBytes']==size and value['totalBytes']==total+size and value['withinBudget']==(total+size<=1073741824):
+                  break
+              value.update(manifestBytes=size,totalBytes=total+size,withinBudget=total+size<=1073741824)
+          else:
+              raise SystemExit('evidence manifest byte accounting did not converge')
+          (root/'evidence-manifest.json').write_bytes(encoded)
+          if value['totalBytes']>1073741824:
+              raise SystemExit('source-only artifact budget exceeded; full evidence retained, no success claim')
+          PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: native-cache-${{ inputs.series || 'admission-screen-v1' }}-${{ inputs.cell }}
-          path: |
-            results/
-            ${{ runner.temp }}/cache-canary/stress-results/
-            ${{ runner.temp }}/cache-screen/stress-results/
+          name: layerfs-ad789-source-only-encoder-proof
+          path: results/
