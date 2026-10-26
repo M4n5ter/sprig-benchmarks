@@ -540,6 +540,85 @@ def native_evidence(sample, commands, oracle, steps, views, post):
         close_sum(sample.get(key), [r.get(key) for r in restores], key)
 
 
+def layerfs_sdk_operations(sample):
+    """Audit the frozen adapter envelope, including its one JS undefined result.
+
+    client.close resolves successfully without a return value; JSON.stringify
+    omits that result property. Missing values for any other SDK operation are
+    not that contract, and an explicit null is not a substitute for undefined.
+    """
+    sdk = sample.get('sdkOperations')
+    require(isinstance(sdk, list) and sdk, 'complete LayerFS SDK operations missing')
+    mutations = {'LayerFS.init', 'sandbox.create', 'branch.fork', 'workspace.mount',
+                 'workspace.commit', 'workspace.unmount', 'sandbox.close'}
+    readers = {'project.list_sandboxes', 'sandbox.list_workspaces', 'branch.list_commits'}
+    for row in sdk:
+        require(isinstance(row, dict) and isinstance(row.get('operation'), str), 'malformed LayerFS SDK operation')
+        operation = row['operation']
+        if operation == 'client.close':
+            require(set(row) == {'operation', 'mutation'} and row.get('mutation') is False,
+                    'client.close must retain its exact successful void-result envelope')
+            lifecycle = sample.get('lifecycle', {})
+            require(sample.get('ok') is True and not sample.get('error') and not sample.get('cleanupErrors')
+                    and lifecycle.get('normalUnmountOnly') is True and lifecycle.get('uncertain') is False
+                    and lifecycle.get('cleanup', {}).get('complete') is True
+                    and sample.get('remainingMountsKnown') is True and sample.get('remainingMounts') == []
+                    and sample.get('remainingContainersKnown') is True and sample.get('remainingContainers') == [],
+                    'void client.close requires successful known-zero normal cleanup')
+        else:
+            require(operation in mutations | readers and set(row) == {'operation', 'mutation', 'result'}
+                    and row.get('mutation') is (operation in mutations) and isinstance(row['result'], dict),
+                    'nonvoid LayerFS SDK result/mutation envelope missing or malformed')
+    return sdk
+
+
+def layerfs_history_sequences(sdk, acknowledged_ids, baseline_count, history_count):
+    """Two logical histories, not two physical pages (captured final:46/46/8).
+
+    The frozen reader requests offset=len(items accumulated), so every advertised
+    nextPagePos must equal that next offset. Pagination pages of one read must be
+    consecutive SDK completions, terminate, and retain each ID exactly once.
+    """
+    require(integer(baseline_count, 'LayerFS baseline count', 0, 1) + 100
+            == integer(history_count, 'LayerFS final history count', 100, 101), 'fixed logical history counts differ')
+    require(isinstance(acknowledged_ids, list) and len(acknowledged_ids) == 100
+            and all(isinstance(value, str) and re.fullmatch(r'12[a-f0-9]{64}', value) for value in acknowledged_ids)
+            and len(set(acknowledged_ids)) == 100, 'exact100 distinct acknowledged LayerFS IDs required')
+    pages = [(index, row['result']) for index, row in enumerate(sdk) if row['operation'] == 'branch.list_commits']
+    require(2 <= len(pages) <= 102, 'bounded baseline/final history pages missing')
+    sequences, positions, current, seen, indexes = [], [], [], set(), []
+    for index, page in pages:
+        require(len(sequences) < 2 and isinstance(page, dict) and set(page) == {'items', 'hasMore', 'nextPagePos'}
+                and isinstance(page['items'], list) and type(page['hasMore']) is bool, 'malformed/extra logical history page')
+        require(not indexes or index == indexes[-1] + 1, 'logical history pagination interrupted by another SDK operation')
+        items = page['items']
+        require(items or not current and page['hasMore'] is False, 'history pagination made no progress')
+        for item in items:
+            value = item.get('id') if isinstance(item, dict) else None
+            require(isinstance(value, str) and re.fullmatch(r'12[a-f0-9]{64}', value)
+                    and value not in seen, 'duplicate/malformed ID within logical history')
+            seen.add(value); current.append(value)
+        expected = baseline_count if not sequences else history_count
+        require(len(current) <= expected <= 101, 'history pagination exceeds fixed logical count')
+        indexes.append(index)
+        if page['hasMore']:
+            require(integer(page['nextPagePos'], 'history nextPagePos', 1, 101) == len(current)
+                    and len(current) < expected, 'history continuation cursor does not match progressing request offset')
+        else:
+            require(page['nextPagePos'] is None and len(current) == expected, 'terminal history cursor/count differs')
+            sequences.append(current); positions.append(indexes)
+            current, seen, indexes = [], set(), []
+    require(len(sequences) == 2 and not indexes, 'unterminated/missing logical history sequence')
+    baseline, final = sequences
+    require(not set(baseline).intersection(acknowledged_ids)
+            and final == list(reversed(acknowledged_ids)) + baseline,
+            'final history must be exact newest-first acknowledged chain plus unchanged baseline IDs')
+    commits = [index for index, row in enumerate(sdk) if row['operation'] == 'workspace.commit']
+    require(len(commits) == 100 and positions[0][-1] < commits[0] and commits[-1] < positions[1][0],
+            'baseline/final logical histories do not bracket exactly100 commits')
+    return sequences
+
+
 def layerfs_evidence(sample, commands, oracle, steps, views):
     def by_purpose(purpose, command=None, path=None):
         row = commands.one(lambda r: r.get('purpose') == purpose, purpose)
@@ -551,8 +630,7 @@ def layerfs_evidence(sample, commands, oracle, steps, views):
     source = by_purpose('source_unchanged')
     require(source.get('argv') == ['bash', '-c', checksum(oracle)] and source.get('cwd') == sample['source'], 'LayerFS original source read binding differs')
     commands.checks(source, oracle)
-    sdk = sample.get('sdkOperations')
-    require(isinstance(sdk, list) and sdk and all(isinstance(row, dict) and 'operation' in row and 'result' in row for row in sdk), 'complete LayerFS SDK operations missing')
+    sdk = layerfs_sdk_operations(sample)
     commits = [r['result'] for r in sdk if r['operation'] == 'workspace.commit']
     history = sample.get('historyCheck')
     rows = history.get('samples') if isinstance(history, dict) else []
@@ -589,15 +667,12 @@ def layerfs_evidence(sample, commands, oracle, steps, views):
         require(integer(history.get('expectedSamples'), 'expected history') == integer(history.get('acknowledgedCommits'), 'acknowledged commits') == 100
                 and integer(history.get('historyRecords'), 'history records') == integer(history.get('baselineHistoryRecords'), 'history baseline') + 100,
                 'LayerFS history retention counts differ')
-        pages = [r['result'] for r in sdk if r['operation'] == 'branch.list_commits']
-        require(len(pages) == 2 and all(isinstance(p, dict) and p.get('hasMore') is False and isinstance(p.get('items'), list) for p in pages), 'complete fixed LayerFS history pages absent')
-        require(len(pages[0]['items']) == history['baselineHistoryRecords'] and len(pages[1]['items']) == history['historyRecords']
-                and set(ids).issubset({r.get('id') for r in pages[1]['items']}), 'acknowledged IDs absent from public LayerFS history')
+        layerfs_history_sequences(sdk, ids, history['baselineHistoryRecords'], history['historyRecords'])
         commands.checks(by_purpose('history_final_full_read', checksum(list(current.values())), views['work']['path']), list(current.values()))
         close_sum(history.get('totalWriteMs'), [r['writeMs'] for r in rows], 'LayerFS total writes')
         close_sum(history.get('totalCommitMs'), [r['commitMs'] for r in rows], 'LayerFS total checkpoints')
     else:
-        require(history is None, 'unexpected nonhistory checkpoints')
+        require(history is None and not any(r['operation'] == 'branch.list_commits' for r in sdk), 'unexpected nonhistory checkpoints/history reads')
     for total, key in (('historicalRestoreMs', 'restoreMs'), ('historicalRestoreReadMs', 'readMs'), ('historicalRestoreCleanupMs', 'cleanupMs')):
         close_sum(sample.get(total), [r[key] for r in restores], total)
     require(len([r for r in sdk if r['operation'] == 'workspace.unmount']) == len(steps) + 3, 'normal historical/original workspace cleanup incomplete')
