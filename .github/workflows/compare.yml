@@ -1,7 +1,7 @@
 name: Compare pinned products
 on:
   push:
-    branches-ignore: [stress/canary-validation]
+    branches-ignore: [stress/canary-validation, diagnostic/layerfs-encoder-proof-ad789]
   workflow_dispatch:
 permissions:
   contents: read

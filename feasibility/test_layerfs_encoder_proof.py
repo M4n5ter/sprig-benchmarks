@@ -24,6 +24,8 @@ class EncoderEvidenceTests(unittest.TestCase):
         for directory in (self.source, self.target, self.inputs):
             directory.mkdir()
         source_files = {
+            "core/Cargo.lock": b'version = 4\n[[package]]\nname = "libc"\nversion = "0.2.189"\n'
+                               b'[[package]]\nname = "fuser"\nversion = "0.18.0"\n',
             "core/crates/layerfs-bridge/Cargo.toml": b"bridge manifest\n",
             "core/crates/layerfs-bridge/src/lib.rs": b"bridge source\n",
             "core/crates/layerfs-daemon/Cargo.toml": b"daemon manifest\n",
@@ -55,6 +57,7 @@ class EncoderEvidenceTests(unittest.TestCase):
         # Test-only injection of tiny inert source/input manifests, never CLI flags.
         self.patches = [patch.object(proof, "INPUT_HASHES", {k: self.sha(v) for k, v in data.items()}),
                         patch.object(proof, "MANIFEST_SHA", manifest_sha),
+                        patch.object(proof, "LOCK_SHA", self.sha(source_files["core/Cargo.lock"])),
                         patch.object(proof, "MANIFEST_COUNT", len(source_files)),
                         patch.object(proof, "git_identity", return_value=proof.SOURCE_PIN),
                         patch.dict(os.environ, {}, clear=True)]
@@ -74,6 +77,8 @@ class EncoderEvidenceTests(unittest.TestCase):
         deps.mkdir(parents=True)
         self.bridge = deps / "liblayerfs_bridge-1234.rlib"
         self.bridge.write_bytes(b"inert bridge rlib")
+        self.bridge_meta = deps / "liblayerfs_bridge-1234.rmeta"
+        self.bridge_meta.write_bytes(b"inert bridge metadata")
         self.daemon_dep = deps / "liblayerfs_daemon-5678.rlib"
         self.daemon_dep.write_bytes(b"inert daemon rlib")
         self.daemon_alias = self.target / "release/liblayerfs_daemon.rlib"
@@ -98,13 +103,15 @@ class EncoderEvidenceTests(unittest.TestCase):
                      artifact("layerfs-daemon", "layerfs-daemon", "bin", "bin/layerfs-daemon.rs",
                               self.daemon, [], self.daemon),
                      {"reason": "build-finished", "success": True}]
+        self.rows[0]["filenames"].append(str(self.bridge_meta))
         manifest_env = f"CARGO_MANIFEST_DIR={self.source / 'core/crates/layerfs-daemon'}"
         library_tokens = [manifest_env, "rustc", "--crate-name", "layerfs_daemon",
                           "core/crates/layerfs-daemon/src/lib.rs", "--crate-type", "lib",
-                          "--extern", f"layerfs_bridge={self.bridge}"]
+                          "--extern", f"layerfs_bridge={self.bridge_meta}"]
         bin_tokens = [manifest_env, "rustc", "--crate-name", "layerfs_daemon",
                       "core/crates/layerfs-daemon/src/bin/layerfs-daemon.rs", "--crate-type", "bin",
-                      "--extern", f"layerfs_daemon={self.daemon_dep}"]
+                      "--extern", f"layerfs_daemon={self.daemon_dep}",
+                      "--extern", f"layerfs_bridge={self.bridge}"]
         self.stderr_bytes = (f"     Running `{shlex.join(library_tokens)}`\n"
                              f"     Running `{shlex.join(bin_tokens)}`\n").encode()
         self.cargo_json = self.root / "cargo.jsonl"
@@ -213,7 +220,8 @@ class EncoderEvidenceTests(unittest.TestCase):
         linked = self.link()
         self.assertEqual(linked["bridge"]["path"], str(self.bridge))
         self.assertEqual(linked["daemonElf"]["path"], str(self.daemon))
-        self.assertEqual(linked["daemonRustcLinkage"]["bin"]["linkedRlib"]["path"], str(self.daemon_dep))
+        self.assertEqual(linked["daemonLinkedRlib"]["path"], str(self.daemon_dep))
+        self.assertEqual(linked["bridgeMetadata"]["path"], str(self.bridge_meta))
         self.assertNotEqual(str(self.daemon_dep), linked["daemonRlib"]["path"])
 
     def test_build_nonzero_rejected(self):
@@ -390,6 +398,100 @@ class EncoderEvidenceTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             proof.write_receipt(path, {"large": "a" * proof.RECEIPT_CAP})
         self.assertFalse(path.exists())
+
+    def script_artifact(self, name="libc", version="0.2.189", path_package=False):
+        prefix = "path+file:///exact/vendor/fuser" if path_package else "registry+https://github.com/rust-lang/crates.io-index"
+        return {"reason": "compiler-artifact", "package_id": f"{prefix}#{name}@{version}",
+                "target": {"kind": ["custom-build"]}}
+
+    def mixed_stream(self, text=b"[libc 0.2.189] cargo:rerun-if-changed=build.rs\n", scripts=None):
+        scripts = [self.script_artifact()] if scripts is None else scripts
+        prefix = b"".join((json.dumps(row) + "\n").encode() for row in scripts)
+        return prefix + text + self.cargo_json.read_bytes()
+
+    def parse_stream(self, data):
+        return proof.parse_cargo_stream(data, (self.source / "core/Cargo.lock").read_bytes())
+
+    def test_real_shaped_mixed_cargo_stream_count_hash_and_packages(self):
+        self.build_fixture()
+        text = (b"[libc 0.2.189] cargo:rerun-if-changed=build.rs\n"
+                b"[libc 0.2.189] \n[fuser 0.18.0] cargo:rustc-cfg=abi_7_31\n")
+        # Actual Cargo can compile libc build.rs twice; one package ID remains.
+        scripts = [self.script_artifact(), self.script_artifact(),
+                   self.script_artifact("fuser", "0.18.0", True)]
+        data = self.mixed_stream(text, scripts)
+        records, summary = self.parse_stream(data)
+        self.assertEqual(len(records), 7)
+        self.assertEqual(summary["verboseLines"], 3)
+        self.assertEqual(summary["verboseBytes"], len(text))
+        self.assertEqual(summary["verboseRawLinesSha256"], self.sha(text))
+        self.assertEqual(summary["verbosePackageLineCounts"], {"fuser 0.18.0": 1, "libc 0.2.189": 2})
+        self.cargo_json.write_bytes(data)
+        self.assertTrue(self.link()["ok"])
+
+    def test_unbound_wrong_version_or_arbitrary_verbose_line_rejected(self):
+        self.build_fixture()
+        for line in (b"[unknown 1.0.0] ignored?\n", b"[libc 0.2.188] wrong version\n",
+                     b"plain unbound output\n", b"[libc 0.2.189]missing space\n"):
+            with self.subTest(line=line), self.assertRaises(ValueError):
+                self.parse_stream(self.mixed_stream(line))
+        with self.assertRaises(ValueError):
+            self.parse_stream(self.mixed_stream(scripts=[]))
+
+    def test_verbose_record_not_in_lock_rejected(self):
+        self.build_fixture()
+        with self.assertRaises(ValueError):
+            self.parse_stream(self.mixed_stream(b"[libc 9.9.9] cargo:rerun-if-changed=x\n",
+                                               [self.script_artifact("libc", "9.9.9")]))
+
+    def test_malformed_json_not_discarded_as_verbose(self):
+        self.build_fixture()
+        with self.assertRaises(ValueError):
+            self.parse_stream(self.mixed_stream(b'{"reason":broken}\n'))
+
+    def test_text_after_build_finished_rejected(self):
+        self.build_fixture()
+        with self.assertRaises(ValueError):
+            self.parse_stream(self.mixed_stream() + b"[libc 0.2.189] late output\n")
+
+    def test_changed_lock_bytes_rejected(self):
+        self.build_fixture()
+        with self.assertRaises(ValueError):
+            proof.parse_cargo_stream(self.mixed_stream(), b"version = 4\n")
+
+    def test_metadata_must_belong_to_same_unique_bridge_artifact(self):
+        self.build_fixture()
+        wrong = self.target / "release/deps/other.rmeta"
+        wrong.write_bytes(self.bridge_meta.read_bytes())
+        self.stderr_bytes = self.stderr_bytes.replace(str(self.bridge_meta).encode(), str(wrong).encode())
+        self.flush_build()
+        with self.assertRaises(ValueError):
+            self.link()
+
+    def test_missing_or_ambiguous_bridge_metadata_rejected(self):
+        self.build_fixture()
+        original = list(self.rows[0]["filenames"])
+        for filenames in ([str(self.bridge)], original + [str(self.bridge_meta)]):
+            with self.subTest(filenames=filenames):
+                self.rows[0]["filenames"] = filenames
+                self.flush_build()
+                with self.assertRaises(ValueError):
+                    self.link()
+
+    def test_pure_old_log_audit_never_claims_missing_artifacts_or_encoder(self):
+        self.build_fixture()
+        data = self.mixed_stream()
+        for file in (self.bridge, self.bridge_meta, self.daemon, self.daemon_alias, self.daemon_dep):
+            file.unlink()
+        result = proof.audit_cargo_structure(data, self.stderr_bytes,
+                    (self.source / "core/Cargo.lock").read_bytes(), self.source, self.target)
+        self.assertTrue(result["structureCompatible"])
+        self.assertFalse(result["filesystemArtifactsVerified"])
+        self.assertFalse(result["encoderExecuted"])
+        self.assertNotIn("complete", result)
+        with self.assertRaises(FileNotFoundError):
+            proof.select_artifacts(data, self.stderr_bytes, self.source, self.target,
+                                   (self.source / "core/Cargo.lock").read_bytes())
 
 
 if __name__ == "__main__":

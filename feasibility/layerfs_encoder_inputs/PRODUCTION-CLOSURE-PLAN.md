@@ -1,4 +1,4 @@
-# Source-only encoder discriminator: production daemon closure — PREPARED, NOT RUN
+# Source-only encoder discriminator: production daemon closure
 
 This plan supersedes the earlier README's proposed no-default-features bridge-only
 build. That earlier build was NEVER executed and is NOT the approved CI design.
@@ -72,7 +72,15 @@ compilation does not open a product Store or database.
 
 ## Fail-closed artifact linkage selection
 
-Parse Cargo JSON data (never evaluate diagnostic text as shell commands):
+The first actual build (run 40356426815) succeeded, but its original linkage
+parser failed before proof compilation/execution. These rules incorporate the
+captured mixed stdout and rmeta pipeline schema. Original failed evidence remains
+unchanged; this revised plan is not an executed encoder result.
+
+Parse Cargo output as data (never evaluate diagnostic text as shell commands).
+Require every non-JSON verbose line to have a package/version prefix bound to
+both a custom-build compiler record and the exact committed lockfile. Preserve
+all raw lines, their counts and hashes; reject all other malformed text:
 
 1. Require successful build-finished, single layerfs_daemon library and
    layerfs-daemon binary artifacts from the exact source root and release profile,
@@ -83,20 +91,22 @@ Parse Cargo JSON data (never evaluate diagnostic text as shell commands):
 2. Require bridge features exactly ["default", "duplex"] (set comparison),
    release profile opt_level "3", debug_assertions false and test false. Record
    the full actual profile/features rather than inventing absent JSON fields.
-3. Select the ONE .rlib filename on that bridge compiler-artifact. Resolve it as
-   an existing regular file within the new target/release/deps, reject symlinks,
-   and hash it. Never use `find ... | head`, a filename glob, or debug/lib paths.
+3. Select the ONE .rmeta and ONE .rlib filenames on the SAME bridge artifact.
+   Resolve both as existing regular files within the new target/release/deps,
+   reject symlinks, and hash both. Never use a stem guess, `find ... | head`, a
+   filename glob, or debug/lib paths.
 4. Inspect captured -vv daemon rustc invocations as shell-token DATA using shlex:
    exactly one library and one binary Running line with crate-name layerfs_daemon.
-   Require the library's `--extern layerfs_bridge=<absolute rlib>` to resolve to
-   the exact selected bridge artifact. Require the bin's `--extern
+   Require the library's `--extern layerfs_bridge=<absolute rmeta>` to resolve to
+   that exact selected metadata file. Require the bin's direct bridge extern to
+   equal the exact selected bridge rlib. Require the bin's `--extern
    layerfs_daemon=<absolute rlib>` inside release/deps to have exactly the bytes
    of the selected daemon-library artifact. Cargo may report the top-level
    release/liblayerfs_daemon.rlib alias while linking its hash-named deps file;
    verify both SHA256 values rather than guess a filename or glob. Reject any
    missing/ambiguous line, token form or mismatch. Never execute captured commands.
 5. Record the bridge compiler-artifact, matched daemon rustc argument, daemon ELF
-   hash, bridge rlib hash, Cargo/rustc versions, source hashes and all input hashes
+   hash, bridge rmeta/rlib hashes, Cargo/rustc versions, source hashes and all input hashes
    in a machine-readable linkage manifest. Ensure the rlib stays unchanged through
    proof compilation and execution. Any missing proof leaves the job failed.
 

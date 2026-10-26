@@ -14,10 +14,12 @@ import shlex
 import stat
 import subprocess
 import sys
+import tomllib
 
 SOURCE_PIN = "ad78914e36b258b360daf13aec164b5655814689"
 MANIFEST_SHA = "848a841b0876047630cbb2cdd86b49d38aead07577f31b8acc0acad0145147a6"
 MANIFEST_COUNT = 1552
+LOCK_SHA = "6b894048a031cdee4db7bdf6a2f7acdfbd6a02112af23eeda3c338cefe1d7d5a"
 INPUT_HASHES = {
     "README.md": "f2c2abc59c4d24a39b0ad29f1e1e0fd7809a37455246b2d2d4cc3107a07d0aef",
     "prepare_fixture.py": "68ce314b745a935dccad7153a2f128553308211fa4d8602ab7705ec7426bb922",
@@ -244,7 +246,66 @@ def one_operand(tokens, flag):
     return values[0]
 
 
-def daemon_extern(stderr, source, target, bridge_rlib, daemon_rlib):
+def parse_cargo_stream(data, lock_bytes):
+    """Parse JSON plus only Cargo -vv lines bound to recorded locked build scripts."""
+    require(len(data) <= LOG_CAP and len(lock_bytes) <= RECEIPT_CAP, "Cargo/lock input cap")
+    require(hashlib.sha256(lock_bytes).hexdigest() == LOCK_SHA, "wrong captured Cargo.lock")
+    lock = tomllib.loads(lock_bytes.decode("utf-8"))
+    packages = {(row["name"], row["version"]) for row in lock["package"]}
+    records, verbose = [], []
+    for raw in data.splitlines(keepends=True):
+        line = raw.rstrip(b"\r\n")
+        require(line, "unexpected blank Cargo line")
+        if line.startswith(b"{"):
+            row = parse_json(line)
+            require(isinstance(row, dict), "Cargo JSON is not an object")
+            records.append(row)
+        else:
+            match = re.fullmatch(rb"\[([A-Za-z0-9_-]+) ([A-Za-z0-9.+-]+)\] (.*)", line)
+            require(match is not None, "unknown non-JSON Cargo stdout line")
+            verbose.append(((match[1].decode(), match[2].decode()), raw))
+    require(records, "no Cargo JSON records")
+    finishes = [row for row in records if row.get("reason") == "build-finished"]
+    require(len(finishes) == 1 and finishes[0].get("success") is True and
+            records[-1] == finishes[0] and parse_json(data.splitlines()[-1]) == finishes[0],
+            "build did not finish successfully at end of stream")
+    script_ids = {}
+    for row in records:
+        if row.get("reason") != "compiler-artifact" or row.get("target", {}).get("kind") != ["custom-build"]:
+            continue
+        package_id = row.get("package_id", "")
+        match = re.fullmatch(r"(?:registry\+[^#]+|path\+file://[^#]+)#([A-Za-z0-9_-]+)@([A-Za-z0-9.+-]+)", package_id)
+        require(match is not None, "unsupported custom-build package identity")
+        pair = match.groups()
+        require(pair in packages, "custom-build package not in exact lock")
+        script_ids.setdefault(pair, set()).add(package_id)
+    digest = hashlib.sha256()
+    counts, total = {}, 0
+    for pair, raw in verbose:
+        require(pair in packages and pair in script_ids and len(script_ids[pair]) == 1,
+                "unbound/ambiguous verbose build-script prefix")
+        label = " ".join(pair)
+        counts[label] = counts.get(label, 0) + 1
+        total += len(raw)
+        digest.update(raw)
+    return records, {"jsonRecords": len(records), "verboseLines": len(verbose),
+                     "verboseBytes": total, "verboseRawLinesSha256": digest.hexdigest(),
+                     "verbosePackageLineCounts": dict(sorted(counts.items())),
+                     "cargoLockSha256": LOCK_SHA,
+                     "rawLinesRetainedInCargoStdout": True}
+
+
+def declared_path(path, parent=None):
+    """Lexical check only: useful for immutable logs whose build files no longer exist."""
+    require(isinstance(path, str) and Path(path).is_absolute() and
+            os.path.normpath(path) == path, "noncanonical declared path")
+    value = Path(path)
+    require(parent is None or value.is_relative_to(parent), "declared path outside target")
+    return value
+
+
+def daemon_invocations(stderr, source, target, bridge_rlib, bridge_rmeta):
+    """Pure recorded-argument checks; no filesystem/artifact-existence assertion."""
     matches = {"lib": [], "bin": []}
     for line in stderr.decode("utf-8").splitlines():
         stripped = line.strip()
@@ -268,34 +329,28 @@ def daemon_extern(stderr, source, target, bridge_rlib, daemon_rlib):
         require(relative in tokens or relative.removeprefix("core/") in tokens or
                 str(source / relative) in tokens,
                 "daemon rustc input mismatch")
-        dependency = "layerfs_bridge" if kind == "lib" else "layerfs_daemon"
-        operands = [tokens[i + 1] for i, token in enumerate(tokens[:-1]) if token == "--extern"
-                    and tokens[i + 1].startswith(dependency + "=")]
-        require(len(operands) == 1, "daemon extern missing/ambiguous")
-        linked = operands[0].split("=", 1)[1]
-        require(Path(linked).is_absolute(), "relative daemon extern")
-        selected = inside_file(linked, target / "release/deps")
-        if kind == "lib":
-            require(selected == bridge_rlib, "daemon library links a different bridge rlib")
-        else:
-            # Cargo can report its top-level primary-library alias in JSON,
-            # while rustc links the hash-named deps file. Bind exact bytes;
-            # never guess a hash filename or select a directory glob.
-            require(file_record(selected)["sha256"] == file_record(daemon_rlib)["sha256"],
-                    "daemon bin links a different daemon library")
-        matches[kind].append({"extern": operands[0], "linkedRlib": file_record(selected),
-                              "rustcArguments": tokens})
+        def dependency(name):
+            operands = [tokens[i + 1] for i, token in enumerate(tokens[:-1]) if token == "--extern"
+                        and tokens[i + 1].startswith(name + "=")]
+            require(len(operands) == 1, "daemon extern missing/ambiguous")
+            return declared_path(operands[0].split("=", 1)[1], target / "release/deps")
+        bridge = dependency("layerfs_bridge")
+        require(bridge == (bridge_rmeta if kind == "lib" else bridge_rlib),
+                "daemon lib/bin uses a different bridge artifact")
+        row = {"bridgeExternPath": str(bridge), "rustcArguments": tokens}
+        if kind == "bin":
+            row["daemonExternPath"] = str(dependency("layerfs_daemon"))
+        matches[kind].append(row)
     require(all(len(value) == 1 for value in matches.values()),
             "missing/ambiguous daemon lib/bin rustc Running line")
     return {kind: values[0] for kind, values in matches.items()}
 
 
-def select_artifacts(cargo_json, stderr, source, target):
-    records = [parse_json(line) for line in cargo_json.splitlines() if line]
-    require(records and all(isinstance(row, dict) for row in records), "invalid Cargo records")
-    finishes = [row for row in records if row.get("reason") == "build-finished"]
-    require(len(finishes) == 1 and finishes[0].get("success") is True and
-            records[-1] == finishes[0], "build did not finish successfully")
+def audit_cargo_structure(cargo_json, stderr, lock_bytes, source, target):
+    """Pure old-log audit. It cannot certify missing binaries or an encoder outcome."""
+    require(len(stderr) <= LOG_CAP, "Cargo stderr cap")
+    source, target = declared_path(str(source)), declared_path(str(target))
+    records, stream = parse_cargo_stream(cargo_json, lock_bytes)
     artifacts = [row for row in records if row.get("reason") == "compiler-artifact"]
     def select(name, kind, relative, entry):
         rows = [row for row in artifacts if row.get("target", {}).get("name") == name]
@@ -303,9 +358,9 @@ def select_artifacts(cargo_json, stderr, source, target):
         row = rows[0]
         require(row["target"]["kind"] == [kind] and row["target"]["crate_types"] == [kind],
                 "wrong crate kind")
-        require(canonical(row["target"]["src_path"]) == source / relative / "src" / entry,
+        require(declared_path(row["target"]["src_path"]) == source / relative / "src" / entry,
                 "wrong artifact source")
-        require(canonical(row["manifest_path"]) == source / relative / "Cargo.toml",
+        require(declared_path(row["manifest_path"]) == source / relative / "Cargo.toml",
                 "wrong artifact manifest")
         require(isinstance(row["package_id"], str) and row["package_id"], "missing package id")
         release_profile(row)
@@ -317,20 +372,46 @@ def select_artifacts(cargo_json, stderr, source, target):
             and daemon_lib["features"] == [],
             "not the fixed default production feature closure")
     rlibs = [value for value in bridge["filenames"] if value.endswith(".rlib")]
-    require(len(rlibs) == 1 and bridge["executable"] is None, "ambiguous bridge artifact")
-    rlib = inside_file(rlibs[0], target / "release/deps")
+    rmetas = [value for value in bridge["filenames"] if value.endswith(".rmeta")]
+    require(len(rlibs) == 1 and len(rmetas) == 1 and bridge["executable"] is None,
+            "ambiguous bridge rlib/rmeta artifact")
+    rlib = declared_path(rlibs[0], target / "release/deps")
+    rmeta = declared_path(rmetas[0], target / "release/deps")
     daemon_rlibs = [value for value in daemon_lib["filenames"] if value.endswith(".rlib")]
     require(len(daemon_rlibs) == 1 and daemon_lib["executable"] is None,
             "ambiguous daemon library artifact")
-    daemon_rlib = inside_file(daemon_rlibs[0], target / "release")
+    daemon_rlib = declared_path(daemon_rlibs[0], target / "release")
     require(daemon["package_id"] == daemon_lib["package_id"], "daemon lib/bin package mismatch")
-    executable = inside_file(daemon["executable"], target / "release")
+    executable = declared_path(daemon["executable"], target / "release")
     require(executable == target / "release/layerfs-daemon" and
             str(executable) in daemon["filenames"], "daemon ELF artifact mismatch")
-    return {"bridgeCargoArtifact": bridge, "daemonCargoArtifact": daemon,
-            "daemonLibraryCargoArtifact": daemon_lib, "daemonRlib": file_record(daemon_rlib),
-            "bridge": file_record(rlib), "daemonElf": file_record(executable),
-            "daemonRustcLinkage": daemon_extern(stderr, source, target, rlib, daemon_rlib)}
+    return {"schema": "layerfs-cargo-structure-only-v1", "structureCompatible": True,
+            "filesystemArtifactsVerified": False, "encoderExecuted": False,
+            "bridgeCargoArtifact": bridge, "daemonCargoArtifact": daemon,
+            "daemonLibraryCargoArtifact": daemon_lib, "cargoStream": stream,
+            "bridgeRlibPath": str(rlib), "bridgeRmetaPath": str(rmeta),
+            "daemonRlibPath": str(daemon_rlib), "daemonElfPath": str(executable),
+            "daemonRustcLinkage": daemon_invocations(stderr, source, target, rlib, rmeta)}
+
+
+def select_artifacts(cargo_json, stderr, source, target, lock_bytes):
+    structure = audit_cargo_structure(cargo_json, stderr, lock_bytes, source, target)
+    bridge = inside_file(structure["bridgeRlibPath"], target / "release/deps")
+    metadata = inside_file(structure["bridgeRmetaPath"], target / "release/deps")
+    daemon_rlib = inside_file(structure["daemonRlibPath"], target / "release")
+    daemon_elf = inside_file(structure["daemonElfPath"], target / "release")
+    linked = inside_file(structure["daemonRustcLinkage"]["bin"]["daemonExternPath"], target / "release/deps")
+    # Primary-library JSON may name its top-level alias. Bind it to the exact
+    # bin extern by bytes, never by stem guessing or an arbitrary directory glob.
+    require(file_record(linked)["sha256"] == file_record(daemon_rlib)["sha256"],
+            "daemon bin links a different daemon library")
+    return {"bridgeCargoArtifact": structure["bridgeCargoArtifact"],
+            "daemonCargoArtifact": structure["daemonCargoArtifact"],
+            "daemonLibraryCargoArtifact": structure["daemonLibraryCargoArtifact"],
+            "cargoStream": structure["cargoStream"], "bridge": file_record(bridge),
+            "bridgeMetadata": file_record(metadata), "daemonRlib": file_record(daemon_rlib),
+            "daemonLinkedRlib": file_record(linked), "daemonElf": file_record(daemon_elf),
+            "daemonRustcLinkage": structure["daemonRustcLinkage"]}
 
 
 def linkage(preflight_path, cargo_json_path, stderr_path, build_exit_code,
@@ -351,13 +432,14 @@ def linkage(preflight_path, cargo_json_path, stderr_path, build_exit_code,
             cargo_lines.count("host: x86_64-unknown-linux-gnu") == 1, "wrong Cargo -Vv version/host")
     cargo_json, json_record = read_bounded(cargo_json_path, LOG_CAP)
     stderr, stderr_record = read_bounded(stderr_path, LOG_CAP)
+    lock_bytes, lock_record = read_bounded(Path(receipt["source"]["root"]) / "core/Cargo.lock", RECEIPT_CAP)
     selected = select_artifacts(cargo_json, stderr, Path(receipt["source"]["root"]),
-                                Path(receipt["target"]["path"]))
+                                Path(receipt["target"]["path"]), lock_bytes)
     recheck_preflight(receipt)
     return {"schema": "layerfs-encoder-linkage-v1", "ok": True, "preflight": preflight_record,
             "buildCommand": command_record, "buildExitCode": build_exit_code,
             "rustcVersion": rustc_record, "cargoVersion": cargo_record,
-            "cargoJson": json_record, "cargoStderr": stderr_record, **selected}
+            "cargoJson": json_record, "cargoStderr": stderr_record, "cargoLock": lock_record, **selected}
 
 
 def expected_stdout(model):
@@ -432,16 +514,27 @@ def main(argv=None):
         final.add_argument("--" + name, required=True)
     final.add_argument("--proof-exit-code", type=int, required=True)
     final.add_argument("--compile-exit-code", type=int, required=True)
+    audit = sub.add_parser("audit-cargo")
+    for name in ("cargo-json", "cargo-stderr", "cargo-lock", "source-root", "target-root", "output"):
+        audit.add_argument("--" + name, required=True)
     args = parser.parse_args(argv)
     if args.command == "preflight":
         result = preflight(args.source, args.target, args.inputs, args.source_manifest)
     elif args.command == "linkage":
         result = linkage(args.preflight, args.cargo_json, args.cargo_stderr, args.build_exit_code,
                          args.rustc_version, args.cargo_version, args.build_command)
-    else:
+    elif args.command == "finalize":
         result = finalize(args.preflight, args.linkage, args.proof_stdout, args.proof_stderr,
                           args.proof_exit_code, args.proof_binary, args.compile_exit_code,
                           args.proof_binary_before)
+    else:
+        cargo_json, json_record = read_bounded(args.cargo_json, LOG_CAP)
+        stderr, stderr_record = read_bounded(args.cargo_stderr, LOG_CAP)
+        lock_bytes, lock_record = read_bounded(args.cargo_lock, RECEIPT_CAP)
+        result = audit_cargo_structure(cargo_json, stderr, lock_bytes,
+                                      args.source_root, args.target_root)
+        result.update(cargoJson=json_record, cargoStderr=stderr_record, cargoLock=lock_record,
+                      scope="Recorded structure only; no extant build-artifact hashes or encoder execution.")
     write_receipt(args.output, result)
 
 

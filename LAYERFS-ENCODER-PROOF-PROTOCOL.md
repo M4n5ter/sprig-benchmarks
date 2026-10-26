@@ -1,8 +1,10 @@
 # Pinned LayerFS source-only encoder discriminator
 
-**Preparation only. No CI dispatch or encoder execution has occurred.** This is
-not a mounted rerun, performance comparison, comparator fix or successful Native
-smoke. Original run 40338242966 and its corrected analysis remain failed with no
+**Revised harness preparation; no encoder outcome yet.** The first source-only
+CI attempt [40356426815](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40356426815)
+built the daemon successfully but failed in the linkage parser before compiling
+or executing the proof. This is not a mounted rerun, performance comparison,
+comparator fix or successful Native smoke. Original run 40338242966 and its corrected analysis remain failed with no
 ratios. The actual daemon reply/server cause was not captured.
 
 ## Question and immutable inputs
@@ -35,11 +37,16 @@ original `cargo +1.85.1 build --manifest-path core/Cargo.toml --locked --offline
 --release -p layerfs-daemon`, adding only Cargo JSON and verbose diagnostic output.
 The daemon is compiled but **never executed**.
 
-The bridge rlib is selected from the unique successful Cargo compiler artifact,
-with exact default+duplex features, and must equal the daemon library rustc
-invocation's `--extern layerfs_bridge` path. The daemon executable must then link
-that exact daemon library; both Cargo artifacts and verbose invocations are bound. No first-match glob or assumption that the addon
-and daemon bridge artifacts are interchangeable. The immutable workflow constructs the external proof compiler argv from this
+The bridge rmeta and rlib are uniquely selected from the SAME successful Cargo
+compiler artifact with exact default+duplex features. Cargo's pipelined daemon
+library invocation must use that exact bridge rmeta; the daemon executable must
+use the exact bridge rlib directly and link the hash-bound daemon library alias.
+Both Cargo artifacts and verbose invocations are bound. No filename-stem guess,
+first-match glob or assumption that addon and daemon artifacts are interchangeable.
+Cargo -vv build-script lines are classified separately from complete JSON-object
+records. Every `[package version]` prefix must match a custom-build compiler
+record AND the verified committed lockfile. Full raw lines, classification counts
+and hashes remain in evidence; arbitrary malformed/unbound text is rejected. The immutable workflow constructs the external proof compiler argv from this
 selected path; the validator does not attest arbitrary external compiler commands.
 Record source, lockfile, tools,
 bridge/daemon artifacts and proof ELF hashes. Those build outputs are ephemeral
@@ -89,3 +96,24 @@ Use the registered `native-fork-ab.yml` path only on a separately reviewed
 experimental ref. The current stress branch's workflows and held writable canary
 remain unchanged. No default-branch write. Root review, inert tests, publication
 verification and a separate one-dispatch approval are still required.
+
+
+## First attempt and narrow harness correction
+
+Run 40356426815 retained all 37 artifact files / 1,159,589 bytes. The daemon build
+returned zero in 124.30 seconds with complete bounded capture and no signal or
+overflow. Its stdout contained 247 JSON records and 932 fully prefixed verbose
+build-script lines. The original parser wrongly treated every line as JSON; a
+second actual-schema finding was the valid rmeta pipeline described above. No
+bridge/daemon binary hashes were produced before that parser rejection, and the
+ephemeral build artifacts are unavailable. Offline log compatibility cannot
+substitute for a future actual encoder execution. The original failed run and
+artifact remain immutable; no mounted/performance result is reclassified.
+
+Creating the diagnostic ref also accidentally triggered legacy push run
+[40355668729](https://github.com/M4n5ter/sprig-benchmarks/actions/runs/40355668729).
+It was cancelled during compilation; product smoke, runtime preparation and
+repeated-comparison steps were all skipped. Only after cancellation was terminal
+was the one manual source-only attempt dispatched. The revised experimental
+`compare.yml` adds only this exact diagnostic ref to its existing push-ignore
+list; other refs/default branch/workflow bodies are not disabled or changed.
