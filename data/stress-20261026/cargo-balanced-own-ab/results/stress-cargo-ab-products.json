@@ -1,0 +1,16 @@
+[
+  {
+    "label": "sprig-baseline",
+    "sha": "4ef4a90d7ccf5f305416c5374bfc81038f5ca46e",
+    "sourcePath": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig-baseline",
+    "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/baseline-sprig",
+    "binarySha256": "794b7343892554a094105781f610c116fd263f3ecc6aaf85383224225c78df04"
+  },
+  {
+    "label": "sprig-candidate",
+    "sha": "b300693e01c652c1a9631c61b7a439892d8f75cd",
+    "sourcePath": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/sprig-candidate",
+    "binary": "/home/runner/work/sprig-benchmarks/sprig-benchmarks/bin/candidate-sprig",
+    "binarySha256": "95e3f068205a9fea634a06537adc84d9170b5834ca4030c690fa1b6b1f847bdc"
+  }
+]

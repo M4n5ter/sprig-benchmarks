@@ -1,0 +1,76 @@
+{
+  "result": {
+    "branches": {
+      "main": "c1bc7f35a860ff94f769593d6dbbe7f9221ea999e57ddf6473ab2af340112f9f",
+      "second": "2acda7c489e3044b9bba44e5b243d9ca1391af1783d9c03429851f5eeea28b34",
+      "work": "2acda7c489e3044b9bba44e5b243d9ca1391af1783d9c03429851f5eeea28b34"
+    },
+    "trash": [
+      {
+        "name": "generation-work",
+        "revision": "c1bc7f35a860ff94f769593d6dbbe7f9221ea999e57ddf6473ab2af340112f9f",
+        "token": "1793000934365679528-47542-1",
+        "workspace": {
+          "backend": {
+            "kind": "writable",
+            "revision": "057565aea0c0fa555ff2d09e2d18cdc8fff18156035983b7620cb3c431af0a42"
+          },
+          "base_revision": "c1bc7f35a860ff94f769593d6dbbe7f9221ea999e57ddf6473ab2af340112f9f",
+          "branch": "work",
+          "directory": "1793000927581024074-46337-1",
+          "observation_epoch": null,
+          "observed": {
+            "entries": 0,
+            "format": "sprig_observation_json_zstd",
+            "hash": "e3ab2edaf5b4d83dec7d78e2bf5f6f2946664d1bb733f876b357eb1c61b5d9e8",
+            "raw_bytes": 2,
+            "version": 1
+          },
+          "pending": null
+        }
+      }
+    ],
+    "workspaces": {
+      "main": {
+        "backend": {
+          "kind": "writable",
+          "revision": "c1bc7f35a860ff94f769593d6dbbe7f9221ea999e57ddf6473ab2af340112f9f"
+        },
+        "base_revision": "c1bc7f35a860ff94f769593d6dbbe7f9221ea999e57ddf6473ab2af340112f9f",
+        "branch": "main",
+        "copy_stats": null,
+        "mount_state": "mounted",
+        "name": "main",
+        "path": "/home/runner/work/_temp/stress-cargo-sprig-candidate-1-1-5N9Prr/mount/sample/library/native/1793000927542437392-46333-1/tree",
+        "pending_conflicts": []
+      },
+      "second": {
+        "backend": {
+          "kind": "writable",
+          "revision": "2acda7c489e3044b9bba44e5b243d9ca1391af1783d9c03429851f5eeea28b34"
+        },
+        "base_revision": "2acda7c489e3044b9bba44e5b243d9ca1391af1783d9c03429851f5eeea28b34",
+        "branch": "second",
+        "copy_stats": null,
+        "mount_state": "mounted",
+        "name": "second",
+        "path": "/home/runner/work/_temp/stress-cargo-sprig-candidate-1-1-5N9Prr/mount/sample/library/native/1793000934401896176-47545-0/tree",
+        "pending_conflicts": []
+      },
+      "work": {
+        "backend": {
+          "kind": "writable",
+          "revision": "2acda7c489e3044b9bba44e5b243d9ca1391af1783d9c03429851f5eeea28b34"
+        },
+        "base_revision": "2acda7c489e3044b9bba44e5b243d9ca1391af1783d9c03429851f5eeea28b34",
+        "branch": "work",
+        "copy_stats": null,
+        "mount_state": "mounted",
+        "name": "work",
+        "path": "/home/runner/work/_temp/stress-cargo-sprig-candidate-1-1-5N9Prr/mount/sample/library/native/1793000934365687593-47542-2/tree",
+        "pending_conflicts": []
+      }
+    }
+  },
+  "schema_version": 1
+}

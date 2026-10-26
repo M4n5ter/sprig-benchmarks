@@ -1,0 +1,62 @@
+{
+  "ok": true,
+  "events": [
+    "open fd verified before hardlink",
+    "ordinary hardlink created while fd remains open",
+    "held fd pread/pwrite/fsync and alias identity passed"
+  ],
+  "commands": [
+    {
+      "command": [
+        "init"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"result\": {\n    \"initialized\": true,\n    \"store\": \"/home/runner/work/_temp/candidate-writable-gate/sprig-link-fd-dfso6aqm/store\"\n  },\n  \"schema_version\": 1\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "--writable",
+        "import",
+        "/home/runner/work/_temp/candidate-writable-gate/sprig-link-fd-dfso6aqm/source",
+        "main"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"result\": {\n    \"backend\": {\n      \"kind\": \"writable\",\n      \"revision\": \"8ed72add27656899a27fd33da1dec04465d87431a1c9168078f1d64b931cfc81\"\n    },\n    \"base_revision\": \"8ed72add27656899a27fd33da1dec04465d87431a1c9168078f1d64b931cfc81\",\n    \"branch\": \"main\",\n    \"copy_stats\": null,\n    \"mount_state\": \"unmounted\",\n    \"name\": \"main\",\n    \"path\": \"/home/runner/work/_temp/candidate-writable-gate/sprig-link-fd-dfso6aqm/store/native/1793000568271045575-8478-1/tree\",\n    \"pending_conflicts\": []\n  },\n  \"schema_version\": 1\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "mount",
+        "main"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"result\": {\n    \"backend\": {\n      \"kind\": \"writable\",\n      \"revision\": \"8ed72add27656899a27fd33da1dec04465d87431a1c9168078f1d64b931cfc81\"\n    },\n    \"base_revision\": \"8ed72add27656899a27fd33da1dec04465d87431a1c9168078f1d64b931cfc81\",\n    \"branch\": \"main\",\n    \"copy_stats\": null,\n    \"mount_state\": \"mounted\",\n    \"name\": \"main\",\n    \"path\": \"/home/runner/work/_temp/candidate-writable-gate/sprig-link-fd-dfso6aqm/store/native/1793000568271045575-8478-1/tree\",\n    \"pending_conflicts\": []\n  },\n  \"schema_version\": 1\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "show",
+        "main"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"result\": {\n    \"backend\": {\n      \"kind\": \"writable\",\n      \"revision\": \"8ed72add27656899a27fd33da1dec04465d87431a1c9168078f1d64b931cfc81\"\n    },\n    \"base_revision\": \"8ed72add27656899a27fd33da1dec04465d87431a1c9168078f1d64b931cfc81\",\n    \"branch\": \"main\",\n    \"copy_stats\": null,\n    \"mount_state\": \"mounted\",\n    \"name\": \"main\",\n    \"path\": \"/home/runner/work/_temp/candidate-writable-gate/sprig-link-fd-dfso6aqm/store/native/1793000568271045575-8478-1/tree\",\n    \"pending_conflicts\": []\n  },\n  \"schema_version\": 1\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "unmount-generation",
+        "1793000568271045575-8478-1"
+      ],
+      "returncode": 0,
+      "stdout": "{\n  \"result\": {\n    \"generation\": \"1793000568271045575-8478-1\",\n    \"retained\": true\n  },\n  \"schema_version\": 1\n}\n",
+      "stderr": ""
+    }
+  ],
+  "error": null,
+  "remainingMounts": [],
+  "serverLogs": {
+    "native/1793000568271045575-8478-1/writable-8479-1793000568276405303.log": ""
+  },
+  "retainedRoot": "/home/runner/work/_temp/candidate-writable-gate/sprig-link-fd-dfso6aqm"
+}

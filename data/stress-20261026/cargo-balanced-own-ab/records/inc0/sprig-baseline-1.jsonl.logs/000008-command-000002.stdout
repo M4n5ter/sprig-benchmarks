@@ -1,0 +1,47 @@
+[
+    {
+        "Id": "sha256:356a91d1659cbe5bef040ae69c5dd561555d04de51ad7c2d4a33b3e32ab03d86",
+        "RepoTags": [
+            "sprig-cargo-fixture:40287036513"
+        ],
+        "RepoDigests": [],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-10-26T07:43:33.818202843Z",
+        "Config": {
+            "Env": [
+                "PATH=/opt/rust/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/bash"
+            ],
+            "Labels": {
+                "org.opencontainers.image.version": "24.04"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 1005165334,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-1-NC5jrj/mount/docker-data/overlay2/a982481f75047a15e1597ba7c94b2d0cbf178ccfdc91eaac584b9c3a91e746c8/diff:/home/runner/work/_temp/stress-cargo-sprig-baseline-0-1-NC5jrj/mount/docker-data/overlay2/f73a3a8a07004c8a1fbfd324e76e4e6f6eee056f743905889f2e9d06d2211155/diff:/home/runner/work/_temp/stress-cargo-sprig-baseline-0-1-NC5jrj/mount/docker-data/overlay2/8aec75b243d7c5785545e04684cb254ab8e342e569be0142c0ef4f38decb9358/diff:/home/runner/work/_temp/stress-cargo-sprig-baseline-0-1-NC5jrj/mount/docker-data/overlay2/ec1789ea5c0c0d31e606b6a8d6080200cb6395e0b9eb4755c176a8022f6c92f7/diff",
+                "MergedDir": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-1-NC5jrj/mount/docker-data/overlay2/c91f10ca39c1e82b216e5c62bc28d39714dcba78f64b7f0db72c26714aa393ef/merged",
+                "UpperDir": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-1-NC5jrj/mount/docker-data/overlay2/c91f10ca39c1e82b216e5c62bc28d39714dcba78f64b7f0db72c26714aa393ef/diff",
+                "WorkDir": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-1-NC5jrj/mount/docker-data/overlay2/c91f10ca39c1e82b216e5c62bc28d39714dcba78f64b7f0db72c26714aa393ef/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:32ab39660fd51c6dc3aae486b42d42bbe8fe4c1db78eaf57bb9c21198de48a16",
+                "sha256:8dfc8d4979db3640f7e826ab9e6d2ce08039943c38388e9c4f10352d21dcb4d2",
+                "sha256:64f239022dbaf024d850c543b26a90f9f4f15fb62548c3ea6c7b46b1616f13ee",
+                "sha256:e7ea4a99c2cd865782b52e7206a7c4e7e54fa6eb3dc529a46af36122b677c291",
+                "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "0001-01-01T00:00:00Z"
+        }
+    }
+]

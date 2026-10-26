@@ -1,0 +1,16 @@
+{
+  "result": {
+    "backend": {
+      "kind": "writable",
+      "revision": "bf354e99ccb9a247eb495120fd5e21fc063e341fbd99138629e94907fe422652"
+    },
+    "base_revision": "bf354e99ccb9a247eb495120fd5e21fc063e341fbd99138629e94907fe422652",
+    "branch": "main",
+    "copy_stats": null,
+    "mount_state": "unmounted",
+    "name": "main",
+    "path": "/home/runner/work/_temp/stress-cargo-sprig-baseline-0-3-QUQ1Z4/mount/sample/library/native/1793000821040794363-34694-1/tree",
+    "pending_conflicts": []
+  },
+  "schema_version": 1
+}

@@ -278,3 +278,7 @@ These are overlapping descriptive timers, not additive costs or isolated rename 
 | 1 | toolchain_verify | 0.084576 | 0.088322 | +4.43% |
 
 精度说明：组合比较JSON经JavaScript Number序列化，内嵌checkpointTreeOracle的纳秒整数可能舍入。精确元数据证据以独立采样JSON和原始快照归档为准，二者保留整数纳秒且完全匹配；不宣称全部内嵌字段字节/精确整数相等。
+
+## 2026-10-26 repeated ordinary Cargo follow-up
+
+[Four balanced pairs per mode](STRESS-CARGO-BALANCED-AB-RESULTS.md) passed all 16 correctness/evidence gates, but the earlier one-pair whole-task gain did not repeat: paired geometric whole-sampler change +0.29% (inc0) / +2.00% (inc1). Checkpoint-only gains are not a whole-task win; all negatives and complete raw evidence remain available.
