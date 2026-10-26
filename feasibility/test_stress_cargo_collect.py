@@ -155,6 +155,17 @@ class RepeatedOwnABTests(unittest.TestCase):
             (results/'stress-cargo-own-ab-0.json').write_text(json.dumps(report))
             with self.assertRaisesRegex(ValueError,'completeness failed'):collect(results,temporary,base/'bad',os.getuid(),os.getgid())
 
+    def test_long_profile_exact_helper_identity_keeps_failed_partial_evidence(self):
+        from stress_cargo_pressure_profiles import experiment_for
+        with tempfile.TemporaryDirectory() as tmp:
+            base=Path(tmp);temporary=base/'temp';temporary.mkdir();results=base/'results';results.mkdir()
+            report=dict(schema='sprig-stress-cargo-own-ab-v2',incremental=0,rounds=4,records=[],complete=False,status='failed',experimentSpec=experiment_for('normal-rename2-1024-v2'))
+            (results/'stress-cargo-own-ab-0.json').write_text(json.dumps(report));collect(results,temporary,base/'out',os.getuid(),os.getgid())
+            self.assertFalse(json.loads((base/'out/results/stress-cargo-own-ab-0.json').read_text())['complete'])
+            report['experimentSpec']['pressure']['spec']=dict(report['experimentSpec']['pressure']['spec'],iterationsPerWorker=128)
+            (results/'stress-cargo-own-ab-0.json').write_text(json.dumps(report))
+            with self.assertRaisesRegex(ValueError,'completeness failed'):collect(results,temporary,base/'bad',os.getuid(),os.getgid())
+
     def test_fourth_round_archive_and_fixed_experiment_identity(self):
         from stress_cargo_collect import ORDINARY_EXPERIMENT
         for failure in (None,'wrong_profile','legacy','wrong_rounds','missing_file'):

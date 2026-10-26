@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 import re
 import stat
-from stress_cargo_pressure import SPEC as PRESSURE_SPEC, pressure_identity
+from stress_cargo_pressure_profiles import experiment_for
 
 RESULTS = set('cargo-toolchain-capacity.txt cargo-image-capacity.txt cargo-image-build.txt cargo-image.json cargo-software-identity.txt current-writable-contract.json docker-updated.txt environment.txt production-binary-hash.txt production-kernel-contract.json production-source-hashes.txt projection-rust-version.txt runtime-image.json script-hashes.txt stress-cargo-capacity-status.json stress-cargo-capacity.json stress-cargo-generated.json stress-cargo-lock-generation.txt stress-cargo-manifest.json stress-cargo-oracle.json'.split())
 RESULTS.update('stress-cargo-own-ab-summary.json stress-cargo-ab-products.json baseline-source-hashes.txt candidate-source-hashes.txt baseline-binary-hash.txt candidate-binary-hash.txt baseline-release-build.log candidate-release-build.log baseline-tests.txt candidate-tests.txt baseline-projection-gate.json candidate-projection-gate.json baseline-writable-gate.json candidate-writable-gate.json'.split())
@@ -77,8 +77,9 @@ def verify_declared_archives(destination, temporary, copied):
                 errors.append('invalid own-AB report schema/incremental identity');continue
             repeated=own_ab and report.get('schema')=='sprig-stress-cargo-own-ab-v2'
             expected_experiment=ORDINARY_EXPERIMENT
-            if isinstance(report.get('experimentSpec'),dict) and report['experimentSpec'].get('profile')==PRESSURE_SPEC['profile']:
-                expected_experiment={**ORDINARY_EXPERIMENT,'profile':PRESSURE_SPEC['profile'],'pressure':pressure_identity()}
+            if repeated:
+                try:expected_experiment=experiment_for(report.get('experimentSpec',{}).get('profile','ordinary'))
+                except (ValueError,AttributeError):errors.append('invalid repeated own-AB experiment profile');continue
             if repeated and (report.get('rounds')!=4 or type(report.get('rounds')) is not int or report.get('experimentSpec')!=expected_experiment):
                 errors.append('invalid repeated own-AB experiment identity');continue
             records=report.get('records',[])

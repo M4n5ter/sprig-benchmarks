@@ -113,20 +113,21 @@ export async function main(){
  assert.equal(process.env.GITHUB_ACTIONS,'true');assert.equal(process.getuid(),0);assert.ok(path.isAbsolute(process.env.RUNNER_TEMP??''));
  assert.ok(['0','1'].includes(process.env.STRESS_CARGO_INCREMENTAL),'explicit single incremental required');
  assert.equal(process.env.SPRIG_LIFECYCLE_TRACE,undefined,'diagnostics forbidden in formal Cargo acceptance');
+ assert.equal(process.env.SPRIG_WRITABLE_DIAGNOSTICS,undefined,'writable diagnostics forbidden in primary Cargo acceptance');
  const jobStarted=Number(process.env.STRESS_CARGO_JOB_STARTED_EPOCH),jobDeadline=Number(process.env.STRESS_CARGO_JOB_DEADLINE_EPOCH);
  const invocationEpoch=Date.now()/1000,invocationMonotonic=performance.now();
  const admitBudget=()=>budgetAdmission({startedEpochSeconds:jobStarted,deadlineEpochSeconds:jobDeadline,nowEpochSeconds:invocationEpoch+(performance.now()-invocationMonotonic)/1000});
  const incremental=Number(process.env.STRESS_CARGO_INCREMENTAL),rounds=Number(process.env.STRESS_CARGO_ROUNDS??'1');
  const ownAB=process.env.STRESS_CARGO_AB_PRODUCTS!==undefined;
  assert.ok((ownAB?[1,4]:[1,3]).includes(rounds),'only original or bounded balanced rounds allowed');
- const profile=process.env.STRESS_CARGO_PROFILE??'ordinary';assert.ok(['ordinary','normal-rename2-v1'].includes(profile));
+ const profile=process.env.STRESS_CARGO_PROFILE??'ordinary';experimentSpec(profile);
  if(profile!=='ordinary')assert.ok(ownAB&&rounds===4,'normal pressure requires balanced own A/B');
  const cwd=process.cwd(),productionSha=process.env.SPRIG_STRESS_SHA,comparatorSha=SOURCE_SHA,image=process.env.CARGO_IMAGE,archive=process.env.CARGO_IMAGE_ARCHIVE;
  if(!ownAB)assert.match(productionSha??'',/^[a-f0-9]{40}$/);assert.match(image??'',/^sha256:[a-f0-9]{64}$/);assert.ok(path.isAbsolute(archive??''));
  let abBytes=null,abProducts=null;
  if(ownAB){
   assert.equal(productionSha,undefined,'ambiguous single source and own A/B manifest');
-  assert.ok(path.isAbsolute(process.env.STRESS_CARGO_AB_PRODUCTS));abBytes=fs.readFileSync(process.env.STRESS_CARGO_AB_PRODUCTS);abProducts=validateProducts(JSON.parse(abBytes));
+  assert.ok(path.isAbsolute(process.env.STRESS_CARGO_AB_PRODUCTS));abBytes=fs.readFileSync(process.env.STRESS_CARGO_AB_PRODUCTS);abProducts=validateProducts(JSON.parse(abBytes),profile);
  }
  const sharedJobBudget={startedEpochSeconds:jobStarted,deadlineEpochSeconds:jobDeadline,minimumSampleSeconds:180,cleanupReserveSeconds:300,scope:'same absolute first-step deadline across setup and incremental invocations; no reset'};
  const verifyABInputs=()=>{
@@ -156,7 +157,7 @@ export async function main(){
  if(profile!=='ordinary')report.notes.push('Separate normal two-worker pressure profile: Cargo build timers exclude the pressure stage; stressed whole wall/space are not directly comparable with unstressed runs. All pressure files/observations remain in the full checkpoint oracle.');
  const save=()=>atomicReport(reportPath,report);save();
  try{
-  for(let round=0;round<rounds;round++)for(const product of ownAB?sampleOrder(abProducts,incremental,round).map(p=>p.label):(round%2?['layerfs','sprig-writable']:['sprig-writable','layerfs'])){
+  for(let round=0;round<rounds;round++)for(const product of ownAB?sampleOrder(abProducts,incremental,round,profile).map(p=>p.label):(round%2?['layerfs','sprig-writable']:['sprig-writable','layerfs'])){
    const budget=admitBudget();
    const variant=ownAB?abProducts.find(p=>p.label===product):null;
    if(ownAB)verifyABInputs();else{assert.equal(command('git',['-C','sprig','rev-parse','HEAD']).trim(),productionSha);assert.equal(command('git',['-C','layerfs','rev-parse','HEAD']).trim(),comparatorSha);}

@@ -95,18 +95,24 @@ def change_sample(paths, mode, index, change):
         other = json.loads(paths[1].read_text()); other['previousGate']['sha256'] = hashlib.sha256(paths[0].read_bytes()).hexdigest(); dump(paths[1], other)
 
 
-def enable_pressure(paths,archives):
-    from stress_cargo_pressure import SPEC, SCHEMA as PRESSURE_SCHEMA, pressure_identity
+def enable_pressure(paths,archives,profile='normal-rename2-v1'):
+    from stress_cargo_pressure_profiles import module_for,pins_for
+    module=module_for(profile);SPEC=module.SPEC;PRESSURE_SCHEMA=module.SCHEMA;pressure_identity=module.pressure_identity
     from stress_cargo_ab_summary import digest
     for mode,path in enumerate(paths):
         report=json.loads(path.read_text())
         report['experimentSpec']={**copy.deepcopy(EXPERIMENT),'profile':SPEC['profile'],'pressure':pressure_identity()}
+        for product in report['abProducts']:product['sha']=pins_for(profile)[product['label']]
         for row in report['records']:
             label=row['product'];round_=row['round'];raw_path=path.parent/Path(row['rawReportPath']).name
             sample=json.loads(raw_path.read_text())
             pressure=dict(schema=PRESSURE_SCHEMA,profile=SPEC['profile'],spec=SPEC,ok=True,allWitnessesVerified=True,workerLifetimeOverlapNs=90,
                           workers=[dict(worker=w,startedNs=w*10,finishedNs=100+w*10,completedIterations=128,
                                         samplesNanoseconds={name:[w+1]*(256 if name=='rename' else 128) for name in ('rename','write','read','metadata')}) for w in (0,1)])
+            if profile=='normal-rename2-1024-v2':
+                from test_stress_cargo_pressure_long import synthetic_report
+                pressure=synthetic_report()
+            sample['production_sha']=pins_for(profile)[label]
             output=json.dumps(pressure,sort_keys=True)+'\n'
             sample.update(normalPressure=pressure,normalPressureScriptSha256=pressure_identity()['scriptSha256'],normalPressureRawSha256=digest(output.encode()))
             sample['phase_seconds']['normal_pressure']=1.0
@@ -231,6 +237,23 @@ class SummaryTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             paths, archives = fixture(Path(temp)); paths[1].write_text('{')
             result = summarize(paths, archives); self.assertFalse(result['complete']); self.assertEqual(len(result['records']), 8)
+
+    def test_long_profile_complete16_exact_raw_intervals_and_distinct_pins(self):
+        with tempfile.TemporaryDirectory() as temp:
+            paths,archives=fixture(Path(temp));enable_pressure(paths,archives,'normal-rename2-1024-v2')
+            result=summarize(paths,archives);self.assertTrue(result['complete'],result['errors']);self.assertEqual(len(result['records']),16)
+            self.assertEqual(result['identity']['abProducts'][0]['sha'],'b300693e01c652c1a9631c61b7a439892d8f75cd')
+            self.assertEqual(result['identity']['abProducts'][1]['sha'],'dfee7e4e9ee223f25d141d2e05d3cfcdc6c9269f')
+            self.assertEqual(result['records'][0]['normalPressureOperations']['rename']['n'],4096)
+            report=json.loads(paths[0].read_text());report['abProducts'][0]['sha']=PINS['sprig-baseline'];dump(paths[0],report)
+            result=summarize(paths,archives);self.assertFalse(result['complete']);self.assertIsNone(result['comparisons'])
+
+    def test_long_profile_invalid_interval_is_not_rescued_by_new_outer_raw_hash(self):
+        with tempfile.TemporaryDirectory() as temp:
+            paths,archives=fixture(Path(temp));enable_pressure(paths,archives,'normal-rename2-1024-v2')
+            change_sample(paths,0,0,lambda s:s['normalPressure']['workers'][0]['operationIntervals'][1].update(startNs=0))
+            result=summarize(paths,archives);self.assertFalse(result['complete']);self.assertIsNone(result['comparisons'])
+            self.assertTrue(any('operation interval' in error for error in result['errors']),result['errors'])
 
     def test_separate_pressure_profile_has_dependent_operation_tails_not_whole_task_tails(self):
         with tempfile.TemporaryDirectory() as temp:

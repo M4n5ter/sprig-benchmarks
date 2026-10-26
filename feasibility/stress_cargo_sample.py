@@ -14,7 +14,7 @@ from cargo_transport_sample import CargoTransportSample, transport_report
 from cargo_sample import fixture_inventory, ORACLE
 from cas_sample import Parser, require, HEX64
 from stress_cargo_prepare import PROTOCOL, PROTOCOL_SHA, validate_manifest
-from stress_cargo_pressure import SPEC as PRESSURE_SPEC, validate_report as validate_pressure_report
+from stress_cargo_pressure_profiles import PROFILE_NAMES, module_for
 
 
 def stress_report():
@@ -85,12 +85,13 @@ class StressCargoSample(CargoTransportSample):
         return proc.stdout
 
     def prepare(self,args):
-        for key in ("DOCKER_HOST","DOCKER_CONTEXT","DOCKER_TLS_VERIFY","DOCKER_CERT_PATH","DOCKER_TLS","SPRIG_LIFECYCLE_TRACE"):
+        for key in ("DOCKER_HOST","DOCKER_CONTEXT","DOCKER_TLS_VERIFY","DOCKER_CERT_PATH","DOCKER_TLS","SPRIG_LIFECYCLE_TRACE","SPRIG_WRITABLE_DIAGNOSTICS"):
             require(not os.environ.get(key), "unexpected inherited routing/diagnostic setting",variable=key)
         self.pressure_profile=getattr(args,'pressure_profile','ordinary')
-        require(self.pressure_profile in ('ordinary',PRESSURE_SPEC['profile']),'unknown pressure profile')
+        require(self.pressure_profile in PROFILE_NAMES,'unknown pressure profile')
         if self.pressure_profile!='ordinary':
-            self.pressure_source=Path(__file__).with_name('stress_cargo_pressure.py').read_bytes()
+            self.pressure_module=module_for(self.pressure_profile)
+            self.pressure_source=Path(self.pressure_module.__file__).read_bytes()
             self.report['normalPressureScriptSha256']=hashlib.sha256(self.pressure_source).hexdigest()
             require(self.report['normalPressureScriptSha256']==args.pressure_script_sha256,'pressure source identity mismatch')
         else:
@@ -144,7 +145,7 @@ class StressCargoSample(CargoTransportSample):
 
     def normal_pressure(self,tree):
         raw=self.runtime(tree,'python3 -B - /work',input_data=self.pressure_source.decode(),purpose='normal_pressure')
-        pressure=validate_pressure_report(json.loads(raw))
+        pressure=module_for(self.pressure_profile).validate_report(json.loads(raw))
         self.report['normalPressure']=pressure
         self.report['normalPressureRawSha256']=hashlib.sha256(raw.encode()).hexdigest()
 
@@ -234,7 +235,7 @@ def main():
         run.add_argument("--backend", required=True, choices=["native", "projection", "writable"])
         run.add_argument("--incremental", required=True, type=int, choices=[0, 1])
         run.add_argument("--records")
-        run.add_argument("--pressure-profile",choices=["ordinary",PRESSURE_SPEC["profile"]],default="ordinary")
+        run.add_argument("--pressure-profile",choices=PROFILE_NAMES,default="ordinary")
         run.add_argument("--pressure-script-sha256")
         run.add_argument("--production-sha", required=True)
         args = parser.parse_args()

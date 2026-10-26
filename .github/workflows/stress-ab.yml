@@ -1,11 +1,11 @@
 name: Cargo DAG16 balanced within-Sprig A/B
-run-name: Cargo DAG16 ${{ inputs.profile || 'ordinary' }} baseline4ef versus renameb300,4 balanced pairs per mode,4GiB
+run-name: Cargo DAG16 ${{ inputs.profile || 'ordinary' }},4 balanced pairs per mode,4GiB
 on:
   workflow_dispatch:
     inputs:
       profile:
         type: choice
-        options: [ordinary, normal-rename2-v1]
+        options: [ordinary, normal-rename2-v1, normal-rename2-1024-v2]
         default: ordinary
         description: Separate experiment profile; never pool pressure with ordinary runs
         required: true
@@ -22,14 +22,21 @@ jobs:
       CARGO_BUILD_JOBS: '2'
       STRESS_CARGO_ROUNDS: '4'
       STRESS_CARGO_PROFILE: ${{ inputs.profile || 'ordinary' }}
-      BASELINE_SHA: '4ef4a90d7ccf5f305416c5374bfc81038f5ca46e'
-      CANDIDATE_SHA: 'b300693e01c652c1a9631c61b7a439892d8f75cd'
     steps:
       - name: Establish shared absolute admission deadline before setup
         run: |
           started=$(date +%s)
           echo "STRESS_CARGO_JOB_STARTED_EPOCH=$started" >> "$GITHUB_ENV"
           echo "STRESS_CARGO_JOB_DEADLINE_EPOCH=$((started + 40 * 60))" >> "$GITHUB_ENV"
+          case "$STRESS_CARGO_PROFILE" in
+            ordinary|normal-rename2-v1)
+              echo 'BASELINE_SHA=4ef4a90d7ccf5f305416c5374bfc81038f5ca46e' >> "$GITHUB_ENV"
+              echo 'CANDIDATE_SHA=b300693e01c652c1a9631c61b7a439892d8f75cd' >> "$GITHUB_ENV" ;;
+            normal-rename2-1024-v2)
+              echo 'BASELINE_SHA=b300693e01c652c1a9631c61b7a439892d8f75cd' >> "$GITHUB_ENV"
+              echo 'CANDIDATE_SHA=dfee7e4e9ee223f25d141d2e05d3cfcdc6c9269f' >> "$GITHUB_ENV" ;;
+            *) echo 'Unreviewed pressure profile' >&2; exit 2 ;;
+          esac
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Record paired environment and install official tools
         run: |
@@ -44,6 +51,8 @@ jobs:
           python3 feasibility/test_stress_cargo_collect.py
           python3 feasibility/test_stress_cargo_ab_summary.py
           python3 feasibility/test_stress_cargo_pressure.py
+          python3 feasibility/test_stress_cargo_pressure_long.py
+          node feasibility/test_stress_cargo_pressure_long.mjs
           node feasibility/test_stress_cargo_layerfs.mjs
           node feasibility/test_stress_cargo_compare.mjs
           node feasibility/test_stress_cargo_own_ab.mjs

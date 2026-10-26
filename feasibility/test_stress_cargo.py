@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import os
 from pathlib import Path
 import tempfile
 import unittest
@@ -85,6 +86,19 @@ class Tests(unittest.TestCase):
             self.assertIn('normal_pressure',sample.report['phase_seconds'])
             self.assertEqual(len(sample.report['compilerSessions']),4)
             self.assertTrue(sample.report['ok'])
+
+    def test_long_pressure_keeps_same_cargo_phase_boundaries(self):
+        with tempfile.TemporaryDirectory() as root:
+            sample=MockStress(Path(root));sample.pressure_profile='normal-rename2-1024-v2'
+            sample.normal_pressure=lambda tree:sample.app_calls.append(('normal_pressure','work','mock long positive stage',None))
+            with TransportTests().patches(sample),patch('stress_cargo_sample.fixture_inventory',lambda *a:None):sample.execute();sample.cleanup()
+            phases=[row[0] for row in sample.app_calls]
+            self.assertLess(phases.index('edit_execute'),phases.index('normal_pressure'));self.assertLess(phases.index('normal_pressure'),phases.index('pre_checkpoint_oracle'));self.assertTrue(sample.report['ok'])
+
+    def test_primary_refuses_writable_diagnostics_before_setup(self):
+        sample=StressCargoSample(stress_report())
+        with patch.dict(os.environ,{'SPRIG_WRITABLE_DIAGNOSTICS':'1'},clear=True):
+            with self.assertRaisesRegex(transport.SampleError,'diagnostic'):sample.prepare(SimpleNamespace())
 
     def test_uncertain_exit_still_blocks_product_checkpoint_and_cleanup(self):
         with tempfile.TemporaryDirectory() as root:

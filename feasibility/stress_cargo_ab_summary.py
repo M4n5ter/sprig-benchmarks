@@ -15,7 +15,7 @@ import statistics
 import sys
 
 from stress_stats import latency_summary
-from stress_cargo_pressure import SPEC as PRESSURE_SPEC, pressure_identity, validate_report as validate_pressure_report
+from stress_cargo_pressure_profiles import experiment_for, module_for, pins_for
 
 SCHEMA = 'sprig-stress-cargo-own-ab-v2'
 PINS = {'sprig-baseline': '4ef4a90d7ccf5f305416c5374bfc81038f5ca46e',
@@ -70,7 +70,8 @@ def digest(body):
 def validate_identity(report):
     require(report.get('schema') == SCHEMA, 'requires repeated own-AB v2 schema')
     spec=report.get('experimentSpec')
-    wanted=EXPERIMENT if isinstance(spec,dict) and spec.get('profile')=='ordinary' else {**EXPERIMENT,'profile':PRESSURE_SPEC['profile'],'pressure':pressure_identity()}
+    wanted=experiment_for(spec.get('profile') if isinstance(spec,dict) else None)
+    pins=pins_for(wanted['profile'])
     require(spec==wanted,'requires exact reviewed repeated experiment')
     require(type(report.get('rounds')) is int and report['rounds'] == 4, 'requires four rounds')
     require(type(report.get('expectedRecords')) is int and report['expectedRecords'] == 8, 'requires eight expected records per mode')
@@ -81,10 +82,10 @@ def validate_identity(report):
         require(isinstance(report.get(name), str) and HEX64.fullmatch(report[name]), 'invalid ' + name)
     products = report.get('abProducts')
     require(isinstance(products, list) and len(products) == 2, 'requires exactly two products')
-    require([p.get('label') for p in products] == list(PINS), 'fixed ordered product labels required')
+    require([p.get('label') for p in products] == list(pins), 'fixed ordered product labels required')
     for product in products:
         require(set(product) == {'label', 'sha', 'binary', 'binarySha256', 'sourcePath'}, 'unexpected product fields')
-        require(product['sha'] == PINS[product['label']], 'fixed source pin mismatch')
+        require(product['sha'] == pins[product['label']], 'fixed source pin mismatch')
         require(isinstance(product['binarySha256'], str) and HEX64.fullmatch(product['binarySha256']), 'invalid binary hash')
         for name in ('binary', 'sourcePath'):
             value = product[name]
@@ -183,7 +184,7 @@ def validate_pressure_evidence(sample,report,contents):
     if spec['profile']=='ordinary':
         require('normalPressure' not in sample and 'normal_pressure' not in sample['phase_seconds'],'ordinary sample contains pressure')
         return
-    pressure=validate_pressure_report(sample.get('normalPressure'))
+    module=module_for(spec['profile']);pressure=module.validate_report(sample.get('normalPressure'))
     require(sample.get('normalPressureScriptSha256')==spec['pressure']['scriptSha256'],'pressure helper identity mismatch')
     finite(sample['phase_seconds'].get('normal_pressure'),'normal pressure phase')
     commands=[row for row in sample.get('commands',[]) if row.get('purpose')=='normal_pressure']
@@ -200,7 +201,7 @@ def validate_pressure_evidence(sample,report,contents):
         base=f'pressure-rename2/worker-{worker}'
         require(sum(name.startswith(base+'/unrelated/') for name in entries)==1024,'pressure unrelated-file witness count mismatch')
         witness=entries.get(base+'/active/witness',{})
-        require(witness.get('mode')==0o640 and witness.get('mtime_ns')==int(PRESSURE_SPEC['witnessMtimeNs']),'pressure exact-metadata witness mismatch')
+        require(witness.get('mode')==0o640 and witness.get('mtime_ns')==int(module.SPEC['witnessMtimeNs']),'pressure exact-metadata witness mismatch')
         require([base+'/active/witness',base+'/active/witness-link'] in sample['checkpointTreeOracle']['hardlink_groups'],'pressure hardlink group mismatch')
         require(entries.get(base+'/active/symlink',{}).get('target')=='witness','pressure symlink witness mismatch')
 
