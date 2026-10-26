@@ -25,7 +25,7 @@ def sample_fixture(root,product=None,identity='native-main-0',params=None):
         archive.append(dict(source='/original/'+path.name,archived=str(path),bytes=len(body),sha256=a.digest(body)))
         checks.append(dict(label=label,verified=True,oracleSha256=expected_hash))
     sample={key:True for key in ('ok','exactMetadataOracle','originalMainViewUnchanged','originalSecondViewUnchanged','sourceUnchanged','allAcknowledgedIdsPresent')}
-    sample.update(status='passed',backend='native',production_sha=product['sha'],binarySha256=product['binarySha256'],fixtureSha256=digest,
+    sample.update(metadata_branch_available=True,metadata_branch_probe='omitted',metadata_branch_seconds=None,metadata_branch_unavailable_reason=None,status='passed',backend='native',production_sha=product['sha'],binarySha256=product['binarySha256'],fixtureSha256=digest,
                   capacityPreflight=dict(filesystemBytes=2*1024**3,reserveBytes=256*1024**2,retainedEstimateBytes=28*1024),
                   diagnostic=False,instrumentation='off',lifecycleTraceEvidence={'validRecords':0},remainingMounts=[],lifecycle={'cleanup':{'complete':True},'daemons':[]},
                   fullHistoricalSnapshotReadbacks=len(fixture['edits'])+1,expectedCheckpointOperations=len(fixture['edits'])+1,checkpointOperationCount=len(fixture['edits'])+1,fullTreeChecks=checks,completeLogArchive=archive,

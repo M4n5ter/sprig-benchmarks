@@ -63,6 +63,13 @@ def summarize(path,canary_path=None):
             require(row.get('sample')==sample,'embedded/raw exact native sample differs')
             values={'wholeSampleSeconds':row['wholeSampleSubprocessWallSeconds'],'activeWholeFilesystemBytes':sample['activeSpace']['filesystemUsedBytes'],'postHistoryWholeFilesystemBytes':sample['postHistorySpace']['filesystemUsedBytes']}
             values.update({key:value for key,value in sample.items() if key.endswith('_seconds')})
+            # The inherited production schema explicitly omits this probe; it
+            # is not a measured zero and must stay visible outside comparisons.
+            audit['notMeasured']={}
+            if 'metadata_branch_seconds' in values and (values['metadata_branch_seconds'] is None or sample.get('metadata_branch_probe')=='omitted'):
+                require(values['metadata_branch_seconds'] is None and sample.get('metadata_branch_available') is True and sample.get('metadata_branch_probe')=='omitted' and sample.get('metadata_branch_unavailable_reason') is None,'invalid omitted metadata-branch marker')
+                audit['notMeasured']['metadata_branch_seconds']={'value':None,'reason':'production metadata_branch_probe explicitly omitted'}
+                del values['metadata_branch_seconds']
             require(all(finite(value) for value in values.values()),'invalid measured metric')
             audit['metrics']=values
             for source,key in [('checkpoint_steps','checkpoint_seconds'),('historical_restore_steps','restore_seconds')]:

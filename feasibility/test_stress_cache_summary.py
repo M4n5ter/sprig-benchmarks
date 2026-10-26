@@ -56,7 +56,7 @@ class SummaryTests(unittest.TestCase):
             path,params=fixture(Path(tmp));(path.parent/'native-main-0-stdout.json').unlink();result=self.checked(path,params)
             self.assertFalse(result['complete']);self.assertEqual(len(result['records']),9)
     def test_invalid_phase_in_every_sample_is_rejected_not_dropped(self):
-        for invalid in (-1,float('nan'),float('inf'),True,'12'):
+        for invalid in (None,-1,float('nan'),float('inf'),True,'12'):
             with self.subTest(invalid=invalid),tempfile.TemporaryDirectory() as tmp:
                 path,params=fixture(Path(tmp));report=json.loads(path.read_text())
                 for row in report['records']:
@@ -67,6 +67,26 @@ class SummaryTests(unittest.TestCase):
                 path.write_text(json.dumps(report));result=self.checked(path,params)
                 self.assertFalse(result['complete']);self.assertIsNone(result['comparisons']);self.assertEqual(len(result['records']),9)
                 self.assertTrue(all('invalid measured metric' in row.get('validationError','') for row in result['records']),result['errors'])
+
+    def test_real_production_omitted_marker_is_preserved_not_a_measured_zero(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path,params=fixture(Path(tmp));result=self.checked(path,params)
+            self.assertTrue(result['complete'],result['errors'])
+            for row in result['records']:
+                self.assertIsNone(row['notMeasured']['metadata_branch_seconds']['value'])
+                self.assertNotIn('metadata_branch_seconds',row['metrics'])
+            for edge in result['comparisons'].values():self.assertNotIn('metadata_branch_seconds',edge)
+
+    def test_null_is_not_excused_by_malformed_or_unrelated_omission_markers(self):
+        for change in (lambda s:s.update(metadata_branch_seconds=0),lambda s:s.update(metadata_branch_available=False),lambda s:s.update(metadata_branch_probe='measured'),lambda s:s.update(metadata_branch_unavailable_reason='unexpected'),lambda s:s.update(other_phase_seconds=None)):
+            with tempfile.TemporaryDirectory() as tmp:
+                path,params=fixture(Path(tmp));report=json.loads(path.read_text())
+                for row in report['records']:
+                    change(row['sample']);raw=json.dumps(row['sample']).encode()
+                    (path.parent/(row['identity']+'-stdout.json')).write_bytes(raw);row['rawReportSha256']=digest(raw)
+                path.write_text(json.dumps(report));result=self.checked(path,params)
+                self.assertFalse(result['complete']);self.assertIsNone(result['comparisons']);self.assertEqual(len(result['records']),9)
+                self.assertTrue(all('invalid' in row.get('validationError','') for row in result['records']),result['errors'])
 
     def test_omitted_canary_suppresses_all_ratios(self):
         with tempfile.TemporaryDirectory() as tmp:
