@@ -23,6 +23,7 @@ from stress_cache_ablation import (SCHEMA as ABLATION_SCHEMA, STAGES as ABLATION
     validate_canary as validate_ablation_canary, validate_sample as validate_ablation_sample)
 from stress_cache_fixture import CACHE_CELLS, cache_cell_parameters, generate_cache_fixture
 import stress_cache_inventory as inventory_confirmation
+import stress_cache_calibration as inventory_calibration
 
 GIB = 1024**3
 MIB = 1024**2
@@ -148,6 +149,8 @@ def main():
     parser.add_argument('--ablation-stage',choices=['canary','forward-latin'])  # reverse confirmation needs a reviewed successful screen gate
     parser.add_argument('--ablation-canary',type=Path)
     parser.add_argument('--inventory-confirmation-stage',choices=['canary','reverse-latin'])
+    parser.add_argument('--inventory-calibration-stage',choices=['canary','reverse-latin'])
+    parser.add_argument('--inventory-calibration-build-proof',type=Path)
     a=parser.parse_args()
     if os.geteuid()!=0 or os.environ.get('GITHUB_ACTIONS')!='true':
         parser.error('only root in authorized ephemeral GitHub Actions runner')
@@ -158,15 +161,26 @@ def main():
     frozen_product_bytes=a.products.read_bytes()
     products=json.loads(frozen_product_bytes)
     inventory_mode=a.inventory_confirmation_stage is not None
-    if inventory_mode and a.ablation_stage:parser.error('inventory confirmation and original admission ablation are separate modes')
-    stage=a.inventory_confirmation_stage if inventory_mode else a.ablation_stage
-    verify_selected_products=inventory_confirmation.verify_products if inventory_mode else verify_ablation_products
-    selected_order=inventory_confirmation.order if inventory_mode else ablation_order
+    calibration_mode=a.inventory_calibration_stage is not None
+    if sum(x is not None for x in (a.ablation_stage,a.inventory_confirmation_stage,a.inventory_calibration_stage))>1:parser.error('native experiment modes cannot be mixed')
+    if calibration_mode:
+        if a.inventory_calibration_build_proof is None or not a.inventory_calibration_build_proof.is_absolute():parser.error('calibration requires its exact single-build proof')
+    elif a.inventory_calibration_build_proof is not None:parser.error('single-build proof only belongs to explicit calibration')
+    stage=a.inventory_calibration_stage if calibration_mode else a.inventory_confirmation_stage if inventory_mode else a.ablation_stage
+    verify_selected_products=(lambda p:inventory_calibration.verify_products(p,a.inventory_calibration_build_proof)) if calibration_mode else inventory_confirmation.verify_products if inventory_mode else verify_ablation_products
+    selected_order=inventory_calibration.order if calibration_mode else inventory_confirmation.order if inventory_mode else ablation_order
+    selected_schema=inventory_calibration.SCHEMA if calibration_mode else inventory_confirmation.SCHEMA if inventory_mode else ABLATION_SCHEMA
+    calibration_evidence=None;frozen_build_proof=None
     validate_selected_canary=inventory_confirmation.validate_canary if inventory_mode else validate_ablation_canary
     if stage:
-        if inventory_mode:inventory_confirmation.validate_selection(stage,a.backend,a.rounds,a.cell,a.pair_order)
+        if calibration_mode:inventory_calibration.validate_selection(stage,a.backend,a.rounds,a.cell,a.pair_order)
+        elif inventory_mode:inventory_confirmation.validate_selection(stage,a.backend,a.rounds,a.cell,a.pair_order)
         else:validate_ablation_selection(stage,a.backend,a.rounds,a.cell,CACHE_CELLS,a.pair_order)
         products=verify_selected_products(products)
+        if calibration_mode:
+            frozen_build_proof=a.inventory_calibration_build_proof.read_bytes()
+            calibration_evidence=inventory_calibration.load_build_evidence(a.inventory_calibration_build_proof,products,live=True)
+            validate_selected_canary=lambda path,ps,budget:inventory_calibration.validate_canary(path,ps,budget,calibration_evidence)
         if a.output.name!='stress-results' or a.output.resolve()!=a.output or temp.resolve()!=temp:parser.error('ablation output must be canonical with stress-results leaf for exact archive identities')
     else:
         if a.ablation_canary:parser.error('ablation canary only belongs to explicit ablation mode')
@@ -196,11 +210,13 @@ def main():
                 durability='Sprig sync enabled; LayerFS Disposable WAL/OFF and MEMORY/OFF are unequal',
                 cpuMemoryComparison='unavailable; no partial process RSS/CPU claim')
     if stage:
-        report.update(schema=inventory_confirmation.SCHEMA if inventory_mode else ABLATION_SCHEMA,comparisonProtocol='within-sprig-inventory-reverse-confirmation' if inventory_mode else 'within-sprig-three-pin-cache-ablation',ablationStage=stage,expectedRecords=a.rounds*3,sharedAblationBudget=shared_ablation_budget,canaryPrerequisite=ablation_prerequisite,outputDirectory=str(a.output))
+        report.update(schema=selected_schema,comparisonProtocol='within-sprig-identical-binary-calibration' if calibration_mode else 'within-sprig-inventory-reverse-confirmation' if inventory_mode else 'within-sprig-three-pin-cache-ablation',ablationStage=stage,expectedRecords=a.rounds*3,sharedAblationBudget=shared_ablation_budget,canaryPrerequisite=ablation_prerequisite,outputDirectory=str(a.output))
     if inventory_mode:report['inventoryConfirmation']=inventory_confirmation.identity(products)
+    if calibration_mode:report['inventoryCalibration']=inventory_calibration.identity(products,calibration_evidence)
     def verify_frozen_ablation():
         if stage:
             if a.products.read_bytes()!=frozen_product_bytes:raise ValueError('ablation product manifest changed')
+            if calibration_mode and a.inventory_calibration_build_proof.read_bytes()!=frozen_build_proof:raise ValueError('single-build proof changed')
             verify_selected_products(products)
     def save():
         report['elapsedSeconds']=time.monotonic()-started

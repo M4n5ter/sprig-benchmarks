@@ -5,7 +5,7 @@ on:
     inputs:
       series:
         type: choice
-        options: [admission-screen-v1, inventory-reverse-v1]
+        options: [admission-screen-v1, inventory-reverse-v1, inventory-identical-binary-v1]
         default: admission-screen-v1
         description: Separate fixed-pin series; reverse inventory accepts only the eligible64KiB cell
         required: true
@@ -38,15 +38,23 @@ jobs:
           case "$STRESS_CACHE_SERIES" in
             admission-screen-v1)
               echo 'THIRD_VARIANT=admission' >> "$GITHUB_ENV"
+              echo 'SOURCE_VARIANTS=main inventory admission' >> "$GITHUB_ENV"
               echo 'STAGE_FLAG=--ablation-stage' >> "$GITHUB_ENV"
               echo 'MEASURE_STAGE=forward-latin' >> "$GITHUB_ENV"
               echo 'SUMMARY_SCRIPT=feasibility/stress_cache_summary.py' >> "$GITHUB_ENV" ;;
             inventory-reverse-v1)
               test "$CELL" = cache-large-64k-1024
               echo 'THIRD_VARIANT=portable' >> "$GITHUB_ENV"
+              echo 'SOURCE_VARIANTS=main inventory portable' >> "$GITHUB_ENV"
               echo 'STAGE_FLAG=--inventory-confirmation-stage' >> "$GITHUB_ENV"
               echo 'MEASURE_STAGE=reverse-latin' >> "$GITHUB_ENV"
               echo 'SUMMARY_SCRIPT=feasibility/stress_cache_inventory_summary.py' >> "$GITHUB_ENV" ;;
+            inventory-identical-binary-v1)
+              test "$CELL" = cache-large-64k-1024
+              echo 'SOURCE_VARIANTS=main portable' >> "$GITHUB_ENV"
+              echo 'STAGE_FLAG=--inventory-calibration-stage' >> "$GITHUB_ENV"
+              echo 'MEASURE_STAGE=reverse-latin' >> "$GITHUB_ENV"
+              echo 'SUMMARY_SCRIPT=feasibility/stress_cache_calibration_summary.py' >> "$GITHUB_ENV" ;;
             *) echo 'Unreviewed native series' >&2; exit 2 ;;
           esac
           started=$(date +%s)
@@ -64,12 +72,13 @@ jobs:
           python3 -m unittest discover -s feasibility -p 'test_stress_run.py' -v
           python3 -m unittest discover -s feasibility -p 'test_stress_sample.py' -v
           python3 -m unittest discover -s feasibility -p 'test_stress.py' -v
-      - name: Fetch exact three immutable sources
+      - name: Fetch exactly the selected immutable sources
         run: |
           rustup toolchain install stable --profile minimal
           rustc +stable -Vv > results/rust-version.txt
           cargo +stable -V >> results/rust-version.txt
-          for variant in main inventory "$THIRD_VARIANT"; do
+          read -r -a variants <<< "$SOURCE_VARIANTS"
+          for variant in "${variants[@]}"; do
             key="${variant^^}_SHA"; pin="${!key}"
             git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git "sprig-$variant"
             git -C "sprig-$variant" checkout "$pin"
@@ -82,10 +91,11 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
           key: stress-cache-registry-ubuntu24-v3
-      - name: Build three separate targets serially; ordinary native canaries follow
+      - name: Build selected sources once each; calibration copies ONE candidate build
         run: |
           set -o pipefail
-          for variant in main inventory "$THIRD_VARIANT"; do
+          read -r -a variants <<< "$SOURCE_VARIANTS"
+          for variant in "${variants[@]}"; do
             export CARGO_TARGET_DIR="$PWD/build-target-$variant"
             test ! -e "$CARGO_TARGET_DIR"
             cargo +stable test --locked --features projection --manifest-path "sprig-$variant/Cargo.toml" 2>&1 | tee "results/$variant-tests.txt"
@@ -95,23 +105,40 @@ jobs:
             install -m 0755 "$CARGO_TARGET_DIR/release/sprig" "bin/$variant-sprig"
             sha256sum "bin/$variant-sprig" > "results/$variant-binary-hash.txt"
           done
+          if [ "$STRESS_CACHE_SERIES" = inventory-identical-binary-v1 ]; then
+            install -m 0755 bin/portable-sprig bin/copy1-sprig
+            install -m 0755 bin/portable-sprig bin/copy2-sprig
+            cmp -s bin/portable-sprig bin/copy1-sprig
+            cmp -s bin/portable-sprig bin/copy2-sprig
+            sha256sum bin/copy1-sprig > results/copy1-binary-hash.txt
+            sha256sum bin/copy2-sprig > results/copy2-binary-hash.txt
+          fi
           python3 - <<'PYCONFIG'
           import hashlib,json,os
           from pathlib import Path
           root=Path.cwd();products=[]
-          for variant in ('main','inventory',os.environ['THIRD_VARIANT']):
-              binary=root/'bin'/f'{variant}-sprig'
-              products.append(dict(label=variant,type='sprig',sha=os.environ[variant.upper()+'_SHA'],sourcePath=str(root/f'sprig-{variant}'),binary=str(binary),binarySha256=hashlib.sha256(binary.read_bytes()).hexdigest()))
+          selected=([('main','main'),('copy1','portable'),('copy2','portable')] if os.environ['STRESS_CACHE_SERIES']=='inventory-identical-binary-v1' else [(v,v) for v in ('main','inventory',os.environ['THIRD_VARIANT'])])
+          for label,source in selected:
+              binary=root/'bin'/f'{label}-sprig'
+              products.append(dict(label=label,type='sprig',sha=os.environ[source.upper()+'_SHA'],sourcePath=str(root/f'sprig-{source}'),binary=str(binary),binarySha256=hashlib.sha256(binary.read_bytes()).hexdigest()))
           with Path('results/cache-products.json').open('x') as out:json.dump(products,out,indent=2)
           PYCONFIG
           python3 - <<'PYVERIFY'
-          import json,os,sys
+          import hashlib,json,os,sys
           from pathlib import Path
           sys.path.insert(0,'feasibility')
           import stress_cache_ablation as admission
           import stress_cache_inventory as inventory
+          import stress_cache_calibration as calibration
           products=json.loads(Path('results/cache-products.json').read_text())
-          if os.environ['STRESS_CACHE_SERIES']=='inventory-reverse-v1':
+          if os.environ['STRESS_CACHE_SERIES']=='inventory-identical-binary-v1':
+              root=Path.cwd();origin=root/'bin/portable-sprig';log=root/'results/portable-release-build.log'
+              proof=dict(schema=calibration.PROOF_SCHEMA,source=dict(sha=products[1]['sha'],path=products[1]['sourcePath']),builtBinary=dict(path=str(origin),sha256=hashlib.sha256(origin.read_bytes()).hexdigest()),releaseBuildLog=dict(path=str(log),bytes=log.stat().st_size,sha256=hashlib.sha256(log.read_bytes()).hexdigest()),copies=[dict(label=p['label'],path=p['binary'],sha256=p['binarySha256']) for p in products[1:]],releaseBuildCount=1,copyMethod='install -m 0755 from one built binary')
+              proof_path=root/'results/cache-identical-build.json'
+              with proof_path.open('x') as out:json.dump(proof,out,indent=2)
+              calibration.verify_products(products,proof_path)
+              Path('results/inventory-calibration-identity.json').write_text(json.dumps(calibration.identity(products,calibration.load_build_evidence(proof_path,products,live=True)),indent=2)+'\n')
+          elif os.environ['STRESS_CACHE_SERIES']=='inventory-reverse-v1':
               inventory.verify_products(products)
               Path('results/inventory-confirmation-identity.json').write_text(json.dumps(inventory.identity(products),indent=2)+'\n')
           else:admission.verify_products(products)
@@ -126,13 +153,20 @@ jobs:
           echo "STRESS_CACHE_MEASURE_DEADLINE_EPOCH=$deadline" >> "$GITHUB_ENV"
       - name: All three full-tree native canaries on separate fresh 2GiB images
         run: |
-          sudo --preserve-env=STRESS_CACHE_JOB_STARTED_EPOCH,STRESS_CACHE_JOB_DEADLINE_EPOCH,STRESS_CACHE_MEASURE_STARTED_EPOCH,STRESS_CACHE_MEASURE_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/cache-products.json" --cell canary --backend native --rounds 1 "$STAGE_FLAG" canary --budget-seconds 1200 --output "$RUNNER_TEMP/cache-canary/stress-results" > results/cache-canary-driver.stdout 2> results/cache-canary-driver.stderr
+          extra=()
+          if [ "$STRESS_CACHE_SERIES" = inventory-identical-binary-v1 ]; then extra=(--inventory-calibration-build-proof "$PWD/results/cache-identical-build.json"); fi
+          sudo --preserve-env=STRESS_CACHE_JOB_STARTED_EPOCH,STRESS_CACHE_JOB_DEADLINE_EPOCH,STRESS_CACHE_MEASURE_STARTED_EPOCH,STRESS_CACHE_MEASURE_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/cache-products.json" --cell canary --backend native --rounds 1 "$STAGE_FLAG" canary "${extra[@]}" --budget-seconds 1200 --output "$RUNNER_TEMP/cache-canary/stress-results" > results/cache-canary-driver.stdout 2> results/cache-canary-driver.stderr
       - name: Exactly nine selected-series Latin samples; no mixed pins or orders
         run: |
-          sudo --preserve-env=STRESS_CACHE_JOB_STARTED_EPOCH,STRESS_CACHE_JOB_DEADLINE_EPOCH,STRESS_CACHE_MEASURE_STARTED_EPOCH,STRESS_CACHE_MEASURE_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/cache-products.json" --cell "$CELL" --backend native --rounds 3 "$STAGE_FLAG" "$MEASURE_STAGE" --ablation-canary "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --budget-seconds 1200 --output "$RUNNER_TEMP/cache-screen/stress-results" > results/cache-screen-driver.stdout 2> results/cache-screen-driver.stderr
+          extra=()
+          if [ "$STRESS_CACHE_SERIES" = inventory-identical-binary-v1 ]; then extra=(--inventory-calibration-build-proof "$PWD/results/cache-identical-build.json"); fi
+          sudo --preserve-env=STRESS_CACHE_JOB_STARTED_EPOCH,STRESS_CACHE_JOB_DEADLINE_EPOCH,STRESS_CACHE_MEASURE_STARTED_EPOCH,STRESS_CACHE_MEASURE_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/cache-products.json" --cell "$CELL" --backend native --rounds 3 "$STAGE_FLAG" "$MEASURE_STAGE" "${extra[@]}" --ablation-canary "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --budget-seconds 1200 --output "$RUNNER_TEMP/cache-screen/stress-results" > results/cache-screen-driver.stdout 2> results/cache-screen-driver.stderr
       - name: Audit all nine or suppress ratios; retain failures and incomplete cells
         if: always()
-        run: sudo /usr/bin/python3 "$SUMMARY_SCRIPT" "$RUNNER_TEMP/cache-screen/stress-results/stress-comparison.json" --canary-report "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --output "$PWD/results/cache-screen-summary.json"
+        run: |
+          extra=()
+          if [ "$STRESS_CACHE_SERIES" = inventory-identical-binary-v1 ]; then extra=(--build-proof "$PWD/results/cache-identical-build.json"); fi
+          sudo /usr/bin/python3 "$SUMMARY_SCRIPT" "$RUNNER_TEMP/cache-screen/stress-results/stress-comparison.json" --canary-report "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --output "$PWD/results/cache-screen-summary.json" "${extra[@]}"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
