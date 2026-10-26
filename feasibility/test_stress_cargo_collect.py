@@ -131,4 +131,35 @@ class OwnABTests(unittest.TestCase):
                 self.assertEqual(coverage,{'ok':True,'sampleDeclarations':4,'verifiedUniqueFiles':2,'errors':[]})
                 with self.assertRaisesRegex(ValueError,'new artifact destination'):collect(r,t,out,os.getuid(),os.getgid())
 
+
+
+class RepeatedOwnABTests(unittest.TestCase):
+    def test_precise_fourth_round_allowlist(self):
+        for product in ('sprig-baseline','sprig-candidate'):
+            self.assertTrue(allowed('results',(f'stress-cargo-{product}-inc1-3.json',)))
+            self.assertTrue(allowed('records',('inc1',f'{product}-3.jsonl')))
+            self.assertFalse(allowed('results',(f'stress-cargo-{product}-inc1-4.json',)))
+        self.assertFalse(allowed('results',('stress-cargo-layerfs-inc1-3.json',)))
+        self.assertFalse(allowed('records',('inc1','sprig-writable-3.jsonl')))
+
+    def test_fourth_round_archive_and_fixed_experiment_identity(self):
+        from stress_cargo_collect import ORDINARY_EXPERIMENT
+        for failure in (None,'wrong_profile','legacy','wrong_rounds','missing_file'):
+            with self.subTest(failure=failure),tempfile.TemporaryDirectory() as tmp:
+                b=Path(tmp);t=b/'temp';t.mkdir();r=b/'results';r.mkdir()
+                directory=t/'stress-cargo-records/inc0/sprig-baseline-3.jsonl.logs';directory.mkdir(parents=True)
+                source=directory/'000001-lifecycle.jsonl';data=b'{}\n'
+                if failure!='missing_file':source.write_bytes(data)
+                sample={'ok':True,'completeLogArchive':[{'archived':str(source),'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}]}
+                report={'schema':'sprig-stress-cargo-own-ab-v2','incremental':0,'rounds':4,'experimentSpec':dict(ORDINARY_EXPERIMENT),'records':[{'product':'sprig-baseline','round':3,'sample':sample}]}
+                if failure=='wrong_profile':report['experimentSpec']['profile']='other'
+                if failure=='legacy':report['schema']='sprig-stress-cargo-own-ab-v1'
+                if failure=='wrong_rounds':report['rounds']=3
+                (r/'stress-cargo-own-ab-0.json').write_text(json.dumps(report))
+                if failure:
+                    with self.assertRaisesRegex(ValueError,'completeness failed'):collect(r,t,b/'out',os.getuid(),os.getgid())
+                else:
+                    collect(r,t,b/'out',os.getuid(),os.getgid())
+                    self.assertEqual(json.loads((b/'out/collection.json').read_text())['declaredArchiveVerification']['verifiedUniqueFiles'],1)
+
 if __name__=='__main__':unittest.main()

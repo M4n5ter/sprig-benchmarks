@@ -1,5 +1,5 @@
-name: Cargo DAG16 within-Sprig ordinary A/B
-run-name: Cargo DAG16 baseline4ef versus renameb300, inc0 then1,4GiB
+name: Cargo DAG16 balanced within-Sprig A/B
+run-name: Cargo DAG16 baseline4ef versus renameb300,4 balanced pairs per mode,4GiB
 on:
   workflow_dispatch:
 permissions:
@@ -13,6 +13,7 @@ jobs:
     timeout-minutes: 45
     env:
       CARGO_BUILD_JOBS: '2'
+      STRESS_CARGO_ROUNDS: '4'
       BASELINE_SHA: '4ef4a90d7ccf5f305416c5374bfc81038f5ca46e'
       CANDIDATE_SHA: 'b300693e01c652c1a9631c61b7a439892d8f75cd'
     steps:
@@ -33,6 +34,7 @@ jobs:
           python3 feasibility/test_stress_cargo_capacity.py
           python3 feasibility/test_stress_runtime_storage.py
           python3 feasibility/test_stress_cargo_collect.py
+          python3 feasibility/test_stress_cargo_ab_summary.py
           node feasibility/test_stress_cargo_layerfs.mjs
           node feasibility/test_stress_cargo_compare.mjs
           node feasibility/test_stress_cargo_own_ab.mjs
@@ -126,22 +128,25 @@ jobs:
       - name: Common external capacity pilot (not product results or reusable cache)
         run: |
           sudo env GITHUB_ACTIONS=true RUNNER_TEMP="$RUNNER_TEMP" /usr/bin/python3 feasibility/stress_cargo_capacity.py --source "$PWD/fixtures/stress-cargo" --manifest "$PWD/results/stress-cargo-manifest.json" --image "$CARGO_IMAGE" --root "$RUNNER_TEMP/stress-cargo-capacity-pilot" --output "$PWD/results/stress-cargo-capacity.json" > results/stress-cargo-capacity-status.json
-      - name: Own-Sprig incremental0 baseline then candidate, fresh4GiB each
+      - name: Own-Sprig incremental0 four alternating pairs, fresh4GiB each
         env:
           STRESS_CARGO_INCREMENTAL: '0'
           STRESS_CARGO_AB_PRODUCTS: '${{ github.workspace }}/results/stress-cargo-ab-products.json'
-        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,STRESS_CARGO_INCREMENTAL,STRESS_CARGO_AB_PRODUCTS,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
-      - name: Own-Sprig incremental1 candidate then baseline after both inc0 gates
+        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,STRESS_CARGO_ROUNDS,STRESS_CARGO_INCREMENTAL,STRESS_CARGO_AB_PRODUCTS,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
+      - name: Own-Sprig incremental1 four opposite-start alternating pairs after all inc0 gates
         env:
           STRESS_CARGO_INCREMENTAL: '1'
           STRESS_CARGO_AB_PRODUCTS: '${{ github.workspace }}/results/stress-cargo-ab-products.json'
           STRESS_CARGO_PREVIOUS_GATE: '${{ github.workspace }}/results/stress-cargo-own-ab-0.json'
-        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,STRESS_CARGO_INCREMENTAL,STRESS_CARGO_AB_PRODUCTS,STRESS_CARGO_PREVIOUS_GATE,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
+        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,STRESS_CARGO_ROUNDS,STRESS_CARGO_INCREMENTAL,STRESS_CARGO_AB_PRODUCTS,STRESS_CARGO_PREVIOUS_GATE,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
+      - name: Describe every pair and negative; no comparisons for an incomplete matrix
+        if: always()
+        run: sudo python3 feasibility/stress_cargo_ab_summary.py results/stress-cargo-own-ab-0.json results/stress-cargo-own-ab-1.json --archive-root "$RUNNER_TEMP/stress-cargo-records" --output results/stress-cargo-own-ab-summary.json
       - name: Copy allowlisted evidence on success or failure without changing source permissions
         if: always()
         run: sudo env GITHUB_ACTIONS=true python3 feasibility/stress_cargo_collect.py --results "$PWD/results" --temporary "$RUNNER_TEMP" --destination "$PWD/cargo-artifacts" --uid "$(id -u)" --gid "$(id -g)"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: stress-cargo-own-ab-acceptance
+          name: stress-cargo-own-ab-balanced
           path: cargo-artifacts/

@@ -6,7 +6,7 @@ import {pathToFileURL} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import {performance} from 'node:perf_hooks';
 import {createHash} from 'node:crypto';
-import {AB_SCHEMA,validateProducts,sampleOrder,validateOwnPreviousGate} from './stress_cargo_own_ab.mjs';
+import {AB_SCHEMA,AB_REPEATED_SCHEMA,ORDINARY_EXPERIMENT,validateProducts,sampleOrder,validateOwnPreviousGate} from './stress_cargo_own_ab.mjs';
 import {SOURCE_SHA,loadCommands,verifyCargoPackages} from './stress_cargo_layerfs.mjs';
 // Cargo-only resource revision: fixed4GiB first, no automatic fallback/resizing.
 export const IMAGE_BYTES=4*1024**3;
@@ -114,13 +114,14 @@ export async function main(){
  const jobStarted=Number(process.env.STRESS_CARGO_JOB_STARTED_EPOCH),jobDeadline=Number(process.env.STRESS_CARGO_JOB_DEADLINE_EPOCH);
  const invocationEpoch=Date.now()/1000,invocationMonotonic=performance.now();
  const admitBudget=()=>budgetAdmission({startedEpochSeconds:jobStarted,deadlineEpochSeconds:jobDeadline,nowEpochSeconds:invocationEpoch+(performance.now()-invocationMonotonic)/1000});
- const incremental=Number(process.env.STRESS_CARGO_INCREMENTAL),rounds=Number(process.env.STRESS_CARGO_ROUNDS??'1');assert.ok([1,3].includes(rounds));
+ const incremental=Number(process.env.STRESS_CARGO_INCREMENTAL),rounds=Number(process.env.STRESS_CARGO_ROUNDS??'1');
  const ownAB=process.env.STRESS_CARGO_AB_PRODUCTS!==undefined;
+ assert.ok((ownAB?[1,4]:[1,3]).includes(rounds),'only original or bounded balanced rounds allowed');
  const cwd=process.cwd(),productionSha=process.env.SPRIG_STRESS_SHA,comparatorSha=SOURCE_SHA,image=process.env.CARGO_IMAGE,archive=process.env.CARGO_IMAGE_ARCHIVE;
  if(!ownAB)assert.match(productionSha??'',/^[a-f0-9]{40}$/);assert.match(image??'',/^sha256:[a-f0-9]{64}$/);assert.ok(path.isAbsolute(archive??''));
  let abBytes=null,abProducts=null;
  if(ownAB){
-  assert.equal(rounds,1,'initial own A/B permits one pair per mode');assert.equal(productionSha,undefined,'ambiguous single source and own A/B manifest');
+  assert.equal(productionSha,undefined,'ambiguous single source and own A/B manifest');
   assert.ok(path.isAbsolute(process.env.STRESS_CARGO_AB_PRODUCTS));abBytes=fs.readFileSync(process.env.STRESS_CARGO_AB_PRODUCTS);abProducts=validateProducts(JSON.parse(abBytes));
  }
  const sharedJobBudget={startedEpochSeconds:jobStarted,deadlineEpochSeconds:jobDeadline,minimumSampleSeconds:180,cleanupReserveSeconds:300,scope:'same absolute first-step deadline across setup and incremental invocations; no reset'};
@@ -137,6 +138,7 @@ export async function main(){
  const source=path.join(cwd,'fixtures/stress-cargo'),oracle=path.join(cwd,'results/stress-cargo-oracle.json'),manifestPath=path.join(cwd,'results/stress-cargo-manifest.json');
  const manifestRaw=fs.readFileSync(manifestPath),manifest=JSON.parse(manifestRaw),protocolSha256=loadCommands().sha256,fixtureManifestSha256=sha(manifestRaw);
  const identity={image,productionSha,comparatorSha,protocolSha256,fixtureManifestSha256,imageBytes:IMAGE_BYTES,resourceProtocol:RESOURCE_PROTOCOL};
+ if(ownAB&&rounds===4)identity.experimentSpec=ORDINARY_EXPERIMENT;
  if(ownAB){delete identity.productionSha;delete identity.comparatorSha;Object.assign(identity,{abProducts,abManifestSha256:sha(abBytes),sharedJobBudget});}assert.equal(manifest.protocolSha256,protocolSha256);
  const capacity=JSON.parse(fs.readFileSync('results/stress-cargo-capacity.json','utf8')),pilot=validateCapacity(capacity,identity,incremental);
  const fixtureFiles=manifest.initial.entries.filter(x=>x.type==='file');assert.ok(fixtureFiles.every(x=>Number.isSafeInteger(x.size)&&x.size>=0));const fixtureLogicalBytes=fixtureFiles.reduce((sum,x)=>sum+x.size,0);assert.ok(Number.isSafeInteger(fixtureLogicalBytes));
@@ -144,12 +146,12 @@ export async function main(){
  const recordRoot=path.join(process.env.RUNNER_TEMP,'stress-cargo-records');fs.mkdirSync(recordRoot,{recursive:true});const recordDir=path.join(recordRoot,`inc${incremental}`);fs.mkdirSync(recordDir,{recursive:false});
  const reportPath=`results/stress-cargo-${ownAB?'own-ab':'comparison'}-${incremental}.json`,records=[];
  if(ownAB){const fd=fs.openSync(reportPath,'wx',0o644);fs.closeSync(fd);}
- const report={schema:ownAB?AB_SCHEMA:'sprig-stress-cargo-comparison-v2',status:'running',complete:false,incremental,rounds,expectedRecords:rounds*2,...identity,previousGate,capacityPilot:pilot,imageBytes:IMAGE_BYTES,records,notes:['Cargo-only resource revision: fresh symmetric4GiB images, not pooled with2GiB capacity failures; no automatic8GiB retry.', 'New DAG16 protocol; never pooled with frozen tiny Cargo results.','Whole Used includes immutable image, runtime state, target/cache/logs/history; runtime setup separately timed but baseline bytes never subtracted from primary space.','WholeSampleSubprocessWallSeconds is matched sampler process launch-through-exit including evidence serialization and normal cleanup; internal phases overlap, not additive.','Both products use identical image; Sprig compiler lifetime remains generation-scoped, LayerFS UID501 SDK transport is persistent; no equal durability claim.']};
+ const report={schema:ownAB?(rounds===4?AB_REPEATED_SCHEMA:AB_SCHEMA):'sprig-stress-cargo-comparison-v2',status:'running',complete:false,incremental,rounds,expectedRecords:rounds*2,...identity,previousGate,capacityPilot:pilot,imageBytes:IMAGE_BYTES,records,notes:['Cargo-only resource revision: fresh symmetric4GiB images, not pooled with2GiB capacity failures; no automatic8GiB retry.', 'New DAG16 protocol; never pooled with frozen tiny Cargo results.','Whole Used includes immutable image, runtime state, target/cache/logs/history; runtime setup separately timed but baseline bytes never subtracted from primary space.','WholeSampleSubprocessWallSeconds is matched sampler process launch-through-exit including evidence serialization and normal cleanup; internal phases overlap, not additive.','Both products use identical image; Sprig compiler lifetime remains generation-scoped, LayerFS UID501 SDK transport is persistent; no equal durability claim.']};
  report.sharedJobBudget=sharedJobBudget;
- if(ownAB)report.notes[4]='Within-Sprig ordinary positive workloads; same sampler/transport/durability, fixed distinct source and binary identities. One pair per mode, no statistical claim.';
+ if(ownAB)report.notes[4]=rounds===4?'Within-Sprig ordinary positive workloads; four balanced paired rounds per mode, independent fresh images, same sampler/transport/durability. Small N: report every pair, phase, negative and descriptive range; no significant gain or tail claim.':'Within-Sprig ordinary positive workloads; same sampler/transport/durability, fixed distinct source and binary identities. One pair per mode, no statistical claim.';
  const save=()=>atomicReport(reportPath,report);save();
  try{
-  for(let round=0;round<rounds;round++)for(const product of ownAB?sampleOrder(abProducts,incremental).map(p=>p.label):(round%2?['layerfs','sprig-writable']:['sprig-writable','layerfs'])){
+  for(let round=0;round<rounds;round++)for(const product of ownAB?sampleOrder(abProducts,incremental,round).map(p=>p.label):(round%2?['layerfs','sprig-writable']:['sprig-writable','layerfs'])){
    const budget=admitBudget();
    const variant=ownAB?abProducts.find(p=>p.label===product):null;
    if(ownAB)verifyABInputs();else{assert.equal(command('git',['-C','sprig','rev-parse','HEAD']).trim(),productionSha);assert.equal(command('git',['-C','layerfs','rev-parse','HEAD']).trim(),comparatorSha);}
@@ -170,7 +172,7 @@ export async function main(){
     else{const options={root,measuredMount:mount,source,oraclePath:oracle,manifestPath,layerfsSdkPath:path.join(cwd,'layerfs/api/agent/sdk/src/index.js'),daemonPath:process.env.LAYERFS_DAEMON,image,incremental,recordsPath:ledger};const optionsPath=path.join(recordDir,`${product}-${round}-options.json`);atomicReport(optionsPath,options);args=['node','feasibility/stress_cargo_layerfs.mjs',optionsPath];}
     admitSampler(r,admitBudget);
     sampleStarted=true;const start=performance.now();let raw;try{raw=command(args[0],args.slice(1));r.sampleReturncode=0;}catch(e){raw=e.stdout?.toString()??'';r.sampleReturncode=e.status;r.failureStderr=e.stderr?.toString();}finally{r.wholeSampleSubprocessWallSeconds=(performance.now()-start)/1000;}
-    fs.writeFileSync(rawPath,raw,ownAB?{flag:'wx'}:undefined);r.rawReportPath=rawPath;r.sample=JSON.parse(raw);assert.equal(r.sampleReturncode,0);
+    fs.writeFileSync(rawPath,raw,ownAB?{flag:'wx'}:undefined);r.rawReportPath=rawPath;r.rawReportSha256=sha(raw);r.sample=JSON.parse(raw);assert.equal(r.sampleReturncode,0);
     if(ownAB){verifyABInputs();assert.equal(r.sample.binarySha256,variant.binarySha256);}
     validateSample(r.sample,ownAB?'sprig-writable':product,ownAB?{...identity,productionSha:variant.sha}:identity,incremental);
     r.activeSpace=r.sample.activeSpace;r.runtimeReadyDeltaBytes=r.activeSpace.filesystemUsedBytes-r.runtimeReadySpace.filesystemUsedBytes;r.correct=true;r.status='passed';

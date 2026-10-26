@@ -13,3 +13,19 @@ assert.equal(validateOwnPreviousGate(gate,identity,validate),true);assert.equal(
 for(const key of ['image','protocolSha256','fixtureManifestSha256','imageBytes','resourceProtocol','abManifestSha256','abProducts','sharedJobBudget']){const g=copy(gate);g[key]=null;assert.throws(()=>validateOwnPreviousGate(g,identity,validate));}
 for(const mutate of [g=>g.schema='sprig-stress-cargo-comparison-v2',g=>g.complete=false,g=>g.status='running',g=>g.incremental=1,g=>g.rounds=3,g=>g.records.pop(),g=>g.records[1]=copy(g.records[0]),g=>g.records[0].correct=false,g=>g.records[0].status='cleanup_blocked',g=>g.records[0].sampleReturncode=1,g=>g.records[0].sample.production_sha='0'.repeat(40),g=>g.records[0].sample.binarySha256='0'.repeat(64),g=>g.records[0].sample.ok=false,g=>g.records[0].sample.archiveVerified=false]){const g=copy(gate);mutate(g);assert.throws(()=>validateOwnPreviousGate(g,identity,validate));}
 console.log('PASS: fixed distinct own-Sprig pins/hashes/labels/paths; opposite per-mode order; complete same-identity/deadline prerequisite and delegated positive/archive gates. Offline only.');
+// Same-mode reverse order, unlike the historical one-pair mode offset.
+const {AB_REPEATED_SCHEMA,ORDINARY_EXPERIMENT}=await import('./stress_cargo_own_ab.mjs');
+for(const mode of [0,1]){
+ const orders=Array.from({length:4},(_,round)=>sampleOrder(products,mode,round).map(p=>p.label));
+ assert.equal(orders.filter(x=>x[0]==='sprig-baseline').length,2);
+ assert.equal(orders.filter(x=>x[0]==='sprig-candidate').length,2);
+ assert.notDeepEqual(orders[0],orders[1]);
+}
+for(const round of [-1,4,0.5,'0',null])assert.throws(()=>sampleOrder(products,0,round));
+const repeatedIdentity={...copy(identity),experimentSpec:copy(ORDINARY_EXPERIMENT)};
+const repeated={...copy(gate),...copy(repeatedIdentity),schema:AB_REPEATED_SCHEMA,rounds:4,records:[]};
+for(let round=0;round<4;round++)for(const p of sampleOrder(products,0,round))repeated.records.push({...copy(gate.records.find(r=>r.product===p.label)),round,rawReportSha256:'e'.repeat(64)});
+assert.equal(validateOwnPreviousGate(repeated,repeatedIdentity,validate),true);
+for(const mutate of [g=>g.records.reverse(),g=>g.records.pop(),g=>g.records[2].round=0,g=>g.rounds=3,g=>g.schema=AB_SCHEMA,g=>g.experimentSpec.profile='pressure',g=>g.records[0].rawReportSha256=null,g=>g.records[0].correct=false,g=>g.records[0].sample.archiveVerified=false]){const g=copy(repeated);mutate(g);assert.throws(()=>validateOwnPreviousGate(g,repeatedIdentity,validate));}
+assert.throws(()=>validateOwnPreviousGate(gate,repeatedIdentity,validate));
+console.log('PASS: four bounded rounds; same-mode AB/BA balance; exact complete repeated prerequisite; no legacy/pressure gate pooling.');
