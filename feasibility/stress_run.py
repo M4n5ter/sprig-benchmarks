@@ -17,6 +17,11 @@ import time
 import traceback
 from stress_fixture import generate
 from stress_plan import matrix
+from stress_cache_ablation import (SCHEMA as ABLATION_SCHEMA, STAGES as ABLATION_STAGES,
+    verify_products as verify_ablation_products, order as ablation_order,
+    validate_selection as validate_ablation_selection, shared_budget as ablation_shared_budget,
+    validate_canary as validate_ablation_canary, validate_sample as validate_ablation_sample)
+from stress_cache_fixture import CACHE_CELLS, cache_cell_parameters, generate_cache_fixture
 
 GIB = 1024**3
 MIB = 1024**2
@@ -139,6 +144,8 @@ def main():
     parser.add_argument('--pair-order',choices=['forward','reverse'],default='forward')
     parser.add_argument('--budget-seconds',type=int,default=1200)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--ablation-stage',choices=['canary','forward-latin'])  # reverse confirmation needs a reviewed successful screen gate
+    parser.add_argument('--ablation-canary',type=Path)
     a=parser.parse_args()
     if os.geteuid()!=0 or os.environ.get('GITHUB_ACTIONS')!='true':
         parser.error('only root in authorized ephemeral GitHub Actions runner')
@@ -146,28 +153,51 @@ def main():
     if not temp.is_absolute() or not temp.is_dir(): parser.error('RUNNER_TEMP must exist and be absolute')
     if not 1 <= a.budget_seconds <= 1200: parser.error('measurement budget maximum1200seconds')
     if a.backend=='all' and a.cell!='canary': parser.error('all backends only for canary')
-    products=validate_products(json.loads(a.products.read_text()))
+    frozen_product_bytes=a.products.read_bytes()
+    products=json.loads(frozen_product_bytes)
+    if a.ablation_stage:
+        validate_ablation_selection(a.ablation_stage,a.backend,a.rounds,a.cell,CACHE_CELLS,a.pair_order)
+        products=verify_ablation_products(products)
+        if a.output.name!='stress-results' or a.output.resolve()!=a.output or temp.resolve()!=temp:parser.error('ablation output must be canonical with stress-results leaf for exact archive identities')
+    else:
+        if a.ablation_canary:parser.error('ablation canary only belongs to explicit ablation mode')
+        products=validate_products(products)
     if len(products)==1 and a.cell!='canary': parser.error('pressure requires two paired products')
     diagnostic=any(p.get('diagnostic',False) for p in products)
     if diagnostic and a.cell!='canary': parser.error('instrumented diagnostics limited to canary')
-    params,noop=cell_parameters(a.cell)
+    params,noop=(cache_cell_parameters(a.cell) if a.ablation_stage and a.cell!='canary' else cell_parameters(a.cell))
     backends=['native','projection','writable'] if a.backend=='all' else [a.backend]
     if not a.output.is_absolute() or not a.output.is_relative_to(temp) or a.output==temp:
         parser.error('output must be strictly belowRUNNER_TEMP for external ledgers')
     a.output.mkdir(parents=True,exist_ok=False)
     started=time.monotonic(); deadline=started+a.budget_seconds
+    shared_ablation_budget=None;ablation_prerequisite=None
+    if a.ablation_stage:
+        shared_ablation_budget=ablation_shared_budget(os.environ,time.time())
+        deadline=started+shared_ablation_budget['remainingSeconds']
+        if a.ablation_stage=='canary':
+            if a.ablation_canary:parser.error('canary stage cannot consume a prior canary')
+        else:
+            if not a.ablation_canary or not a.ablation_canary.is_absolute():parser.error('pressure ablation requires explicit same-budget native canary')
+            ablation_prerequisite=validate_ablation_canary(a.ablation_canary,products,shared_ablation_budget)
     report=dict(schema='sprig-stress-run-v1',complete=False,status='running',cell=a.cell,
                 products=products,backends=backends,rounds=a.rounds,records=[],diagnostic=diagnostic,pairOrder=a.pair_order,
                 comparisonProtocol=('diagnostic-canary' if diagnostic else 'within-sprig-ab' if len(products)==2 and all(p['type']=='sprig' for p in products) else 'sprig-layerfs-stress' if len(products)==2 else 'single-product-canary'),
                 measurementBudgetSeconds=a.budget_seconds,wholeTaskScope='per-sampler task excludes fixture/runtime setup; phases overlap only as documented',
                 durability='Sprig sync enabled; LayerFS Disposable WAL/OFF and MEMORY/OFF are unequal',
                 cpuMemoryComparison='unavailable; no partial process RSS/CPU claim')
+    if a.ablation_stage:
+        report.update(schema=ABLATION_SCHEMA,comparisonProtocol='within-sprig-three-pin-cache-ablation',ablationStage=a.ablation_stage,expectedRecords=a.rounds*3,sharedAblationBudget=shared_ablation_budget,canaryPrerequisite=ablation_prerequisite,outputDirectory=str(a.output))
+    def verify_frozen_ablation():
+        if a.ablation_stage:
+            if a.products.read_bytes()!=frozen_product_bytes:raise ValueError('ablation product manifest changed')
+            verify_ablation_products(products)
     def save():
         report['elapsedSeconds']=time.monotonic()-started
         (a.output/'stress-comparison.json').write_text(json.dumps(report,indent=2)+'\n')
     try:
         fixture_dir=Path(tempfile.mkdtemp(prefix='stress-source-',dir=temp))
-        fixture=generate(fixture_dir/'tree',**params)
+        fixture=(generate_cache_fixture(fixture_dir/'tree',a.cell) if a.ablation_stage and a.cell!='canary' else generate(fixture_dir/'tree',**params))
         fixture_path=fixture_dir/'fixture.json';fixture_path.write_text(json.dumps(fixture))
         oracle=fixture_dir/'listed.json';oracle.write_text(json.dumps([dict(path=e['path'],bytes=e['size'],sha256=e['sha256']) for e in fixture['initial']['entries'] if e['type']=='file']))
         (a.output/'fixture.json').write_text(json.dumps(fixture,indent=2)+'\n')
@@ -178,7 +208,8 @@ def main():
                       noopCheckpoint=noop,fixtureSha256=hashlib.sha256(fixture_path.read_bytes()).hexdigest())
         for round_no in range(a.rounds):
             for backend in backends:
-                for product in ordered_products(products,round_no,a.pair_order):
+                for product in (ablation_order(products,round_no,a.ablation_stage) if a.ablation_stage else ordered_products(products,round_no,a.pair_order)):
+                    verify_frozen_ablation()
                     # Canary reserves120seconds per sample; pressure600. Never
                     # start a sample without its full budget+normal cleanup reserve.
                     sample_budget=min(120 if a.cell=='canary' else 600,
@@ -190,6 +221,7 @@ def main():
                         raise BudgetAbort('host capacity blocked: need2GiB image+1GiB evidence reserve')
                     identity=f'{backend}-{product["label"]}-{round_no}'
                     record=dict(identity=identity,backend=backend,product=product['label'],round=round_no,status='running',correct=False,productType=product['type'])
+                    if a.ablation_stage:record['ablationAdmission']=dict(remainingSeconds=deadline-time.monotonic(),sampleBudgetSeconds=sample_budget,cleanupReserveSeconds=30)
                     report['records'].append(record);save()
                     isolated=Path(tempfile.mkdtemp(prefix='stress-'+identity+'-',dir=temp))
                     image=isolated/'store.img';mount=isolated/'mount';runtime=isolated/'runtime-state.json'
@@ -217,6 +249,7 @@ def main():
                             args=['node','feasibility/stress_layerfs.mjs',str(options.resolve())]
                         if deadline-time.monotonic() < sample_budget+30:
                             raise BudgetAbort('runtime/image setup consumed admission budget; sampler not started')
+                        if a.ablation_stage:record['postSetupAblationAdmission']=dict(remainingSeconds=deadline-time.monotonic(),sampleBudgetSeconds=sample_budget,cleanupReserveSeconds=30)
                         sampler_started=True
                         sample_started=time.monotonic()
                         proc=subprocess.run([str(x) for x in args],capture_output=True,text=True,check=False)
@@ -225,12 +258,16 @@ def main():
                         (a.output/(identity+'-stdout.json')).write_text(proc.stdout)
                         (a.output/(identity+'-stderr.txt')).write_text(proc.stderr)
                         record['sampleReturncode']=proc.returncode
+                        if a.ablation_stage:record['rawReportSha256']=hashlib.sha256(proc.stdout.encode()).hexdigest()
                         try: record['sample']=json.loads(proc.stdout)
                         except ValueError: raise RuntimeError('sample did not emit oneJSON report; raw stdout retained')
                         if proc.returncode==2 or record['sample'].get('status') in ('budget_aborted','capacity_blocked'):
                             raise BudgetAbort('sample budget aborted; partial evidence retained')
                         if proc.returncode or not record['sample'].get('ok'):
                             raise RuntimeError('sample failed; raw report retained')
+                        if a.ablation_stage:
+                            verify_frozen_ablation()
+                            record['fullEvidenceProof']=validate_ablation_sample(record['sample'],product,fixture,noop,report['fixtureSha256'],a.output,identity)
                         record['correct']=True;record['status']='passed'
                     finally:
                         cleanup=[]
@@ -261,6 +298,7 @@ def main():
                             record.update(correct=False,status='cleanup_blocked',cleanupErrors=cleanup)
                             save();raise RuntimeError('normal cleanup blocked; no forced unmount or deletion')
                         save()
+        if a.ablation_stage and len(report['records'])!=report['expectedRecords']:raise ValueError('incomplete ablation matrix')
         report.update(complete=True,status='passed')
     except BudgetAbort as error:
         report.update(status='budget_aborted',budgetReason=str(error))

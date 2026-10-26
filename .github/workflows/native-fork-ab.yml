@@ -1,84 +1,110 @@
-name: Same-runner native fork A-B
-run-name: Native fork ${{ inputs.mode }}
+name: Bounded three-pin native cache screen
+run-name: Native cache three-pin Latin screen ${{ inputs.cell }}, 2GiB, no promotion
 on:
   workflow_dispatch:
     inputs:
-      backend:
+      cell:
         type: choice
-        options: [native]
-        default: native
-        required: true
-      mode:
-        type: choice
-        options: [smoke, full]
-        default: smoke
+        options: [files-4096, files-10000, cache-history-repeated-300, cache-independent-1k-x2, cache-independent-1k-x8, cache-independent-4k-x2, cache-independent-4k-x8, cache-alias-only-1k, cache-alias-only-4k, cache-independent-over4096, cache-large-64k-1024]
+        default: files-4096
+        description: Exactly one reviewed cell; three Latin rounds after all three native canaries
         required: true
 permissions:
   contents: read
+concurrency:
+  group: sprig-stress-pilot
+  cancel-in-progress: false
 jobs:
-  paired:
+  native-screen:
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 45
     env:
       CARGO_BUILD_JOBS: '2'
-      SPRIG_BACKEND: ${{ inputs.backend }}
-      LIFECYCLE_MODE: ${{ inputs.mode }}
+      MAIN_SHA: b300693e01c652c1a9631c61b7a439892d8f75cd
+      INVENTORY_SHA: c392d45079314cdcf9813371ec9120d78be7bcd6
+      ADMISSION_SHA: f481aaba987d960bf119e95b68f5b38da56e1581
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - name: Record environment and install official tools
+      - name: Start original job admission clock
         run: |
-          mkdir results
+          started=$(date +%s)
+          echo "STRESS_CACHE_JOB_STARTED_EPOCH=$started" >> "$GITHUB_ENV"
+          echo "STRESS_CACHE_JOB_DEADLINE_EPOCH=$((started + 40 * 60))" >> "$GITHUB_ENV"
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Official native tools, environment and offline harness checks
+        run: |
+          mkdir results bin
           sudo apt-get update
           sudo apt-get install -y btrfs-progs python3-btrfsutil
-          { uname -a; lscpu; free -h; df -h; findmnt -T "$PWD"; btrfs version; python3 --version; } > results/environment.txt
-          sha256sum feasibility/native_fork_ab.py feasibility/summarize_native_fork_ab.py feasibility/lifecycle_ab.py feasibility/lifecycle_sample.py feasibility/latest_sample.py feasibility/cas_sample.py feasibility/summarize_lifecycle_ab.py fixtures.py history_recipe.py > results/script-hashes.txt
-      - name: Fetch two immutable production revisions
+          { uname -a; lscpu; free -h; df -h; findmnt -T "$PWD"; btrfs version; /usr/bin/python3 --version; } > results/environment.txt
+          sha256sum feasibility/stress_cache*.py feasibility/stress_run.py feasibility/stress_sample.py feasibility/stress_fixture.py feasibility/tree_oracle.py > results/script-hashes.txt
+          python3 -m unittest discover -s feasibility -p 'test_stress_cache*.py' -v
+          python3 -m unittest discover -s feasibility -p 'test_stress_run.py' -v
+          python3 -m unittest discover -s feasibility -p 'test_stress_sample.py' -v
+          python3 -m unittest discover -s feasibility -p 'test_stress.py' -v
+      - name: Fetch exact three immutable sources
         run: |
-          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig-baseline
-          git -C sprig-baseline checkout a2b76e4c3ecdccdeeca24a669df4a82d1a4792f3
-          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig-candidate
-          git -C sprig-candidate checkout e2a86dc2b7942e0adf4273cd608857447d403335
           rustup toolchain install stable --profile minimal
-          rustc +stable --version > results/rust-version.txt
-          for label in baseline candidate; do
-            find "sprig-$label/src" "sprig-$label/tests" -type f -print0 | sort -z | xargs -0 sha256sum > "results/$label-source-hashes.txt"
+          rustc +stable -Vv > results/rust-version.txt
+          cargo +stable -V >> results/rust-version.txt
+          for variant in main inventory admission; do
+            key="${variant^^}_SHA"; pin="${!key}"
+            git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git "sprig-$variant"
+            git -C "sprig-$variant" checkout "$pin"
+            test "$(git -C "sprig-$variant" rev-parse HEAD)" = "$pin"
+            find "sprig-$variant/src" "sprig-$variant/tests" -type f -print0 | sort -z | xargs -0 sha256sum > "results/$variant-source-hashes.txt"
           done
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
-          key: native-fork-registry-a2b76e4-e2a86dc-v1
-      - name: Build test and gate both revisions
+          key: stress-cache-registry-ubuntu24-v3
+      - name: Build three separate targets serially; ordinary native canaries follow
         run: |
-          for label in baseline candidate; do
-            export CARGO_TARGET_DIR="$PWD/sprig-$label/target"
-            cargo +stable test --locked --features projection --manifest-path "sprig-$label/Cargo.toml"
-            cargo +stable build --release --locked --features projection --manifest-path "sprig-$label/Cargo.toml"
-            mkdir "$RUNNER_TEMP/production-ab-gate-$label"
-            sudo env TMPDIR="$RUNNER_TEMP/production-ab-gate-$label" /usr/bin/python3 "sprig-$label/tests/projection_workflow.py" --binary "$PWD/sprig-$label/target/release/sprig" > "results/$label-kernel-contract.json"
-            mkdir "$RUNNER_TEMP/lifecycle-owned-gate-$label"
-            sudo env PATH="$PATH" RUSTUP_HOME="$HOME/.rustup" CARGO_HOME="$HOME/.cargo" TMPDIR="$RUNNER_TEMP/lifecycle-owned-gate-$label" /usr/bin/python3 "sprig-$label/tests/writable_workflow.py" --binary "$PWD/sprig-$label/target/release/sprig" > "results/$label-writable-contract.json"
+          set -o pipefail
+          for variant in main inventory admission; do
+            export CARGO_TARGET_DIR="$PWD/build-target-$variant"
+            test ! -e "$CARGO_TARGET_DIR"
+            cargo +stable test --locked --features projection --manifest-path "sprig-$variant/Cargo.toml" 2>&1 | tee "results/$variant-tests.txt"
+            cargo +stable build --release --locked --features projection --manifest-path "sprig-$variant/Cargo.toml" -vv > "results/$variant-release-build.log" 2>&1
+            grep -F 'Compiling sprig ' "results/$variant-release-build.log"
+            grep -F "$PWD/sprig-$variant" "results/$variant-release-build.log"
+            install -m 0755 "$CARGO_TARGET_DIR/release/sprig" "bin/$variant-sprig"
+            sha256sum "bin/$variant-sprig" > "results/$variant-binary-hash.txt"
           done
-          python3 - <<'PY'
-          import hashlib,json,pathlib,subprocess
-          builds={'profile':'release', 'features':['projection'], 'compiler':subprocess.check_output(['rustc','+stable','--version','--verbose'],text=True)}
-          for label in ['baseline','candidate']:
-              root=pathlib.Path('sprig-'+label)
-              builds[label]={'sha':subprocess.check_output(['git','-C',str(root),'rev-parse','HEAD'],text=True).strip(),'targetDirectory':str((root/'target').resolve()),'binarySha256':hashlib.sha256((root/'target/release/sprig').read_bytes()).hexdigest()}
-          pathlib.Path('results/ab-builds.json').write_text(json.dumps(builds,indent=2)+'\n')
-          PY
-      - name: Generate frozen recipes
+          python3 - <<'PYCONFIG'
+          import hashlib,json,os
+          from pathlib import Path
+          root=Path.cwd();products=[]
+          for variant in ('main','inventory','admission'):
+              binary=root/'bin'/f'{variant}-sprig'
+              products.append(dict(label=variant,type='sprig',sha=os.environ[variant.upper()+'_SHA'],sourcePath=str(root/f'sprig-{variant}'),binary=str(binary),binarySha256=hashlib.sha256(binary.read_bytes()).hexdigest()))
+          with Path('results/cache-products.json').open('x') as out:json.dump(products,out,indent=2)
+          PYCONFIG
+      - name: One shared 1200-second measurement clock after build; no reset after canaries
         run: |
-          python3 fixtures.py fixtures 100 > results/fixture-generation.txt
-      - name: Run fixed same-runner pairs
-        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_TEMP,SPRIG_BACKEND,LIFECYCLE_MODE /usr/bin/python3 feasibility/native_fork_ab.py
-      - name: Validate completeness and summarize paired ratios
-        run: python3 feasibility/summarize_native_fork_ab.py results/lifecycle-ab.json
+          started=$(date +%s)
+          deadline=$((started + 1200))
+          if [ "$deadline" -gt "$STRESS_CACHE_JOB_DEADLINE_EPOCH" ]; then deadline="$STRESS_CACHE_JOB_DEADLINE_EPOCH"; fi
+          test "$deadline" -gt "$((started + 180))"
+          echo "STRESS_CACHE_MEASURE_STARTED_EPOCH=$started" >> "$GITHUB_ENV"
+          echo "STRESS_CACHE_MEASURE_DEADLINE_EPOCH=$deadline" >> "$GITHUB_ENV"
+      - name: All three full-tree native canaries on separate fresh 2GiB images
+        run: |
+          sudo --preserve-env=STRESS_CACHE_JOB_STARTED_EPOCH,STRESS_CACHE_JOB_DEADLINE_EPOCH,STRESS_CACHE_MEASURE_STARTED_EPOCH,STRESS_CACHE_MEASURE_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/cache-products.json" --cell canary --backend native --rounds 1 --ablation-stage canary --budget-seconds 1200 --output "$RUNNER_TEMP/cache-canary/stress-results" > results/cache-canary-driver.stdout 2> results/cache-canary-driver.stderr
+      - name: Exactly nine native screen samples, ABC then BCA then CAB
+        env:
+          CELL: ${{ inputs.cell }}
+        run: |
+          sudo --preserve-env=STRESS_CACHE_JOB_STARTED_EPOCH,STRESS_CACHE_JOB_DEADLINE_EPOCH,STRESS_CACHE_MEASURE_STARTED_EPOCH,STRESS_CACHE_MEASURE_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP /usr/bin/python3 feasibility/stress_run.py --products "$PWD/results/cache-products.json" --cell "$CELL" --backend native --rounds 3 --ablation-stage forward-latin --ablation-canary "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --budget-seconds 1200 --output "$RUNNER_TEMP/cache-screen/stress-results" > results/cache-screen-driver.stdout 2> results/cache-screen-driver.stderr
+      - name: Audit all nine or suppress ratios; retain failures and incomplete cells
+        if: always()
+        run: sudo /usr/bin/python3 feasibility/stress_cache_summary.py "$RUNNER_TEMP/cache-screen/stress-results/stress-comparison.json" --canary-report "$RUNNER_TEMP/cache-canary/stress-results/stress-comparison.json" --output "$PWD/results/cache-screen-summary.json"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: native-fork-ab-${{ inputs.mode }}
+          name: native-cache-screen-${{ inputs.cell }}
           path: |
             results/
-            ${{ runner.temp }}/lifecycle-ab-records/
+            ${{ runner.temp }}/cache-canary/stress-results/
+            ${{ runner.temp }}/cache-screen/stress-results/
