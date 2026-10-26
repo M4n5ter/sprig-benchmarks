@@ -11,6 +11,7 @@ from stress_cargo_pressure_profiles import experiment_for
 
 RESULTS = set('cargo-toolchain-capacity.txt cargo-image-capacity.txt cargo-image-build.txt cargo-image.json cargo-software-identity.txt current-writable-contract.json docker-updated.txt environment.txt production-binary-hash.txt production-kernel-contract.json production-source-hashes.txt projection-rust-version.txt runtime-image.json script-hashes.txt stress-cargo-capacity-status.json stress-cargo-capacity.json stress-cargo-generated.json stress-cargo-lock-generation.txt stress-cargo-manifest.json stress-cargo-oracle.json'.split())
 RESULTS.update('stress-cargo-own-ab-summary.json stress-cargo-ab-products.json baseline-source-hashes.txt candidate-source-hashes.txt baseline-binary-hash.txt candidate-binary-hash.txt baseline-release-build.log candidate-release-build.log baseline-tests.txt candidate-tests.txt baseline-projection-gate.json candidate-projection-gate.json baseline-writable-gate.json candidate-writable-gate.json'.split())
+RESULTS.update('stress-cargo-latest-direct-identity.json stress-cargo-latest-direct-summary.json latest-main-selection.txt layerfs-source-hashes.txt layerfs-binary-hashes.txt layerfs-rust-version.txt layerfs-release-build.log production-tests.txt production-release-build.log'.split())
 COMPARATOR_PRODUCTS = ('sprig-writable', 'layerfs')
 OWN_AB_PRODUCTS = ('sprig-baseline', 'sprig-candidate')
 PRODUCT = r'(?:' + '|'.join(COMPARATOR_PRODUCTS + OWN_AB_PRODUCTS) + ')'
@@ -73,6 +74,9 @@ def verify_declared_archives(destination, temporary, copied):
         if match:verify(report,match[1],match[2],match[3])
         else:
             own_ab = comparison[1]=='own-ab'
+            latest_direct = report.get('schema')=='sprig-stress-cargo-latest-direct-v1'
+            if latest_direct and (own_ab or type(report.get('rounds')) is not int or report['rounds']!=2 or type(report.get('expectedRecords')) is not int or report['expectedRecords']!=4 or type(report.get('incremental')) is not int or report['incremental']!=int(comparison[2])):
+                errors.append('invalid current-main direct report shape');continue
             if own_ab and (report.get('schema') not in ('sprig-stress-cargo-own-ab-v1','sprig-stress-cargo-own-ab-v2') or type(report.get('incremental')) is not int or report['incremental']!=int(comparison[2])):
                 errors.append('invalid own-AB report schema/incremental identity');continue
             repeated=own_ab and report.get('schema')=='sprig-stress-cargo-own-ab-v2'
@@ -88,7 +92,7 @@ def verify_declared_archives(destination, temporary, copied):
                 if not isinstance(record,dict):errors.append('invalid comparison record');continue
                 if 'sample' not in record:continue # runtime setup can fail before sampler
                 products = OWN_AB_PRODUCTS if comparison[1]=='own-ab' else COMPARATOR_PRODUCTS
-                if record.get('product') not in products or type(record.get('round')) is not int or record['round'] not in (range(4) if repeated else range(1) if own_ab else range(3)):
+                if record.get('product') not in products or type(record.get('round')) is not int or record['round'] not in (range(4) if repeated else range(1) if own_ab else range(2) if latest_direct else range(3)):
                     errors.append('invalid comparison sample identity');continue
                 verify(record['sample'],record['product'],comparison[2],record['round'])
     return {'ok':not errors,'sampleDeclarations':samples,'verifiedUniqueFiles':len(verified),'errors':errors}

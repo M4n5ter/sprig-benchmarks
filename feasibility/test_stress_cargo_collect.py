@@ -186,4 +186,26 @@ class RepeatedOwnABTests(unittest.TestCase):
                     collect(r,t,b/'out',os.getuid(),os.getgid())
                     self.assertEqual(json.loads((b/'out/collection.json').read_text())['declaredArchiveVerification']['verifiedUniqueFiles'],1)
 
+class LatestDirectTests(unittest.TestCase):
+    def test_exact_current_main_result_names_only(self):
+        for name in ('stress-cargo-latest-direct-identity.json','stress-cargo-latest-direct-summary.json','latest-main-selection.txt','layerfs-source-hashes.txt','layerfs-binary-hashes.txt','layerfs-rust-version.txt','layerfs-release-build.log','production-tests.txt','production-release-build.log'):
+            self.assertTrue(allowed('results',(name,)))
+        for name in ('stress-cargo-latest-direct-identity.json.bak','private-token.txt'):
+            self.assertFalse(allowed('results',(name,)))
+    def test_latest_direct_round_two_shape_and_failed_samples(self):
+        for failure in (None,'rounds','index','mode','expected'):
+            with self.subTest(failure=failure),tempfile.TemporaryDirectory() as tmp:
+                b=Path(tmp);r=b/'results';r.mkdir();t=b/'temporary';t.mkdir()
+                report={'schema':'sprig-stress-cargo-latest-direct-v1','rounds':2,'expectedRecords':4,'incremental':0,'complete':False,'records':[{'product':'layerfs','round':1,'sample':{'ok':False}}]}
+                if failure=='rounds':report['rounds']=3
+                if failure=='index':report['records'][0]['round']=2
+                if failure=='mode':report['incremental']=1
+                if failure=='expected':report['expectedRecords']=8
+                (r/'stress-cargo-comparison-0.json').write_text(json.dumps(report))
+                if failure:
+                    with self.assertRaisesRegex(ValueError,'completeness failed'):collect(r,t,b/'out',os.getuid(),os.getgid())
+                else:
+                    collect(r,t,b/'out',os.getuid(),os.getgid())
+                    self.assertEqual(json.loads((b/'out/results/stress-cargo-comparison-0.json').read_text()),report)
+
 if __name__=='__main__':unittest.main()

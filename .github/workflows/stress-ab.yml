@@ -1,14 +1,7 @@
-name: Cargo DAG16 balanced within-Sprig A/B
-run-name: Cargo DAG16 ${{ inputs.profile || 'ordinary' }},4 balanced pairs per mode,4GiB
+name: Current-main Sprig versus LayerFS balanced Cargo
+run-name: Current-main Sprig4eb0 versus LayerFSad789,8ordinary samples,4GiB
 on:
   workflow_dispatch:
-    inputs:
-      profile:
-        type: choice
-        options: [ordinary, normal-rename2-v1, normal-rename2-1024-v2]
-        default: ordinary
-        description: Separate experiment profile; never pool pressure with ordinary runs
-        required: true
 permissions:
   contents: read
 concurrency:
@@ -20,23 +13,16 @@ jobs:
     timeout-minutes: 45
     env:
       CARGO_BUILD_JOBS: '2'
-      STRESS_CARGO_ROUNDS: '4'
-      STRESS_CARGO_PROFILE: ${{ inputs.profile || 'ordinary' }}
+      SPRIG_STRESS_SHA: 4eb0f4d7afdb19bf22d9667dc520ede8b162c737
+      LAYERFS_MAIN_SHA: ad78914e36b258b360daf13aec164b5655814689
+      STRESS_CARGO_ROUNDS: '2'
+      STRESS_CARGO_LATEST_DIRECT: '${{ github.workspace }}/results/stress-cargo-latest-direct-identity.json'
     steps:
       - name: Establish shared absolute admission deadline before setup
         run: |
           started=$(date +%s)
           echo "STRESS_CARGO_JOB_STARTED_EPOCH=$started" >> "$GITHUB_ENV"
           echo "STRESS_CARGO_JOB_DEADLINE_EPOCH=$((started + 40 * 60))" >> "$GITHUB_ENV"
-          case "$STRESS_CARGO_PROFILE" in
-            ordinary|normal-rename2-v1)
-              echo 'BASELINE_SHA=4ef4a90d7ccf5f305416c5374bfc81038f5ca46e' >> "$GITHUB_ENV"
-              echo 'CANDIDATE_SHA=b300693e01c652c1a9631c61b7a439892d8f75cd' >> "$GITHUB_ENV" ;;
-            normal-rename2-1024-v2)
-              echo 'BASELINE_SHA=b300693e01c652c1a9631c61b7a439892d8f75cd' >> "$GITHUB_ENV"
-              echo 'CANDIDATE_SHA=dfee7e4e9ee223f25d141d2e05d3cfcdc6c9269f' >> "$GITHUB_ENV" ;;
-            *) echo 'Unreviewed pressure profile' >&2; exit 2 ;;
-          esac
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Record paired environment and install official tools
         run: |
@@ -49,56 +35,69 @@ jobs:
           python3 feasibility/test_stress_cargo_capacity.py
           python3 feasibility/test_stress_runtime_storage.py
           python3 feasibility/test_stress_cargo_collect.py
-          python3 feasibility/test_stress_cargo_ab_summary.py
-          python3 feasibility/test_stress_cargo_pressure.py
-          python3 feasibility/test_stress_cargo_pressure_long.py
-          node feasibility/test_stress_cargo_pressure_long.mjs
           node feasibility/test_stress_cargo_layerfs.mjs
           node feasibility/test_stress_cargo_compare.mjs
-          node feasibility/test_stress_cargo_own_ab.mjs
-      - name: Fetch both immutable Sprig sources once
+          node feasibility/test_stress_cargo_latest_direct.mjs
+          python3 feasibility/test_stress_cargo_latest_summary.py
+      - name: Record current-main selections then fetch immutable comparator
         run: |
+          set -o pipefail
+          sprig_live=$(git ls-remote https://github.com/M4n5ter/sprig.git refs/heads/main | cut -f1)
+          layerfs_live=$(git ls-remote https://github.com/Ephemeral-AI-Lab/layerfs.git refs/heads/main | cut -f1)
+          printf 'Sprig main %s\nLayerFS main %s\n' "$sprig_live" "$layerfs_live" > results/latest-main-selection.txt
+          test "$sprig_live" = "$SPRIG_STRESS_SHA"
+          test "$layerfs_live" = "$LAYERFS_MAIN_SHA"
+          git clone --filter=blob:none --no-checkout https://github.com/Ephemeral-AI-Lab/layerfs.git layerfs
+          git -C layerfs sparse-checkout init --cone
+          git -C layerfs sparse-checkout set core/crates core/vendor api .cargo
+          git -C layerfs checkout "$LAYERFS_MAIN_SHA"
+          test "$(git -C layerfs rev-parse HEAD)" = "$LAYERFS_MAIN_SHA"
+          (cd layerfs && git ls-files -z core/crates core/vendor core/Cargo.toml core/Cargo.lock core/.cargo api .cargo rust-toolchain rust-toolchain.toml | xargs -0 sha256sum) > results/layerfs-source-hashes.txt
+      - name: Fetch fixed production CLI
+        run: |
+          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git sprig
+          git -C sprig checkout "$SPRIG_STRESS_SHA"
+          test "$(git -C sprig rev-parse HEAD)" = "$SPRIG_STRESS_SHA"
           rustup toolchain install stable --profile minimal
-          rustc +stable -Vv > results/projection-rust-version.txt
-          for variant in baseline candidate; do
-            if [ "$variant" = baseline ]; then pin="$BASELINE_SHA"; else pin="$CANDIDATE_SHA"; fi
-            git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git "sprig-$variant"
-            git -C "sprig-$variant" checkout "$pin"
-            test "$(git -C "sprig-$variant" rev-parse HEAD)" = "$pin"
-            find "sprig-$variant/src" "sprig-$variant/tests" -type f -print0 | sort -z | xargs -0 sha256sum > "results/$variant-source-hashes.txt"
-          done
+          rustc +stable --version > results/projection-rust-version.txt
+          (cd sprig && git ls-files -z src tests Cargo.toml Cargo.lock build.rs .cargo rust-toolchain rust-toolchain.toml | xargs -0 sha256sum) > results/production-source-hashes.txt
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
           path: |
             ~/.cargo/registry
             ~/.cargo/git
           key: stress-cargo-registry-ubuntu24-v2
-      - name: Build separate immutable binaries and ordinary positive gates serially
+      - name: Build fixed comparator
         run: |
           set -o pipefail
-          mkdir bin
-          for variant in baseline candidate; do
-            export CARGO_TARGET_DIR="$PWD/build-target-$variant"
-            test ! -e "$CARGO_TARGET_DIR"
-            cargo +stable test --locked --features projection --manifest-path "sprig-$variant/Cargo.toml" 2>&1 | tee "results/$variant-tests.txt"
-            cargo +stable build --release --locked --features projection --manifest-path "sprig-$variant/Cargo.toml" -vv > "results/$variant-release-build.log" 2>&1
-            grep -F 'Compiling sprig ' "results/$variant-release-build.log"
-            grep -F "$PWD/sprig-$variant" "results/$variant-release-build.log"
-            install -m 0755 "$CARGO_TARGET_DIR/release/sprig" "bin/$variant-sprig"
-            sha256sum "bin/$variant-sprig" > "results/$variant-binary-hash.txt"
-            mkdir "$RUNNER_TEMP/$variant-writable-gate"
-            sudo env PATH="$PATH" RUSTUP_HOME="$HOME/.rustup" CARGO_HOME="$HOME/.cargo" TMPDIR="$RUNNER_TEMP/$variant-writable-gate" /usr/bin/python3 "sprig-$variant/tests/writable_link_fd.py" --binary "$PWD/bin/$variant-sprig" > "results/$variant-writable-gate.json"
-          done
-          ! cmp -s bin/baseline-sprig bin/candidate-sprig
-          python3 - <<'PYCONFIG'
-          import hashlib,json,os
-          from pathlib import Path
-          root=Path.cwd();products=[]
-          for variant in ('baseline','candidate'):
-              binary=root/'bin'/f'{variant}-sprig'
-              products.append(dict(label=f'sprig-{variant}',sha=os.environ[f'{variant.upper()}_SHA'],sourcePath=str(root/f'sprig-{variant}'),binary=str(binary),binarySha256=hashlib.sha256(binary.read_bytes()).hexdigest()))
-          with Path('results/stress-cargo-ab-products.json').open('x') as out:json.dump(products,out,indent=2)
-          PYCONFIG
+          rustup toolchain install 1.85.1 --profile minimal
+          rustc +1.85.1 -Vv > results/layerfs-rust-version.txt
+          (cd layerfs && cargo +1.85.1 fetch --manifest-path core/Cargo.toml --locked)
+          (cd layerfs && npm --prefix api install --offline --ignore-scripts --no-audit --no-fund && npm --prefix api run build:native) 2>&1 | tee results/layerfs-release-build.log
+          (cd layerfs && cargo +1.85.1 build --manifest-path core/Cargo.toml --locked --offline --release -p layerfs-daemon) 2>&1 | tee -a results/layerfs-release-build.log
+          sha256sum layerfs/core/target/release/layerfs-daemon layerfs/api/binding/layerfs.node > results/layerfs-binary-hashes.txt
+      - name: Ordinary Sprig unit gates and fixed release build; no historical fault harness
+        run: |
+          set -o pipefail
+          export CARGO_TARGET_DIR="$PWD/sprig/target"
+          cargo +stable test --locked --features projection --manifest-path sprig/Cargo.toml 2>&1 | tee results/production-tests.txt
+          cargo +stable build --release --locked --features projection --manifest-path sprig/Cargo.toml 2>&1 | tee results/production-release-build.log
+          sha256sum sprig/target/release/sprig > results/production-binary-hash.txt
+      - name: Bind both exact source revisions and all executable inputs
+        run: |
+          test -z "$(git -C sprig status --porcelain)"
+          test -z "$(git -C layerfs status --porcelain)"
+          node --input-type=module <<'JSIDENTITY'
+          import fs from 'node:fs';
+          import path from 'node:path';
+          import {createHash} from 'node:crypto';
+          import {MANIFEST_SCHEMA,SPRIG_SHA,LAYERFS_SHA,validateDirectManifest} from './feasibility/stress_cargo_latest_direct.mjs';
+          const root=process.cwd(),sha=p=>createHash('sha256').update(fs.readFileSync(p)).digest('hex');
+          const sprig=path.join(root,'sprig'),layerfs=path.join(root,'layerfs');
+          const binary=path.join(sprig,'target/release/sprig'),daemon=path.join(layerfs,'core/target/release/layerfs-daemon'),sdk=path.join(layerfs,'api/agent/sdk/src/index.js'),addon=path.join(layerfs,'api/binding/layerfs.node');
+          const value=validateDirectManifest({schema:MANIFEST_SCHEMA,sprig:{sha:SPRIG_SHA,ref:'main',binary,binarySha256:sha(binary),sourcePath:sprig},layerfs:{sha:LAYERFS_SHA,ref:'main',binary:daemon,binarySha256:sha(daemon),sourcePath:layerfs,sdkPath:sdk,sdkSha256:sha(sdk),nativeAddonPath:addon,nativeAddonSha256:sha(addon)}});
+          fs.writeFileSync('results/stress-cargo-latest-direct-identity.json',JSON.stringify(value,null,2)+'\n',{flag:'wx'});
+          JSIDENTITY
       - name: Prepare official container runtime and frozen fixture
         run: |
           sudo install -m 0755 -d /etc/apt/keyrings
@@ -111,6 +110,7 @@ jobs:
           docker version > results/docker-updated.txt
           docker pull ubuntu:24.04
           echo "LAYERFS_IMAGE=$(docker image inspect --format '{{.Id}}' ubuntu:24.04)" >> "$GITHUB_ENV"
+          echo "LAYERFS_DAEMON=$PWD/layerfs/core/target/release/layerfs-daemon" >> "$GITHUB_ENV"
           docker image inspect ubuntu:24.04 > results/runtime-image.json
           docker save ubuntu:24.04 -o "$RUNNER_TEMP/fixed-runtime-image.tar"
           echo "LAYERFS_IMAGE_ARCHIVE=$RUNNER_TEMP/fixed-runtime-image.tar" >> "$GITHUB_ENV"
@@ -146,25 +146,23 @@ jobs:
       - name: Common external capacity pilot (not product results or reusable cache)
         run: |
           sudo env GITHUB_ACTIONS=true RUNNER_TEMP="$RUNNER_TEMP" /usr/bin/python3 feasibility/stress_cargo_capacity.py --source "$PWD/fixtures/stress-cargo" --manifest "$PWD/results/stress-cargo-manifest.json" --image "$CARGO_IMAGE" --root "$RUNNER_TEMP/stress-cargo-capacity-pilot" --output "$PWD/results/stress-cargo-capacity.json" > results/stress-cargo-capacity-status.json
-      - name: Own-Sprig incremental0 four alternating pairs, fresh4GiB each
+      - name: Four incremental0 samples in two balanced pairs, fresh symmetric4GiB images
         env:
           STRESS_CARGO_INCREMENTAL: '0'
-          STRESS_CARGO_AB_PRODUCTS: '${{ github.workspace }}/results/stress-cargo-ab-products.json'
-        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,STRESS_CARGO_ROUNDS,STRESS_CARGO_PROFILE,STRESS_CARGO_INCREMENTAL,STRESS_CARGO_AB_PRODUCTS,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
-      - name: Own-Sprig incremental1 four opposite-start alternating pairs after all inc0 gates
+        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,LAYERFS_DAEMON,STRESS_CARGO_INCREMENTAL,SPRIG_STRESS_SHA,STRESS_CARGO_ROUNDS,STRESS_CARGO_LATEST_DIRECT,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
+      - name: Four incremental1 samples only after complete same-image incremental0 gate
         env:
           STRESS_CARGO_INCREMENTAL: '1'
-          STRESS_CARGO_AB_PRODUCTS: '${{ github.workspace }}/results/stress-cargo-ab-products.json'
-          STRESS_CARGO_PREVIOUS_GATE: '${{ github.workspace }}/results/stress-cargo-own-ab-0.json'
-        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,STRESS_CARGO_ROUNDS,STRESS_CARGO_PROFILE,STRESS_CARGO_INCREMENTAL,STRESS_CARGO_AB_PRODUCTS,STRESS_CARGO_PREVIOUS_GATE,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
-      - name: Describe every pair and negative; no comparisons for an incomplete matrix
+          STRESS_CARGO_PREVIOUS_GATE: '${{ github.workspace }}/results/stress-cargo-comparison-0.json'
+        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,LAYERFS_DAEMON,STRESS_CARGO_INCREMENTAL,SPRIG_STRESS_SHA,STRESS_CARGO_ROUNDS,STRESS_CARGO_LATEST_DIRECT,STRESS_CARGO_PREVIOUS_GATE,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
+      - name: Reaudit all eight raw samples before any descriptive direct comparison
         if: always()
-        run: sudo python3 feasibility/stress_cargo_ab_summary.py results/stress-cargo-own-ab-0.json results/stress-cargo-own-ab-1.json --archive-root "$RUNNER_TEMP/stress-cargo-records" --output results/stress-cargo-own-ab-summary.json
+        run: sudo python3 feasibility/stress_cargo_latest_summary.py --inc0 results/stress-cargo-comparison-0.json --inc1 results/stress-cargo-comparison-1.json --archive-root "$RUNNER_TEMP/stress-cargo-records" --output results/stress-cargo-latest-direct-summary.json
       - name: Copy allowlisted evidence on success or failure without changing source permissions
         if: always()
         run: sudo env GITHUB_ACTIONS=true python3 feasibility/stress_cargo_collect.py --results "$PWD/results" --temporary "$RUNNER_TEMP" --destination "$PWD/cargo-artifacts" --uid "$(id -u)" --gid "$(id -g)"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: stress-cargo-own-ab-${{ inputs.profile || 'ordinary' }}-balanced
+          name: stress-cargo-current-main-direct-eight-samples
           path: cargo-artifacts/

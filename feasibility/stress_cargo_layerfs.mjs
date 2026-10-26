@@ -5,8 +5,15 @@ import {spawn} from 'node:child_process';
 import {isDeepStrictEqual} from 'node:util';
 import {performance} from 'node:perf_hooks';
 import {createHash, randomUUID} from 'node:crypto';
+import {LAYERFS_SHA as LATEST_DIRECT_SHA} from './stress_cargo_latest_direct.mjs';
 
 export const SOURCE_SHA='9f97a7ec95b662e9cb288704afa165feff132cfa';
+export function selectedSource(options){
+ if(options.latestDirect===undefined)return SOURCE_SHA;
+ const v=options.latestDirect;
+ if(!v||Object.keys(v).sort().join(',')!=='schema,sha'||v.schema!=='sprig-cargo-latest-direct-source-v1'||v.sha!==LATEST_DIRECT_SHA)throw new Error('invalid fixed current-main direct source identity');
+ return LATEST_DIRECT_SHA;
+}
 export const BUILD='cargo build --offline --locked --verbose --workspace --jobs 2';
 export const PROGRAM='./target/debug/stress-app';
 const PREFIX='unset RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER; set -eu; ';
@@ -106,8 +113,9 @@ export function verifyCargoPackages(stderr,packages,purpose){
  * No helper builds/pulls images, changes runtime settings, retries or forces teardown.
  */
 export async function runStressCargoLayerfs(options, testDependencies=undefined){
+ const selectedSha=selectedSource(options);
  const start=performance.now(), phases={}, views=[], attemptedUnmounts=new Set(),confirmedUnmounts=new Set();
- const report={ok:false,prototype_only:false,production_sha:SOURCE_SHA,product:'layerfs',backend:'fuse',workload:'stress-cargo-dag16-v2',protocol:'sprig-stress-cargo-protocol-v2',complete_sprig_semantics:false,workload_only_verification:true,phase_seconds:phases,commands:[],checkpoint:null,full_task_seconds:null,activeSpace:{filesystemUsedBytes:null,usageRaw:null,groupsRaw:null},lifecycle:{fileTreesRetained:true,normalUnmountOnly:true,persistentControlDaemon:true,activeAtSpace:null,daemons:[],cleanup:{attempts:[],complete:false}},remainingMounts:[],remainingContainers:[],measurementNotes:[
+ const report={ok:false,prototype_only:false,production_sha:selectedSha,product:'layerfs',backend:'fuse',workload:'stress-cargo-dag16-v2',protocol:'sprig-stress-cargo-protocol-v2',complete_sprig_semantics:false,workload_only_verification:true,phase_seconds:phases,commands:[],checkpoint:null,full_task_seconds:null,activeSpace:{filesystemUsedBytes:null,usageRaw:null,groupsRaw:null},lifecycle:{fileTreesRetained:true,normalUnmountOnly:true,persistentControlDaemon:true,activeAtSpace:null,daemons:[],cleanup:{attempts:[],complete:false}},remainingMounts:[],remainingContainers:[],measurementNotes:[
  'New synthetic 16-library plus one application Cargo DAG protocol; not the frozen tiny Cargo series or history100.',
  'LayerFS UID501/GID20 SDK exec in persistent Sandbox differs from default-root generation-scoped cooperative Sprig Docker containers; transport costs remain charged.',
  'Actual Cargo paths /workspaces/N differ from Sprig /work; restored Fresh/recompile behavior is observed, not promised.',
