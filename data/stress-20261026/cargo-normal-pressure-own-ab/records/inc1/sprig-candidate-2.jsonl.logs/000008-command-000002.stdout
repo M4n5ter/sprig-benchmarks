@@ -1,0 +1,47 @@
+[
+    {
+        "Id": "sha256:51bf0c82887f9dafba17ee788cd87cc642f06f5bb9e17640025e9995c9eb1a0d",
+        "RepoTags": [
+            "sprig-cargo-fixture:40289142188"
+        ],
+        "RepoDigests": [],
+        "Comment": "buildkit.dockerfile.v0",
+        "Created": "2026-10-26T08:02:34.603270848Z",
+        "Config": {
+            "Env": [
+                "PATH=/opt/rust/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "/bin/bash"
+            ],
+            "Labels": {
+                "org.opencontainers.image.version": "24.04"
+            }
+        },
+        "Architecture": "amd64",
+        "Os": "linux",
+        "Size": 1005165334,
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/home/runner/work/_temp/stress-cargo-sprig-candidate-1-2-gQLTGw/mount/docker-data/overlay2/f8ef9f65456be64f6bea047bdedc3c95519145d923e5fb9d7f3d299c247e2b46/diff:/home/runner/work/_temp/stress-cargo-sprig-candidate-1-2-gQLTGw/mount/docker-data/overlay2/f5e4f9100a8f3227a6533f4f2b303c2091617350c451f931390307f3b93e33f4/diff:/home/runner/work/_temp/stress-cargo-sprig-candidate-1-2-gQLTGw/mount/docker-data/overlay2/ed9963ec6ed51840981cef0cadd8c755baeafa5432f90bef339b8c35fafa27b4/diff:/home/runner/work/_temp/stress-cargo-sprig-candidate-1-2-gQLTGw/mount/docker-data/overlay2/b2c04b0e3cad03d0a7440e3ec3a8182642a8a8cc5b0163e3752bab75ec94cdc8/diff",
+                "MergedDir": "/home/runner/work/_temp/stress-cargo-sprig-candidate-1-2-gQLTGw/mount/docker-data/overlay2/df04f11909c764fb38e82f3bd0bb9e589e4a59c3e0a256ea985734d49e6c51fb/merged",
+                "UpperDir": "/home/runner/work/_temp/stress-cargo-sprig-candidate-1-2-gQLTGw/mount/docker-data/overlay2/df04f11909c764fb38e82f3bd0bb9e589e4a59c3e0a256ea985734d49e6c51fb/diff",
+                "WorkDir": "/home/runner/work/_temp/stress-cargo-sprig-candidate-1-2-gQLTGw/mount/docker-data/overlay2/df04f11909c764fb38e82f3bd0bb9e589e4a59c3e0a256ea985734d49e6c51fb/work"
+            },
+            "Name": "overlay2"
+        },
+        "RootFS": {
+            "Type": "layers",
+            "Layers": [
+                "sha256:32ab39660fd51c6dc3aae486b42d42bbe8fe4c1db78eaf57bb9c21198de48a16",
+                "sha256:53f86836626b08627100088ec83b4cc8eb0fde4e32a144acc98b6696fafa71ed",
+                "sha256:1587baea9c920a9881acb9d1ca94a01e950ed2e7272e7de720b341752aa25e2d",
+                "sha256:c428e2b6c9c1d5074b28ecbd7516cff47ef7d51be7e13585679133321caa6b41",
+                "sha256:5f70bf18a086007016e948b04aed3b82103a36bea41755b6cddfaf10ace3c6ef"
+            ]
+        },
+        "Metadata": {
+            "LastTagTime": "0001-01-01T00:00:00Z"
+        }
+    }
+]

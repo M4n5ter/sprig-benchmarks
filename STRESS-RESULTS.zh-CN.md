@@ -282,3 +282,7 @@ These are overlapping descriptive timers, not additive costs or isolated rename 
 ## 2026-10-26 repeated ordinary Cargo follow-up
 
 [Four balanced pairs per mode](STRESS-CARGO-BALANCED-AB-RESULTS.md) passed all 16 correctness/evidence gates, but the earlier one-pair whole-task gain did not repeat: paired geometric whole-sampler change +0.29% (inc0) / +2.00% (inc1). Checkpoint-only gains are not a whole-task win; all negatives and complete raw evidence remain available.
+
+## 2026-10-26 normal concurrency pressure
+
+[All 16 normal-pressure samples](STRESS-CARGO-NORMAL-PRESSURE-RESULTS.md) pass full correctness and evidence gates. Rename medians improve about 51–54%, but per-sample dependent-operation rename p99 worsens +8.84%/+22.87%; incremental1 write/metadata/read p99 also worsen. These are not end-to-end p99 or statistical significance. Every pair, tail negative and raw witness is retained separately from ordinary Cargo.

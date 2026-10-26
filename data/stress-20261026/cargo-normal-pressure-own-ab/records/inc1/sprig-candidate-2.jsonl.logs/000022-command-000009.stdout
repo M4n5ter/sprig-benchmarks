@@ -1,0 +1,9 @@
+{
+  "result": {
+    "branch": "work",
+    "committed": true,
+    "previous_head": "bd03236111b8f03670b6e8f48f81aa3190c7da76e90346d602c7328da2d387e4",
+    "revision": "545f4cfee47abbc60850f2b2a86abf319e2fe697ca385bc5f7a5073975685e91"
+  },
+  "schema_version": 1
+}

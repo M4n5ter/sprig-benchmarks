@@ -1,0 +1,16 @@
+{
+  "result": {
+    "backend": {
+      "kind": "writable",
+      "revision": "0f3c5dccdbfa7b24638acfd9df15ea4badf4bab7c90749994a7c1e54a5b2c1dd"
+    },
+    "base_revision": "b4d27408b3a317419abbcd69450a7724af5448af01bc67b4cd74ca493d86a9c9",
+    "branch": "work",
+    "copy_stats": null,
+    "mount_state": "mounted",
+    "name": "work",
+    "path": "/home/runner/work/_temp/stress-cargo-sprig-candidate-0-1-0HFz9t/mount/sample/library/native/1793001847696088085-20256-1/tree",
+    "pending_conflicts": []
+  },
+  "schema_version": 1
+}
