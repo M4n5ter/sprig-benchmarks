@@ -5,6 +5,9 @@ This reader neither executes products nor repairs evidence. Standalone raw JSON 
 the complete archived command outputs, not JavaScript-rounded embedded trees, are
 authoritative. LayerFS's decimal-string nanoseconds are converted only for exact
 integer comparison; original evidence is never rewritten.
+
+Version 2 binds the caebd LayerFS root-workspace layout. Historical version-1
+ad789 reports are not reinterpreted as measurements of this comparator.
 """
 import argparse
 import copy
@@ -21,12 +24,12 @@ from stress_cargo_ab_summary import (
     validate_sample as validate_sprig_sample, verify_archives,
 )
 
-SCHEMA = 'sprig-stress-cargo-latest-direct-v1'
-SUMMARY_SCHEMA = 'sprig-stress-cargo-latest-direct-summary-v1'
-MANIFEST_SCHEMA = 'sprig-cargo-latest-direct-identity-v1'
+SCHEMA = 'sprig-stress-cargo-latest-direct-v2'
+SUMMARY_SCHEMA = 'sprig-stress-cargo-latest-direct-summary-v2'
+MANIFEST_SCHEMA = 'sprig-cargo-latest-direct-identity-v2'
 MANIFEST_FILE = 'stress-cargo-latest-direct-identity.json'
 PINS = {'sprig-writable': '4eb0f4d7afdb19bf22d9667dc520ede8b162c737',
-        'layerfs': 'ad78914e36b258b360daf13aec164b5655814689'}
+        'layerfs': 'caebd268dc376865e964f33f78047f7918763190'}
 PRODUCTS = tuple(PINS)
 PROTOCOL_SHA = '08822e9e6e7cd411561559a689bd91c404b587c95ec452fa62e4018e166b748e'
 IDENTITY = ('image', 'productionSha', 'comparatorSha', 'protocolSha256',
@@ -66,11 +69,11 @@ def validate_manifest(value):
             canonical_path(item[key], key)
         for key in ('binarySha256',) + (('sdkSha256', 'nativeAddonSha256') if name == 'layerfs' else ()):
             require(isinstance(item[key], str) and HEX64.fullmatch(item[key]), 'invalid ' + key)
-        binary_suffix = 'target/release/sprig' if name == 'sprig' else 'core/target/release/layerfs-daemon'
+        binary_suffix = 'target/release/sprig' if name == 'sprig' else 'target/release/layerfs-daemon'
         require(item['binary'] == str(Path(item['sourcePath']) / binary_suffix), 'binary outside fixed source build path')
         if name == 'layerfs':
-            require(item['sdkPath'] == str(Path(item['sourcePath']) / 'api/agent/sdk/src/index.js')
-                    and item['nativeAddonPath'] == str(Path(item['sourcePath']) / 'api/binding/layerfs.node'),
+            require(item['sdkPath'] == str(Path(item['sourcePath']) / 'api/agent/src/index.js')
+                    and item['nativeAddonPath'] == str(Path(item['sourcePath']) / 'engine/crates/layerfs-node/layerfs.node'),
                     'LayerFS SDK/addon outside fixed source paths')
     for key in ('binary', 'sourcePath', 'binarySha256'):
         require(value['sprig'][key] != value['layerfs'][key], 'distinct product ' + key + ' required')
@@ -396,7 +399,7 @@ def summarize(paths, archive_root):
                         'Standalone raw JSON and archived command outputs are authoritative; JS embedded exact-ns trees are never used as evidence.',
                         'LayerFS structured decimal-string nanoseconds are compared as exact Python integers without rewriting original evidence.',
                         'Two pairs per mode, one per order stratum: descriptive small N only; no p95/p99 or significance claims.',
-                        'Sprig latest main and LayerFS latest main, not LayerFS v1.1.0; source pins are immutable for this finite run.',
+                        'Fixed Sprig4eb and LayerFScaebd current-at-selection main revisions, not the LayerFS v1.1.0 release source; no latest-at-finish claim or silent repin.',
                         'Sprig sync/fsync and LayerFS Disposable WAL/OFF, MEMORY/OFF are unequal durability; generation Docker sessions versus persistent SDK costs remain charged.',
                         'Mode results are separate. All phases and Sprig-only composites overlap; do not add/subtract them from whole wall.',
                         'Whole filesystem Used includes runtime/compiler image, target/cache, retained views/history/logs; runtime setup is separately timed, not subtracted from space.']}

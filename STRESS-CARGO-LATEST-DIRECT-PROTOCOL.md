@@ -1,35 +1,66 @@
-# Current-main Sprig versus current-main LayerFS: fixed eight-sample Cargo protocol
+# Current-main Sprig versus LayerFS caebd: fixed eight-sample Cargo protocol v2
 
-This is a new direct comparison, not a relabeling of Sprig-only optimizations or
-of the historical released-LayerFS run. No performance result is implied by this
-protocol. The separate four-sample writable diagnostic canary remains available
-but is **not dispatched** while this requested direct comparison takes priority.
+This is a locally prepared new direct series. No build or measurement is implied
+by this protocol; publication/dispatch needs a separate root review and GO. The
+completed36-sample Sprig4eb/104/5ef run and historical4eb/ad789 direct result remain
+unchanged. This is not an experimental-candidate promotion or a LayerFS source
+change. The separate writable diagnostic canary is not dispatched.
 
 ## Immutable selections
 
 | Product | Frozen revision | Selection |
 |---|---|---|
 | Sprig | `4eb0f4d7afdb19bf22d9667dc520ede8b162c737` | current `main` |
-| LayerFS | `ad78914e36b258b360daf13aec164b5655814689` | current **unreleased `main`** |
+| LayerFS | `caebd268dc376865e964f33f78047f7918763190` | current **unreleased `main`** |
 
-At selection time LayerFS's latest formal release is still v1.1.0, at
-`9f97a7ec95b662e9cb288704afa165feff132cfa`, eleven commits behind this main pin.
-It is **not** the version measured here. The changed native-addon temporary
-workspace naming is not assumed performance-equivalent merely because core
-sources are unchanged. Historical release results stay unchanged and unpooled.
+LayerFS main was verified at this exact revision on2026-10-27 at06:46UTC.
+The previously measured `ad78914e36b258b360daf13aec164b5655814689` is54 commits
+behind this selection. Source changes include the root Cargo workspace and
+engine/API reorganization and real behavior changes; performance and the old
+Native-history EOF outcome are not assumed equivalent or repaired. Old source
+identities, raw results and failures remain historical and unpooled.
 
-The job reads both live main refs before product builds and requires these exact
-pins; if either moved, it stops rather than silently measuring another revision.
-The operator must review a new selection before any replacement run. All checkouts
-remain detached at immutable revisions. The identity manifest binds canonical
+The job records both observed live main refs and their match/difference/unavailable
+status against the fixed selections before builds. Tip movement or observation
+failure does not block the selected comparison and never silently changes a pin.
+Results are labeled current-at-selection fixed revisions, not latest-at-finish
+when a tip differs or cannot be observed. All checkouts remain detached at the
+immutable reviewed revisions; actual checkout/ELF/source identity checks still
+fail closed. A future replacement source selection needs its own review. The identity manifest binds canonical
 source paths, Sprig ELF, LayerFS daemon ELF, SDK entry file and native addon bytes;
 HEAD, clean source worktrees, paths and hashes are checked before and after every
 sample. Complete tracked source/build hashes accompany the artifacts.
 
 The existing LayerFS adapter defaults to its historical release pin. Only the
-explicit new `latestDirect` source schema accepts this fixed main revision; an
+explicit v2 `latestDirect` source schema accepts this fixed main revision; an
 arbitrary source SHA, old release presented as latest, or mixed own-AB identity
 is rejected. No workload, persistence setting or SDK transport is changed.
+
+## Concrete caebd compatibility migration
+
+The product source is unchanged. Builds run from the LayerFS repository root:
+root `Cargo.toml` / `Cargo.lock` cover `core/crates/*` and `engine/crates/*`;
+`engine/vendor/fuser-0.18.0` is the existing pinned patch. Sparse checkout and
+source hashes cover those paths plus `api` and `.cargo`, including root manifests.
+The checked-in `api/scripts/build-native.mjs` invokes Cargo1.85.1 explicitly,
+offline/locked/release for `layerfs-node`. The ordinary daemon build uses that
+same toolchain and root manifest, with jobs2 and no feature/profile override.
+Canonical outputs are `target/release/layerfs-daemon` and
+`engine/crates/layerfs-node/layerfs.node`; the SDK entry is
+`api/agent/src/index.js`. Host Node/npm and both LayerFS Rust/Cargo versions are
+recorded. The actual addon/daemon/SDK hashes and full relevant source hashes are
+bound; a package version string alone is not a source identity.
+
+The existing adapter already uses `LayerFS.init(name, source)` and the current
+positional sandbox/workspace/branch methods. The inspected source signatures
+match; actual runtime acceptance remains unproven until the normal oracle passes.
+The SDK may internally spool large exec output; this series keeps its ordinary
+no-sinks call and complete returned strings/raw archives. It never turns a
+truncated stream into success. The measured-root TMPDIR binding before SDK load,
+strict local-Docker route, trace-off and unset worker/policy/native overrides stay.
+No SDK method, output witness, operation order, persistence behavior or cleanup
+strategy is substituted. Unknown outcomes remain sticky and block teardown.
+
 
 ## Finite order and budget
 
@@ -51,7 +82,8 @@ budget** apply. Both pre-runtime and pre-sampler admissions retain at least
 180 seconds of work plus300 seconds for normal cleanup. Cargo uses jobs2; the
 same common Rust/Cargo1.90.0 image is built once, recorded by immutable image ID,
 and used for both products/modes. Product build toolchains are separately
-recorded (Sprig stable; LayerFS1.85.1), not presented as the workload compiler.
+recorded (Sprig1.99.1; LayerFS1.85.1), not presented as the workload compiler.
+Only ordinary Sprig projection-enabled library tests run, not old kernel gates.
 The existing external inc0/inc1 capacity pilots remain setup only, not product
 measurements or reusable target caches. There is no8GiB expansion or automatic
 retry. Roughly10–15 minutes is a planning estimate, not a guaranteed duration.
@@ -81,6 +113,27 @@ failure stops the series. No force/lazy unmount, signal/fault injection, retry o
 old fault gate is introduced. Ordinary product unit tests and the actual positive
 Cargo oracle gates are used; historical kernel-fault workflow steps stay inactive.
 Both trace environments must be absent.
+
+The explicit `--latest-direct` collection route uses the already reviewed bounded
+whole-evidence engine even when setup fails before an identity file exists.
+It admits the complete named plan before copies; max(logical,allocated) file
+charges, directory blocks and transient pending/final metadata stay within1GiB.
+Copies use bounded chunks and strict source identity checks. Failed/partial
+collection cannot claim complete evidence. Hidden files are uploaded only from
+this validated owned collection root; no runtime root or unrelated file is swept.
+
+## External comparison, not an upstream campaign qualification
+
+This is the user's prospectively balanced external end-to-end DAG16 comparison.
+It does not claim to satisfy LayerFS's different upstream campaign conventions
+(one treatment sample, separately timed verification, residency-qualified cold
+inputs and15s/25s campaign commands). Fresh symmetric writable images do not prove
+OS-cold pages. This external protocol retains verification/lifecycle in its
+primary boundary, records setup separately, makes no upstream campaign PASS or
+cold-cache claim, and does not change product defaults/worker wiring to fit a gate.
+The wrapper remains frozen before measurement; root review confirms the specific
+external scope. No old run is relabeled to these assumptions.
+
 
 ## Interpretation
 

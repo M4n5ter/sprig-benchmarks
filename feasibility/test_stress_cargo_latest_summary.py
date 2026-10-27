@@ -57,10 +57,10 @@ def fixture(base):
     manifest = {'schema': MANIFEST_SCHEMA,
                 'sprig': {'sha': PINS['sprig-writable'], 'ref': 'main', 'binary': '/sources/sprig/target/release/sprig',
                           'sourcePath': '/sources/sprig', 'binarySha256': '1' * 64},
-                'layerfs': {'sha': PINS['layerfs'], 'ref': 'main', 'binary': '/sources/layerfs/core/target/release/layerfs-daemon',
+                'layerfs': {'sha': PINS['layerfs'], 'ref': 'main', 'binary': '/sources/layerfs/target/release/layerfs-daemon',
                             'sourcePath': '/sources/layerfs', 'binarySha256': '2' * 64,
-                            'sdkPath': '/sources/layerfs/api/agent/sdk/src/index.js', 'sdkSha256': '3' * 64,
-                            'nativeAddonPath': '/sources/layerfs/api/binding/layerfs.node', 'nativeAddonSha256': '4' * 64}}
+                            'sdkPath': '/sources/layerfs/api/agent/src/index.js', 'sdkSha256': '3' * 64,
+                            'nativeAddonPath': '/sources/layerfs/engine/crates/layerfs-node/layerfs.node', 'nativeAddonSha256': '4' * 64}}
     manifest_hash = dump(results / MANIFEST_FILE, manifest)
     initial = source_tree()
     fixture_manifest = {'schema': 'sprig-stress-cargo-v2', 'protocolSha256': PROTOCOL_SHA,
@@ -236,6 +236,21 @@ def change_sample(paths, mode, index, mutate):
         dump(paths[1], other)
 
 
+def change_manifest(paths, mutate):
+    """Rebind both modes and inputs, so rejection tests exercise semantic gates."""
+    manifest_path = paths[0].parent / MANIFEST_FILE
+    manifest = json.loads(manifest_path.read_text())
+    mutate(manifest)
+    manifest_hash = dump(manifest_path, manifest)
+    for mode in (0, 1):
+        def update(report):
+            report.update(directManifest=copy.deepcopy(manifest), directManifestSha256=manifest_hash)
+            for row in report['records']:
+                key = 'sprig' if row['product'] == 'sprig-writable' else 'layerfs'
+                row['verifiedProductInputs'] = copy.deepcopy(manifest[key])
+        change_report(paths, mode, update)
+
+
 def replace_command(sample, archives, mode, product, round_, purpose, field, value):
     row = next(c for c in sample['commands'] if c['purpose'] == purpose)
     row[field] = value
@@ -258,6 +273,11 @@ class LatestDirectSummaryTests(unittest.TestCase):
             paths, archives = fixture(Path(temporary))
             result = summarize(paths, archives)
             self.assertTrue(result['complete'], result['errors'])
+            self.assertEqual(result['schema'], 'sprig-stress-cargo-latest-direct-summary-v2')
+            self.assertEqual(SCHEMA, 'sprig-stress-cargo-latest-direct-v2')
+            self.assertEqual(MANIFEST_SCHEMA, 'sprig-cargo-latest-direct-identity-v2')
+            self.assertEqual(PINS, {'sprig-writable': '4eb0f4d7afdb19bf22d9667dc520ede8b162c737',
+                                    'layerfs': 'caebd268dc376865e964f33f78047f7918763190'})
             self.assertEqual(len(result['records']), 8)
             self.assertEqual(result['missingRecords'], [])
             self.assertEqual(result['identity']['comparatorSha'], PINS['layerfs'])
@@ -275,6 +295,57 @@ class LatestDirectSummaryTests(unittest.TestCase):
                 self.assertIn('phase.compiler_image_verify', result['unmatchedMetrics'][mode]['layerfs'])
             self.assertEqual(result['comparisons']['inc0']['wholeSamplerSeconds']['pairs'][0]['firstProduct'], 'sprig-writable')
             self.assertEqual(result['comparisons']['inc1']['wholeSamplerSeconds']['pairs'][0]['firstProduct'], 'layerfs')
+
+    def test_old_direct_report_and_manifest_schemas_are_not_latest(self):
+        for kind in ('report', 'manifest'):
+            with self.subTest(kind=kind), tempfile.TemporaryDirectory() as temporary:
+                paths, archives = fixture(Path(temporary))
+                if kind == 'report':
+                    for mode in (0, 1):
+                        change_report(paths, mode, lambda r: r.update(schema='sprig-stress-cargo-latest-direct-v1'))
+                else:
+                    change_manifest(paths, lambda m: m.update(schema='sprig-cargo-latest-direct-identity-v1'))
+                result = summarize(paths, archives)
+                self.assert_blocked(result)
+                self.assertEqual(len(result['records']), 8)
+                self.assertTrue(any('schema' in error for error in result['errors']))
+
+    def test_old_ad789_pin_is_rejected_at_each_independent_binding(self):
+        old_pin = 'ad78914e36b258b360daf13aec164b5655814689'
+        for kind in ('report', 'manifest', 'verified-input', 'raw', 'all'):
+            with self.subTest(kind=kind), tempfile.TemporaryDirectory() as temporary:
+                paths, archives = fixture(Path(temporary))
+                if kind in ('manifest', 'all'):
+                    change_manifest(paths, lambda m: m['layerfs'].update(sha=old_pin))
+                for mode in (0, 1):
+                    if kind in ('report', 'all'):
+                        change_report(paths, mode, lambda r: r.update(comparatorSha=old_pin))
+                    if kind in ('verified-input', 'raw', 'all'):
+                        report = json.loads(paths[mode].read_text())
+                        for index, row in enumerate(report['records']):
+                            if row['product'] != 'layerfs':
+                                continue
+                            if kind == 'verified-input':
+                                change_report(paths, mode, lambda r, index=index:
+                                    r['records'][index]['verifiedProductInputs'].update(sha=old_pin))
+                            else:
+                                change_sample(paths, mode, index, lambda s: s.update(production_sha=old_pin))
+                result = summarize(paths, archives)
+                self.assert_blocked(result)
+                self.assertEqual(len(result['records']), 8)
+
+    def test_old_layerfs_build_sdk_and_addon_paths_fail_even_when_rebound(self):
+        old_paths = {'binary': '/sources/layerfs/core/target/release/layerfs-daemon',
+                     'sdkPath': '/sources/layerfs/api/agent/sdk/src/index.js',
+                     'nativeAddonPath': '/sources/layerfs/api/binding/layerfs.node'}
+        for key, value in old_paths.items():
+            with self.subTest(field=key), tempfile.TemporaryDirectory() as temporary:
+                paths, archives = fixture(Path(temporary))
+                change_manifest(paths, lambda m: m['layerfs'].update({key: value}))
+                result = summarize(paths, archives)
+                self.assert_blocked(result)
+                self.assertEqual(len(result['records']), 8)
+                self.assertTrue(any('fixed source' in error for error in result['errors']))
 
     def test_decimal_string_ns_and_real_layerfs_absent_testonly_are_not_fabricated(self):
         with tempfile.TemporaryDirectory() as temporary:

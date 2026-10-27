@@ -1,10 +1,10 @@
 // Explicit current-main / current-main series; old acceptance guards stay fixed.
 import assert from 'node:assert/strict';
 import path from 'node:path';
-export const DIRECT_SCHEMA='sprig-stress-cargo-latest-direct-v1';
-export const MANIFEST_SCHEMA='sprig-cargo-latest-direct-identity-v1';
+export const DIRECT_SCHEMA='sprig-stress-cargo-latest-direct-v2';
+export const MANIFEST_SCHEMA='sprig-cargo-latest-direct-identity-v2';
 export const SPRIG_SHA='4eb0f4d7afdb19bf22d9667dc520ede8b162c737';
-export const LAYERFS_SHA='ad78914e36b258b360daf13aec164b5655814689';
+export const LAYERFS_SHA='caebd268dc376865e964f33f78047f7918763190';
 export const PRODUCTS=Object.freeze(['sprig-writable','layerfs']);
 export function validateDirectManifest(value){
  assert.deepEqual(Object.keys(value).sort(),['schema','sprig','layerfs'].sort());assert.equal(value.schema,MANIFEST_SCHEMA);
@@ -13,9 +13,9 @@ export function validateDirectManifest(value){
   const p=value[name];assert.deepEqual(Object.keys(p).sort(),(name==='sprig'?common:[...common,'sdkPath','sdkSha256','nativeAddonPath','nativeAddonSha256']).sort());assert.equal(p.sha,pin);assert.equal(p.ref,'main');
   for(const key of name==='sprig'?['binarySha256']:['binarySha256','sdkSha256','nativeAddonSha256'])assert.match(p[key]??'',/^[a-f0-9]{64}$/);
   for(const key of name==='sprig'?['binary','sourcePath']:['binary','sourcePath','sdkPath','nativeAddonPath'])assert.ok(typeof p[key]==='string'&&path.isAbsolute(p[key])&&path.normalize(p[key])===p[key],'canonical absolute product paths');
-  assert.equal(p.binary,path.join(p.sourcePath,name==='sprig'?'target/release/sprig':'core/target/release/layerfs-daemon'));
+  assert.equal(p.binary,path.join(p.sourcePath,name==='sprig'?'target/release/sprig':'target/release/layerfs-daemon'));
  }
- const p=value.layerfs;assert.equal(p.sdkPath,path.join(p.sourcePath,'api/agent/sdk/src/index.js'));assert.equal(p.nativeAddonPath,path.join(p.sourcePath,'api/binding/layerfs.node'));
+ const p=value.layerfs;assert.equal(p.sdkPath,path.join(p.sourcePath,'api/agent/src/index.js'));assert.equal(p.nativeAddonPath,path.join(p.sourcePath,'engine/crates/layerfs-node/layerfs.node'));
  assert.notEqual(value.sprig.sourcePath,value.layerfs.sourcePath);assert.notEqual(value.sprig.binarySha256,value.layerfs.binarySha256);return value;
 }
 export function directOrder(incremental,round){

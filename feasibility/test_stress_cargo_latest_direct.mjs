@@ -4,12 +4,16 @@ import {validateProducts} from './stress_cargo_own_ab.mjs';
 import {validatePreviousGate} from './stress_cargo_compare.mjs';
 import {SOURCE_SHA,selectedSource} from './stress_cargo_layerfs.mjs';
 assert.equal(selectedSource({}),SOURCE_SHA);assert.equal(SOURCE_SHA,'9f97a7ec95b662e9cb288704afa165feff132cfa');
-assert.equal(selectedSource({latestDirect:{schema:'sprig-cargo-latest-direct-source-v1',sha:LAYERFS_SHA}}),LAYERFS_SHA);
-for(const latestDirect of [null,{}, {schema:'sprig-cargo-latest-direct-source-v1',sha:SOURCE_SHA},{schema:'wrong',sha:LAYERFS_SHA},{schema:'sprig-cargo-latest-direct-source-v1',sha:LAYERFS_SHA,extra:true}])assert.throws(()=>selectedSource({latestDirect}));
-const manifest={schema:MANIFEST_SCHEMA,sprig:{sha:SPRIG_SHA,ref:'main',binary:'/fixed/sprig/target/release/sprig',binarySha256:'a'.repeat(64),sourcePath:'/fixed/sprig'},layerfs:{sha:LAYERFS_SHA,ref:'main',binary:'/fixed/layerfs/core/target/release/layerfs-daemon',binarySha256:'b'.repeat(64),sourcePath:'/fixed/layerfs',sdkPath:'/fixed/layerfs/api/agent/sdk/src/index.js',sdkSha256:'c'.repeat(64),nativeAddonPath:'/fixed/layerfs/api/binding/layerfs.node',nativeAddonSha256:'d'.repeat(64)}};
+assert.equal(selectedSource({latestDirect:{schema:'sprig-cargo-latest-direct-source-v2',sha:LAYERFS_SHA}}),LAYERFS_SHA);
+for(const latestDirect of [null,{}, {schema:'sprig-cargo-latest-direct-source-v2',sha:SOURCE_SHA},{schema:'wrong',sha:LAYERFS_SHA},{schema:'sprig-cargo-latest-direct-source-v2',sha:LAYERFS_SHA,extra:true}])assert.throws(()=>selectedSource({latestDirect}));
+const manifest={schema:MANIFEST_SCHEMA,sprig:{sha:SPRIG_SHA,ref:'main',binary:'/fixed/sprig/target/release/sprig',binarySha256:'a'.repeat(64),sourcePath:'/fixed/sprig'},layerfs:{sha:LAYERFS_SHA,ref:'main',binary:'/fixed/layerfs/target/release/layerfs-daemon',binarySha256:'b'.repeat(64),sourcePath:'/fixed/layerfs',sdkPath:'/fixed/layerfs/api/agent/src/index.js',sdkSha256:'c'.repeat(64),nativeAddonPath:'/fixed/layerfs/engine/crates/layerfs-node/layerfs.node',nativeAddonSha256:'d'.repeat(64)}};
 assert.deepEqual(validateDirectManifest(manifest),manifest);
 for(const [product,key,value] of [['sprig','sha','0'.repeat(40)],['layerfs','ref','v1.1.0'],['layerfs','sha','9f97a7ec95b662e9cb288704afa165feff132cfa'],['layerfs','nativeAddonPath','/tmp/unbound.node'],['layerfs','sdkSha256','wrong'],['sprig','binary','relative']]){const m=structuredClone(manifest);m[product][key]=value;assert.throws(()=>validateDirectManifest(m));}
 assert.throws(()=>validateDirectManifest({...manifest,extra:true}));
+for(const [key,value] of [['sha','ad78914e36b258b360daf13aec164b5655814689'],['binary','/fixed/layerfs/core/target/release/layerfs-daemon'],['sdkPath','/fixed/layerfs/api/agent/sdk/src/index.js'],['nativeAddonPath','/fixed/layerfs/api/binding/layerfs.node']]){const old=structuredClone(manifest);old.layerfs[key]=value;assert.throws(()=>validateDirectManifest(old));}
+assert.throws(()=>validateDirectManifest({...manifest,schema:'sprig-cargo-latest-direct-identity-v1'}));
+assert.throws(()=>selectedSource({latestDirect:{schema:'sprig-cargo-latest-direct-source-v1',sha:LAYERFS_SHA}}));
+
 assert.deepEqual(directOrder(0,0),['sprig-writable','layerfs']);assert.deepEqual(directOrder(0,1),['layerfs','sprig-writable']);assert.deepEqual(directOrder(1,0),['layerfs','sprig-writable']);assert.deepEqual(directOrder(1,1),['sprig-writable','layerfs']);
 for(const pair of [[0,2],[2,0],[true,0],[0,.5]])assert.throws(()=>directOrder(...pair));
 const mode={rounds:2,profile:'ordinary',ownAB:false,productionSha:SPRIG_SHA,comparatorSha:LAYERFS_SHA};assert.equal(validateDirectMode(mode),true);

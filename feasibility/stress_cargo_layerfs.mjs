@@ -11,7 +11,7 @@ export const SOURCE_SHA='9f97a7ec95b662e9cb288704afa165feff132cfa';
 export function selectedSource(options){
  if(options.latestDirect===undefined)return SOURCE_SHA;
  const v=options.latestDirect;
- if(!v||Object.keys(v).sort().join(',')!=='schema,sha'||v.schema!=='sprig-cargo-latest-direct-source-v1'||v.sha!==LATEST_DIRECT_SHA)throw new Error('invalid fixed current-main direct source identity');
+ if(!v||Object.keys(v).sort().join(',')!=='schema,sha'||v.schema!=='sprig-cargo-latest-direct-source-v2'||v.sha!==LATEST_DIRECT_SHA)throw new Error('invalid fixed current-main direct source identity');
  return LATEST_DIRECT_SHA;
 }
 export const BUILD='cargo build --offline --locked --verbose --workspace --jobs 2';
