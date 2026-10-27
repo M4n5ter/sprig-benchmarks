@@ -1,0 +1,23 @@
+{
+  "files": 115,
+  "bytes": 2591948,
+  "sourceCategories": [
+    "complete public GitHub Actions artifacts from all three attempts",
+    "public run/artifact metadata and cancelled-job log",
+    "derived read-only audits",
+    "exact public benchmark Git helper objects"
+  ],
+  "secretPatternClasses": 8,
+  "matchesPerClass": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "privateLocalAuditScriptIncluded": false,
+  "allOriginalArtifactFilesIncluded": true
+}
