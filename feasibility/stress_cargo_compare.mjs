@@ -7,7 +7,8 @@ import {execFileSync} from 'node:child_process';
 import {performance} from 'node:perf_hooks';
 import {createHash} from 'node:crypto';
 import {AB_SCHEMA,AB_REPEATED_SCHEMA,experimentSpec,validatePressureSample,validateProducts,sampleOrder,validateOwnPreviousGate} from './stress_cargo_own_ab.mjs';
-import {ABC_SCHEMA,ABC_EXPERIMENT,validateABCProducts,validateABCMode,abcOrder,abcSchedule,validateABCPlan,validateABCPreviousGate} from './stress_cargo_directory_abc.mjs';
+import * as directoryABC from './stress_cargo_directory_abc.mjs';
+import * as cleanSyncTTL from './stress_cargo_clean_sync_ttl.mjs';
 import {SOURCE_SHA,loadCommands,verifyCargoPackages} from './stress_cargo_layerfs.mjs';
 import {DIRECT_SCHEMA,LAYERFS_SHA,validateDirectManifest,validateDirectMode,directOrder,directProduct,validateDirectPreviousGate} from './stress_cargo_latest_direct.mjs';
 // Cargo-only resource revision: fixed4GiB first, no automatic fallback/resizing.
@@ -18,6 +19,12 @@ const sha=x=>createHash('sha256').update(x).digest('hex');
 const json=x=>JSON.stringify(x,(_,v)=>typeof v==='bigint'?v.toString():v,2);
 const command=(p,a)=>execFileSync(p,a.map(String),{encoding:'utf8',maxBuffer:128*1024**2});
 const expectedPackages=Array.from({length:16},(_,i)=>'node'+String(i).padStart(3,'0')).concat('stress-app');
+// Fixed series selection only; historical helpers and runtime semantics stay unchanged.
+export function selectABCIdentity({directory=false,cleanSync=false,ownAB=false,latestDirect=false}){
+ for(const value of [directory,cleanSync,ownAB,latestDirect])assert.equal(typeof value,'boolean');
+ assert.ok(Number(directory)+Number(cleanSync)+Number(ownAB)+Number(latestDirect)<=1,'distinct direct/own-AB/directory-ABC/clean-sync-TTL identities cannot be combined');
+ return cleanSync?cleanSyncTTL:directory?directoryABC:null;
+}
 export class CapacityBlocked extends Error {}
 export class BudgetBlocked extends Error {}
 export function budgetAdmission({startedEpochSeconds,deadlineEpochSeconds,nowEpochSeconds,workReserveSeconds=180,cleanupReserveSeconds=300}){
@@ -109,7 +116,7 @@ function validateSample(sample,product,identity,incremental){
  for(const key of ['preflight','init','import','fork','fixture_verify','cargo_setup','toolchain_verify','clean_build','target_probe','clean_artifacts','clean_execute','noop_build','noop_artifacts','noop_execute','edit','edit_build','edit_artifacts','edit_execute','pre_checkpoint_oracle','checkpoint_cli','checkpoint_readiness','checkpoint','restore','restore_verify','restored_artifacts','restored_execute','restored_rebuild','restored_rebuild_artifacts','restored_rebuild_execute','retained_input_verify','space','cleanup'])assert.ok(Number.isFinite(sample.phase_seconds[key])&&sample.phase_seconds[key]>=0,key);
  assert.ok(Number.isFinite(sample.full_task_seconds)&&sample.full_task_seconds>=0);assert.ok(Math.abs(sample.phase_seconds.checkpoint-sample.phase_seconds.checkpoint_cli-sample.phase_seconds.checkpoint_readiness)<1e-6);
  if(identity.experimentSpec)validatePressureSample(sample,identity.experimentSpec);
- if(identity.abcExperiment){assert.deepEqual(identity.abcExperiment,ABC_EXPERIMENT);for(const key of ['normalPressure','normalPressureScriptSha256','normalPressureRawSha256'])assert.equal(sample[key],undefined,'ordinary ABC forbids pressure');assert.equal(sample.phase_seconds.normal_pressure,undefined);}
+ if(identity.abcExperiment){assert.deepEqual(identity.abcExperiment,identity.abcExperiment.schema===cleanSyncTTL.ABC_EXPERIMENT.schema?cleanSyncTTL.ABC_EXPERIMENT:directoryABC.ABC_EXPERIMENT);for(const key of ['normalPressure','normalPressureScriptSha256','normalPressureRawSha256'])assert.equal(sample[key],undefined,'ordinary ABC forbids pressure');assert.equal(sample.phase_seconds.normal_pressure,undefined);}
  assert.ok(Number.isFinite(sample.activeSpace.filesystemUsedBytes)&&sample.activeSpace.filesystemUsedBytes>=0);verifyArchive(sample);
 }
 export async function main(){
@@ -121,8 +128,13 @@ export async function main(){
  const invocationEpoch=Date.now()/1000,invocationMonotonic=performance.now();
  const admitBudget=()=>budgetAdmission({startedEpochSeconds:jobStarted,deadlineEpochSeconds:jobDeadline,nowEpochSeconds:invocationEpoch+(performance.now()-invocationMonotonic)/1000});
  const incremental=Number(process.env.STRESS_CARGO_INCREMENTAL),rounds=Number(process.env.STRESS_CARGO_ROUNDS??'1');
- const ownAB=process.env.STRESS_CARGO_AB_PRODUCTS!==undefined,latestDirect=process.env.STRESS_CARGO_LATEST_DIRECT!==undefined,abc=process.env.STRESS_CARGO_ABC_PRODUCTS!==undefined,ownSprig=ownAB||abc;
- assert.ok(Number(ownAB)+Number(latestDirect)+Number(abc)<=1,'distinct direct/own-AB/ABC identities cannot be combined');
+ const ownAB=process.env.STRESS_CARGO_AB_PRODUCTS!==undefined,latestDirect=process.env.STRESS_CARGO_LATEST_DIRECT!==undefined;
+ const cleanSync=process.env.STRESS_CARGO_CLEAN_SYNC_TTL_PRODUCTS!==undefined;
+ const abcIdentity=selectABCIdentity({directory:process.env.STRESS_CARGO_ABC_PRODUCTS!==undefined,cleanSync,ownAB,latestDirect});
+ const abc=abcIdentity!==null,ownSprig=ownAB||abc;
+ const {ABC_SCHEMA,ABC_EXPERIMENT,validateABCProducts,validateABCMode,abcOrder,abcSchedule,validateABCPlan,validateABCPreviousGate}=abcIdentity??directoryABC;
+ const abcStem=cleanSync?'clean-sync-ttl':'directory-abc';
+ const abcManifestPath=cleanSync?process.env.STRESS_CARGO_CLEAN_SYNC_TTL_PRODUCTS:process.env.STRESS_CARGO_ABC_PRODUCTS;
  assert.ok((abc?[6]:latestDirect?[2]:ownAB?[1,4]:[1,3]).includes(rounds),'only original or explicit bounded balanced rounds allowed');
  const profile=process.env.STRESS_CARGO_PROFILE??'ordinary';experimentSpec(profile);
  if(profile!=='ordinary')assert.ok(ownAB&&rounds===4,'normal pressure requires balanced own A/B');
@@ -130,8 +142,8 @@ export async function main(){
  if(abc)validateABCMode({rounds,profile,ownAB,latestDirect,productionSha});
  if(!ownSprig)assert.match(productionSha??'',/^[a-f0-9]{40}$/);assert.match(image??'',/^sha256:[a-f0-9]{64}$/);assert.ok(path.isAbsolute(archive??''));
  let abBytes=null,abProducts=null,directBytes=null,directManifest=null,abcBytes=null,abcProducts=null,abcPlanBytes=null;
- const abcPlanPath=path.join(cwd,'results/stress-cargo-directory-abc-plan.json');
- if(abc){assert.ok(path.isAbsolute(process.env.STRESS_CARGO_ABC_PRODUCTS));abcBytes=fs.readFileSync(process.env.STRESS_CARGO_ABC_PRODUCTS);abcProducts=validateABCProducts(JSON.parse(abcBytes));abcPlanBytes=fs.readFileSync(abcPlanPath);validateABCPlan(JSON.parse(abcPlanBytes),abcProducts);}
+ const abcPlanPath=path.join(cwd,`results/stress-cargo-${abcStem}-plan.json`);
+ if(abc){assert.ok(path.isAbsolute(abcManifestPath));abcBytes=fs.readFileSync(abcManifestPath);abcProducts=validateABCProducts(JSON.parse(abcBytes));abcPlanBytes=fs.readFileSync(abcPlanPath);validateABCPlan(JSON.parse(abcPlanBytes),abcProducts);}
  if(latestDirect){
   validateDirectMode({rounds,profile,ownAB,productionSha,comparatorSha});assert.ok(path.isAbsolute(process.env.STRESS_CARGO_LATEST_DIRECT));
   directBytes=fs.readFileSync(process.env.STRESS_CARGO_LATEST_DIRECT);directManifest=validateDirectManifest(JSON.parse(directBytes));assert.equal(process.env.LAYERFS_DAEMON,directManifest.layerfs.binary);
@@ -151,7 +163,7 @@ export async function main(){
   }
  };
  const verifyABCInputs=()=>{
-  assert.ok(fs.readFileSync(process.env.STRESS_CARGO_ABC_PRODUCTS).equals(abcBytes),'ABC manifest changed');assert.ok(fs.readFileSync(abcPlanPath).equals(abcPlanBytes),'ABC schedule changed');
+  assert.ok(fs.readFileSync(abcManifestPath).equals(abcBytes),'ABC manifest changed');assert.ok(fs.readFileSync(abcPlanPath).equals(abcPlanBytes),'ABC schedule changed');
   for(const p of abcProducts){
    assert.equal(fs.realpathSync(p.sourcePath),p.sourcePath);assert.equal(fs.realpathSync(p.binary),p.binary);
    assert.equal(command('git',['-C',p.sourcePath,'rev-parse','HEAD']).trim(),p.sha);assert.equal(command('git',['-C',p.sourcePath,'status','--porcelain']).trim(),'','ABC source worktree changed');
@@ -178,10 +190,11 @@ export async function main(){
  const fixtureFiles=manifest.initial.entries.filter(x=>x.type==='file');assert.ok(fixtureFiles.every(x=>Number.isSafeInteger(x.size)&&x.size>=0));const fixtureLogicalBytes=fixtureFiles.reduce((sum,x)=>sum+x.size,0);assert.ok(Number.isSafeInteger(fixtureLogicalBytes));
  let previousGate=null;if(incremental===1){assert.ok(path.isAbsolute(process.env.STRESS_CARGO_PREVIOUS_GATE??''),'incremental1 requires explicit previous gate');const bytes=fs.readFileSync(process.env.STRESS_CARGO_PREVIOUS_GATE);if(abc)validateABCPreviousGate(JSON.parse(bytes),identity,(sample,p,mode)=>validateSample(sample,'sprig-writable',{...identity,productionSha:p.sha},mode));else if(ownAB)validateOwnPreviousGate(JSON.parse(bytes),identity,(sample,p,mode)=>validateSample(sample,'sprig-writable',{...identity,productionSha:p.sha},mode));else if(latestDirect)validateDirectPreviousGate(JSON.parse(bytes),identity,(sample,label,mode)=>validateSample(sample,label,identity,mode));else validatePreviousGate(JSON.parse(bytes),identity);previousGate={path:process.env.STRESS_CARGO_PREVIOUS_GATE,sha256:sha(bytes)};}
  const recordRoot=path.join(process.env.RUNNER_TEMP,'stress-cargo-records');fs.mkdirSync(recordRoot,{recursive:true});const recordDir=path.join(recordRoot,`inc${incremental}`);fs.mkdirSync(recordDir,{recursive:false});
- const reportPath=`results/stress-cargo-${abc?'directory-abc':ownAB?'own-ab':'comparison'}-${incremental}.json`,records=abc?abcSchedule(incremental).map(r=>({...r,correct:false,status:'not-run',reason:'awaiting prior protocol steps'})):[];
+ const reportPath=`results/stress-cargo-${abc?abcStem:ownAB?'own-ab':'comparison'}-${incremental}.json`,records=abc?abcSchedule(incremental).map(r=>({...r,correct:false,status:'not-run',reason:'awaiting prior protocol steps'})):[];
  if(ownSprig||latestDirect){const fd=fs.openSync(reportPath,'wx',0o644);fs.closeSync(fd);}
  const report={schema:abc?ABC_SCHEMA:ownAB?(rounds===4?AB_REPEATED_SCHEMA:AB_SCHEMA):latestDirect?DIRECT_SCHEMA:'sprig-stress-cargo-comparison-v2',status:'running',complete:false,incremental,rounds,expectedRecords:rounds*(abc?3:2),...identity,previousGate,capacityPilot:pilot,imageBytes:IMAGE_BYTES,records,notes:['Cargo-only resource revision: fresh symmetric4GiB images, not pooled with2GiB capacity failures; no automatic8GiB retry.', 'New DAG16 protocol; never pooled with frozen tiny Cargo results.','Whole Used includes immutable image, runtime state, target/cache/logs/history; runtime setup separately timed but baseline bytes never subtracted from primary space.','WholeSampleSubprocessWallSeconds is matched sampler process launch-through-exit including evidence serialization and normal cleanup; internal phases overlap, not additive.','Both products use identical image; Sprig compiler lifetime remains generation-scoped, LayerFS UID501 SDK transport is persistent; no equal durability claim.']};
  report.sharedJobBudget=sharedJobBudget;
+ if(cleanSync)report.notes.push('Fixed baseline/clean_sync/read_ttl source roles; separate experiment from directory counts and LayerFS. Coherence tests are prerequisites, not a claim that every TTL error path or performance benefit is proved.');
  if(abc)report.notes[4]='Explicit three-pin ordinary Sprig comparison; six complete permutation blocks per mode, all36 samples required. Same sampler/transport/durability, no pressure/trace, no pooling or automatic promotion. Shared sample edges are not independent replications.';
  if(latestDirect)report.notes.push('Explicit fixed current-at-selection Sprig versus LayerFS, two balanced pairs per mode; no latest-at-finish claim. LayerFS caebd is the fixed unreleased main selected for direct schema v2, not the v1.1.0 release source. All eight samples required; no pooling with older release, own-AB or diagnostic series.');
  if(ownAB)report.notes[4]=rounds===4?'Within-Sprig ordinary positive workloads; four balanced paired rounds per mode, independent fresh images, same sampler/transport/durability. Small N: report every pair, phase, negative and descriptive range; no significant gain or tail claim.':'Within-Sprig ordinary positive workloads; same sampler/transport/durability, fixed distinct source and binary identities. One pair per mode, no statistical claim.';
