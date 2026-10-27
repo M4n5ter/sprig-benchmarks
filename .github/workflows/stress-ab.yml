@@ -1,5 +1,5 @@
-name: Clean journal sync and regular-file TTL mounted Cargo acceptance
-run-name: Sprig4eb0 versus29e2 versus23ef,36 ordinary DAG16 samples,4GiB
+name: Verified first-read reuse mounted Cargo acceptance
+run-name: Sprig4eb0 versusf61c,24 ordinary DAG16 samples,4GiB
 on:
   workflow_dispatch:
 permissions:
@@ -14,7 +14,7 @@ jobs:
     env:
       CARGO_BUILD_JOBS: '2'
       STRESS_CARGO_ROUNDS: '6'
-      STRESS_CARGO_CLEAN_SYNC_TTL_PRODUCTS: '${{ github.workspace }}/results/stress-cargo-clean-sync-ttl-products.json'
+      STRESS_CARGO_VERIFIED_READ_REUSE_PRODUCTS: '${{ github.workspace }}/results/stress-cargo-verified-read-reuse-products.json'
     steps:
       - name: Establish shared absolute admission deadline before setup
         run: |
@@ -43,26 +43,30 @@ jobs:
           node feasibility/test_stress_cargo_clean_sync_ttl.mjs
           node feasibility/test_stress_cargo_clean_sync_ttl_driver.mjs
           python3 feasibility/test_stress_cargo_clean_sync_ttl_summary.py
-      - name: Fetch three immutable production sources without changing code
+          node feasibility/test_stress_cargo_verified_read_reuse.mjs
+          node feasibility/test_stress_cargo_verified_read_reuse_driver.mjs
+          python3 feasibility/test_stress_cargo_verified_read_reuse_collect.py
+          python3 feasibility/test_stress_cargo_verified_read_reuse_summary.py
+      - name: Fetch two immutable production sources without changing code
         run: |
           rustup toolchain install 1.99.1 --profile minimal
-          rustc +1.99.1 -Vv > results/cst-rust-version.txt
-          cargo +1.99.1 -Vv > results/cst-cargo-version.txt
-          sha256sum "$(rustup which --toolchain 1.99.1 cargo)" "$(rustup which --toolchain 1.99.1 rustc)" > results/cst-toolchain-hashes.txt
-          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git "$RUNNER_TEMP/sprig-cargo-clean-sync-ttl-objects"
+          rustc +1.99.1 -Vv > results/vrr-rust-version.txt
+          cargo +1.99.1 -Vv > results/vrr-cargo-version.txt
+          sha256sum "$(rustup which --toolchain 1.99.1 cargo)" "$(rustup which --toolchain 1.99.1 rustc)" > results/vrr-toolchain-hashes.txt
+          git clone --filter=blob:none --no-checkout https://github.com/M4n5ter/sprig.git "$RUNNER_TEMP/sprig-cargo-verified-read-reuse-objects"
           python3 - <<'PYSOURCES'
           import json,os,subprocess
           from pathlib import Path
-          pins={'baseline':'4eb0f4d7afdb19bf22d9667dc520ede8b162c737','clean-sync':'29e25e439cc674152c29712c9d5d315d87f4b14c','read-ttl':'23ef28d2a38b58da8a78be1e8fcdd193990371d1'}
-          root=Path(os.environ['RUNNER_TEMP'])/'sprig-cargo-clean-sync-ttl-sources';root.mkdir()
-          objects=Path(os.environ['RUNNER_TEMP'])/'sprig-cargo-clean-sync-ttl-objects'
+          pins={'baseline':'4eb0f4d7afdb19bf22d9667dc520ede8b162c737','verified-read-reuse':'f61ce655d9270e206d97e20bc104644c821e4e5d'}
+          root=Path(os.environ['RUNNER_TEMP'])/'sprig-cargo-verified-read-reuse-sources';root.mkdir()
+          objects=Path(os.environ['RUNNER_TEMP'])/'sprig-cargo-verified-read-reuse-objects'
           for label,pin in pins.items():
               source=root/label
               subprocess.run(['git','-C',str(objects),'worktree','add','--detach',str(source),pin],check=True)
               assert subprocess.check_output(['git','-C',str(source),'rev-parse','HEAD'],text=True).strip()==pin
-          Path('results/cst-source-pins.json').write_text(json.dumps(pins,indent=2)+'\n')
+          Path('results/vrr-source-pins.json').write_text(json.dumps(pins,indent=2)+'\n')
           # Observation only: changed/unavailable live tips never repin or block fixed inputs.
-          branches={'baseline':'main','clean-sync':'experiment/clean-journal-sync','read-ttl':'experiment/regular-file-read-ttl'}
+          branches={'baseline':'main','verified-read-reuse':'experiment/verified-read-reuse'}
           selections=[]
           for label,branch in branches.items():
               try:
@@ -73,11 +77,11 @@ jobs:
               except subprocess.CalledProcessError:
                   observed=None;status='unavailable'
               selections.append({'role':label,'branch':branch,'fixedSha':pins[label],'observedSha':observed,'status':status})
-          Path('results/cst-source-selection.json').write_text(json.dumps({'schema':'sprig-clean-sync-ttl-source-observation-v1','selection':'immutable approved pins; no tip-freshness admission gate','observations':selections},indent=2)+'\n')
-          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'SPRIG_CLEAN_SYNC_TTL_SOURCE_ROOT={root}\n')
+          Path('results/vrr-source-selection.json').write_text(json.dumps({'schema':'sprig-verified-read-reuse-source-observation-v1','selection':'immutable approved pins; no tip-freshness admission gate','observations':selections},indent=2)+'\n')
+          with open(os.environ['GITHUB_ENV'],'a') as f:f.write(f'SPRIG_VERIFIED_READ_REUSE_SOURCE_ROOT={root}\n')
           PYSOURCES
-          for label in baseline clean-sync read-ttl; do
-            (cd "$RUNNER_TEMP/sprig-cargo-clean-sync-ttl-sources/$label" && git ls-files -z | xargs -0 sha256sum) > "results/cst-$label-source-hashes.txt"
+          for label in baseline verified-read-reuse; do
+            (cd "$RUNNER_TEMP/sprig-cargo-verified-read-reuse-sources/$label" && git ls-files -z | xargs -0 sha256sum) > "results/vrr-$label-source-hashes.txt"
           done
       - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
         with:
@@ -85,29 +89,29 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
           key: stress-cargo-registry-ubuntu24-v2
-      - name: Ordinary lib gates and three distinct production release CLIs; no kernel harness
+      - name: Ordinary lib gates and two distinct production release CLIs; no kernel harness
         run: |
           set -o pipefail
-          for label in baseline clean-sync read-ttl; do
-            source="$SPRIG_CLEAN_SYNC_TTL_SOURCE_ROOT/$label"
+          for label in baseline verified-read-reuse; do
+            source="$SPRIG_VERIFIED_READ_REUSE_SOURCE_ROOT/$label"
             export CARGO_TARGET_DIR="$source/target"
-            cargo +1.99.1 test --locked --features projection --lib --manifest-path "$source/Cargo.toml" 2>&1 | tee "results/cst-$label-tests.txt"
-            cargo +1.99.1 build --release --locked --features projection --manifest-path "$source/Cargo.toml" 2>&1 | tee "results/cst-$label-release-build.log"
-            sha256sum "$source/target/release/sprig" > "results/cst-$label-binary-hash.txt"
+            cargo +1.99.1 test --locked --features projection --lib --manifest-path "$source/Cargo.toml" 2>&1 | tee "results/vrr-$label-tests.txt"
+            cargo +1.99.1 build --release --locked --features projection --manifest-path "$source/Cargo.toml" 2>&1 | tee "results/vrr-$label-release-build.log"
+            sha256sum "$source/target/release/sprig" > "results/vrr-$label-binary-hash.txt"
             test -z "$(git -C "$source" status --porcelain)"
           done
-          sha256sum -c results/cst-toolchain-hashes.txt
-      - name: Bind exact three-product manifest and predeclare all36 positions
+          sha256sum -c results/vrr-toolchain-hashes.txt
+      - name: Bind exact two-product manifest and predeclare all24 positions
         run: |
           node --input-type=module <<'JSIDENTITY'
           import fs from 'node:fs';
           import path from 'node:path';
           import {createHash} from 'node:crypto';
-          import {ABC_PINS,validateABCProducts,createABCPlan} from './feasibility/stress_cargo_clean_sync_ttl.mjs';
+          import {ABC_PINS,validateABCProducts,createABCPlan} from './feasibility/stress_cargo_verified_read_reuse.mjs';
           const sha=p=>createHash('sha256').update(fs.readFileSync(p)).digest('hex');
-          const products=validateABCProducts(Object.entries(ABC_PINS).map(([label,sha_])=>{const sourcePath=path.join(process.env.SPRIG_CLEAN_SYNC_TTL_SOURCE_ROOT,label.slice('sprig-'.length)),binary=path.join(sourcePath,'target/release/sprig');return {label,sha:sha_,sourcePath,binary,binarySha256:sha(binary)};}));
-          fs.writeFileSync('results/stress-cargo-clean-sync-ttl-products.json',JSON.stringify(products,null,2)+'\n',{flag:'wx'});
-          fs.writeFileSync('results/stress-cargo-clean-sync-ttl-plan.json',JSON.stringify(createABCPlan(products),null,2)+'\n',{flag:'wx'});
+          const products=validateABCProducts(Object.entries(ABC_PINS).map(([label,sha_])=>{const sourcePath=path.join(process.env.SPRIG_VERIFIED_READ_REUSE_SOURCE_ROOT,label.slice('sprig-'.length)),binary=path.join(sourcePath,'target/release/sprig');return {label,sha:sha_,sourcePath,binary,binarySha256:sha(binary)};}));
+          fs.writeFileSync('results/stress-cargo-verified-read-reuse-products.json',JSON.stringify(products,null,2)+'\n',{flag:'wx'});
+          fs.writeFileSync('results/stress-cargo-verified-read-reuse-plan.json',JSON.stringify(createABCPlan(products),null,2)+'\n',{flag:'wx'});
           JSIDENTITY
       - name: Prepare official container runtime and frozen fixture
         run: |
@@ -153,24 +157,24 @@ jobs:
       - name: Common external capacity pilot (not product results or reusable cache)
         run: |
           sudo env GITHUB_ACTIONS=true RUNNER_TEMP="$RUNNER_TEMP" /usr/bin/python3 feasibility/stress_cargo_capacity.py --source "$PWD/fixtures/stress-cargo" --manifest "$PWD/results/stress-cargo-manifest.json" --image "$CARGO_IMAGE" --root "$RUNNER_TEMP/stress-cargo-capacity-pilot" --output "$PWD/results/stress-cargo-capacity.json" > results/stress-cargo-capacity-status.json
-      - name: Eighteen incremental0 samples in six fixed three-way permutation blocks
+      - name: Twelve incremental0 samples in six balanced AB/BA pairs
         env:
           STRESS_CARGO_INCREMENTAL: '0'
-        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,STRESS_CARGO_INCREMENTAL,STRESS_CARGO_ROUNDS,STRESS_CARGO_CLEAN_SYNC_TTL_PRODUCTS,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
-      - name: Eighteen incremental1 samples after complete same-identity eighteen-record gate
+        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,STRESS_CARGO_INCREMENTAL,STRESS_CARGO_ROUNDS,STRESS_CARGO_VERIFIED_READ_REUSE_PRODUCTS,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
+      - name: Twelve incremental1 samples after complete same-identity twelve-record gate
         env:
           STRESS_CARGO_INCREMENTAL: '1'
-          STRESS_CARGO_PREVIOUS_GATE: '${{ github.workspace }}/results/stress-cargo-clean-sync-ttl-0.json'
-        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,STRESS_CARGO_INCREMENTAL,STRESS_CARGO_ROUNDS,STRESS_CARGO_CLEAN_SYNC_TTL_PRODUCTS,STRESS_CARGO_PREVIOUS_GATE,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
-      - name: Reaudit all36 raw samples before any three-way descriptive comparison
+          STRESS_CARGO_PREVIOUS_GATE: '${{ github.workspace }}/results/stress-cargo-verified-read-reuse-0.json'
+        run: sudo --preserve-env=CARGO_IMAGE,CARGO_IMAGE_ARCHIVE,STRESS_CARGO_INCREMENTAL,STRESS_CARGO_ROUNDS,STRESS_CARGO_VERIFIED_READ_REUSE_PRODUCTS,STRESS_CARGO_PREVIOUS_GATE,STRESS_CARGO_JOB_STARTED_EPOCH,STRESS_CARGO_JOB_DEADLINE_EPOCH,GITHUB_ACTIONS,RUNNER_TEMP $(which node) feasibility/stress_cargo_compare.mjs
+      - name: Reaudit all24 raw samples before any paired descriptive comparison
         if: always()
-        run: sudo python3 feasibility/stress_cargo_clean_sync_ttl_summary.py --inc0 results/stress-cargo-clean-sync-ttl-0.json --inc1 results/stress-cargo-clean-sync-ttl-1.json --archive-root "$RUNNER_TEMP/stress-cargo-records" --output results/stress-cargo-clean-sync-ttl-summary.json
+        run: sudo python3 feasibility/stress_cargo_verified_read_reuse_summary.py --inc0 results/stress-cargo-verified-read-reuse-0.json --inc1 results/stress-cargo-verified-read-reuse-1.json --archive-root "$RUNNER_TEMP/stress-cargo-records" --output results/stress-cargo-verified-read-reuse-summary.json
       - name: Copy allowlisted evidence on success or failure without changing source permissions
         if: always()
-        run: sudo env GITHUB_ACTIONS=true python3 feasibility/stress_cargo_collect.py --clean-sync-ttl --results "$PWD/results" --temporary "$RUNNER_TEMP" --destination "$PWD/cargo-artifacts" --uid "$(id -u)" --gid "$(id -g)"
+        run: sudo env GITHUB_ACTIONS=true python3 feasibility/stress_cargo_collect.py --verified-read-reuse --results "$PWD/results" --temporary "$RUNNER_TEMP" --destination "$PWD/cargo-artifacts" --uid "$(id -u)" --gid "$(id -g)"
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: stress-cargo-clean-sync-ttl-thirty-six-samples
+          name: stress-cargo-verified-read-reuse-twenty-four-samples
           include-hidden-files: true
           path: cargo-artifacts/

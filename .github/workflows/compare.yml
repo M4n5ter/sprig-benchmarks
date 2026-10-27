@@ -1,7 +1,7 @@
 name: Compare pinned products
 on:
   push:
-    branches-ignore: [stress/canary-validation, diagnostic/layerfs-encoder-proof-ad789, stress/latest-cargo-caebd, stress/clean-sync-file-ttl]
+    branches-ignore: [stress/canary-validation, diagnostic/layerfs-encoder-proof-ad789, stress/latest-cargo-caebd, stress/clean-sync-file-ttl, stress/verified-read-reuse]
   workflow_dispatch:
 permissions:
   contents: read

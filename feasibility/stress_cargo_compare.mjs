@@ -9,6 +9,7 @@ import {createHash} from 'node:crypto';
 import {AB_SCHEMA,AB_REPEATED_SCHEMA,experimentSpec,validatePressureSample,validateProducts,sampleOrder,validateOwnPreviousGate} from './stress_cargo_own_ab.mjs';
 import * as directoryABC from './stress_cargo_directory_abc.mjs';
 import * as cleanSyncTTL from './stress_cargo_clean_sync_ttl.mjs';
+import * as verifiedReadReuse from './stress_cargo_verified_read_reuse.mjs';
 import {SOURCE_SHA,loadCommands,verifyCargoPackages} from './stress_cargo_layerfs.mjs';
 import {DIRECT_SCHEMA,LAYERFS_SHA,validateDirectManifest,validateDirectMode,directOrder,directProduct,validateDirectPreviousGate} from './stress_cargo_latest_direct.mjs';
 // Cargo-only resource revision: fixed4GiB first, no automatic fallback/resizing.
@@ -20,10 +21,10 @@ const json=x=>JSON.stringify(x,(_,v)=>typeof v==='bigint'?v.toString():v,2);
 const command=(p,a)=>execFileSync(p,a.map(String),{encoding:'utf8',maxBuffer:128*1024**2});
 const expectedPackages=Array.from({length:16},(_,i)=>'node'+String(i).padStart(3,'0')).concat('stress-app');
 // Fixed series selection only; historical helpers and runtime semantics stay unchanged.
-export function selectABCIdentity({directory=false,cleanSync=false,ownAB=false,latestDirect=false}){
- for(const value of [directory,cleanSync,ownAB,latestDirect])assert.equal(typeof value,'boolean');
- assert.ok(Number(directory)+Number(cleanSync)+Number(ownAB)+Number(latestDirect)<=1,'distinct direct/own-AB/directory-ABC/clean-sync-TTL identities cannot be combined');
- return cleanSync?cleanSyncTTL:directory?directoryABC:null;
+export function selectABCIdentity({directory=false,cleanSync=false,verifiedRead=false,ownAB=false,latestDirect=false}){
+ for(const value of [directory,cleanSync,verifiedRead,ownAB,latestDirect])assert.equal(typeof value,'boolean');
+ assert.ok(Number(directory)+Number(cleanSync)+Number(verifiedRead)+Number(ownAB)+Number(latestDirect)<=1,'distinct direct/own-AB/directory-ABC/clean-sync-TTL/verified-read identities cannot be combined');
+ return verifiedRead?verifiedReadReuse:cleanSync?cleanSyncTTL:directory?directoryABC:null;
 }
 export class CapacityBlocked extends Error {}
 export class BudgetBlocked extends Error {}
@@ -116,7 +117,7 @@ function validateSample(sample,product,identity,incremental){
  for(const key of ['preflight','init','import','fork','fixture_verify','cargo_setup','toolchain_verify','clean_build','target_probe','clean_artifacts','clean_execute','noop_build','noop_artifacts','noop_execute','edit','edit_build','edit_artifacts','edit_execute','pre_checkpoint_oracle','checkpoint_cli','checkpoint_readiness','checkpoint','restore','restore_verify','restored_artifacts','restored_execute','restored_rebuild','restored_rebuild_artifacts','restored_rebuild_execute','retained_input_verify','space','cleanup'])assert.ok(Number.isFinite(sample.phase_seconds[key])&&sample.phase_seconds[key]>=0,key);
  assert.ok(Number.isFinite(sample.full_task_seconds)&&sample.full_task_seconds>=0);assert.ok(Math.abs(sample.phase_seconds.checkpoint-sample.phase_seconds.checkpoint_cli-sample.phase_seconds.checkpoint_readiness)<1e-6);
  if(identity.experimentSpec)validatePressureSample(sample,identity.experimentSpec);
- if(identity.abcExperiment){assert.deepEqual(identity.abcExperiment,identity.abcExperiment.schema===cleanSyncTTL.ABC_EXPERIMENT.schema?cleanSyncTTL.ABC_EXPERIMENT:directoryABC.ABC_EXPERIMENT);for(const key of ['normalPressure','normalPressureScriptSha256','normalPressureRawSha256'])assert.equal(sample[key],undefined,'ordinary ABC forbids pressure');assert.equal(sample.phase_seconds.normal_pressure,undefined);}
+ if(identity.abcExperiment){assert.deepEqual(identity.abcExperiment,identity.abcExperiment.schema===verifiedReadReuse.ABC_EXPERIMENT.schema?verifiedReadReuse.ABC_EXPERIMENT:identity.abcExperiment.schema===cleanSyncTTL.ABC_EXPERIMENT.schema?cleanSyncTTL.ABC_EXPERIMENT:directoryABC.ABC_EXPERIMENT);for(const key of ['normalPressure','normalPressureScriptSha256','normalPressureRawSha256'])assert.equal(sample[key],undefined,'ordinary ABC forbids pressure');assert.equal(sample.phase_seconds.normal_pressure,undefined);}
  assert.ok(Number.isFinite(sample.activeSpace.filesystemUsedBytes)&&sample.activeSpace.filesystemUsedBytes>=0);verifyArchive(sample);
 }
 export async function main(){
@@ -130,11 +131,12 @@ export async function main(){
  const incremental=Number(process.env.STRESS_CARGO_INCREMENTAL),rounds=Number(process.env.STRESS_CARGO_ROUNDS??'1');
  const ownAB=process.env.STRESS_CARGO_AB_PRODUCTS!==undefined,latestDirect=process.env.STRESS_CARGO_LATEST_DIRECT!==undefined;
  const cleanSync=process.env.STRESS_CARGO_CLEAN_SYNC_TTL_PRODUCTS!==undefined;
- const abcIdentity=selectABCIdentity({directory:process.env.STRESS_CARGO_ABC_PRODUCTS!==undefined,cleanSync,ownAB,latestDirect});
+ const verifiedRead=process.env.STRESS_CARGO_VERIFIED_READ_REUSE_PRODUCTS!==undefined;
+ const abcIdentity=selectABCIdentity({directory:process.env.STRESS_CARGO_ABC_PRODUCTS!==undefined,cleanSync,verifiedRead,ownAB,latestDirect});
  const abc=abcIdentity!==null,ownSprig=ownAB||abc;
  const {ABC_SCHEMA,ABC_EXPERIMENT,validateABCProducts,validateABCMode,abcOrder,abcSchedule,validateABCPlan,validateABCPreviousGate}=abcIdentity??directoryABC;
- const abcStem=cleanSync?'clean-sync-ttl':'directory-abc';
- const abcManifestPath=cleanSync?process.env.STRESS_CARGO_CLEAN_SYNC_TTL_PRODUCTS:process.env.STRESS_CARGO_ABC_PRODUCTS;
+ const abcStem=verifiedRead?'verified-read-reuse':cleanSync?'clean-sync-ttl':'directory-abc';
+ const abcManifestPath=verifiedRead?process.env.STRESS_CARGO_VERIFIED_READ_REUSE_PRODUCTS:cleanSync?process.env.STRESS_CARGO_CLEAN_SYNC_TTL_PRODUCTS:process.env.STRESS_CARGO_ABC_PRODUCTS;
  assert.ok((abc?[6]:latestDirect?[2]:ownAB?[1,4]:[1,3]).includes(rounds),'only original or explicit bounded balanced rounds allowed');
  const profile=process.env.STRESS_CARGO_PROFILE??'ordinary';experimentSpec(profile);
  if(profile!=='ordinary')assert.ok(ownAB&&rounds===4,'normal pressure requires balanced own A/B');
@@ -192,10 +194,11 @@ export async function main(){
  const recordRoot=path.join(process.env.RUNNER_TEMP,'stress-cargo-records');fs.mkdirSync(recordRoot,{recursive:true});const recordDir=path.join(recordRoot,`inc${incremental}`);fs.mkdirSync(recordDir,{recursive:false});
  const reportPath=`results/stress-cargo-${abc?abcStem:ownAB?'own-ab':'comparison'}-${incremental}.json`,records=abc?abcSchedule(incremental).map(r=>({...r,correct:false,status:'not-run',reason:'awaiting prior protocol steps'})):[];
  if(ownSprig||latestDirect){const fd=fs.openSync(reportPath,'wx',0o644);fs.closeSync(fd);}
- const report={schema:abc?ABC_SCHEMA:ownAB?(rounds===4?AB_REPEATED_SCHEMA:AB_SCHEMA):latestDirect?DIRECT_SCHEMA:'sprig-stress-cargo-comparison-v2',status:'running',complete:false,incremental,rounds,expectedRecords:rounds*(abc?3:2),...identity,previousGate,capacityPilot:pilot,imageBytes:IMAGE_BYTES,records,notes:['Cargo-only resource revision: fresh symmetric4GiB images, not pooled with2GiB capacity failures; no automatic8GiB retry.', 'New DAG16 protocol; never pooled with frozen tiny Cargo results.','Whole Used includes immutable image, runtime state, target/cache/logs/history; runtime setup separately timed but baseline bytes never subtracted from primary space.','WholeSampleSubprocessWallSeconds is matched sampler process launch-through-exit including evidence serialization and normal cleanup; internal phases overlap, not additive.','Both products use identical image; Sprig compiler lifetime remains generation-scoped, LayerFS UID501 SDK transport is persistent; no equal durability claim.']};
+ const report={schema:abc?ABC_SCHEMA:ownAB?(rounds===4?AB_REPEATED_SCHEMA:AB_SCHEMA):latestDirect?DIRECT_SCHEMA:'sprig-stress-cargo-comparison-v2',status:'running',complete:false,incremental,rounds,expectedRecords:rounds*(verifiedRead?2:abc?3:2),...identity,previousGate,capacityPilot:pilot,imageBytes:IMAGE_BYTES,records,notes:['Cargo-only resource revision: fresh symmetric4GiB images, not pooled with2GiB capacity failures; no automatic8GiB retry.', 'New DAG16 protocol; never pooled with frozen tiny Cargo results.','Whole Used includes immutable image, runtime state, target/cache/logs/history; runtime setup separately timed but baseline bytes never subtracted from primary space.','WholeSampleSubprocessWallSeconds is matched sampler process launch-through-exit including evidence serialization and normal cleanup; internal phases overlap, not additive.','Both products use identical image; Sprig compiler lifetime remains generation-scoped, LayerFS UID501 SDK transport is persistent; no equal durability claim.']};
  report.sharedJobBudget=sharedJobBudget;
  if(cleanSync)report.notes.push('Fixed baseline/clean_sync/read_ttl source roles; separate experiment from directory counts and LayerFS. Coherence tests are prerequisites, not a claim that every TTL error path or performance benefit is proved.');
  if(abc)report.notes[4]='Explicit three-pin ordinary Sprig comparison; six complete permutation blocks per mode, all36 samples required. Same sampler/transport/durability, no pressure/trace, no pooling or automatic promotion. Shared sample edges are not independent replications.';
+ if(verifiedRead)report.notes[4]='Explicit baseline/verified-first-read reuse comparison; six alternating AB/BA blocks per mode, all24 samples required. Same sampler/transport/durability, no TTL/journal stacking, pressure/trace, pooling or automatic promotion. This ordinary end-to-end workload does not isolate first-read CPU or prove all error cases.';
  if(latestDirect)report.notes.push('Explicit fixed current-at-selection Sprig versus LayerFS, two balanced pairs per mode; no latest-at-finish claim. LayerFS caebd is the fixed unreleased main selected for direct schema v2, not the v1.1.0 release source. All eight samples required; no pooling with older release, own-AB or diagnostic series.');
  if(ownAB)report.notes[4]=rounds===4?'Within-Sprig ordinary positive workloads; four balanced paired rounds per mode, independent fresh images, same sampler/transport/durability. Small N: report every pair, phase, negative and descriptive range; no significant gain or tail claim.':'Within-Sprig ordinary positive workloads; same sampler/transport/durability, fixed distinct source and binary identities. One pair per mode, no statistical claim.';
  if(profile!=='ordinary')report.notes.push('Separate normal two-worker pressure profile: Cargo build timers exclude the pressure stage; stressed whole wall/space are not directly comparable with unstressed runs. All pressure files/observations remain in the full checkpoint oracle.');
@@ -242,7 +245,7 @@ export async function main(){
    }
    console.log(json({product,round,incremental,correct:r.correct,status:r.status,error:r.error,cleanupErrors:r.cleanupErrors}));if(error)throw error;
   }
-  report.complete=records.length===rounds*(abc?3:2)&&records.every(x=>x.correct);report.status='passed';
+  report.complete=(verifiedRead?records.length===rounds*2:records.length===rounds*(abc?3:2))&&records.every(x=>x.correct);report.status='passed';
  }catch(error){report.complete=false;report.status=error instanceof CapacityBlocked?'capacity_blocked':error instanceof BudgetBlocked?'budget_blocked':'failed';report.error={message:error.message,stack:error.stack};}
  finally{if(abc)for(const r of records)if(r.status==='not-run')r.reason=report.error?.message??'not admitted';save();}
  return report.complete?0:report.status==='capacity_blocked'?2:report.status==='budget_blocked'?3:1;
